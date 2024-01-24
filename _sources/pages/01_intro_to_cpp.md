@@ -501,7 +501,7 @@ Year: 1981
 Our `print_details()` method doesn't require any inputs because the attributes are known. Lets define a method for accelerating the car which has an input argument for the amount of acceleration. Add the following to your Car class.
 
 ```cpp
-void accelerate(const float increment);
+void accelerate(const float);
 ```
 
 Now define the method.
@@ -514,7 +514,7 @@ void Car::accelerate(const float increment)
 }
 ```
 
-Now we have created the `acceleration()` methods lets accelerate our car to 88 mph. 
+Note that we do not have to given the name of the input in the header file (some people choose to do so to help with the readability of the code). Now we have created the `acceleration()` methods lets accelerate our car to 88 mph.
 
 ```cpp
 // Call accelerate method
@@ -547,7 +547,7 @@ Car object created
 Constructors are more useful when we use parameters to set the values of the class attributes. Modify the constructor declaration to include the parameters
 
 ```cpp
-Car(const std::string x, const std::string y, const int z);
+Car(const std::string, const std::string, const int);
 ```
 
 and modify the constructor definition so that the attributes are specified.
@@ -634,11 +634,11 @@ public:
     float speed = 0.0f;
 
     // Constructor
-    Car(std::string makeInput, std::string modelInput, int yearInput);
+    Car(const std::string, const std::string, const int);
 
     // Methods
     void print_details();
-    void accelerate(const float increment);
+    void accelerate(const float);
 };
 ```
 
@@ -685,27 +685,6 @@ Here we have also included the `iostream` library as well as our `Car.hpp` heade
    - level - unsigned integer;
    - marks - 12-element unsigned integer array (marks for four units over the three years);
 
-````{dropdown} Solution
-
-```cpp
-#pragma once
-
-#include <iostream>
-
-class Student {
-
-public:
-    std::string firstName;
-    std::string lastName;
-    unsigned int idNumber;
-    std::string course;
-    unsigned int level;
-    unsigned int marks[12];
-};
-```
-
-````
-
 2. Create a constructor for your class with parameters for creating an object. Use your constructor to create an object with the following attribute values.
 
     - first name: Ellie
@@ -714,153 +693,18 @@ public:
     - course: Computer Science
     - level: 5
 
-````{dropdown} Solution
-
-Header file
-
-```cpp
-// Constructor
-Student(std::string firstNameInput,
-       std::string lastNameInput,
-       unsigned int idNumberInput,
-       std::string courseInput,
-       unsigned int levelInput);
-```
-
-Code file
-
-```cpp
-Student::Student(std::string firstNameInput,
-        std::string lastNameInput,
-        unsigned int idNumberInput,
-        std::string courseInput,
-        unsigned int levelInput)
-{
-    firstName = firstNameInput;
-    lastName = lastNameInput;
-    idNumber = idNumberInput;
-    course = courseInput;
-    level = levelInput;
-    
-    std::cout << "\nStudent object " << firstName << " " << lastName << " created." << std::endl;
-}
-```
-
-````
-
 3. Modify your constructor so that it checks whether the attributes for an object adhere to the following conditions and prints and error message if not.
 
     - ID number is an 8-digit number;
     - The course is either "Computer Science" or "Computer Games Development";
     - The level is either 4, 5 or 6.
 
-````{dropdown} Solution
-
-```cpp
-Student::Student(std::string firstNameInput,
-        std::string lastNameInput,
-        unsigned int idNumberInput,
-        std::string courseInput,
-        unsigned int levelInput)
-{
-    // Check ID number
-    if (idNumberInput < 10000000 || idNumberInput > 99999999)
-    {
-        std::cout << "Error::Student::ID number needs to be an 8 digit integer." << std::endl;
-        return;
-    }
-    
-    // Check the course
-    if (courseInput != "Computer Science" && courseInput != "Computer Games Development")
-    {
-        std::cout << "Error::Student::Course needs to be either 'Computer Science' or 'Computer Games Development'." << std::endl;
-        return;
-    }
-    
-    // Check the level
-    if (levelInput < 4 || levelInput > 6)
-    {
-        std::cout << "Error::Student::Level needs to be one of 4, 5 or 6." << std::endl;
-        return;
-    }
-    
-    firstName = firstNameInput;
-    lastName = lastNameInput;
-    idNumber = idNumberInput;
-    course = courseInput;
-    level = levelInput;
-    
-    std::cout << "\nStudent object " << firstName << " " << lastName << " created." << std::endl;
-}
-```
-
-````
-
 4. Create a method called `add_level_marks()` which uses input parameters of a 4-element integer array containing unit marks and an integer variable containing the level and places the unit marks into the correct elements of the `marks` array for the object. For example, if the level 5 unit marks are `40, 50, 60, 70` then `marks[4] = 50`, `marks[5] = 60` etc. Use your method to updates Ellie's marks with the following.
 
     - level 4 marks: 55, 60, 72, 64;
     - level 5 marks: 68, 62, 74, 70.
 
-````{dropdown} Solution
-
-```cpp
-void Student::add_level_marks(int marksInput[], int levelInput)
-{
-    for (int i = 0; i < 4; i++)
-    {
-        marks[4 * (levelInput - 4) + i] = marksInput[i];
-    }
-    
-    // Update level if less than levelInput
-    if (level < levelInput)
-    {
-        level = levelInput;
-    }
-}
-```
-
-Main file
-
-```cpp
-int level4Marks[] = {55, 60, 72, 64};
-int level5Marks[] = {68, 62, 74, 70};
-ellie.add_level_marks(level4Marks, 4);
-ellie.add_level_marks(level5Marks, 5);
-```
-
-````
-
 5. Create a method called `print_marks()` which prints unit marks for each level that a student has been enrolled.
-
-````{dropdown} Solution
-
-```cpp
-void Student::print_marks()
-{
-    std::cout << "\n" << firstName << " " << lastName << " (" << idNumber << ") marks\n" << std::endl;
-    
-    for (int i = 0; i < level - 3; i++)
-    {
-        std::cout << "Level " << i + 4 << ": ";
-        for (int j = 0; j < 3; j++)
-        {
-            std::cout << marks[4 * i + j] << ", ";
-        }
-        std::cout << marks[4 * i + 3] << std::endl;
-    }
-}
-```
-
-Output
-
-```text
-Ellie Williams (12345678) marks
-
-Level 4: 55, 60, 72, 64
-Level 5: 68, 62, 74, 70
-```
-
-````
 
 6. A student's degree classification is determined by calculating a weighted average of the level 5 and 6 marks such that `weighted average = 0.25 * level 5 average + 0.75 * level 6 average` and then using the table below. Create a method called `classification()` which prints the degree classification for a student.
 
@@ -872,69 +716,12 @@ Level 5: 68, 62, 74, 70
 | >= 40 | Third-class |
 | < 40 | Fail |
 
-````{dropdown} Solution
-
-```cpp
-void Student::classification()
-{
-    float weightedAverge, level5Average, level6Average;
-    level5Average = (marks[4] + marks[5] + marks[6] + marks[7]) / 4;
-    level6Average = (marks[8] + marks[9] + marks[10] + marks[11]) / 4;
-    weightedAverge = 0.25f * level5Average + 0.75f * level6Average;
-    
-    std::cout << "\nClassification: ";
-    if (weightedAverge >= 70.0f)
-    {
-        std::cout << "First-class" << std::endl;
-    }
-    else if (weightedAverge >= 60.0f)
-    {
-        std::cout << "Upper second-class" << std::endl;
-    }
-    else if (weightedAverge >= 50.0f)
-    {
-        std::cout << "Lower second-class" << std::endl;
-    }
-    else if (weightedAverge >= 40.0f)
-    {
-        std::cout << "Third-lcass" << std::endl;
-    }
-    else
-    {
-        std::cout << "Fail" << std::endl;
-    }
-}
-```
-
-Output
-
-```text
-Classification: Upper second-class
-```
-
-````
-
 7. Ellie has survived another year and has achieved level 6 marks of 72, 68, 76 and 65. Update the object and determine their degree classification.
 
-````{dropdown} Solution
+## Source code
 
-```cpp
-int level6Marks[] = {72, 68, 76, 65};
-ellie.add_level_marks(level6Marks, 6);
-ellie.print_marks();
-ellie.classification();
-```
+The source code for this lab, including the exercise solutions, can be downloaded using the links below.
 
-Output
-
-```text
-Ellie Williams (12345678) marks
-
-Level 4: 55, 60, 72, 64
-Level 5: 68, 62, 74, 70
-Level 6: 72, 68, 76, 65
-
-Classification: Upper second-class
-```
-
-````
+- Main source code file: {download}`main.cpp<../code/Lab01/main.cpp>`
+- Car class: {download}`Car.hpp<../code/Lab01/Car.hpp>`, {download}`Car.cpp<../code/Lab01/Car.cpp>`
+- Student class: {download}`Student.hpp<../code/Lab01/Student.hpp>`, {download}`Student.cpp<../code/Lab01/Student.cpp>`

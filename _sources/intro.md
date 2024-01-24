@@ -7,7 +7,7 @@ This site contains the materials used in the lab sessions for the Computer Graph
 | 1 | 29/01/2024 | [Introduction to C++](intro-to-cpp-section): Introduction/revision of C++ fundamentals. Variables, arrays, loops and if statements. Functions, classes, methods and header files.  |
 | 2 | 05/02/2024 | [Creating a triangle in OpenGL](hello-triangle-section): Creating a window in OpenGL and drawing a triangle. Introduction to shaders. |
 | 3 | 12/02/2024 | Textures, texture co-ordinates, mipmaps, texture filtering. Applying texture maps to polygons. |
-| 4 | 19/02/2024 | [Vectors and Matrices](vectors-and-matrices-section): Revision of vectors and matrices. Dot and cross products, matrix multiplication, transpose and the identity matrix. 
+| 4 | 19/02/2024 | [Vectors and Matrices](vectors-and-matrices-section): Revision of vectors and matrices. Dot and cross products, matrix multiplication, transpose, the identity matrix and matrix inverse.
 | 5 | 26/02/2024 | [Transformations](transformations-section): Translation, scaling and rotation transformations. Applying transformations to polygons. |
 | 6 | 04/03/2024 | Model, View and Projection matrices. Controlling the camera using keyboard and mouse. |
 | 7 | 11/03/2024 | Quaternions, SLERP, third-person camera view |

@@ -165,6 +165,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="04_vectors_and_matrices.html">4. Vectors and Matrices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_transformations.html">5. Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="06_MVP.html">6. Model, View and Projection Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="A1_intro_to_cpp_solutions.html">7. Introduction to C++ Exercises Solutions</a></li>
 </ul>
 
     </div>
@@ -448,10 +449,15 @@ document.write(`
 <hr class="docutils" />
 <section id="write-and-compile-the-shader">
 <h2><span class="section-number">2.3. </span>Write and compile the shader<a class="headerlink" href="#write-and-compile-the-shader" title="Permalink to this heading">#</a></h2>
-<p>Now we have defined our triangle and copied the information over to OpenGL we now need to tell OpenGL how to display the triangle. This is done using a shader program that OpenGL uses to tell it how to display each pixel in our window. At its most basic it consists of a <strong>vertex shader</strong> which deals with the positions of the vertices of the objects (think of our triangle) being displayed and the <strong>fragment shader</strong> which calculates the colour of the pixels that make up the object. The shader programs are written in <strong>GLSL (openGL Shading Language)</strong> which is similar to C.</p>
+<p>Now we have defined our triangle and copied the information over to OpenGL we now need to tell OpenGL how to display the triangle. This is done using a shader program that OpenGL uses to tell it how to display each pixel in our window. The shader programs are written in <strong>GLSL (openGL Shading Language)</strong> which is similar to C.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/shaders.svg"><img alt="../_images/shaders.svg" src="../_images/shaders.svg" width="600" /></a>
+</figure>
+<p>At its most basic it consists of a <strong>vertex shader</strong> and a <strong>fragment shader</strong>. The vertex shader is called once for each vertex and calculates the position of the current vertex and stores it in a special GLSL vector <code class="docutils literal notranslate"><span class="pre">gl_Position</span></code>. The vertices that form a polygon are then passed to OpenGL which maps the polygon to the corresponding pixels on the display. The part of the display raster that contains the pixels that correspond to a polygon is called a <strong>fragment</strong>.</p>
+<p>The fragment is clipped to the display so that any part of the fragment outside of our view is discarded and then is passed to the fragment shader. The fragment shader is called once for each pixel in the fragment and determines the colour of that pixel.</p>
 <section id="vertex-shader">
 <span id="vertex-shader-section"></span><h3><span class="section-number">2.3.1. </span>Vertex shader<a class="headerlink" href="#vertex-shader" title="Permalink to this heading">#</a></h3>
-<p>Click on <strong>File &gt; New &gt; File…</strong> (or just press CTRL + N) and select text file. Enter the following program into the new file and save it in the <strong>GraphicsLabs/lab01_hello_triangle/</strong> folder using the filename <strong>simpleVertexShader.vs</strong>.</p>
+<p>Click on <strong>File &gt; New &gt; File…</strong> (or just press CTRL + N) and select text file. Enter the following program into the new file and save it in the <strong>GraphicsLabs/lab01_hello_triangle/</strong> folder using the filename <strong>simpleVertexShader.vs</strong> (the file extension doesn’t matter but it is common to use <code class="docutils literal notranslate"><span class="pre">.vs</span></code> or <code class="docutils literal notranslate"><span class="pre">vert</span></code> to denote the vertex shader).</p>
 <div class="highlight-glsl notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
 
 <span class="k">layout</span><span class="p">(</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mo">0</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">vec3</span><span class="w"> </span><span class="n">position</span><span class="p">;</span>
@@ -463,11 +469,11 @@ document.write(`
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>This is the GLSL program for a simple vertex shader. It takes in a single 3-element vector <code class="docutils literal notranslate"><span class="pre">position</span></code> that contains the <span class="math notranslate nohighlight">\((x,y,z)\)</span> co-ordinates of a vertex and forwards the 4-element vector <code class="docutils literal notranslate"><span class="pre">gl_Position</span></code> containing the co-ordinates to the fragment shader. You may be wondering why we have this addition element <code class="docutils literal notranslate"><span class="pre">1.0</span></code>, don’t worry about this for now, it will be explained <a class="reference internal" href="05_transformations.html#translation-section"><span class="std std-ref">later on</span></a>).</p>
+<p>This is the GLSL program for a simple vertex shader. It takes in a single 3-element vector <code class="docutils literal notranslate"><span class="pre">position</span></code> that contains the <span class="math notranslate nohighlight">\((x,y,z)\)</span> co-ordinates of a vertex and outputs the 4-element vector <code class="docutils literal notranslate"><span class="pre">gl_Position</span></code> containing the co-ordinates. You may be wondering why we have this addition element <code class="docutils literal notranslate"><span class="pre">1.0</span></code>, don’t worry about this for now, it will be explained <a class="reference internal" href="05_transformations.html#translation-section"><span class="std std-ref">later on</span></a>).</p>
 </section>
 <section id="fragment-shader">
 <h3><span class="section-number">2.3.2. </span>Fragment shader<a class="headerlink" href="#fragment-shader" title="Permalink to this heading">#</a></h3>
-<p>Create a new file as you did with the vertex shader but with the following code and save it using the filename <strong>simpleFragmentShader.fs</strong>.</p>
+<p>Create a new file as you did with the vertex shader but with the following code and save it using the filename <strong>simpleFragmentShader.fs</strong> (again, the file extension doesn’t matter but it is common to use <code class="docutils literal notranslate"><span class="pre">.fs</span></code> or <code class="docutils literal notranslate"><span class="pre">.frag</span></code> to denote fragment shader).</p>
 <div class="highlight-glsl notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
 
 <span class="c1">// Output data</span>
@@ -480,7 +486,7 @@ document.write(`
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>The fragment shader outputs a single 4-element vector called `colour`` which defines the colour of the pixel using RGBA which stands for Red-Green-Blue-Alpha. The values are in the range 0 to 1 and so here we have red = 1, blue = 0, green = 0 so our pixel will be rendered in red and alpha = 0 which means it is fully opaque.</p>
+<p>This fragment shader outputs a single 4-element vector called <code class="docutils literal notranslate"><span class="pre">colour</span></code> which defines the colour of the pixel using RGBA which stands for Red-Green-Blue-Alpha. The values are in the range 0 to 1 and so here we have red = 1, blue = 0, green = 0 so our pixel (the same applies for all pixels in the triangle) will be rendered in red and alpha = 0 which means it is fully opaque.</p>
 </section>
 <section id="shader-program">
 <h3><span class="section-number">2.3.3. </span>Shader program<a class="headerlink" href="#shader-program" title="Permalink to this heading">#</a></h3>
@@ -557,7 +563,7 @@ document.write(`
 <span class="n">glDeleteProgram</span><span class="p">(</span><span class="n">shaderID</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Compile and run your program. After all the syntax errors and bugs have been resolved (unless you are very lucky there will be at least one) you should be presented with a window within which is your red triangle that you have created. Note that this window no longer has the title ‘Hello Window’, can you change your code so that your window has a more accurate title?</p>
+<p>Compile and run your program. After all the syntax errors and bugs have been resolved (unless you are very lucky there will be at least one) you should be presented with a window within which is your red triangle that you have created. Note that this window no longer has the title “Hello Window”, can you change your code so that your window has a more accurate title?</p>
 <figure class="align-default" id="id3">
 <a class="reference internal image-reference" href="../_images/hello_triangle.png"><img alt="../_images/hello_triangle.png" src="../_images/hello_triangle.png" style="width: 500px;" /></a>
 <figcaption>

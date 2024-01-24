@@ -84,13 +84,21 @@ glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 ## Write and compile the shader
 
-Now we have defined our triangle and copied the information over to OpenGL we now need to tell OpenGL how to display the triangle. This is done using a shader program that OpenGL uses to tell it how to display each pixel in our window. At its most basic it consists of a **vertex shader** which deals with the positions of the vertices of the objects (think of our triangle) being displayed and the **fragment shader** which calculates the colour of the pixels that make up the object. The shader programs are written in **GLSL (openGL Shading Language)** which is similar to C.
+Now we have defined our triangle and copied the information over to OpenGL we now need to tell OpenGL how to display the triangle. This is done using a shader program that OpenGL uses to tell it how to display each pixel in our window. The shader programs are written in **GLSL (openGL Shading Language)** which is similar to C.
+
+```{figure} /images/shaders.svg
+:width: 600
+```
+
+At its most basic it consists of a **vertex shader** and a **fragment shader**. The vertex shader is called once for each vertex and calculates the position of the current vertex and stores it in a special GLSL vector `gl_Position`. The vertices that form a polygon are then passed to OpenGL which maps the polygon to the corresponding pixels on the display. The part of the display raster that contains the pixels that correspond to a polygon is called a **fragment**.
+
+The fragment is clipped to the display so that any part of the fragment outside of our view is discarded and then is passed to the fragment shader. The fragment shader is called once for each pixel in the fragment and determines the colour of that pixel.
 
 (vertex-shader-section)=
 
 ### Vertex shader
 
-Click on **File > New > File...** (or just press CTRL + N) and select text file. Enter the following program into the new file and save it in the **GraphicsLabs/lab01_hello_triangle/** folder using the filename **simpleVertexShader.vs**.
+Click on **File > New > File...** (or just press CTRL + N) and select text file. Enter the following program into the new file and save it in the **GraphicsLabs/lab01_hello_triangle/** folder using the filename **simpleVertexShader.vs** (the file extension doesn't matter but it is common to use `.vs` or `vert` to denote the vertex shader).
 
 ```glsl
 #version 330 core
@@ -104,11 +112,11 @@ void main() {
 }
 ```
 
-This is the GLSL program for a simple vertex shader. It takes in a single 3-element vector `position` that contains the $(x,y,z)$ co-ordinates of a vertex and forwards the 4-element vector `gl_Position` containing the co-ordinates to the fragment shader. You may be wondering why we have this addition element `1.0`, don't worry about this for now, it will be explained [later on](translation-section)).
+This is the GLSL program for a simple vertex shader. It takes in a single 3-element vector `position` that contains the $(x,y,z)$ co-ordinates of a vertex and outputs the 4-element vector `gl_Position` containing the co-ordinates. You may be wondering why we have this addition element `1.0`, don't worry about this for now, it will be explained [later on](translation-section)).
 
 ### Fragment shader
 
-Create a new file as you did with the vertex shader but with the following code and save it using the filename **simpleFragmentShader.fs**.
+Create a new file as you did with the vertex shader but with the following code and save it using the filename **simpleFragmentShader.fs** (again, the file extension doesn't matter but it is common to use `.fs` or `.frag` to denote fragment shader).
 
 ```glsl
 #version 330 core
@@ -123,7 +131,7 @@ void main() {
 }
 ```
 
-The fragment shader outputs a single 4-element vector called `colour`` which defines the colour of the pixel using RGBA which stands for Red-Green-Blue-Alpha. The values are in the range 0 to 1 and so here we have red = 1, blue = 0, green = 0 so our pixel will be rendered in red and alpha = 0 which means it is fully opaque.
+This fragment shader outputs a single 4-element vector called `colour` which defines the colour of the pixel using RGBA which stands for Red-Green-Blue-Alpha. The values are in the range 0 to 1 and so here we have red = 1, blue = 0, green = 0 so our pixel (the same applies for all pixels in the triangle) will be rendered in red and alpha = 0 which means it is fully opaque.
 
 ### Shader program
 
@@ -195,7 +203,7 @@ glDeleteVertexArrays(1, &VertexArrayID);
 glDeleteProgram(shaderID);
 ```
 
-Compile and run your program. After all the syntax errors and bugs have been resolved (unless you are very lucky there will be at least one) you should be presented with a window within which is your red triangle that you have created. Note that this window no longer has the title 'Hello Window', can you change your code so that your window has a more accurate title?
+Compile and run your program. After all the syntax errors and bugs have been resolved (unless you are very lucky there will be at least one) you should be presented with a window within which is your red triangle that you have created. Note that this window no longer has the title "Hello Window", can you change your code so that your window has a more accurate title?
 
 ```{figure} ../images/hello_triangle.png
 :width: 500
