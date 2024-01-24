@@ -1,0 +1,1345 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>4. Vectors and Matrices &#8212; Computer Graphics Labs</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pages/04_vectors_and_matrices';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5. Transformations" href="05_transformations.html" />
+    <link rel="prev" title="3. Textures" href="03_textures.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Computer Graphics Labs
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_intro_to_cpp.html">1. Introduction to C++</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_hello_triangle.html">2. Creating a triangle in OpenGL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_textures.html">3. Textures</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Vectors and Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_transformations.html">5. Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_MVP.html">6. Model, View and Projection Matrices</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fpages/04_vectors_and_matrices.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/pages/04_vectors_and_matrices.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Vectors and Matrices</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-glm-library">4.1. The glm library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vectors">4.2. Vectors</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-magnitude">4.2.1. Vector magnitude</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-multiplication-by-a-scalar">4.2.2. Vector multiplication by a scalar</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unit-vectors">4.2.3. Unit vectors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-addition-and-subtraction">4.2.4. Vector addition and subtraction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dot-product">4.2.5. Dot product</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-product">4.2.6. Cross product</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrices">4.3. Matrices</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-transpose">4.3.1. Matrix transpose</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-matrices-in-glm">4.3.2. Defining matrices in glm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#indexing-glm-matrices">4.3.3. Indexing glm matrices</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-multiplication">4.3.4. Matrix multiplication</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-identity-matrix">4.3.5. The identity matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-inverse-matrix">4.3.6. The inverse matrix</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">4.4. Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="vectors-and-matrices">
+<span id="vectors-and-matrices-section"></span><h1><span class="section-number">4. </span>Vectors and Matrices<a class="headerlink" href="#vectors-and-matrices" title="Permalink to this heading">#</a></h1>
+<p>Computer graphics relies heavily on mathematics of vectors and matrices. In this lab we will be revising these and show how we can perform calculations in C++.</p>
+<section id="the-glm-library">
+<h2><span class="section-number">4.1. </span>The glm library<a class="headerlink" href="#the-glm-library" title="Permalink to this heading">#</a></h2>
+<p>The glm (<a href="https://github.com/g-truc/glm" target="_blank">OpenGL Mathematics</a>) library is a popular C++ mathematics library designed to provide classes and functions for mathematical operations, specifically tailored for graphics programming using OpenGL. We will be using functions from glm to perform calculations for us.</p>
+<ol class="arabic simple">
+<li><p>Create an empty project in Visual Studio or Xcode and call it <strong>Lab04_Vectors_and_matrices</strong>.</p></li>
+<li><p>Using the command prompt in Windows or the terminal in macOS and navigate to your newly created project folder. Within the project folder clone the GLM github repository.</p></li>
+</ol>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/g-truc/glm
+</pre></div>
+</div>
+<ol class="arabic" start="3">
+<li><p>Add the <strong>glm/</strong> folder to your project.</p>
+<p><strong>Visual studio:</strong></p>
+<ol class="arabic simple">
+<li><p>Right-click on your project in the project viewer and click on ‘Properties’.</p></li>
+<li><p>Select ‘C/C++’ and then ‘General’.</p></li>
+<li><p>Click on the down arrow next to ‘Additional Include Directories’ and then select ‘Edit’.</p></li>
+<li><p>Add your glm/ folder and click OK a couple of times.</p></li>
+</ol>
+<p><strong>Xcode:</strong></p>
+<ol class="arabic simple" start="5">
+<li><p>Click on the project name on the left side of the window and then on ‘Build Settings’.</p></li>
+<li><p>In the search bar do a search for ‘Search’ which should show section titled ‘Search Paths’.</p></li>
+<li><p>Edit the ‘Header Search Paths’ and ‘Library Search Paths’ to include the folder glm/.</p></li>
+</ol>
+</li>
+</ol>
+</section>
+<section id="vectors">
+<h2><span class="section-number">4.2. </span>Vectors<a class="headerlink" href="#vectors" title="Permalink to this heading">#</a></h2>
+<p>A vector in is an object with magnitude (length) and direction. A vector is denoted by an underlined lower case letter, e.g., <span class="math notranslate nohighlight">\(\underline{a}\)</span> (or as a boldface character, e.g., <span class="math notranslate nohighlight">\(\mathbf{a}\)</span>) and represented mathematically by the 3-tuple</p>
+<div class="math notranslate nohighlight">
+\[ \underline{a} = (a_x, a_y, a_z), \]</div>
+<p>where <span class="math notranslate nohighlight">\(a_x\)</span>, <span class="math notranslate nohighlight">\(a_y\)</span> and <span class="math notranslate nohighlight">\(a_z\)</span> are the displacement of the vector in the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> directions.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/vector.svg"><img alt="../_images/vector.svg" height="250" src="../_images/vector.svg" /></a>
+</figure>
+<p>We will now define the vector <span class="math notranslate nohighlight">\(\underline{u} = (2, 2, 1)\)</span> in C++ using the glm library. Edit your program so it looks like the following and compile and execute the program.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+
+<span class="c1">// Include the glm library</span>
+<span class="cp">#define GLM_ENABLE_EXPERIMENTAL</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;glm/glm.hpp&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;glm/ext.hpp&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;glm/gtx/io.hpp&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// Defining a vector</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">u</span><span class="p">(</span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Defining a vector</span><span class="se">\n</span><span class="s">-----------------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;u = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If everything has gone ok your output should look like</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Defining a vector
+-----------------
+u = [    2.000,    2.000,    1.000]
+</pre></div>
+</div>
+<p>Taking a look at the code we see that the <code class="docutils literal notranslate"><span class="pre">glm::vec</span> <span class="pre">u(2.0f,</span> <span class="pre">2.0f,</span> <span class="pre">1.0f)</span></code> command defines the 3-element vector <code class="docutils literal notranslate"><span class="pre">u</span></code> with the values of the elements (2, 2, 1). This vector is then output to the console using the <code class="docutils literal notranslate"><span class="pre">std::cout</span></code> command.</p>
+<section id="vector-magnitude">
+<h3><span class="section-number">4.2.1. </span>Vector magnitude<a class="headerlink" href="#vector-magnitude" title="Permalink to this heading">#</a></h3>
+<p>The <strong>magnitude</strong> of a vector <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> is denoted by <span class="math notranslate nohighlight">\(|\underline{a}|\)</span> is the length from the tail of the vector to the head and calculated using</p>
+<div class="math notranslate nohighlight" id="equation-eq-vector-magnitude">
+<span class="eqno">(4.1)<a class="headerlink" href="#equation-eq-vector-magnitude" title="Permalink to this equation">#</a></span>\[ |\underline{a}| = \sqrt{a_x^2 + a_y^2 + a_z^2}. \]</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/vector_magnitude.svg"><img alt="../_images/vector_magnitude.svg" height="100" src="../_images/vector_magnitude.svg" /></a>
+</figure>
+<p>For example, the magnitude of the vector <span class="math notranslate nohighlight">\(\underline{u} = (2, 2, 1)\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[ | \underline{u} | = \sqrt{2^2 + 2^2 + 1^2} = \sqrt{4 + 4 + 1} = \sqrt{9} = 3. \]</div>
+<p>Let’s do this calculating in our program, add the following code.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Vector magnitude</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">lengthU</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">sqrt</span><span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Vector magnitude</span><span class="se">\n</span><span class="s">----------------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;|u| = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">lengthU</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Here we have calculated the magnitude of the vector <code class="docutils literal notranslate"><span class="pre">u</span></code> using <code class="docutils literal notranslate"><span class="pre">lengthU</span> <span class="pre">=</span> <span class="pre">glm::sqrt(u[0]</span> <span class="pre">*</span> <span class="pre">u[0]</span> <span class="pre">+</span> <span class="pre">u[1]</span> <span class="pre">*</span> <span class="pre">u[1]</span> <span class="pre">+</span> <span class="pre">u[2]</span> <span class="pre">*</span> <span class="pre">u[2])</span></code>. Note that <code class="docutils literal notranslate"><span class="pre">u[0]</span></code> refers to the first element in <code class="docutils literal notranslate"><span class="pre">u</span></code>, <code class="docutils literal notranslate"><span class="pre">u[1]</span></code> refers to the second element in <code class="docutils literal notranslate"><span class="pre">u</span></code> and so on. So C++ is known as a <strong>zero indexing</strong> language where array indices start at 0 so we need to remember to subtract 1 from the indices when coding.</p>
+<p>The output of the program is shown below.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Vector magnitude
+----------------
+|u| = 3
+</pre></div>
+</div>
+<p>Calculating the magnitude of a vector is a very common calculation so shouldn’t we write a function to do this? Fortunately there is a glm function <code class="docutils literal notranslate"><span class="pre">glm:length()</span></code> to do this for us, edit your program so it looks like the following to use the glm function instead.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// float lengthU = glm::sqrt(u[0] * u[0] + u[1] * u[1] + u[2] * u[2]);</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">lengthU</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">length</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>That makes things much easier.</p>
+</section>
+<section id="vector-multiplication-by-a-scalar">
+<h3><span class="section-number">4.2.2. </span>Vector multiplication by a scalar<a class="headerlink" href="#vector-multiplication-by-a-scalar" title="Permalink to this heading">#</a></h3>
+<p>The multiplication of a vector <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> by a scalar (another way of saying a number) <span class="math notranslate nohighlight">\(k\)</span> is calculated using</p>
+<div class="math notranslate nohighlight" id="equation-eq-vector-multiplication">
+<span class="eqno">(4.2)<a class="headerlink" href="#equation-eq-vector-multiplication" title="Permalink to this equation">#</a></span>\[ k \underline{a} = (ka_x, ka_y, ka_z) \]</div>
+<p>Multiplying a vector by a positive scalar has the effect of scaling the length of the vector. Multiplying by a negative scalar reverses the direction of the vector.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/vector_multiplication.svg"><img alt="../_images/vector_multiplication.svg" height="180" src="../_images/vector_multiplication.svg" /></a>
+</figure>
+<p>For example, multiplying the vector <span class="math notranslate nohighlight">\(\underline{u} = (2, 2, 1)\)</span> by the scalar 2 gives</p>
+<div class="math notranslate nohighlight">
+\[ 2\underline{u} = 2(2,2,1) = (4, 4, 2), \]</div>
+<p>which has the magnitude</p>
+<div class="math notranslate nohighlight">
+\[ |2 \underline{u} | = \sqrt{4^2 + 4^2 + 2^2} = \sqrt{36} = 6 = 2 |\underline{u}|. \]</div>
+<p>To multiply a glm vector by a scalar we simply using the standard <code class="docutils literal notranslate"><span class="pre">*</span></code> operator. Add the following to your code to check it returns the correct vector.</p>
+<p>Add the following code to your program.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="c1">// Multiplication by a scalar</span>
+<span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">twoU</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0f</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">u</span><span class="p">;</span>
+<span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">lengthTwoU</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">length</span><span class="p">(</span><span class="n">twoU</span><span class="p">);</span>
+
+<span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Multiplication by a scalar</span><span class="se">\n</span><span class="s">--------------------------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;2u = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">twoU</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;|2u| = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">lengthTwoU</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Multiplication by a scalar
+--------------------------
+2u = [    4.000,    4.000,    2.000]
+|2u| = 6
+</pre></div>
+</div>
+</section>
+<section id="unit-vectors">
+<h3><span class="section-number">4.2.3. </span>Unit vectors<a class="headerlink" href="#unit-vectors" title="Permalink to this heading">#</a></h3>
+<p>A unit vector is a vector that has a magnitude of 1. We can find a unit vector that points in the same direction as a non-zero vector <span class="math notranslate nohighlight">\(\underline{a}\)</span>, which is denoted by <span class="math notranslate nohighlight">\(\hat{\underline{a}}\)</span> (pronounced “a-hat”), by dividing by its magnitude, i.e.,</p>
+<div class="math notranslate nohighlight" id="equation-eq-unit-vector">
+<span class="eqno">(4.3)<a class="headerlink" href="#equation-eq-unit-vector" title="Permalink to this equation">#</a></span>\[ \hat{\underline{a}} = \frac{\underline{a}}{|\underline{a}|}. \]</div>
+<p>For example, to determine a unit vector pointing in the same direction as <span class="math notranslate nohighlight">\(\underline{u} = (2, 2, 1)\)</span></p>
+<div class="math notranslate nohighlight">
+\[ \begin{align*}
+    \hat{\underline{u}} &amp;= \frac{(2, 2, 1)}{3} = \left( \frac{2}{3}, \frac{2}{3}, \frac{1}{3} \right) \approx (0.67, 0.67, 0.33).
+\end{align*} \]</div>
+<p>Checking that <span class="math notranslate nohighlight">\(\hat{\underline{u}}\)</span> has a magnitude of 1</p>
+<div class="math notranslate nohighlight">
+\[ |\hat{\underline{u}}| = \sqrt{\left(\frac{2}{3}\right)^2 + \left(\frac{2}{3}\right)^2 + \left(\frac{1}{3}\right)^2} = \sqrt{\frac{4}{9} + \frac{4}{9} + \frac{1}{9}} = \sqrt{1} = 1. \]</div>
+<p>Add the following to your program</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Unit vectors</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">uHat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">lengthU</span><span class="p">;</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">lengthUHat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">length</span><span class="p">(</span><span class="n">uHat</span><span class="p">);</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Unit vectors</span><span class="se">\n</span><span class="s">------------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;uHat = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">uHat</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;|uHat| = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">lengthUHat</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Unit vectors
+------------
+uHat = [    0.667,    0.667,    0.333]
+|uHat| = 1
+</pre></div>
+</div>
+</section>
+<section id="vector-addition-and-subtraction">
+<h3><span class="section-number">4.2.4. </span>Vector addition and subtraction<a class="headerlink" href="#vector-addition-and-subtraction" title="Permalink to this heading">#</a></h3>
+<p>The addition and subtraction of two vectors <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> and <span class="math notranslate nohighlight">\(\underline{b} = (b_x, b_y, b_z)\)</span> is defined by</p>
+<div class="math notranslate nohighlight" id="equation-eq-vector-addition">
+<span class="eqno">(4.4)<a class="headerlink" href="#equation-eq-vector-addition" title="Permalink to this equation">#</a></span>\[ \underline{a} \pm \underline{b} = (a_x \pm b_x, a_y \pm b_y, a_z \pm b_z). \]</div>
+<p>For example, given the vectors <span class="math notranslate nohighlight">\(\underline{u} = (2,2,1)\)</span> and <span class="math notranslate nohighlight">\(\underline{v} = (3, 4, 5)\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+    \underline{u} + \underline{v} &amp;= (2, 2, 1) + (3, 4, 5) = (2 + 3, 2 + 4, 1 + 5) = (5, 6, 6), \\
+    \underline{u} - \underline{v} &amp;= (2, 2, 1) - (3, 4, 5) = (2 - 3, 2 - 4, 1 - 5) = (-1, -2, -4).
+\end{align*} \end{split}\]</div>
+<p>The standard <code class="docutils literal notranslate"><span class="pre">+</span></code> and <code class="docutils literal notranslate"><span class="pre">-</span></code> operators are used to add and subtract glm vectors. Add the following code to your program.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Vector addition and subtraction</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="nf">v</span><span class="p">(</span><span class="mf">3.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">5.0f</span><span class="p">);</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">uPlusV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">v</span><span class="p">;</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">uMinusV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">v</span><span class="p">;</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Vector addition and subtraction</span><span class="se">\n</span><span class="s">-------------------------------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;v = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;u + v = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">uPlusV</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;u - v = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">uMinusV</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Vector addition and subtraction
+-------------------------------
+v = [    3.000,    4.000,    5.000]
+u + v = [    5.000,    6.000,    6.000]
+u - v = [   -1.000,   -2.000,   -4.000]
+</pre></div>
+</div>
+<p>Its important to understand what is happening in a geometrical sense when we add and subtract vectors. Take a look at <a class="reference internal" href="#vector-addition-figure"><span class="std std-numref">Fig. 4.1</span></a>, here the vector <span class="math notranslate nohighlight">\(\underline{b}\)</span> has been added to the vector <span class="math notranslate nohighlight">\(\underline{a}\)</span> where the tail of <span class="math notranslate nohighlight">\(\underline{b}\)</span> is places at the head of <span class="math notranslate nohighlight">\(\underline{a}\)</span>. The resulting vector <span class="math notranslate nohighlight">\(\underline{a} + \underline{b}\)</span> points from the tail of <span class="math notranslate nohighlight">\(\underline{a}\)</span> to the head of <span class="math notranslate nohighlight">\(\underline{b}\)</span>.</p>
+<p>With the subtraction of the vector <span class="math notranslate nohighlight">\(\underline{b}\)</span> we do similar but instead multiply <span class="math notranslate nohighlight">\(\underline{b}\)</span> by -1 thereby reversing its direction.</p>
+<figure class="align-default" id="vector-addition-figure">
+<a class="reference internal image-reference" href="../_images/vector_addition.svg"><img alt="../_images/vector_addition.svg" height="180" src="../_images/vector_addition.svg" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.1 </span><span class="caption-text">Vector addition and subtraction.</span><a class="headerlink" href="#vector-addition-figure" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="dot-product">
+<h3><span class="section-number">4.2.5. </span>Dot product<a class="headerlink" href="#dot-product" title="Permalink to this heading">#</a></h3>
+<p>The <strong>dot product</strong> between two vectors <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> and <span class="math notranslate nohighlight">\(\underline{b} = (b_x, b_y, b_z)\)</span> is denoted by <span class="math notranslate nohighlight">\(\underline{a} \cdot \underline{b}\)</span> and returns a scalar quantity (a number). The dot product is calculated using</p>
+<div class="math notranslate nohighlight" id="equation-eq-dot-product">
+<span class="eqno">(4.5)<a class="headerlink" href="#equation-eq-dot-product" title="Permalink to this equation">#</a></span>\[ \underline{a} \cdot \underline{b} = a_xb_x + a_yb_y + a_zb_z. \]</div>
+<p>The dot product is related to the angle between the two vectors by the relationship</p>
+<div class="math notranslate nohighlight" id="equation-eq-dot-product-geometric">
+<span class="eqno">(4.6)<a class="headerlink" href="#equation-eq-dot-product-geometric" title="Permalink to this equation">#</a></span>\[ \underline{a} \cdot \underline{b} = |\underline{a}| |\underline{b}| \cos(\theta), \]</div>
+<p>where <span class="math notranslate nohighlight">\(\theta\)</span> is the angle between the vectors <span class="math notranslate nohighlight">\(\underline{a}\)</span> and <span class="math notranslate nohighlight">\(\underline{b}\)</span>.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/dot_product.svg"><img alt="../_images/dot_product.svg" height="150" src="../_images/dot_product.svg" /></a>
+</figure>
+<p>A useful result for computer graphics is that if <span class="math notranslate nohighlight">\(\theta=90^\circ\)</span> then <span class="math notranslate nohighlight">\(\cos(90^\circ)= 0\)</span> and equation <a class="reference internal" href="#equation-eq-dot-product-geometric">(4.6)</a> becomes</p>
+<div class="math notranslate nohighlight">
+\[ \underline{a} \cdot \underline{b} = 0. \]</div>
+<p>In order words, if the dot product of two vectors is zero then the two vectors are perpendicular.</p>
+<p>For example, given the vectors <span class="math notranslate nohighlight">\(\underline{u} = (2,2,1)\)</span> and <span class="math notranslate nohighlight">\(\underline{v} = (3, 4, 5)\)</span> the dot product <span class="math notranslate nohighlight">\(\underline{u} \cdot \underline{v}\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+    \underline{u} \cdot \underline{v} &amp;= (2, 2, 1) \cdot (3, 4, 5) \\
+    &amp;= 2 \times 3 + 2 \times 4 + 1 \times 5 \\
+    &amp;= 6 + 8 + 5 \\
+    &amp;= 19.
+\end{align*} \end{split}\]</div>
+<p>The glm function for calculating the dot product is <code class="docutils literal notranslate"><span class="pre">glm::dot(a,b)</span></code>. Add the following to your program.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// The dot product</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">uDotV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">The dot product</span><span class="se">\n</span><span class="s">--------------- &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;u . v = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">uDotV</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>The dot product
+--------------- 
+u . v = 19
+</pre></div>
+</div>
+<p>The glm function <code class="docutils literal notranslate"><span class="pre">glm::dot(u,</span> <span class="pre">v)</span></code> calculates the dot product of the two vectors <code class="docutils literal notranslate"><span class="pre">u</span></code> and <code class="docutils literal notranslate"><span class="pre">v</span></code>. Use this to calculate <span class="math notranslate nohighlight">\(\underline{u} \cdot \underline{v}\)</span> in your program to see that it gives the same result.</p>
+</section>
+<section id="cross-product">
+<h3><span class="section-number">4.2.6. </span>Cross product<a class="headerlink" href="#cross-product" title="Permalink to this heading">#</a></h3>
+<p>The <strong>cross product</strong> between two vectors <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> and <span class="math notranslate nohighlight">\(\underline{b} = (b_x, b_y, b_z)\)</span> is denoted by <span class="math notranslate nohighlight">\(\underline{a} \times \underline{b}\)</span> and returns a vector. The cross product is calculated using</p>
+<div class="math notranslate nohighlight" id="equation-eq-cross-product">
+<span class="eqno">(4.7)<a class="headerlink" href="#equation-eq-cross-product" title="Permalink to this equation">#</a></span>\[ \underline{a} \times \underline{b} = (a_yb_z - a_zb_y, a_zb_x - a_xb_z, a_xb_y - a_yb_x). \]</div>
+<p>The cross product between two vectors produces another vector that is perpendicular to both vectors. This is another incredibly useful result as it allows use to calculate <strong>normal</strong> vectors for polygons which are used in calculating how light is reflected off surfaces.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/cross_product.svg"><img alt="../_images/cross_product.svg" height="200" src="../_images/cross_product.svg" /></a>
+</figure>
+<p>For example, given the vectors <span class="math notranslate nohighlight">\(\underline{u} = (2,2,1)\)</span> and <span class="math notranslate nohighlight">\(\underline{v} = (3, 4, 5)\)</span> the cross product <span class="math notranslate nohighlight">\(\underline{u} \times \underline{v}\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+    \underline{u} \times \underline{v} &amp;= (2, 2, 1) \times (3, 4, 5) \\
+    &amp;= (2 \times 5 - 1 \times 4, 1 \times 3 - 2 \times 5, 2 \times 4 - 2 \times 3) \\
+    &amp;= (6, -7, 2).
+\end{align*} \end{split}\]</div>
+<p>Show that <span class="math notranslate nohighlight">\(\underline{u} \times \underline{v}\)</span> is perpendicular to both <span class="math notranslate nohighlight">\(\underline{u}\)</span> and <span class="math notranslate nohighlight">\(\underline{v}\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+    \underline{u} \cdot (\underline{u} \times \underline{v}) &amp;= (2, 2, 1) \cdot (6, -7, 2) \\
+    &amp;= 2 \times 6 + 2 \times (-7) + 1 \times 2 \\
+    &amp;= 12 - 14 + 2 \\
+    &amp;= 0, \\
+    \underline{v} \cdot (\underline{u} \times \underline{v}) &amp;= (3, 4, 5) \cdot (6, -7, 2) \\
+    &amp;= 3 \times 6 + 4 \times (-7) + 5 \times 2 \\
+    &amp;= 18 - 28 + 10 \\
+    &amp;= 0.
+\end{align*} \end{split}\]</div>
+<p>The glm function for calculating the cross product between two vectors is <code class="docutils literal notranslate"><span class="pre">glm::cross(a,b)</span></code>. Add the following code to your program.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// The cross product</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">uCrossV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">cross</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">);</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">uDotUCrossV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">dot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">uCrossV</span><span class="p">);</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">vDotUCrossV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">dot</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">uCrossV</span><span class="p">);</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">The cross product</span><span class="se">\n</span><span class="s">----------------- &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;u x v = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">uCrossV</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;u . (u x v) = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">uDotUCrossV</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;v . (u x v) = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">vDotUCrossV</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>The cross product
+----------------- 
+u x v = [    6.000,   -7.000,    2.000]
+u . (u x v) = 0
+v . (u x v) = 0
+</pre></div>
+</div>
+</section>
+</section>
+<section id="matrices">
+<h2><span class="section-number">4.3. </span>Matrices<a class="headerlink" href="#matrices" title="Permalink to this heading">#</a></h2>
+<p>A matrix is a rectangular array of numbers, e.g.,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} A = \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix}. \end{split}\]</div>
+<p>We refer to the size of a matrix by the number of horizontal rows <span class="math notranslate nohighlight">\(\times\)</span> the number of vertical columns. Here the matrix <span class="math notranslate nohighlight">\(A\)</span> has 2 rows and 2 columns so we call this matrix a <span class="math notranslate nohighlight">\(2 \times 2\)</span> matrix. The individual elements of a matrix are referenced by an <strong>index</strong> which is a pair of numbers, the first of which is the row number and the second is the column number, so <span class="math notranslate nohighlight">\(a_{ij}\)</span> is the element in row <span class="math notranslate nohighlight">\(i\)</span> and column <span class="math notranslate nohighlight">\(j\)</span> of the matrix <span class="math notranslate nohighlight">\(A\)</span>. For example for the matrix <span class="math notranslate nohighlight">\(A\)</span> defined above <span class="math notranslate nohighlight">\(a_{11} = 1\)</span>, <span class="math notranslate nohighlight">\(a_{12} = 2\)</span>, <span class="math notranslate nohighlight">\(a_{21} = 3\)</span> and <span class="math notranslate nohighlight">\(a_{22} = 4\)</span>.</p>
+<section id="matrix-transpose">
+<h3><span class="section-number">4.3.1. </span>Matrix transpose<a class="headerlink" href="#matrix-transpose" title="Permalink to this heading">#</a></h3>
+<p>The <strong>transpose</strong> of a matrix <span class="math notranslate nohighlight">\(A\)</span> is denoted by <span class="math notranslate nohighlight">\(A^\mathsf{T}\)</span> and is defined by swapping the rows and columns of <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p>For example, given the matrix <span class="math notranslate nohighlight">\(A\)</span> defined earlier</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} A^\mathsf{T} = \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix}^\mathsf{T} = \begin{pmatrix} 1 &amp; 3 \\ 2 &amp; 4 \end{pmatrix}. \end{split}\]</div>
+</section>
+<section id="defining-matrices-in-glm">
+<h3><span class="section-number">4.3.2. </span>Defining matrices in glm<a class="headerlink" href="#defining-matrices-in-glm" title="Permalink to this heading">#</a></h3>
+<p>The glm command for defining a matrix is <code class="docutils literal notranslate"><span class="pre">glm::matn</span></code> where <code class="docutils literal notranslate"><span class="pre">n</span></code> is the number of rows and columns of the matrix (e.g., <code class="docutils literal notranslate"><span class="pre">glm::mat2</span></code> will define a <span class="math notranslate nohighlight">\(2\times 2\)</span> matrix). Lets define the <span class="math notranslate nohighlight">\(2 \times 2\)</span> matrix <span class="math notranslate nohighlight">\(A\)</span> in our program and output it so add the following to your program.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Defining a matrix</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0f</span><span class="p">);</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Defining a matrix</span><span class="se">\n</span><span class="s">-----------------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A =&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Defining a matrix
+-----------------
+A =
+[[    1.000,    3.000]
+ [    2.000,    4.000]]
+</pre></div>
+</div>
+<p>Wait, what? Hang on something isn’t right here. Looking at the matrix that was outputted we have 1 and 3 on the top row when we were expecting 1 and 2, so what has gone wrong? To explain we need to look at how arrays are stored in the memory. Memory can be considered as being one long 1D array so when a matrix is stored in the memory we have a choice whether to use <strong>row-major order</strong> where we store the rows of the matrix one after the other or <strong>column-major order</strong> where we store the columns of the matrix on after the other. For example, given the matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} A = \begin{pmatrix} a &amp; b &amp; c \\ d &amp; e &amp; f \\ g &amp; h &amp; i \end{pmatrix},\end{split}\]</div>
+<p>then in row-major order the matrix would be stored as</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>a b c d e f g h i
+</pre></div>
+</div>
+<p>and in column-major order we have</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>a d g b e h c f i
+</pre></div>
+</div>
+<p><strong>OpenGL and glm use column-major order</strong> so when we output the contents of a glm matrix it outputs it column-by-column which is why our elements in the top row of <span class="math notranslate nohighlight">\(A\)</span>, 1 and 2, are outputted in the first column. So to output a glm matrix so that it looks right we need to output the transpose. Change your output command so that it looks like the following.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The output should now be</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Defining a matrix
+-----------------
+A = 
+[[    1.000,    2.000]
+ [    3.000,    4.000]]
+</pre></div>
+</div>
+</section>
+<section id="indexing-glm-matrices">
+<h3><span class="section-number">4.3.3. </span>Indexing glm matrices<a class="headerlink" href="#indexing-glm-matrices" title="Permalink to this heading">#</a></h3>
+<p>The indexing of glm matrices is done in a similar way to vectors but instead of having one index we now have two, one for the row number and one for the column number. So the value of the element <span class="math notranslate nohighlight">\(a_{11}\)</span> is written in C++ as <code class="docutils literal notranslate"><span class="pre">A[0][0]</span></code>. Add the following code to your program to test matrix indexing.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Matrix indexing</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Matrix indexing</span><span class="se">\n</span><span class="s">-----------------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A[0][0] = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A[0][1] = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A[1][0] = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A[1][1] = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Matrix indexing
+-----------------
+A[0][0] = 1
+A[0][1] = 2
+A[1][0] = 3
+A[1][1] = 4
+</pre></div>
+</div>
+</section>
+<section id="matrix-multiplication">
+<span id="matrix-multiplication-section"></span><h3><span class="section-number">4.3.4. </span>Matrix multiplication<a class="headerlink" href="#matrix-multiplication" title="Permalink to this heading">#</a></h3>
+<p>The addition, subtraction and multiplication by a scalar for matrices is the same as it is for vectors so I’m not going to repeat it here. However, the multiplication of two matrices <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> is defined in a very specific way. If <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are two matrices then the element in row <span class="math notranslate nohighlight">\(i\)</span> and column <span class="math notranslate nohighlight">\(j\)</span> of the matrix <span class="math notranslate nohighlight">\(AB\)</span> is calculated using</p>
+<div class="math notranslate nohighlight" id="equation-eq-matrix-multiplication">
+<span class="eqno">(4.8)<a class="headerlink" href="#equation-eq-matrix-multiplication" title="Permalink to this equation">#</a></span>\[ [AB]_{ij} = \underline{a}_i \cdot \underline{b}_j, \]</div>
+<p>where <span class="math notranslate nohighlight">\(\underline{a}_i\)</span> is the vector formed from row <span class="math notranslate nohighlight">\(i\)</span> of <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(\underline{b}_j\)</span> is the vector formed from column <span class="math notranslate nohighlight">\(j\)</span> of <span class="math notranslate nohighlight">\(B\)</span>.</p>
+<p>For example, given the matrices <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+    A &amp;= \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix}, &amp;
+    B &amp;= \begin{pmatrix} 5 &amp; 6 \\ 7 &amp; 8 \end{pmatrix},
+\end{align*} \end{split}\]</div>
+<p>then the multiplication <span class="math notranslate nohighlight">\(AB\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+    AB &amp;=
+    \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix}
+    \begin{pmatrix} 5 &amp; 6 \\ 7 &amp; 8 \end{pmatrix} =
+    \begin{pmatrix}
+        (1, 2) \cdot (5, 7) &amp; (1,2) \cdot (6, 8) \\
+        (3, 4) \cdot (5, 7) &amp; (3, 4) \cdot (6, 8)
+    \end{pmatrix} \\
+    &amp;=
+    \begin{pmatrix} 5 + 14 &amp; 6 + 16 \\ 15 + 28 &amp; 18 + 32 \end{pmatrix} =
+    \begin{pmatrix} 19 &amp; 22 \\ 43 &amp; 50 \end{pmatrix}.
+\end{align*} \end{split}\]</div>
+<p>Note that unlike numbers where is doesn’t matter which way round they are when we multiplied (i.e., <span class="math notranslate nohighlight">\(1 \cdot 2 = 2 \cdot 1 = 2\)</span>) this is <strong>not</strong> the case with matrices. For example, lets calculate <span class="math notranslate nohighlight">\(BA\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+    BA &amp;=
+    \begin{pmatrix} 5 &amp; 6 \\ 7 &amp; 8 \end{pmatrix}
+    \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix} =
+    \begin{pmatrix}
+        (5, 6) \cdot (1, 3) &amp; (5, 6) \cdot (2, 4) \\
+        (7, 8) \cdot (1, 3) &amp; (7, 8) \cdot (2, 4)
+    \end{pmatrix} \\
+    &amp;=
+    \begin{pmatrix} 5 + 18 &amp; 10 + 24 \\ 7 + 24 &amp; 14 + 32 \end{pmatrix} =
+    \begin{pmatrix} 23 &amp; 34 \\ 31 &amp; 46 \end{pmatrix}.
+\end{align*} \end{split}\]</div>
+<p>So based on these two examples we can see that <span class="math notranslate nohighlight">\(AB \neq BA\)</span> which is very important when it comes to calculating <a class="reference internal" href="05_transformations.html#transformations-section"><span class="std std-ref">transformations</span></a>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The glm operator <code class="docutils literal notranslate"><span class="pre">*</span></code> is used to multiply two or more matrices together. However, since glm uses column-major order to store matrices the order of the matrices is reversed so to calculate <span class="math notranslate nohighlight">\(AB\)</span> we would use the command <code class="docutils literal notranslate"><span class="pre">B</span> <span class="pre">*</span> <span class="pre">A</span></code>.</p>
+</div>
+<p>Check our examples above by adding the following code to your program.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Matrix multiplication</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="p">(</span><span class="mf">5.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">6.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">7.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">8.0f</span><span class="p">);</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">AB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">A</span><span class="p">;</span><span class="w">   </span><span class="c1">// note the ordering!</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">BA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="p">;</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Matrix multiplication</span><span class="se">\n</span><span class="s">---------------------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;B =&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">B</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">AB =&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">AB</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">BA =&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">BA</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Matrix multiplication
+---------------------
+B =
+[[    5.000,    6.000]
+ [    7.000,    8.000]]
+
+AB =
+[[   19.000,   22.000]
+ [   43.000,   50.000]]
+
+BA =
+[[   23.000,   34.000]
+ [   31.000,   46.000]]
+</pre></div>
+</div>
+</section>
+<section id="the-identity-matrix">
+<h3><span class="section-number">4.3.5. </span>The identity matrix<a class="headerlink" href="#the-identity-matrix" title="Permalink to this heading">#</a></h3>
+<p>The <strong>identity matrix</strong> is a special square matrix (same number of rows and columns) where all the elements are zero apart from the elements on the diagonal line from the top-left element down to the bottom-right element (known as the <strong>main diagonal</strong>). For example the <span class="math notranslate nohighlight">\(4\times 4\)</span> identity matrix is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} I = \begin{pmatrix}
+    1 &amp; 0 &amp; 0 &amp; 0 \\
+    0 &amp; 1 &amp; 0 &amp; 0 \\
+    0 &amp; 0 &amp; 1 &amp; 0 \\
+    0 &amp; 0 &amp; 0 &amp; 1
+\end{pmatrix}.\end{split}\]</div>
+<p>The identity element is similar to the number 1 in that if we multiply any matrix by an identity matrix the result is unchanged. For example</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+    \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}
+    \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix} =
+    \begin{pmatrix}
+        (1,0) \cdot (1, 3) &amp; (1,0) \cdot (2, 4) \\
+        (0,1) \cdot (1,3) &amp; (0,1) \cdot (2,4)
+    \end{pmatrix} =
+    \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix}.
+\end{align*} \end{split}\]</div>
+<p>We can generate an <code class="docutils literal notranslate"><span class="pre">n</span></code><span class="math notranslate nohighlight">\(\times\)</span><code class="docutils literal notranslate"><span class="pre">n</span></code> identity matrix by using the glm command <code class="docutils literal notranslate"><span class="pre">glm::matn(1.0f)</span></code>. Add the following code to your program</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Identity matrix</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">);</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">IA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">I</span><span class="p">;</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Identity matrix</span><span class="se">\n</span><span class="s">---------------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;I =&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s"> IA =&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">IA</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Identity matrix
+---------------
+I =
+[[    1.000,    0.000]
+ [    0.000,    1.000]]
+
+ IA =
+[[    1.000,    2.000]
+ [    3.000,    4.000]]
+</pre></div>
+</div>
+</section>
+<section id="the-inverse-matrix">
+<h3><span class="section-number">4.3.6. </span>The inverse matrix<a class="headerlink" href="#the-inverse-matrix" title="Permalink to this heading">#</a></h3>
+<p>Whilst matrix multiplication is defined for certain matrices there is no way of dividing a matrix by another. However, for certain square matrices we can calculate an <strong>inverse matrix</strong> that performs a similar function to divide. Consider the division of two numbers, 4 and 2 say. If we wanted to divide 4 by two we could write</p>
+<div class="math notranslate nohighlight">
+\[ \frac{8}{2} = 4. \]</div>
+<p>We could also write this division as the multiplication of 1/2 and 8, i.e.,</p>
+<div class="math notranslate nohighlight">
+\[ \frac{1}{2} \cdot 8 = 4. \]</div>
+<p>Here we have shown that 1/2 is the <strong>multiplicative inverse</strong> of 2. A multiplicative inverse of a number <span class="math notranslate nohighlight">\(x\)</span> is denoted as <span class="math notranslate nohighlight">\(x^{-1}\)</span> and satisfies <span class="math notranslate nohighlight">\(x \cdot x^{-1} = 1\)</span>. The inverse of a matrix <span class="math notranslate nohighlight">\(A\)</span> is denoted by <span class="math notranslate nohighlight">\(A^{-1}\)</span> and satisfied <span class="math notranslate nohighlight">\(A^{-1}A = I\)</span> where <span class="math notranslate nohighlight">\(I\)</span> is the identity matrix. For example, the inverse of the matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}A = \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix}, \end{split}\]</div>
+<p>is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}A^{-1} = \begin{pmatrix} -2 &amp; 1 \\ 3/2 &amp; -1/2 \end{pmatrix}. \end{split}\]</div>
+<p>We can check whether this is the inverse of <span class="math notranslate nohighlight">\(A\)</span> by calculating <span class="math notranslate nohighlight">\(A^{-1}A\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+    \begin{pmatrix} -2 &amp; 1 \\ 3/2 &amp; -1/2 \end{pmatrix}
+    \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix}
+    &amp;=
+    \begin{pmatrix}
+        (-2, 1) \cdot (1, 3) &amp; (-2, 1) \cdot (2, 4) \\
+        (3/2, -1/2) \cdot (1, 3) &amp; (3/2, -1/2) \cdot (2, 4)
+    \end{pmatrix} \\
+    &amp;=
+    \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}.
+\end{align*} \end{split}\]</div>
+<p>We can calculate the inverse of a square matrix using the glm function <code class="docutils literal notranslate"><span class="pre">glm::inverse()</span></code>. Add the following code to your program</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Inverse matrix</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">invA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">inverse</span><span class="p">(</span><span class="n">A</span><span class="p">);</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Inverse matrix</span><span class="se">\n</span><span class="s">--------------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;invA =&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">invA</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;invA * A&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">invA</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">A</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>// Inverse matrix
+glm::mat2 invA = glm::inverse(A);
+std::cout &lt;&lt; &quot;\nInverse matrix\n--------------&quot; &lt;&lt; std::endl;
+std::cout &lt;&lt; &quot;invA =&quot; &lt;&lt; glm::transpose(invA) &lt;&lt; std::endl;
+std::cout &lt;&lt; &quot;\ninvA * A&quot; &lt;&lt; glm::transpose(invA * A) &lt;&lt; std::endl;
+</pre></div>
+</div>
+<p>Not all square matrices have an inverse. For example, no inverse exists for the matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} C = \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 6 \end{pmatrix}.\end{split}\]</div>
+<p>Lets try to use glm to calculate the inverse of <span class="math notranslate nohighlight">\(C\)</span>.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">);</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">invC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">inverse</span><span class="p">(</span><span class="n">C</span><span class="p">);</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">C =&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="n">glm</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">C</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">invC =&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="n">glm</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">invC</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>invC =
+[[      inf,     -inf]
+ [     -inf,      inf]]
+</pre></div>
+</div>
+<p>Here glm has encountered a divide by zero error. We can determine whether a matrix has an inverse or not by calculating a special value called a <strong>determinant</strong>. The determinant of a matrix <span class="math notranslate nohighlight">\(A\)</span> is denoted by <span class="math notranslate nohighlight">\(\det(A)\)</span> and if the determinant is equal to zero then the matrix does not have an inverse. The method of calculating the determinant is outside the scope of what we are doing here but fortunately glm has a function to do this which is <code class="docutils literal notranslate"><span class="pre">glm::determinant()</span></code></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">det(C) = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">determinant</span><span class="p">(</span><span class="n">C</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>det(C) = 0
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="exercises">
+<h2><span class="section-number">4.4. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
+<ol class="arabic">
+<li><p>Three points have the co-ordinates P = (5, 1, 3), Q = (10, 7, 4) and R = (0, 5, -3). Use C++ code to output the following:</p>
+<p>(a) The vector <span class="math notranslate nohighlight">\(\underline{p}\)</span> that points from P to Q;<br>
+(b) The vector <span class="math notranslate nohighlight">\(\underline{q}\)</span> that points from Q to R;<br>
+(c) The vector <span class="math notranslate nohighlight">\(\underline{r}\)</span> that points from R to P;<br>
+(d) The length of the vector <span class="math notranslate nohighlight">\(\underline{p}\)</span>;<br>
+(e) A unit vector that points in the direction of the vector <span class="math notranslate nohighlight">\(\underline{q}\)</span>;<br>
+(f) The dot product <span class="math notranslate nohighlight">\(\underline{p} \cdot \underline{q}\)</span>;<br>
+(g) The cross product <span class="math notranslate nohighlight">\(\underline{q} \times \underline{r}\)</span>.</p>
+</li>
+</ol>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Solution<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Code</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// -------------------------------------------------------------------</span>
+<span class="c1">// Exercise 1</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">P</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">5.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0f</span><span class="p">);</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">Q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">10.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">7.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0f</span><span class="p">);</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">5.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-3.0f</span><span class="p">);</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Q</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">P</span><span class="p">;</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Q</span><span class="p">;</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">P</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">R</span><span class="p">;</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Exercise 1</span><span class="se">\n</span><span class="s">----------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;(a) p = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;(b) p = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">q</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;(c) p = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;(d) |p| = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">length</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;(e) phat = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">q</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">length</span><span class="p">(</span><span class="n">q</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;(f) p . q = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">dot</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;(g) q x r = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">cross</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Exercise 1
+----------
+(a) p = [    5.000,    6.000,    1.000]
+(b) p = [  -10.000,   -2.000,   -7.000]
+(c) p = [    5.000,   -4.000,    6.000]
+(d) |p| = 7.87401
+(e) phat = [   -0.808,   -0.162,   -0.566]
+(f) p . q = -69
+(g) q x r = [  -40.000,   25.000,   50.000]
+</pre></div>
+</div>
+</div>
+</details><ol class="arabic simple" start="2">
+<li><p>The three matrices <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span> and <span class="math notranslate nohighlight">\(C\)</span> are defined as</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+    A &amp;= \begin{pmatrix} -1 &amp; 3 \\ 2 &amp; -5 \end{pmatrix}, &amp;
+    B &amp;= \begin{pmatrix} 0 &amp; 2 \\ 7 &amp; 1 \end{pmatrix}, &amp;
+    C &amp;= \begin{pmatrix} 3 &amp; 2 \\ -3 &amp; -4 \end{pmatrix}.
+\end{align*} \end{split}\]</div>
+<p>   Use C++ code to output the following:</p>
+<p>   (a) <span class="math notranslate nohighlight">\(AB\)</span>;<br>
+   (b) <span class="math notranslate nohighlight">\(ABC\)</span>;<br>
+   (c) <span class="math notranslate nohighlight">\(CBA\)</span>;<br>
+   (d) <span class="math notranslate nohighlight">\(A^\mathsf{T}B\)</span>;<br>
+   (f) <span class="math notranslate nohighlight">\(A^{-1}\)</span>.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Solution<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Code</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Exercise 2</span>
+<span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="p">(</span><span class="mf">-1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-5.0f</span><span class="p">);</span>
+<span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">7.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">);</span>
+<span class="n">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="p">(</span><span class="mf">3.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-3.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-4.0f</span><span class="p">);</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Exercise 2</span><span class="se">\n</span><span class="s">----------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;(a) AB =&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">B</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">A</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">(b) ABC =&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">C</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">A</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">(c) CBA =&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">A</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">C</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">(d) A^T B =&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">B</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">A</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">(e) inv(A) = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">inverse</span><span class="p">(</span><span class="n">A</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Exercise 2
+----------
+(a) AB =
+[[   21.000,    1.000]
+ [  -35.000,   -1.000]]
+
+(b) ABC =
+[[   60.000,   38.000]
+ [ -102.000,  -66.000]]
+
+(c) CBA =
+[[    2.000,    2.000]
+ [    8.000,  -34.000]]
+
+(d) A^T B =
+[[   14.000,    0.000]
+ [  -35.000,    1.000]]
+
+(e) inv(A) = 
+[[    5.000,    3.000]
+ [    2.000,    1.000]]
+</pre></div>
+</div>
+</div>
+</details><ol class="arabic" start="3">
+<li><p>Create your own C++ class called MyLib using header and code files <strong>MyLib.hpp</strong> and <strong>MyLib.cpp</strong> respectively and define methods for calculating the following:</p>
+<p>(a) the length of a vector (equation <a class="reference internal" href="#equation-eq-vector-magnitude">(4.1)</a>);<br>
+(b) the dot product of two vectors (equation <a class="reference internal" href="#equation-eq-dot-product">(4.5)</a>);<br>
+(c) the cross product of two vectors (equation <a class="reference internal" href="#equation-eq-cross-product">(4.7)</a>);<br>
+(d) the transpose of a <span class="math notranslate nohighlight">\(2 \times 2\)</span> matrix; <br>
+(e) the multiplication of two <span class="math notranslate nohighlight">\(2\times 2\)</span> matrices (equation <a class="reference internal" href="#equation-eq-matrix-multiplication">(4.8)</a>);<br>
+(f) the calculation of the inverse of a <span class="math notranslate nohighlight">\(2\times 2\)</span> matrix. The inverse of the matrix <span class="math notranslate nohighlight">\(A = \begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}\)</span> is</p>
+</li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\begin{split}A^{-1} = \dfrac{1}{ad - bc} \begin{pmatrix} d &amp; -b \\ -c &amp; a \end{pmatrix}.\end{split}\]</div>
+<p>   Use your class to answer questions 1 and 2.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Solution<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Header file</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp"># pragma once</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;glm/glm.hpp&gt;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyLib</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">);</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="nf">dot</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">);</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="nf">cross</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">);</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="nf">transpose</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="p">);</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="nf">multiplication</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="p">);</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="nf">inverse</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Code file</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;glm/glm.hpp&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;MyLib.hpp&quot;</span>
+
+<span class="kt">float</span><span class="w"> </span><span class="nf">MyLib::length</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">v</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">length</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">float</span><span class="w"> </span><span class="nf">MyLib::dot</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">aDotb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">aDotb</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="nf">MyLib::cross</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">aCrossb</span><span class="p">;</span>
+<span class="w">    </span><span class="n">aCrossb</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="w">    </span><span class="n">aCrossb</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="w">    </span><span class="n">aCrossb</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">aCrossb</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="nf">MyLib::transpose</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">A</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">AT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">AT</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="nf">MyLib::multiplication</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">B</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">AB</span><span class="p">;</span>
+<span class="w">    </span><span class="n">AB</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+<span class="w">    </span><span class="n">AB</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
+<span class="w">    </span><span class="n">AB</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+<span class="w">    </span><span class="n">AB</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">AB</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="nf">MyLib::inverse</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">A</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">invA</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">denom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+<span class="w">    </span><span class="n">invA</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">denom</span><span class="p">;</span>
+<span class="w">    </span><span class="n">invA</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">denom</span><span class="p">;</span>
+<span class="w">    </span><span class="n">invA</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">denom</span><span class="p">;</span>
+<span class="w">    </span><span class="n">invA</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">denom</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">invA</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Main file</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Exercise 3</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Exercise 3</span><span class="se">\n</span><span class="s">----------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;1(d) |p| = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">MyLib</span><span class="o">::</span><span class="n">length</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;1(e) phat = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">q</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">MyLib</span><span class="o">::</span><span class="n">length</span><span class="p">(</span><span class="n">q</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;1(f) p . q = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">MyLib</span><span class="o">::</span><span class="n">dot</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;1(g) q x r = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">MyLib</span><span class="o">::</span><span class="n">cross</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">2(a) AB =&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">MyLib</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">MyLib</span><span class="o">::</span><span class="n">multiplication</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">2(b) ABC =&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">MyLib</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">MyLib</span><span class="o">::</span><span class="n">multiplication</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">MyLib</span><span class="o">::</span><span class="n">multiplication</span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="p">)))</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">2(c) CBA =&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">MyLib</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">MyLib</span><span class="o">::</span><span class="n">multiplication</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">MyLib</span><span class="o">::</span><span class="n">multiplication</span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="p">)))</span><span class="w">  </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">2(d) A^T B =&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">MyLib</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">MyLib</span><span class="o">::</span><span class="n">multiplication</span><span class="p">(</span><span class="n">MyLib</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">A</span><span class="p">),</span><span class="w"> </span><span class="n">B</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">2(e) inv(A) = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">MyLib</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">MyLib</span><span class="o">::</span><span class="n">inverse</span><span class="p">(</span><span class="n">A</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Exercise 3
+----------
+1(d) |p| = 7.87401
+1(e) phat = [   -0.808,   -0.162,   -0.566]
+1(f) p . q = -69
+1(g) q x r = [  -40.000,   25.000,   50.000]
+
+2(a) AB =
+[[   21.000,    1.000]
+ [  -35.000,   -1.000]]
+
+2(b) ABC =
+[[   60.000,   38.000]
+ [ -102.000,  -66.000]]
+
+2(c) CBA =
+[[    2.000,    2.000]
+ [    8.000,  -34.000]]
+
+2(d) A^T B =
+[[   14.000,    0.000]
+ [  -35.000,    1.000]]
+
+2(e) inv(A) = 
+[[    5.000,    2.000]
+ [    3.000,    1.000]]
+</pre></div>
+</div>
+</div>
+</details></section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./pages"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03_textures.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Textures</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="05_transformations.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Transformations</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-glm-library">4.1. The glm library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vectors">4.2. Vectors</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-magnitude">4.2.1. Vector magnitude</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-multiplication-by-a-scalar">4.2.2. Vector multiplication by a scalar</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unit-vectors">4.2.3. Unit vectors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-addition-and-subtraction">4.2.4. Vector addition and subtraction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dot-product">4.2.5. Dot product</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-product">4.2.6. Cross product</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrices">4.3. Matrices</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-transpose">4.3.1. Matrix transpose</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-matrices-in-glm">4.3.2. Defining matrices in glm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#indexing-glm-matrices">4.3.3. Indexing glm matrices</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-multiplication">4.3.4. Matrix multiplication</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-identity-matrix">4.3.5. The identity matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-inverse-matrix">4.3.6. The inverse matrix</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">4.4. Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Jon Shiach
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

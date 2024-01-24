@@ -1,3 +1,5 @@
+(hello-triangle-section)=
+
 # Creating a triangle in OpenGL
 
 In this lab we will be creating our first graphics application in OpenGL.
@@ -44,7 +46,7 @@ glBindVertexArray(vertexArrayID);
 ```
 
 ```{note}
-Here we have defined the integer `vertexArrayID` using `GLunit` instead of plain old `unsigned int`. `GLuint` stands for *OpenGL unsigned integer* and we use this because different architectures stores variables using different memory sizes. In order to ensure our application works across various platforms we use OpenGL types.
+Here we have defined the integer `vertexArrayID` using `GLunit` instead of plain old `unsigned int`. `GLuint` stands for **OpenGL unsigned integer** and we use this because different architectures stores variables using different memory sizes. In order to ensure our application works across various platforms we use OpenGL types.
 ```
 
 OpenGL expects the $x$, $y$ and $z$ co-ordinates of all vertices to be between -1.0 and 1.0 where the $x$ and $y$ axes point to the right and up respectively and the $z$ axes points out from the screen (these are known as **Normalised Device Co-ordinates (NDC)** - more on this later). For now we are going to draw a triangle with vertex co-ordinates (-0.5,-0.5,0), (0.5,-0.5,0) and (0,0.5,0) for the bottom-left, bottom-right and top vertices respectively.
@@ -52,7 +54,7 @@ OpenGL expects the $x$, $y$ and $z$ co-ordinates of all vertices to be between -
 ```{figure} ../images/opengl_window.svg
 :width: 400
 
-OpenGL Normalise Device Co-ordinates are in the range -1.0 to 1.0.
+OpenGL Normalised Device Co-ordinates are in the range -1.0 to 1.0.
 ```
 
 We define these co-ordinates in an array of floats called `vertices` using the following code.
@@ -102,7 +104,7 @@ void main() {
 }
 ```
 
-This is the GLSL program for a simple vertex shader. It takes in a single 3-element vector `vertexPosition` that contains the $(x,y,z)$ co-ordinates of a vertex and forwards a 4-element vector to the fragment shader. You may be wondering why we have this addition element, don't worry about this for now, it will be explained [later on](translation-section)).
+This is the GLSL program for a simple vertex shader. It takes in a single 3-element vector `position` that contains the $(x,y,z)$ co-ordinates of a vertex and forwards the 4-element vector `gl_Position` containing the co-ordinates to the fragment shader. You may be wondering why we have this addition element `1.0`, don't worry about this for now, it will be explained [later on](translation-section)).
 
 ### Fragment shader
 
@@ -121,7 +123,7 @@ void main() {
 }
 ```
 
-The fragment shader outputs a single 4-element vector called colour which defines the colour of the pixel using RGBA which stands for Red-Green-Blue-Alpha. The values are in the range 0 to 1 and so here we have red = 1, blue = 0, green = 0 so our pixel will be rendered in red and alpha = 0 which means it is fully opaque.
+The fragment shader outputs a single 4-element vector called `colour`` which defines the colour of the pixel using RGBA which stands for Red-Green-Blue-Alpha. The values are in the range 0 to 1 and so here we have red = 1, blue = 0, green = 0 so our pixel will be rendered in red and alpha = 0 which means it is fully opaque.
 
 ### Shader program
 
@@ -295,7 +297,7 @@ Our snazzy triangle.
 
 ## Adding another triangle
 
-What's better than one triangle, well two triangles of course. Fortunately since we have done all of the grunt work in setting up the buffers for a single triangle adding another is a simple matter of defining the vertex co-ordinates and vertex colours for the additional triangle. Modify the `vertices[]` and `colours[]` arrays to the following.
+What could be better than one triangle? Well two triangles of course. Fortunately since we have done all of the grunt work in setting up the buffers for a single triangle adding another is a simple matter of defining the vertex co-ordinates and vertex colours for the additional triangle. Modify the `vertices[]` and `colours[]` arrays to the following.
 
 ```cpp
 // Define vertices
@@ -321,11 +323,11 @@ static const GLfloat colours[] = {
 
 Here the `vertices[]` array now defines six vertices for two triangles placed side-by-side. The `colours[]` array defines the first three vertices red and the second three set of vertices blue.
 
-We also need to instruct OpenGL to draw two triangles instead of one. To do this we simply change the number of vertices we want to draw from `3` to `sizeof(vertices)` which is the number of elements in the `vertices` array.
+We also need to instruct OpenGL to draw two triangles instead of one. To do this we simply change the number of vertices we want to draw from `3` to `6`.
 
 ```cpp
 // Draw the triangle
-glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices));
+glDrawArrays(GL_TRIANGLES, 0, 6);
 ```
 
 Compiling and running the executable results in the following.
@@ -342,11 +344,144 @@ Two triangles
 
 Now that you've got to the stage where you can draw triangles to the screen and alter the colours lets see if you can do the following.
 
-1. Draw the original triangle but alter the vertex shader to achieve the following results.
-    - the triangle is shifted by 0.5 to the right;
-    - the triangle is drawn upside-down;
-    - the triangle $x$ and $y$ co-ordinates are swapped.
+1. Draw the original triangle but alter the vertex shader to achieve the following results:
+    
+    (a) the triangle is shifted by 0.5 to the right; <br>
+    (b) the triangle is drawn upside-down;<br>
+    (c) the triangle $x$ and $y$ co-ordinates are swapped.
+
+
+``````{dropdown} Solution
+    
+```glsl
+#version 330 core
+
+layout(location = 0) in vec3 position;
+
+void main() {
+
+// Positions
+gl_Position = vec4(position.x + 0.5, position.y, position.z, 1.0); // Ex 1(a)
+//    gl_Position = vec4(position.x, -position.y, position.z, 1.0); // Ex 1(b)
+//    gl_Position = vec4(position.y, position.x, position.z, 1.0); // Ex 1(c)
+
+}
+```
+
+`````{grid}
+
+````{grid-item}
+:columns: 4
+(a)
+```{figure} /images/Lab02_Ex1a.png
+:width: 150
+```
+````
+
+````{grid-item}
+:columns: 4
+(b)
+```{figure} /images/Lab02_Ex1b.png
+:width: 150
+```
+````
+
+````{grid-item}
+:columns: 4
+(c)
+```{figure} /images/Lab02_Ex1c.png
+:width: 150
+```
+````
+`````
+``````
 
 2. Use two triangles to draw a green rectangle where the lower-left corner has co-ordinates (-0.5, -0.5, 0.0) and the upper-right corner has co-ordinates (0.5, 0.5, 0.0).
 
+````{dropdown} Solution
+
+```cpp
+// Exercise 2 - rectangle
+// Define vertices
+static const GLfloat vertices[] = {
+   -0.5f, -0.5f, 0.0f,
+    0.5f, -0.5f, 0.0f,
+    0.5f,  0.5f, 0.0f,
+   -0.5f, -0.5f, 0.0f,
+    0.5f,  0.5f, 0.0f,
+   -0.5f,  0.5f, 0.0f
+};
+
+// Define colours
+static const GLfloat colours[] = {
+   0.0f, 1.0f, 0.0f,
+   0.0f, 1.0f, 0.0f,
+   0.0f, 1.0f, 0.0f,
+   0.0f, 1.0f, 0.0f,
+   0.0f, 1.0f, 0.0f,
+   0.0f, 1.0f, 0.0f,
+};
+```
+
+```{figure} /images/Lab02_Ex2.png
+:width: 500
+```
+
+````
+
 3. Draw a hexagon constructed from different coloured triangles.
+
+````{dropdown} Solution
+
+```cpp
+// Exercise 3 - hexagon
+// Define vertices
+static const GLfloat vertices[] = {
+   0.00f,  0.00f, 0.0f,
+  -0.25f, -0.50f, 0.0f,
+   0.25f, -0.50f, 0.0f,
+   0.00f,  0.00f, 0.0f,
+   0.25f, -0.50f, 0.0f,
+   0.50f,  0.00f, 0.0f,
+   0.00f,  0.00f, 0.0f,
+   0.50f,  0.00f, 0.0f,
+   0.25f,  0.50f, 0.0f,
+   0.00f,  0.00f, 0.0f,
+   0.25f,  0.50f, 0.0f,
+  -0.25f,  0.50f, 0.0f,
+   0.00f,  0.00f, 0.0f,
+  -0.25f,  0.50f, 0.0f,
+  -0.50f,  0.00f, 0.0f,
+   0.00f,  0.00f, 0.0f,
+  -0.50f, -0.00f, 0.0f,
+  -0.25f, -0.50f, 0.0f
+};
+
+// Define colours
+static const GLfloat colours[] = {
+  1.0f, 0.0f, 0.0f,   // red
+  1.0f, 0.0f, 0.0f,
+  1.0f, 0.0f, 0.0f,
+  0.0f, 1.0f, 0.0f,   // green
+  0.0f, 1.0f, 0.0f,
+  0.0f, 1.0f, 0.0f,
+  0.0f, 0.0f, 1.0f,   // blue
+  0.0f, 0.0f, 1.0f,
+  0.0f, 0.0f, 1.0f,
+  1.0f, 1.0f, 0.0f,   // yellow
+  1.0f, 1.0f, 0.0f,
+  1.0f, 1.0f, 0.0f,
+  1.0f, 0.0f, 1.0f,   // magenta
+  1.0f, 0.0f, 1.0f,
+  1.0f, 0.0f, 1.0f,
+  0.0f, 1.0f, 1.0f,   // cyan
+  0.0f, 1.0f, 1.0f,
+  0.0f, 1.0f, 1.0f,
+};
+```
+
+```{figure} /images/Lab02_Ex3.png
+:width: 500
+```
+
+````

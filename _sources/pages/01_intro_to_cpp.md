@@ -1,6 +1,10 @@
+(intro-to-cpp-section)=
+
 # Introduction to C++
 
-In this first lab we will be introducing/revisiting the fundamentals of the C++ language.
+In this first lab we will be introducing/revisiting the fundamentals of the C++ language. C++ (pronounced "C-plus-plus") is a general purpose high performance programming language developed by Bjarne Stroustrup in the early 1980s. It's an extension of the C programming language with added classes (the original name for C++ was "C with classes") so it shares the same syntax as C. It is also similar to Java so it won't be too difficult to make the switch from Java to C++.
+
+In this semester we will be using OpenGL to create graphics applications. OpenGL uses C++ so its important you are comfortable with the syntax and the use of classes.
 
 ## IDEs
 
@@ -89,11 +93,11 @@ Let's write a simple program which converts an angle from degrees to radians (a 
 
 ```cpp
 // Degrees to radians conversion
-float angleInDegrees = 45;
+float angleInDegrees = 45.0f;
 float angleInRadians;
 float pi = 3.1415927f;
 
-angleInRadians = angleInDegrees * pi / 180;
+angleInRadians = angleInDegrees * pi / 180.0f;
 
 // Output result
 std::cout << angleInDegrees << " degrees is equal to "
@@ -104,7 +108,6 @@ Output:
 
 ```text
 45 degrees is equal to 0.785398 radians.
-45 degrees is an acute angle.
 ```
 
 When working with variables we first need to define the variable types. For example `float angleInDegrees;` defined a variable with the identifier `angleInDegrees` as a float. We could then store the value inputted by the user into this variable using the `std::cin >>` command.
@@ -156,7 +159,7 @@ else
 Output:
 
 ```text
-100 degrees is an obtuse angle.
+45 degrees is an acute angle.
 ```
 
 ### For loop
@@ -219,27 +222,29 @@ Lets add a while loop to our program calculate how many times the following expr
 $$ n = \begin{cases} n / 2, & \text{if $n$ is even}, \\ 3n + 1, & \text{if $n$ is odd}.\end{cases} $$
 
 ```cpp
-// Output the steps of the Collatz conjecture for n = 10
+// Count the number of steps the Collatz sequence takes for n = 10 to reach 1
 int n, step;
 n = 10;
 step = 0;
 std::cout << "\nCollatz conjecture\n------------------" << std::endl;
-std::cout << "0 : " << n << std::endl;
+std::cout << n;
 
-while (n > 1) 
+while (n > 1)
 {
-    if (n % 2 == 0) 
-    {
-        n /= 2;
-    }
-    else 
-    {
-        n = 3 * n + 1;
-    }
+  if (n % 2 == 0)
+  {
+      n /= 2;
+  }
+  else
+  {
+      n = 3 * n + 1;
+  }
 
-    step++;
-    std::cout << step << " : " << n << std::endl;
+  step++;
+  std::cout << " -> " << n;
 }
+
+std::cout << "\n\nThe Collatz sequence took " << step << " steps to reach 1." << std::endl;
 ```
 
 Output:
@@ -314,7 +319,8 @@ size of vertices = 36
 So 36 bytes are used to store the 9-element array `vertices`, therefore each element takes up 4 bytes because they are floats. We can also use the `sizeof` command to return the number of bytes used to store different variable types. So a useful way to determine the number of elements in an array is to divide the memory used to store the array by the memory used for each element. For example, add the following to your program.
 
 ```cpp
-std::cout << "\nnumber of elements = " << sizeof(vertices) / sizeof(float) << std::endl;
+std::cout << "\nnumber of elements = " 
+          << sizeof(vertices) / sizeof(float) << std::endl;
 ```
 
 Output:
@@ -329,12 +335,12 @@ number of elements = 9
 
 ## Functions
 
-A **function** is a block of code that is used to perform a (usually) single action. They are useful for when we need to use similar code multiple times, instead of writing the code each time, we can define a function just once and call it to perform the action. You've already declared the `main` function which all C++ programs must have so lets add another function that raises a floating point number to a power. Add the following code before ```int main()```
+A **function** is a block of code that is used to perform a (usually) single action. They are useful for when we need to use similar code multiple times, instead of writing the code each time, we can define a function just once and call it to perform the action. You've already declared the `main()` function which all C++ programs must have so lets add another function that raises a floating point number to a power. Add the following code to the top of your program (before the `main()` function is declared).
 
 ```cpp
 float power(const float x, const int y)
 {
-    float xPowerY = 1;
+    float xPowerY = 1.0f;
     for (int i = 0; i < y; i++)
     {
         xPowerY *= x;
@@ -343,7 +349,7 @@ float power(const float x, const int y)
 }
 ```
 
-Here we have declared the function called `power` that takes in an floating point variable `x` and an integer variable `y` and outputs a floating point variable. We can call the function to calculate $\text{2}^\text{10}$ by adding the following inside the `main()` function.
+Here we have declared the function called `power()` that takes in inputs of a floating point variable `x` and an integer variable `y` and outputs a floating point variable. The values of our inputs will not change during the execution of the function so we specify them as constants using the `const` keyword which makes the compiled code more efficient. We can call the function to calculate $\text{2}^\text{10}$ by adding the following inside the `main()` function.
 
 ```cpp
 // Call the power function
@@ -360,17 +366,17 @@ Output:
 
 ### Function parameters
 
-A function **parameter** is information that is passed into a function, for example, in our function above we passed in the parameters `x` and `y`. We are not changing the values of these parameters so we have declared them as constants using `const`.  The code within a function only knows about the information passed into it via its input parameters and any **global variables** that are declared outside of all functions. Lets write a function that converts an angle in degrees to radians
+A function **parameter** is information that is passed into a function, for example, in our function above we passed in the parameters `x` and `y`. The code within a function only knows about the information passed into it via its input parameters and any **global variables** that are declared outside of all functions. Lets write a function that converts an angle in degrees to radians
 
 ```cpp
 float radians(float angle)
 {
-    angle *= pi / 180;
+    angle *= pi / 180.0f;
     return angle;
 }
 ```
 
-Here our function called `radians` converts the float parameter `angle` to radians by multiplying it by $\pi / 180$ and returns it (we haven't declared the `angle` parameter as a constant since we are changing its value). If you attempt to compile your program you will get a compiler error that `pi` is undefined. This is because `pi` is a **local variable** for the `main` function. We can correct this using the following:
+Here our function called `radians()` converts the float parameter `angle` to radians by multiplying it by $\pi / 180$ and returns it (we haven't declared the `angle` parameter as a constant since we are changing its value). If you attempt to compile your program you will get a compiler error that `pi` is undefined. This is because `pi` is a **local variable** for the `main()` function. We can correct this using the following:
 
 - declare `pi` to be a local variable within the `radians` function (preferred if we are unlikely to be using `pi` elsewhere in the program);
 - declare `pi` to be a global variable outside of all functions (preferred if `pi` is likely to be used elsewhere in the program);
@@ -381,9 +387,10 @@ Fix your program by defining `pi` to be a global variable so that it compiles. C
 ```cpp
 // Call the radians function
 float angle = angleInDegrees;
-angleInRadians = radians(angle);
+angle = radians(angle);
 
-std::cout << angle << " degrees is equal to " << angleInRadians << " radians." << std::endl;
+std::cout << angleInDegrees << " degrees is equal to " 
+          << angle << " radians." << std::endl;
 ```
 
 ### Pass by reference
@@ -397,14 +404,14 @@ void radians(float &angle)
 }
 ```
 
-Here we have passed the reference to the `angle` variable (the memory address of the variable) so the code within the function changes its value. We do not need to return anything from the function so we remove the `return` command and change the output type of the function to `void`. We now need to change how we call the `radians` function.
+Here we have passed the reference to the `angle` variable (the memory address of the variable) so the code within the function changes its value. We do not need to return anything from the function so we remove the `return` command and change the output type of the function to `void`. We now need to change how we call the `radians()` function.
 
 ```cpp
 // Call the radians function
 float angle = angleInDegrees;
 radians(angle);
 
-std::cout << angleInDegrees << " degrees is equal to " 
+std::cout << "\n" << angleInDegrees << " degrees is equal to "
           << angle << " radians." << std::endl;
 ```
 
@@ -436,90 +443,93 @@ public:
 | `public:` | An **access specifier** that specifies which attributes and methods can be accessed outside of the class. |
 | `std::string make;` | Defines the attribute `make` which is a string. The other attributes are the string `model`, the integer `year` and the floating point number `speed` which is initially set to zero for any new object which is created. |
 
-We can then create an object from our `Car` class and set its attributes. Lets create an object called `carObject` for a 1989 Toyota MR2. In your `main()` function add the following code.
+We can then create an object from our `Car` class and set its attributes. Lets create an object called `delorean` for a 1981 DeLorean DMC-12. In your `main()` function add the following code.
 
 ```cpp
 // Define car object
-Car carObject;
-carObject.make = "Toyota";
-carObject.model = "MR2";
-carObject.year = 1989;
+Car delorean;
+delorean.make = "Delorean";
+delorean.model = "DMC-12";
+delorean.year = 1981;
 ```
 
-Here to create the object we specified the class name and the name of our object, e.g., `Car carObject;`. Then we define the car attributes using the name of the object followed by the name of the attribute, e.g., `carObject.make`. Lets print the values of the attributes.
+Here to create the object we specified the class name and the name of our object, e.g., `Car delorean;`. Then we define the car attributes using the name of the object followed by the name of the attribute, e.g., `delorean.make`.
+
+### Class methods
+
+The methods for a class a functions that the objects in the class share. At the moment we have created a Car object but don't have a way of seeing what the make, model or year of the object are. Lets create a method to print out the attributes. Inside the Car class definition add the following code.
 
 ```cpp
-std::cout << "\nMake: " << carObject.make
-          << "\nModel: " << carObject.model
-          << "\nYear: " << carObject.year << std::endl;
+// Methods
+void print_details();
+```
+
+This declares a method called `print_details()` which does not have any inputs. To define the method itself we use the syntax
+
+```text
+<return type> <class name> :: <method name>()
+{
+    // commands
+}
+```
+
+So to define the `print_details()` method add the following code outside of the Car class.
+
+```cpp
+void Car::print_details()
+{
+    std::cout << "\nMake: " << make
+              << "\nModel: " << model
+              << "\nYear: " << year << std::endl;
+}
+```
+
+To call a method we use the syntax `<object name> . <method name>(<inputs>)`. We can now print the details of the car object using the following code.
+
+```cpp
+delorean.details()
 ```
 
 Output:
 
 ```text
-Make: Toyota
-Model: MR2
-Year: 1989
+Make: DeLorean
+Model: DMC-12
+Year: 1981
 ```
 
-### Class methods
-
-The methods for a class a functions that the objects in the class share. For our `Car` class lets define a method for accelerating the car. Inside the class definition add the following code.
+Our `print_details()` method doesn't require any inputs because the attributes are known. Lets define a method for accelerating the car which has an input argument for the amount of acceleration. Add the following to your Car class.
 
 ```cpp
-class Car {
-public:
-    std::string make;
-    std::string model;
-    int year;
-    float speed = 0.0f;
-
-    // Methods
-    void accelerate(const float increment);
-};
+void accelerate(const float increment);
 ```
 
-This only declares that the class `Car` has a function called `accelerate()` which has 1 input parameter `increment`. We need to define what the function does. Add the following code outside of the class.
+Now define the method.
 
 ```cpp
 void Car::accelerate(const float increment)
 {
     speed = +increment;
+    std::cout << "\nThe car has accelerated to " << speed << " mph." << std::endl;
 }
 ```
 
-Here the name of the method (`accelerate`) follows the name of the class (`Car`) and the `::` operator. We can now call the method by adding the following code to our `main()` function.
+Now we have created the `acceleration()` methods lets accelerate our car to 88 mph. 
 
 ```cpp
 // Call accelerate method
-std::cout << "\n\nSpeed before acceleration: " << carObject.speed << std::endl;
+delorean.accelerate(88.0f);
+```
 
-carObject.accelerate(50.0f);
+Output
 
-std::cout << "\nSpeed after acceleration: " << carObject.speed << std::endl;
+```text
+The car has accelerated to 88 mph.
 ```
 
 ### Constructors
 
-A **constructor** is a special method that is automatically called when an object of a class is created. A constructor has the same name as that of the class, so for our `Car` class we declare the constructor using the following code
-
-```cpp
-class Car {
-public:
-    std::string make;
-    std::string model;
-    int year;
-    float speed = 0.0f;
-
-    // Constructor
-    Car();
-
-    // Methods
-    void accelerate(const float increment);
-};
-```
-
-and define the constructor so that a message is printed to the terminal
+A **constructor** is a special method that is automatically called when an object of a class is created. A constructor has the same name as that of the class, so for our `Car` class we declare the constructor using `Car();`. Now lets define the constructor so that a message is printed to the terminal.
 
 ```cpp
 Car::Car() 
@@ -528,42 +538,26 @@ Car::Car()
 }
 ```
 
-Now when we create our `carObject` object the following is outputted
+When we create our `delorean` object the following is outputted
 
 ```text
 Car object created
-
-Make: Toyota
-Model: MR2
-Year: 1989
 ```
 
-Constructors are more useful when we uses parameters to set the values of the class attributes. Modify the constructor declaration to include the parameters
+Constructors are more useful when we use parameters to set the values of the class attributes. Modify the constructor declaration to include the parameters
 
 ```cpp
-class Car {
-public:
-    std::string make;
-    std::string model;
-    int year;
-    float speed = 0.0f;
-
-    // Constructor
-    Car(const std::string w, const std::string x, const int y);
-
-    // Methods
-    void accelerate(const float increment);
-};
+Car(const std::string x, const std::string y, const int z);
 ```
 
 and modify the constructor definition so that the attributes are specified.
 
 ```cpp
-Car::Car(const std::string w, const std::string x, const int y)
+Car::Car(const std::string makeInput, const std::string modelInput, const int yearInput)
 {
-    make = x;
-    model = y;
-    year = z;
+    make = makeInput;
+    model = modelInput;
+    year = yearInput;
     std::cout << "\nCar object created" << std::endl;
 }
 ```
@@ -571,7 +565,7 @@ Car::Car(const std::string w, const std::string x, const int y)
 Now we can define the object attributes by creating the object using the following code.
 
 ```cpp
-Car carObject("Toyota", "MR2", 1989);
+Car delorean("DeLorean", "DMC-12", 1981);
 ```
 
 ### Header files
@@ -580,11 +574,23 @@ When dealing with larger programs and larger classes is become necessary to spli
 
 Lets create a header file for our `Car` class.
 
-1. Right-click on the project name in the **Solution Explorer** and the select **Add > New Item...** (or press Ctrl+Shift+A).
-2. Select **header File (.h)** and click on **Add**. 
-3. This creates the file **Header.h** in the **Header files** filter. Right-click on this and select **Rename** (or select it and press F2) and change the filename to **Car.hpp**.
+#### Visual Studio
 
-The header file we have created is an empty files with a single line `#pragma once`. This is used to prevent multiple header files of the same name from being included. An alternative way of doing this inherited from C programming is to use <a href="https://en.wikipedia.org/wiki/Include_guard" target="_blank">include guards</a> which for our `Car` class would require the following.
+1. Right-click on the project name in the **Solution Explorer** and the select **Add > New Item...** (or press Ctrl+Shift+A).
+2. Select **C++ Class** and click on **Add**.
+3. Enter **Car** in the **Class name** field and change the **.h file** field to **Car.hpp** (we could have left this as Car.h but I've always used .hpp as the file extension for header files).
+4. This creates the header file **Car.hpp** in the **Header files** filter and the source file **Car.cpp** in the **Source Files** filter.
+
+The header file we have created contains the following code.
+
+```cpp
+#pragma once
+class Car
+{
+};
+```
+
+The command `#pragma once` is used to prevent multiple header files of the same name from being included in the compilation of the program. An alternative way of doing this inherited from C is to use <a href="https://en.wikipedia.org/wiki/Include_guard" target="_blank">include guards</a> which for our `Car` class would require the following.
 
 ```cpp
 #ifndef CAR_H
@@ -595,7 +601,24 @@ The header file we have created is an empty files with a single line `#pragma on
 #endif
 ```
 
-Copy the `Car` class into our `Car.hpp` header file so that it looks like the following.
+#### Xcode
+
+1. Click on **File > New > File...** (or just press ⌘N) and select **C++ File**, make sure the checkbox next to **Also create header file** is selected and click on **Next**.
+2. Enter **Car** in the **Save As** field and click on **Next**, make sure the folder where your **main.cpp** is selected and click on **Create**.
+3. This creates the header file **Car.hpp** and the code file **Car.cpp** in your Xcode project.
+
+The header file we have created contains the following code (note that Xcode defaults to using include guard - you can use `#pragma once` if you want to).
+
+```cpp
+#ifndef Car_hpp
+#define Car_hpp
+
+#include <stdio.h>
+
+#endif /* Car_hpp */
+```
+
+Copy the `Car` class from **main.cpp** into our **Car.hpp** header file so that it looks like the following.
 
 ```cpp
 #pragma once
@@ -611,32 +634,39 @@ public:
     float speed = 0.0f;
 
     // Constructor
-    Car(std::string x, std::string y, int z);
+    Car(std::string makeInput, std::string modelInput, int yearInput);
 
     // Methods
+    void print_details();
     void accelerate(const float increment);
 };
 ```
 
-Note that we also need the `#include <iostream>` library so we can use strings and input/output commands.
-
-The methods are defined in a separate source file. Add a new C++ file to your project and cut and paste your `Car` class methods from `main.cpp` and edit it so it looks like the following.
+Note that we also need the `#include <iostream>` library so we can use strings and input/output commands. The methods are defined in the **Cap.cpp** source file. Cut and paste your `Car` class methods from **main.cpp** and edit it so it looks like the following.
 
 ```cpp
 #include <iostream>
 #include "Car.hpp"
 
-Car::Car(const std::string x, const std::string y, const int z)
+Car::Car(const std::string makeInput, const std::string modelInput, const int yearInput)
 {
-    make = x;
-    model = y;
-    year = z;
+    make = makeInput;
+    model = modelInput;
+    year = yearInput;
     std::cout << "\nCar object created" << std::endl;
+}
+
+void Car::print_details()
+{
+    std::cout << "\nMake: " << make
+              << "\nModel: " << model
+              << "\nYear: " << year << std::endl;
 }
 
 void Car::accelerate(const float increment)
 {
     speed = +increment;
+    std::cout << "\nThe car has accelerated to " << speed << " mph." << std::endl;
 }
 ```
 
@@ -646,4 +676,265 @@ Here we have also included the `iostream` library as well as our `Car.hpp` heade
 
 ## Exercises
 
-1. 
+1. You are tasked with writing a C++ program to help the university store students' details (name, ID number, course, marks etc.). Create a class called `Student` in a header file which has the following attributes:
+
+   - first name - string;
+   - last name - string;
+   - ID number - unsigned integer;
+   - course - string;
+   - level - unsigned integer;
+   - marks - 12-element unsigned integer array (marks for four units over the three years);
+
+````{dropdown} Solution
+
+```cpp
+#pragma once
+
+#include <iostream>
+
+class Student {
+
+public:
+    std::string firstName;
+    std::string lastName;
+    unsigned int idNumber;
+    std::string course;
+    unsigned int level;
+    unsigned int marks[12];
+};
+```
+
+````
+
+2. Create a constructor for your class with parameters for creating an object. Use your constructor to create an object with the following attribute values.
+
+    - first name: Ellie
+    - last name: Williams
+    - ID number: 12345678
+    - course: Computer Science
+    - level: 5
+
+````{dropdown} Solution
+
+Header file
+
+```cpp
+// Constructor
+Student(std::string firstNameInput,
+       std::string lastNameInput,
+       unsigned int idNumberInput,
+       std::string courseInput,
+       unsigned int levelInput);
+```
+
+Code file
+
+```cpp
+Student::Student(std::string firstNameInput,
+        std::string lastNameInput,
+        unsigned int idNumberInput,
+        std::string courseInput,
+        unsigned int levelInput)
+{
+    firstName = firstNameInput;
+    lastName = lastNameInput;
+    idNumber = idNumberInput;
+    course = courseInput;
+    level = levelInput;
+    
+    std::cout << "\nStudent object " << firstName << " " << lastName << " created." << std::endl;
+}
+```
+
+````
+
+3. Modify your constructor so that it checks whether the attributes for an object adhere to the following conditions and prints and error message if not.
+
+    - ID number is an 8-digit number;
+    - The course is either "Computer Science" or "Computer Games Development";
+    - The level is either 4, 5 or 6.
+
+````{dropdown} Solution
+
+```cpp
+Student::Student(std::string firstNameInput,
+        std::string lastNameInput,
+        unsigned int idNumberInput,
+        std::string courseInput,
+        unsigned int levelInput)
+{
+    // Check ID number
+    if (idNumberInput < 10000000 || idNumberInput > 99999999)
+    {
+        std::cout << "Error::Student::ID number needs to be an 8 digit integer." << std::endl;
+        return;
+    }
+    
+    // Check the course
+    if (courseInput != "Computer Science" && courseInput != "Computer Games Development")
+    {
+        std::cout << "Error::Student::Course needs to be either 'Computer Science' or 'Computer Games Development'." << std::endl;
+        return;
+    }
+    
+    // Check the level
+    if (levelInput < 4 || levelInput > 6)
+    {
+        std::cout << "Error::Student::Level needs to be one of 4, 5 or 6." << std::endl;
+        return;
+    }
+    
+    firstName = firstNameInput;
+    lastName = lastNameInput;
+    idNumber = idNumberInput;
+    course = courseInput;
+    level = levelInput;
+    
+    std::cout << "\nStudent object " << firstName << " " << lastName << " created." << std::endl;
+}
+```
+
+````
+
+4. Create a method called `add_level_marks()` which uses input parameters of a 4-element integer array containing unit marks and an integer variable containing the level and places the unit marks into the correct elements of the `marks` array for the object. For example, if the level 5 unit marks are `40, 50, 60, 70` then `marks[4] = 50`, `marks[5] = 60` etc. Use your method to updates Ellie's marks with the following.
+
+    - level 4 marks: 55, 60, 72, 64;
+    - level 5 marks: 68, 62, 74, 70.
+
+````{dropdown} Solution
+
+```cpp
+void Student::add_level_marks(int marksInput[], int levelInput)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        marks[4 * (levelInput - 4) + i] = marksInput[i];
+    }
+    
+    // Update level if less than levelInput
+    if (level < levelInput)
+    {
+        level = levelInput;
+    }
+}
+```
+
+Main file
+
+```cpp
+int level4Marks[] = {55, 60, 72, 64};
+int level5Marks[] = {68, 62, 74, 70};
+ellie.add_level_marks(level4Marks, 4);
+ellie.add_level_marks(level5Marks, 5);
+```
+
+````
+
+5. Create a method called `print_marks()` which prints unit marks for each level that a student has been enrolled.
+
+````{dropdown} Solution
+
+```cpp
+void Student::print_marks()
+{
+    std::cout << "\n" << firstName << " " << lastName << " (" << idNumber << ") marks\n" << std::endl;
+    
+    for (int i = 0; i < level - 3; i++)
+    {
+        std::cout << "Level " << i + 4 << ": ";
+        for (int j = 0; j < 3; j++)
+        {
+            std::cout << marks[4 * i + j] << ", ";
+        }
+        std::cout << marks[4 * i + 3] << std::endl;
+    }
+}
+```
+
+Output
+
+```text
+Ellie Williams (12345678) marks
+
+Level 4: 55, 60, 72, 64
+Level 5: 68, 62, 74, 70
+```
+
+````
+
+6. A student's degree classification is determined by calculating a weighted average of the level 5 and 6 marks such that `weighted average = 0.25 * level 5 average + 0.75 * level 6 average` and then using the table below. Create a method called `classification()` which prints the degree classification for a student.
+
+| weighted average | Degree classification |
+|:--:|:--|
+| >= 70 | First-class |
+| >= 60 | Upper second-class |
+| >= 50 | Lower second-class |
+| >= 40 | Third-class |
+| < 40 | Fail |
+
+````{dropdown} Solution
+
+```cpp
+void Student::classification()
+{
+    float weightedAverge, level5Average, level6Average;
+    level5Average = (marks[4] + marks[5] + marks[6] + marks[7]) / 4;
+    level6Average = (marks[8] + marks[9] + marks[10] + marks[11]) / 4;
+    weightedAverge = 0.25f * level5Average + 0.75f * level6Average;
+    
+    std::cout << "\nClassification: ";
+    if (weightedAverge >= 70.0f)
+    {
+        std::cout << "First-class" << std::endl;
+    }
+    else if (weightedAverge >= 60.0f)
+    {
+        std::cout << "Upper second-class" << std::endl;
+    }
+    else if (weightedAverge >= 50.0f)
+    {
+        std::cout << "Lower second-class" << std::endl;
+    }
+    else if (weightedAverge >= 40.0f)
+    {
+        std::cout << "Third-lcass" << std::endl;
+    }
+    else
+    {
+        std::cout << "Fail" << std::endl;
+    }
+}
+```
+
+Output
+
+```text
+Classification: Upper second-class
+```
+
+````
+
+7. Ellie has survived another year and has achieved level 6 marks of 72, 68, 76 and 65. Update the object and determine their degree classification.
+
+````{dropdown} Solution
+
+```cpp
+int level6Marks[] = {72, 68, 76, 65};
+ellie.add_level_marks(level6Marks, 6);
+ellie.print_marks();
+ellie.classification();
+```
+
+Output
+
+```text
+Ellie Williams (12345678) marks
+
+Level 4: 55, 60, 72, 64
+Level 5: 68, 62, 74, 70
+Level 6: 72, 68, 76, 65
+
+Classification: Upper second-class
+```
+
+````

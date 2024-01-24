@@ -161,7 +161,10 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">1. Introduction to C++</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_hello_triangle.html">2. Creating a triangle in OpenGL</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03_maths_revision.html">3. Vectors and Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_textures.html">3. Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_vectors_and_matrices.html">4. Vectors and Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_transformations.html">5. Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_MVP.html">6. Model, View and Projection Matrices</a></li>
 </ul>
 
     </div>
@@ -378,7 +381,11 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classes-objects">1.4.1. Classes/objects</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#class-methods">1.4.2. Class methods</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructors">1.4.3. Constructors</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#header-files">1.4.4. Header files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#header-files">1.4.4. Header files</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#visual-studio">1.4.4.1. Visual Studio</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#xcode">1.4.4.2. Xcode</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">1.5. Exercises</a></li>
@@ -394,8 +401,9 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="introduction-to-c">
-<h1><span class="section-number">1. </span>Introduction to C++<a class="headerlink" href="#introduction-to-c" title="Permalink to this heading">#</a></h1>
-<p>In this first lab we will be introducing/revisiting the fundamentals of the C++ language.</p>
+<span id="intro-to-cpp-section"></span><h1><span class="section-number">1. </span>Introduction to C++<a class="headerlink" href="#introduction-to-c" title="Permalink to this heading">#</a></h1>
+<p>In this first lab we will be introducing/revisiting the fundamentals of the C++ language. C++ (pronounced “C-plus-plus”) is a general purpose high performance programming language developed by Bjarne Stroustrup in the early 1980s. It’s an extension of the C programming language with added classes (the original name for C++ was “C with classes”) so it shares the same syntax as C. It is also similar to Java so it won’t be too difficult to make the switch from Java to C++.</p>
+<p>In this semester we will be using OpenGL to create graphics applications. OpenGL uses C++ so its important you are comfortable with the syntax and the use of classes.</p>
 <section id="ides">
 <h2><span class="section-number">1.1. </span>IDEs<a class="headerlink" href="#ides" title="Permalink to this heading">#</a></h2>
 <p>A C++ program is simply a set of plain text files that we instruct a compiler to convert to machine code and produce an executable. As long as you have installed the compiler and you have a text editor program you get program away to your hearts content. However, as your programs start to become increasingly sophisticated and you experience syntax errors and bugs, you will start to yearn for a better way. Fortunately there is and we can use an Integrated Development Environment (IDE).</p>
@@ -506,11 +514,11 @@ This will create a folder with the name of your project within which there will 
 <p>A variable must be identified by a unique names which are called <strong>identifiers</strong>. An identifier can be a sequence of one or more letters, digits and underscores but must begin with a character and cannot contain spaces, punctuation marks and symbols. As long as you don’t use an identifier that conflicts with a C++ keyword (e.g., <code class="docutils literal notranslate"><span class="pre">char</span></code>) you are free to choose whatever identifier you wish. It is good practice to use descriptive identifiers, e.g., <code class="docutils literal notranslate"><span class="pre">position</span></code>, and where an identifier contains multiple words is it standard practice for the first letter of each additional word to be an uppercase character, e.g., <code class="docutils literal notranslate"><span class="pre">framesPerSecond</span></code>.</p>
 <p>Let’s write a simple program which converts an angle from degrees to radians (a <a href="https://en.wikipedia.org/wiki/Radian" target="_blank">radian</a> is an angle measure where 1 radian is the angle subtended at the centre of a circle by an arc equal to the radius (it is the preferred unit of measurement when working with angles). Add the following code to your program.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Degrees to radians conversion</span>
-<span class="kt">float</span><span class="w"> </span><span class="n">angleInDegrees</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">45</span><span class="p">;</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">angleInDegrees</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">45.0f</span><span class="p">;</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">angleInRadians</span><span class="p">;</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">pi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.1415927f</span><span class="p">;</span>
 
-<span class="n">angleInRadians</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">angleInDegrees</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pi</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">180</span><span class="p">;</span>
+<span class="n">angleInRadians</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">angleInDegrees</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pi</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">180.0f</span><span class="p">;</span>
 
 <span class="c1">// Output result</span>
 <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">angleInDegrees</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; degrees is equal to &quot;</span>
@@ -519,7 +527,6 @@ This will create a folder with the name of your project within which there will 
 </div>
 <p>Output:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>45 degrees is equal to 0.785398 radians.
-45 degrees is an acute angle.
 </pre></div>
 </div>
 <p>When working with variables we first need to define the variable types. For example <code class="docutils literal notranslate"><span class="pre">float</span> <span class="pre">angleInDegrees;</span></code> defined a variable with the identifier <code class="docutils literal notranslate"><span class="pre">angleInDegrees</span></code> as a float. We could then store the value inputted by the user into this variable using the <code class="docutils literal notranslate"><span class="pre">std::cin</span> <span class="pre">&gt;&gt;</span></code> command.</p>
@@ -563,7 +570,7 @@ This will create a folder with the name of your project within which there will 
 </pre></div>
 </div>
 <p>Output:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>100 degrees is an obtuse angle.
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>45 degrees is an acute angle.
 </pre></div>
 </div>
 </section>
@@ -617,27 +624,29 @@ This will create a folder with the name of your project within which there will 
 <p>Lets add a while loop to our program calculate how many times the following expression is calculated until we get <span class="math notranslate nohighlight">\(n = 1\)</span> (known as the <a href="https://en.wikipedia.org/wiki/Collatz_conjecture" target="_blank">Collatz conjecture</a>).</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} n = \begin{cases} n / 2, &amp; \text{if $n$ is even}, \\ 3n + 1, &amp; \text{if $n$ is odd}.\end{cases} \end{split}\]</div>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Output the steps of the Collatz conjecture for n = 10</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Count the number of steps the Collatz sequence takes for n = 10 to reach 1</span>
 <span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">step</span><span class="p">;</span>
 <span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
 <span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Collatz conjecture</span><span class="se">\n</span><span class="s">------------------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;0 : &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
 
-<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="n">n</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="k">else</span><span class="w"> </span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">      </span><span class="n">n</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">      </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
 
-<span class="w">    </span><span class="n">step</span><span class="o">++</span><span class="p">;</span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; : &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">  </span><span class="n">step</span><span class="o">++</span><span class="p">;</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; -&gt; &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
 <span class="p">}</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n\n</span><span class="s">The Collatz sequence took &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; steps to reach 1.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>Output:</p>
@@ -698,7 +707,8 @@ vertices[8] = 0
 </pre></div>
 </div>
 <p>So 36 bytes are used to store the 9-element array <code class="docutils literal notranslate"><span class="pre">vertices</span></code>, therefore each element takes up 4 bytes because they are floats. We can also use the <code class="docutils literal notranslate"><span class="pre">sizeof</span></code> command to return the number of bytes used to store different variable types. So a useful way to determine the number of elements in an array is to divide the memory used to store the array by the memory used for each element. For example, add the following to your program.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">number of elements = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">number of elements = &quot;</span><span class="w"> </span>
+<span class="w">          </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>Output:</p>
@@ -710,10 +720,10 @@ vertices[8] = 0
 </section>
 <section id="functions">
 <span id="functions-section"></span><h2><span class="section-number">1.3. </span>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h2>
-<p>A <strong>function</strong> is a block of code that is used to perform a (usually) single action. They are useful for when we need to use similar code multiple times, instead of writing the code each time, we can define a function just once and call it to perform the action. You’ve already declared the <code class="docutils literal notranslate"><span class="pre">main</span></code> function which all C++ programs must have so lets add another function that raises a floating point number to a power. Add the following code before <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">main()</span></code></p>
+<p>A <strong>function</strong> is a block of code that is used to perform a (usually) single action. They are useful for when we need to use similar code multiple times, instead of writing the code each time, we can define a function just once and call it to perform the action. You’ve already declared the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function which all C++ programs must have so lets add another function that raises a floating point number to a power. Add the following code to the top of your program (before the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function is declared).</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">float</span><span class="w"> </span><span class="nf">power</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">)</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">xPowerY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">xPowerY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">;</span>
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">y</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
 <span class="w">    </span><span class="p">{</span>
 <span class="w">        </span><span class="n">xPowerY</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
@@ -722,7 +732,7 @@ vertices[8] = 0
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Here we have declared the function called <code class="docutils literal notranslate"><span class="pre">power</span></code> that takes in an floating point variable <code class="docutils literal notranslate"><span class="pre">x</span></code> and an integer variable <code class="docutils literal notranslate"><span class="pre">y</span></code> and outputs a floating point variable. We can call the function to calculate <span class="math notranslate nohighlight">\(\text{2}^\text{10}\)</span> by adding the following inside the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function.</p>
+<p>Here we have declared the function called <code class="docutils literal notranslate"><span class="pre">power()</span></code> that takes in inputs of a floating point variable <code class="docutils literal notranslate"><span class="pre">x</span></code> and an integer variable <code class="docutils literal notranslate"><span class="pre">y</span></code> and outputs a floating point variable. The values of our inputs will not change during the execution of the function so we specify them as constants using the <code class="docutils literal notranslate"><span class="pre">const</span></code> keyword which makes the compiled code more efficient. We can call the function to calculate <span class="math notranslate nohighlight">\(\text{2}^\text{10}\)</span> by adding the following inside the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Call the power function</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">twoPowerTen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">power</span><span class="p">(</span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
 
@@ -735,15 +745,15 @@ vertices[8] = 0
 </div>
 <section id="function-parameters">
 <h3><span class="section-number">1.3.1. </span>Function parameters<a class="headerlink" href="#function-parameters" title="Permalink to this heading">#</a></h3>
-<p>A function <strong>parameter</strong> is information that is passed into a function, for example, in our function above we passed in the parameters <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>. We are not changing the values of these parameters so we have declared them as constants using <code class="docutils literal notranslate"><span class="pre">const</span></code>.  The code within a function only knows about the information passed into it via its input parameters and any <strong>global variables</strong> that are declared outside of all functions. Lets write a function that converts an angle in degrees to radians</p>
+<p>A function <strong>parameter</strong> is information that is passed into a function, for example, in our function above we passed in the parameters <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>. The code within a function only knows about the information passed into it via its input parameters and any <strong>global variables</strong> that are declared outside of all functions. Lets write a function that converts an angle in degrees to radians</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">float</span><span class="w"> </span><span class="nf">radians</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">angle</span><span class="p">)</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="n">angle</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">pi</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">180</span><span class="p">;</span>
+<span class="w">    </span><span class="n">angle</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">pi</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">180.0f</span><span class="p">;</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">angle</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Here our function called <code class="docutils literal notranslate"><span class="pre">radians</span></code> converts the float parameter <code class="docutils literal notranslate"><span class="pre">angle</span></code> to radians by multiplying it by <span class="math notranslate nohighlight">\(\pi / 180\)</span> and returns it (we haven’t declared the <code class="docutils literal notranslate"><span class="pre">angle</span></code> parameter as a constant since we are changing its value). If you attempt to compile your program you will get a compiler error that <code class="docutils literal notranslate"><span class="pre">pi</span></code> is undefined. This is because <code class="docutils literal notranslate"><span class="pre">pi</span></code> is a <strong>local variable</strong> for the <code class="docutils literal notranslate"><span class="pre">main</span></code> function. We can correct this using the following:</p>
+<p>Here our function called <code class="docutils literal notranslate"><span class="pre">radians()</span></code> converts the float parameter <code class="docutils literal notranslate"><span class="pre">angle</span></code> to radians by multiplying it by <span class="math notranslate nohighlight">\(\pi / 180\)</span> and returns it (we haven’t declared the <code class="docutils literal notranslate"><span class="pre">angle</span></code> parameter as a constant since we are changing its value). If you attempt to compile your program you will get a compiler error that <code class="docutils literal notranslate"><span class="pre">pi</span></code> is undefined. This is because <code class="docutils literal notranslate"><span class="pre">pi</span></code> is a <strong>local variable</strong> for the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function. We can correct this using the following:</p>
 <ul class="simple">
 <li><p>declare <code class="docutils literal notranslate"><span class="pre">pi</span></code> to be a local variable within the <code class="docutils literal notranslate"><span class="pre">radians</span></code> function (preferred if we are unlikely to be using <code class="docutils literal notranslate"><span class="pre">pi</span></code> elsewhere in the program);</p></li>
 <li><p>declare <code class="docutils literal notranslate"><span class="pre">pi</span></code> to be a global variable outside of all functions (preferred if <code class="docutils literal notranslate"><span class="pre">pi</span></code> is likely to be used elsewhere in the program);</p></li>
@@ -752,9 +762,10 @@ vertices[8] = 0
 <p>Fix your program by defining <code class="docutils literal notranslate"><span class="pre">pi</span></code> to be a global variable so that it compiles. Call your function using the following code.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Call the radians function</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">angleInDegrees</span><span class="p">;</span>
-<span class="n">angleInRadians</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">radians</span><span class="p">(</span><span class="n">angle</span><span class="p">);</span>
+<span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">radians</span><span class="p">(</span><span class="n">angle</span><span class="p">);</span>
 
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">angle</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; degrees is equal to &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">angleInRadians</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; radians.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">angleInDegrees</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; degrees is equal to &quot;</span><span class="w"> </span>
+<span class="w">          </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">angle</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; radians.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </pre></div>
 </div>
 </section>
@@ -767,12 +778,12 @@ vertices[8] = 0
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Here we have passed the reference to the <code class="docutils literal notranslate"><span class="pre">angle</span></code> variable (the memory address of the variable) so the code within the function changes its value. We do not need to return anything from the function so we remove the <code class="docutils literal notranslate"><span class="pre">return</span></code> command and change the output type of the function to <code class="docutils literal notranslate"><span class="pre">void</span></code>. We now need to change how we call the <code class="docutils literal notranslate"><span class="pre">radians</span></code> function.</p>
+<p>Here we have passed the reference to the <code class="docutils literal notranslate"><span class="pre">angle</span></code> variable (the memory address of the variable) so the code within the function changes its value. We do not need to return anything from the function so we remove the <code class="docutils literal notranslate"><span class="pre">return</span></code> command and change the output type of the function to <code class="docutils literal notranslate"><span class="pre">void</span></code>. We now need to change how we call the <code class="docutils literal notranslate"><span class="pre">radians()</span></code> function.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Call the radians function</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">angleInDegrees</span><span class="p">;</span>
 <span class="n">radians</span><span class="p">(</span><span class="n">angle</span><span class="p">);</span>
 
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">angleInDegrees</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; degrees is equal to &quot;</span><span class="w"> </span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">angleInDegrees</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; degrees is equal to &quot;</span>
 <span class="w">          </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">angle</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; radians.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </pre></div>
 </div>
@@ -813,120 +824,100 @@ vertices[8] = 0
 </tr>
 </tbody>
 </table>
-<p>We can then create an object from our <code class="docutils literal notranslate"><span class="pre">Car</span></code> class and set its attributes. Lets create an object called <code class="docutils literal notranslate"><span class="pre">carObject</span></code> for a 1989 Toyota MR2. In your <code class="docutils literal notranslate"><span class="pre">main()</span></code> function add the following code.</p>
+<p>We can then create an object from our <code class="docutils literal notranslate"><span class="pre">Car</span></code> class and set its attributes. Lets create an object called <code class="docutils literal notranslate"><span class="pre">delorean</span></code> for a 1981 DeLorean DMC-12. In your <code class="docutils literal notranslate"><span class="pre">main()</span></code> function add the following code.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define car object</span>
-<span class="n">Car</span><span class="w"> </span><span class="n">carObject</span><span class="p">;</span>
-<span class="n">carObject</span><span class="p">.</span><span class="n">make</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Toyota&quot;</span><span class="p">;</span>
-<span class="n">carObject</span><span class="p">.</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;MR2&quot;</span><span class="p">;</span>
-<span class="n">carObject</span><span class="p">.</span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1989</span><span class="p">;</span>
+<span class="n">Car</span><span class="w"> </span><span class="n">delorean</span><span class="p">;</span>
+<span class="n">delorean</span><span class="p">.</span><span class="n">make</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Delorean&quot;</span><span class="p">;</span>
+<span class="n">delorean</span><span class="p">.</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;DMC-12&quot;</span><span class="p">;</span>
+<span class="n">delorean</span><span class="p">.</span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1981</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>Here to create the object we specified the class name and the name of our object, e.g., <code class="docutils literal notranslate"><span class="pre">Car</span> <span class="pre">carObject;</span></code>. Then we define the car attributes using the name of the object followed by the name of the attribute, e.g., <code class="docutils literal notranslate"><span class="pre">carObject.make</span></code>. Lets print the values of the attributes.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Make: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">carObject</span><span class="p">.</span><span class="n">make</span>
-<span class="w">          </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Model: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">carObject</span><span class="p">.</span><span class="n">model</span>
-<span class="w">          </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Year: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">carObject</span><span class="p">.</span><span class="n">year</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-</pre></div>
-</div>
-<p>Output:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Make: Toyota
-Model: MR2
-Year: 1989
-</pre></div>
-</div>
+<p>Here to create the object we specified the class name and the name of our object, e.g., <code class="docutils literal notranslate"><span class="pre">Car</span> <span class="pre">delorean;</span></code>. Then we define the car attributes using the name of the object followed by the name of the attribute, e.g., <code class="docutils literal notranslate"><span class="pre">delorean.make</span></code>.</p>
 </section>
 <section id="class-methods">
 <h3><span class="section-number">1.4.2. </span>Class methods<a class="headerlink" href="#class-methods" title="Permalink to this heading">#</a></h3>
-<p>The methods for a class a functions that the objects in the class share. For our <code class="docutils literal notranslate"><span class="pre">Car</span></code> class lets define a method for accelerating the car. Inside the class definition add the following code.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Car</span><span class="w"> </span><span class="p">{</span>
-<span class="k">public</span><span class="o">:</span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">make</span><span class="p">;</span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">model</span><span class="p">;</span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">year</span><span class="p">;</span>
-<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span>
-
-<span class="w">    </span><span class="c1">// Methods</span>
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">accelerate</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">increment</span><span class="p">);</span>
-<span class="p">};</span>
+<p>The methods for a class a functions that the objects in the class share. At the moment we have created a Car object but don’t have a way of seeing what the make, model or year of the object are. Lets create a method to print out the attributes. Inside the Car class definition add the following code.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Methods</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">print_details</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>This only declares that the class <code class="docutils literal notranslate"><span class="pre">Car</span></code> has a function called <code class="docutils literal notranslate"><span class="pre">accelerate()</span></code> which has 1 input parameter <code class="docutils literal notranslate"><span class="pre">increment</span></code>. We need to define what the function does. Add the following code outside of the class.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">Car::accelerate</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">increment</span><span class="p">)</span>
+<p>This declares a method called <code class="docutils literal notranslate"><span class="pre">print_details()</span></code> which does not have any inputs. To define the method itself we use the syntax</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;return type&gt; &lt;class name&gt; :: &lt;method name&gt;()
+{
+    // commands
+}
+</pre></div>
+</div>
+<p>So to define the <code class="docutils literal notranslate"><span class="pre">print_details()</span></code> method add the following code outside of the Car class.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">Car::print_details</span><span class="p">()</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">+</span><span class="n">increment</span><span class="p">;</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Make: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">make</span>
+<span class="w">              </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Model: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">model</span>
+<span class="w">              </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Year: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">year</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Here the name of the method (<code class="docutils literal notranslate"><span class="pre">accelerate</span></code>) follows the name of the class (<code class="docutils literal notranslate"><span class="pre">Car</span></code>) and the <code class="docutils literal notranslate"><span class="pre">::</span></code> operator. We can now call the method by adding the following code to our <code class="docutils literal notranslate"><span class="pre">main()</span></code> function.</p>
+<p>To call a method we use the syntax <code class="docutils literal notranslate"><span class="pre">&lt;object</span> <span class="pre">name&gt;</span> <span class="pre">.</span> <span class="pre">&lt;method</span> <span class="pre">name&gt;(&lt;inputs&gt;)</span></code>. We can now print the details of the car object using the following code.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">delorean</span><span class="p">.</span><span class="n">details</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Make: DeLorean
+Model: DMC-12
+Year: 1981
+</pre></div>
+</div>
+<p>Our <code class="docutils literal notranslate"><span class="pre">print_details()</span></code> method doesn’t require any inputs because the attributes are known. Lets define a method for accelerating the car which has an input argument for the amount of acceleration. Add the following to your Car class.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">accelerate</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">increment</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Now define the method.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">Car::accelerate</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">increment</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">+</span><span class="n">increment</span><span class="p">;</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">The car has accelerated to &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; mph.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Now we have created the <code class="docutils literal notranslate"><span class="pre">acceleration()</span></code> methods lets accelerate our car to 88 mph.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Call accelerate method</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n\n</span><span class="s">Speed before acceleration: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">carObject</span><span class="p">.</span><span class="n">speed</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-
-<span class="n">carObject</span><span class="p">.</span><span class="n">accelerate</span><span class="p">(</span><span class="mf">50.0f</span><span class="p">);</span>
-
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Speed after acceleration: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">carObject</span><span class="p">.</span><span class="n">speed</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">delorean</span><span class="p">.</span><span class="n">accelerate</span><span class="p">(</span><span class="mf">88.0f</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>The car has accelerated to 88 mph.
 </pre></div>
 </div>
 </section>
 <section id="constructors">
 <h3><span class="section-number">1.4.3. </span>Constructors<a class="headerlink" href="#constructors" title="Permalink to this heading">#</a></h3>
-<p>A <strong>constructor</strong> is a special method that is automatically called when an object of a class is created. A constructor has the same name as that of the class, so for our <code class="docutils literal notranslate"><span class="pre">Car</span></code> class we declare the constructor using the following code</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Car</span><span class="w"> </span><span class="p">{</span>
-<span class="k">public</span><span class="o">:</span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">make</span><span class="p">;</span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">model</span><span class="p">;</span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">year</span><span class="p">;</span>
-<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span>
-
-<span class="w">    </span><span class="c1">// Constructor</span>
-<span class="w">    </span><span class="n">Car</span><span class="p">();</span>
-
-<span class="w">    </span><span class="c1">// Methods</span>
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">accelerate</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">increment</span><span class="p">);</span>
-<span class="p">};</span>
-</pre></div>
-</div>
-<p>and define the constructor so that a message is printed to the terminal</p>
+<p>A <strong>constructor</strong> is a special method that is automatically called when an object of a class is created. A constructor has the same name as that of the class, so for our <code class="docutils literal notranslate"><span class="pre">Car</span></code> class we declare the constructor using <code class="docutils literal notranslate"><span class="pre">Car();</span></code>. Now lets define the constructor so that a message is printed to the terminal.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Car</span><span class="o">::</span><span class="n">Car</span><span class="p">()</span><span class="w"> </span>
 <span class="p">{</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Car object created&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Now when we create our <code class="docutils literal notranslate"><span class="pre">carObject</span></code> object the following is outputted</p>
+<p>When we create our <code class="docutils literal notranslate"><span class="pre">delorean</span></code> object the following is outputted</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Car object created
-
-Make: Toyota
-Model: MR2
-Year: 1989
 </pre></div>
 </div>
-<p>Constructors are more useful when we uses parameters to set the values of the class attributes. Modify the constructor declaration to include the parameters</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Car</span><span class="w"> </span><span class="p">{</span>
-<span class="k">public</span><span class="o">:</span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">make</span><span class="p">;</span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">model</span><span class="p">;</span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">year</span><span class="p">;</span>
-<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span>
-
-<span class="w">    </span><span class="c1">// Constructor</span>
-<span class="w">    </span><span class="n">Car</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">);</span>
-
-<span class="w">    </span><span class="c1">// Methods</span>
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">accelerate</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">increment</span><span class="p">);</span>
-<span class="p">};</span>
+<p>Constructors are more useful when we use parameters to set the values of the class attributes. Modify the constructor declaration to include the parameters</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Car</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">z</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>and modify the constructor definition so that the attributes are specified.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Car</span><span class="o">::</span><span class="n">Car</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">)</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Car</span><span class="o">::</span><span class="n">Car</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">makeInput</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">modelInput</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">yearInput</span><span class="p">)</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="n">make</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
-<span class="w">    </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
-<span class="w">    </span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">z</span><span class="p">;</span>
+<span class="w">    </span><span class="n">make</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">makeInput</span><span class="p">;</span>
+<span class="w">    </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modelInput</span><span class="p">;</span>
+<span class="w">    </span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">yearInput</span><span class="p">;</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Car object created&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>Now we can define the object attributes by creating the object using the following code.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Car</span><span class="w"> </span><span class="n">carObject</span><span class="p">(</span><span class="s">&quot;Toyota&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;MR2&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1989</span><span class="p">);</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Car</span><span class="w"> </span><span class="n">delorean</span><span class="p">(</span><span class="s">&quot;DeLorean&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;DMC-12&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1981</span><span class="p">);</span>
 </pre></div>
 </div>
 </section>
@@ -934,12 +925,22 @@ Year: 1989
 <h3><span class="section-number">1.4.4. </span>Header files<a class="headerlink" href="#header-files" title="Permalink to this heading">#</a></h3>
 <p>When dealing with larger programs and larger classes is become necessary to split the code over multiple files. Classes are declared in a <strong>header file</strong> which usually have the extension <strong>.hpp</strong> (this isn’t a requirement but has become standard practice in C++ programming). The methods of a class are then defined in a separate source files which have the extension <strong>.cpp</strong>.</p>
 <p>Lets create a header file for our <code class="docutils literal notranslate"><span class="pre">Car</span></code> class.</p>
+<section id="visual-studio">
+<h4><span class="section-number">1.4.4.1. </span>Visual Studio<a class="headerlink" href="#visual-studio" title="Permalink to this heading">#</a></h4>
 <ol class="arabic simple">
 <li><p>Right-click on the project name in the <strong>Solution Explorer</strong> and the select <strong>Add &gt; New Item…</strong> (or press Ctrl+Shift+A).</p></li>
-<li><p>Select <strong>header File (.h)</strong> and click on <strong>Add</strong>.</p></li>
-<li><p>This creates the file <strong>Header.h</strong> in the <strong>Header files</strong> filter. Right-click on this and select <strong>Rename</strong> (or select it and press F2) and change the filename to <strong>Car.hpp</strong>.</p></li>
+<li><p>Select <strong>C++ Class</strong> and click on <strong>Add</strong>.</p></li>
+<li><p>Enter <strong>Car</strong> in the <strong>Class name</strong> field and change the <strong>.h file</strong> field to <strong>Car.hpp</strong> (we could have left this as Car.h but I’ve always used .hpp as the file extension for header files).</p></li>
+<li><p>This creates the header file <strong>Car.hpp</strong> in the <strong>Header files</strong> filter and the source file <strong>Car.cpp</strong> in the <strong>Source Files</strong> filter.</p></li>
 </ol>
-<p>The header file we have created is an empty files with a single line <code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">once</span></code>. This is used to prevent multiple header files of the same name from being included. An alternative way of doing this inherited from C programming is to use <a href="https://en.wikipedia.org/wiki/Include_guard" target="_blank">include guards</a> which for our <code class="docutils literal notranslate"><span class="pre">Car</span></code> class would require the following.</p>
+<p>The header file we have created contains the following code.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma once</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Car</span>
+<span class="p">{</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The command <code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">once</span></code> is used to prevent multiple header files of the same name from being included in the compilation of the program. An alternative way of doing this inherited from C is to use <a href="https://en.wikipedia.org/wiki/Include_guard" target="_blank">include guards</a> which for our <code class="docutils literal notranslate"><span class="pre">Car</span></code> class would require the following.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifndef CAR_H</span>
 <span class="cp">#define CAR_H</span>
 
@@ -948,7 +949,24 @@ Year: 1989
 <span class="cp">#endif</span>
 </pre></div>
 </div>
-<p>Copy the <code class="docutils literal notranslate"><span class="pre">Car</span></code> class into our <code class="docutils literal notranslate"><span class="pre">Car.hpp</span></code> header file so that it looks like the following.</p>
+</section>
+<section id="xcode">
+<h4><span class="section-number">1.4.4.2. </span>Xcode<a class="headerlink" href="#xcode" title="Permalink to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p>Click on <strong>File &gt; New &gt; File…</strong> (or just press ⌘N) and select <strong>C++ File</strong>, make sure the checkbox next to <strong>Also create header file</strong> is selected and click on <strong>Next</strong>.</p></li>
+<li><p>Enter <strong>Car</strong> in the <strong>Save As</strong> field and click on <strong>Next</strong>, make sure the folder where your <strong>main.cpp</strong> is selected and click on <strong>Create</strong>.</p></li>
+<li><p>This creates the header file <strong>Car.hpp</strong> and the code file <strong>Car.cpp</strong> in your Xcode project.</p></li>
+</ol>
+<p>The header file we have created contains the following code (note that Xcode defaults to using include guard - you can use <code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">once</span></code> if you want to).</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifndef Car_hpp</span>
+<span class="cp">#define Car_hpp</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="cp">#endif </span><span class="cm">/* Car_hpp */</span>
+</pre></div>
+</div>
+<p>Copy the <code class="docutils literal notranslate"><span class="pre">Car</span></code> class from <strong>main.cpp</strong> into our <strong>Car.hpp</strong> header file so that it looks like the following.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma once</span>
 
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
@@ -962,42 +980,352 @@ Year: 1989
 <span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span>
 
 <span class="w">    </span><span class="c1">// Constructor</span>
-<span class="w">    </span><span class="n">Car</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">z</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Car</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">makeInput</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">modelInput</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">yearInput</span><span class="p">);</span>
 
 <span class="w">    </span><span class="c1">// Methods</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">print_details</span><span class="p">();</span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">accelerate</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">increment</span><span class="p">);</span>
 <span class="p">};</span>
 </pre></div>
 </div>
-<p>Note that we also need the <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;iostream&gt;</span></code> library so we can use strings and input/output commands.</p>
-<p>The methods are defined in a separate source file. Add a new C++ file to your project and cut and paste your <code class="docutils literal notranslate"><span class="pre">Car</span></code> class methods from <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> and edit it so it looks like the following.</p>
+<p>Note that we also need the <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;iostream&gt;</span></code> library so we can use strings and input/output commands. The methods are defined in the <strong>Cap.cpp</strong> source file. Cut and paste your <code class="docutils literal notranslate"><span class="pre">Car</span></code> class methods from <strong>main.cpp</strong> and edit it so it looks like the following.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Car.hpp&quot;</span>
 
-<span class="n">Car</span><span class="o">::</span><span class="n">Car</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">z</span><span class="p">)</span>
+<span class="n">Car</span><span class="o">::</span><span class="n">Car</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">makeInput</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">modelInput</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">yearInput</span><span class="p">)</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="n">make</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
-<span class="w">    </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
-<span class="w">    </span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">z</span><span class="p">;</span>
+<span class="w">    </span><span class="n">make</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">makeInput</span><span class="p">;</span>
+<span class="w">    </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modelInput</span><span class="p">;</span>
+<span class="w">    </span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">yearInput</span><span class="p">;</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Car object created&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="n">Car</span><span class="o">::</span><span class="n">print_details</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Make: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">make</span>
+<span class="w">              </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Model: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">model</span>
+<span class="w">              </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Year: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">year</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="kt">void</span><span class="w"> </span><span class="n">Car</span><span class="o">::</span><span class="n">accelerate</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">increment</span><span class="p">)</span>
 <span class="p">{</span>
 <span class="w">    </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">+</span><span class="n">increment</span><span class="p">;</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">The car has accelerated to &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; mph.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>Here we have also included the <code class="docutils literal notranslate"><span class="pre">iostream</span></code> library as well as our <code class="docutils literal notranslate"><span class="pre">Car.hpp</span></code> header file. We also need to make sure we include the <code class="docutils literal notranslate"><span class="pre">Car.hpp</span></code> header file in <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code>. Compile and run the program to check everything works ok.</p>
 </section>
 </section>
+</section>
 <hr class="docutils" />
 <section id="exercises">
 <h2><span class="section-number">1.5. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
 <ol class="arabic simple">
-<li></li>
+<li><p>You are tasked with writing a C++ program to help the university store students’ details (name, ID number, course, marks etc.). Create a class called <code class="docutils literal notranslate"><span class="pre">Student</span></code> in a header file which has the following attributes:</p>
+<ul class="simple">
+<li><p>first name - string;</p></li>
+<li><p>last name - string;</p></li>
+<li><p>ID number - unsigned integer;</p></li>
+<li><p>course - string;</p></li>
+<li><p>level - unsigned integer;</p></li>
+<li><p>marks - 12-element unsigned integer array (marks for four units over the three years);</p></li>
+</ul>
+</li>
 </ol>
-</section>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Solution<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma once</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Student</span><span class="w"> </span><span class="p">{</span>
+
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">firstName</span><span class="p">;</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">lastName</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">idNumber</span><span class="p">;</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">course</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">level</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">marks</span><span class="p">[</span><span class="mi">12</span><span class="p">];</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</details><ol class="arabic simple" start="2">
+<li><p>Create a constructor for your class with parameters for creating an object. Use your constructor to create an object with the following attribute values.</p>
+<ul class="simple">
+<li><p>first name: Ellie</p></li>
+<li><p>last name: Williams</p></li>
+<li><p>ID number: 12345678</p></li>
+<li><p>course: Computer Science</p></li>
+<li><p>level: 5</p></li>
+</ul>
+</li>
+</ol>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Solution<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Header file</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Constructor</span>
+<span class="n">Student</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">firstNameInput</span><span class="p">,</span>
+<span class="w">       </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">lastNameInput</span><span class="p">,</span>
+<span class="w">       </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">idNumberInput</span><span class="p">,</span>
+<span class="w">       </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">courseInput</span><span class="p">,</span>
+<span class="w">       </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">levelInput</span><span class="p">);</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Code file</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Student</span><span class="o">::</span><span class="n">Student</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">firstNameInput</span><span class="p">,</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">lastNameInput</span><span class="p">,</span>
+<span class="w">        </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">idNumberInput</span><span class="p">,</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">courseInput</span><span class="p">,</span>
+<span class="w">        </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">levelInput</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">firstName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">firstNameInput</span><span class="p">;</span>
+<span class="w">    </span><span class="n">lastName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lastNameInput</span><span class="p">;</span>
+<span class="w">    </span><span class="n">idNumber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">idNumberInput</span><span class="p">;</span>
+<span class="w">    </span><span class="n">course</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">courseInput</span><span class="p">;</span>
+<span class="w">    </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">levelInput</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Student object &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">firstName</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">lastName</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; created.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</details><ol class="arabic simple" start="3">
+<li><p>Modify your constructor so that it checks whether the attributes for an object adhere to the following conditions and prints and error message if not.</p>
+<ul class="simple">
+<li><p>ID number is an 8-digit number;</p></li>
+<li><p>The course is either “Computer Science” or “Computer Games Development”;</p></li>
+<li><p>The level is either 4, 5 or 6.</p></li>
+</ul>
+</li>
+</ol>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Solution<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Student</span><span class="o">::</span><span class="n">Student</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">firstNameInput</span><span class="p">,</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">lastNameInput</span><span class="p">,</span>
+<span class="w">        </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">idNumberInput</span><span class="p">,</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">courseInput</span><span class="p">,</span>
+<span class="w">        </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">levelInput</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// Check ID number</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">idNumberInput</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10000000</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">idNumberInput</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">99999999</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Error::Student::ID number needs to be an 8 digit integer.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Check the course</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">courseInput</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;Computer Science&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">courseInput</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;Computer Games Development&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Error::Student::Course needs to be either &#39;Computer Science&#39; or &#39;Computer Games Development&#39;.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Check the level</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">levelInput</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">levelInput</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Error::Student::Level needs to be one of 4, 5 or 6.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">firstName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">firstNameInput</span><span class="p">;</span>
+<span class="w">    </span><span class="n">lastName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lastNameInput</span><span class="p">;</span>
+<span class="w">    </span><span class="n">idNumber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">idNumberInput</span><span class="p">;</span>
+<span class="w">    </span><span class="n">course</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">courseInput</span><span class="p">;</span>
+<span class="w">    </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">levelInput</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Student object &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">firstName</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">lastName</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; created.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</details><ol class="arabic simple" start="4">
+<li><p>Create a method called <code class="docutils literal notranslate"><span class="pre">add_level_marks()</span></code> which uses input parameters of a 4-element integer array containing unit marks and an integer variable containing the level and places the unit marks into the correct elements of the <code class="docutils literal notranslate"><span class="pre">marks</span></code> array for the object. For example, if the level 5 unit marks are <code class="docutils literal notranslate"><span class="pre">40,</span> <span class="pre">50,</span> <span class="pre">60,</span> <span class="pre">70</span></code> then <code class="docutils literal notranslate"><span class="pre">marks[4]</span> <span class="pre">=</span> <span class="pre">50</span></code>, <code class="docutils literal notranslate"><span class="pre">marks[5]</span> <span class="pre">=</span> <span class="pre">60</span></code> etc. Use your method to updates Ellie’s marks with the following.</p>
+<ul class="simple">
+<li><p>level 4 marks: 55, 60, 72, 64;</p></li>
+<li><p>level 5 marks: 68, 62, 74, 70.</p></li>
+</ul>
+</li>
+</ol>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Solution<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">Student::add_level_marks</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">marksInput</span><span class="p">[],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">levelInput</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">marks</span><span class="p">[</span><span class="mi">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">levelInput</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">marksInput</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Update level if less than levelInput</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">level</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">levelInput</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">levelInput</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Main file</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">level4Marks</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">55</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="mi">72</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">};</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">level5Marks</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">68</span><span class="p">,</span><span class="w"> </span><span class="mi">62</span><span class="p">,</span><span class="w"> </span><span class="mi">74</span><span class="p">,</span><span class="w"> </span><span class="mi">70</span><span class="p">};</span>
+<span class="n">ellie</span><span class="p">.</span><span class="n">add_level_marks</span><span class="p">(</span><span class="n">level4Marks</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span>
+<span class="n">ellie</span><span class="p">.</span><span class="n">add_level_marks</span><span class="p">(</span><span class="n">level5Marks</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</details><ol class="arabic simple" start="5">
+<li><p>Create a method called <code class="docutils literal notranslate"><span class="pre">print_marks()</span></code> which prints unit marks for each level that a student has been enrolled.</p></li>
+</ol>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Solution<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">Student::print_marks</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">firstName</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">lastName</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; (&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">idNumber</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;) marks</span><span class="se">\n</span><span class="s">&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">level</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Level &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;: &quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">marks</span><span class="p">[</span><span class="mi">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">marks</span><span class="p">[</span><span class="mi">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Ellie Williams (12345678) marks
+
+Level 4: 55, 60, 72, 64
+Level 5: 68, 62, 74, 70
+</pre></div>
+</div>
+</div>
+</details><ol class="arabic simple" start="6">
+<li><p>A student’s degree classification is determined by calculating a weighted average of the level 5 and 6 marks such that <code class="docutils literal notranslate"><span class="pre">weighted</span> <span class="pre">average</span> <span class="pre">=</span> <span class="pre">0.25</span> <span class="pre">*</span> <span class="pre">level</span> <span class="pre">5</span> <span class="pre">average</span> <span class="pre">+</span> <span class="pre">0.75</span> <span class="pre">*</span> <span class="pre">level</span> <span class="pre">6</span> <span class="pre">average</span></code> and then using the table below. Create a method called <code class="docutils literal notranslate"><span class="pre">classification()</span></code> which prints the degree classification for a student.</p></li>
+</ol>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>weighted average</p></th>
+<th class="head text-left"><p>Degree classification</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>&gt;= 70</p></td>
+<td class="text-left"><p>First-class</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>&gt;= 60</p></td>
+<td class="text-left"><p>Upper second-class</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>&gt;= 50</p></td>
+<td class="text-left"><p>Lower second-class</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>&gt;= 40</p></td>
+<td class="text-left"><p>Third-class</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>&lt; 40</p></td>
+<td class="text-left"><p>Fail</p></td>
+</tr>
+</tbody>
+</table>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Solution<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">Student::classification</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">weightedAverge</span><span class="p">,</span><span class="w"> </span><span class="n">level5Average</span><span class="p">,</span><span class="w"> </span><span class="n">level6Average</span><span class="p">;</span>
+<span class="w">    </span><span class="n">level5Average</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">marks</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">marks</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">marks</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">marks</span><span class="p">[</span><span class="mi">7</span><span class="p">])</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
+<span class="w">    </span><span class="n">level6Average</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">marks</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">marks</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">marks</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">marks</span><span class="p">[</span><span class="mi">11</span><span class="p">])</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
+<span class="w">    </span><span class="n">weightedAverge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.25f</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">level5Average</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.75f</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">level6Average</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Classification: &quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">weightedAverge</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">70.0f</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;First-class&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">weightedAverge</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">60.0f</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Upper second-class&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">weightedAverge</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">50.0f</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Lower second-class&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">weightedAverge</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">40.0f</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Third-lcass&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Fail&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Classification: Upper second-class
+</pre></div>
+</div>
+</div>
+</details><ol class="arabic simple" start="7">
+<li><p>Ellie has survived another year and has achieved level 6 marks of 72, 68, 76 and 65. Update the object and determine their degree classification.</p></li>
+</ol>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Solution<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">level6Marks</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">72</span><span class="p">,</span><span class="w"> </span><span class="mi">68</span><span class="p">,</span><span class="w"> </span><span class="mi">76</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">};</span>
+<span class="n">ellie</span><span class="p">.</span><span class="n">add_level_marks</span><span class="p">(</span><span class="n">level6Marks</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">);</span>
+<span class="n">ellie</span><span class="p">.</span><span class="n">print_marks</span><span class="p">();</span>
+<span class="n">ellie</span><span class="p">.</span><span class="n">classification</span><span class="p">();</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Ellie Williams (12345678) marks
+
+Level 4: 55, 60, 72, 64
+Level 5: 68, 62, 74, 70
+Level 6: 72, 68, 76, 65
+
+Classification: Upper second-class
+</pre></div>
+</div>
+</div>
+</details></section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -1090,7 +1418,11 @@ Year: 1989
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classes-objects">1.4.1. Classes/objects</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#class-methods">1.4.2. Class methods</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructors">1.4.3. Constructors</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#header-files">1.4.4. Header files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#header-files">1.4.4. Header files</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#visual-studio">1.4.4.1. Visual Studio</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#xcode">1.4.4.2. Xcode</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">1.5. Exercises</a></li>
