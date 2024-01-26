@@ -81,7 +81,8 @@ A variable is a portion of memory used to store a value. C++ uses the following 
 
 | Type | Explanation |
 |:---- |:------------|
-| `int` | integers (whole numbers), e.g., 1.23 |
+| `int` | integers (whole numbers), e.g., 1, -2, 3 |
+| `unsigned int` | positive integers, e.g., 1, 2, 3 |
 | `float` | floating point numbers, e.g., 1.23. |
 | `char` | single character, e.g., 'a' (character values are surrounded by single quotes). |
 | `string` | text consisting of multiple characters, e.g., "hello world" (strings are surrounded by double quotes). |
@@ -145,20 +146,24 @@ Let add the following code to our program to determine whether an angle is acute
 
 ```cpp
 // Determine whether it is acute or obtuse
+std::cout << "\nIf statements\n-----------" << std::endl;
 std::cout << angleInDegrees << " degrees is an ";
+
 if (angleInDegrees < 90)
 {
-    std::cout << "acute angle." << std::endl;
-} 
+  std::cout << "acute angle." << std::endl;
+}
 else
 {
-    std::cout << "obtuse angle." << std::endl;
+  std::cout << "obtuse angle." << std::endl;
 }
 ```
 
 Output:
 
 ```text
+If statements
+-----------
 45 degrees is an acute angle.
 ```
 
@@ -179,21 +184,21 @@ Lets add a for loop to our program to output the first 10 powers of 2.
 
 ```cpp
 // Output the first 10 powers of 2
-std::cout << "\nPowers of two\n-------------" << std::endl;
+std::cout << "\nFor loop\n--------" << std::endl;
 int powerOfTwo = 1;
 
-for (int i = 0; i < 10; i++) 
+for (int i = 0; i < 10; i++)
 {
-    powerOfTwo *= 2;
-    std::cout << "2^" << i + 1 << " = " << powerOfTwo << std::endl;
+  powerOfTwo *= 2;
+  std::cout << "2^" << i + 1 << " = " << powerOfTwo << std::endl;
 }
 ```
 
 Output:
 
 ```text
-Powers of two
--------------
+For loop
+--------
 2^1 = 2
 2^2 = 4
 2^3 = 8
@@ -222,12 +227,11 @@ Lets add a while loop to our program calculate how many times the following expr
 $$ n = \begin{cases} n / 2, & \text{if $n$ is even}, \\ 3n + 1, & \text{if $n$ is odd}.\end{cases} $$
 
 ```cpp
-// Count the number of steps the Collatz sequence takes for n = 10 to reach 1
+ // Count the number of steps the Collatz sequence takes for n = 10 to reach 1
 int n, step;
 n = 10;
 step = 0;
-std::cout << "\nCollatz conjecture\n------------------" << std::endl;
-std::cout << n;
+std::cout << "\nWhile loop\n----------\n" << n;
 
 while (n > 1)
 {
@@ -247,18 +251,16 @@ while (n > 1)
 std::cout << "\n\nThe Collatz sequence took " << step << " steps to reach 1." << std::endl;
 ```
 
+Note the `x % y` operator returns the remainder when `x` is divided by `y` so `n % 2` is 0 when `n` is an even number or 1 when `n` is an odd number.
+
 Output:
 
 ```text
-Collatz conjecture
-------------------
-0 : 10
-1 : 5
-2 : 16
-3 : 8
-4 : 4
-5 : 2
-6 : 1
+While loop
+----------
+10 -> 5 -> 16 -> 8 -> 4 -> 2 -> 1
+
+The Collatz sequence took 6 steps to reach 1.
 ```
 
 ---
@@ -284,7 +286,7 @@ std::cout << "\nArrays\n------" << std::endl;
 
 for (int i = 0; i < 9; i++)
 {
-    std::cout << "vertices[" << i << "] = " << vertices[i] << std::endl;
+  std::cout << "vertices[" << i << "] = " << vertices[i] << std::endl;
 }
 ```
 
@@ -316,11 +318,10 @@ Output:
 size of vertices = 36
 ```
 
-So 36 bytes are used to store the 9-element array `vertices`, therefore each element takes up 4 bytes because they are floats. We can also use the `sizeof` command to return the number of bytes used to store different variable types. So a useful way to determine the number of elements in an array is to divide the memory used to store the array by the memory used for each element. For example, add the following to your program.
+So 36 bytes are used to store the `vertices` array. We can use the `sizeof` command to return the number of bytes used to store different variable types, so a useful way to determine the number of elements in an array is to divide the memory used to store the array by the memory used for each element. For example, add the following to your program.
 
 ```cpp
-std::cout << "\nnumber of elements = " 
-          << sizeof(vertices) / sizeof(float) << std::endl;
+std::cout << "\nnumber of elements = " << sizeof(vertices) / sizeof(float) << std::endl;
 ```
 
 Output:
@@ -355,13 +356,16 @@ Here we have declared the function called `power()` that takes in inputs of a fl
 // Call the power function
 float twoPowerTen = power(2.0f, 10);
 
-std::cout << "\n2^10 = " << twoPowerTen << std::endl;
+std::cout << "\nFunctions\n---------" << std::endl;
+std::cout << "2^10 = " << twoPowerTen << std::endl;
 ```
 
 Output:
 
 ```text
-2^10 = 2048
+Functions
+---------
+2^10 = 1024
 ```
 
 ### Function parameters
@@ -369,14 +373,13 @@ Output:
 A function **parameter** is information that is passed into a function, for example, in our function above we passed in the parameters `x` and `y`. The code within a function only knows about the information passed into it via its input parameters and any **global variables** that are declared outside of all functions. Lets write a function that converts an angle in degrees to radians
 
 ```cpp
-float radians(float angle)
+float radians(const float angle)
 {
-    angle *= pi / 180.0f;
-    return angle;
+    return angle * pi / 180.0f;
 }
 ```
 
-Here our function called `radians()` converts the float parameter `angle` to radians by multiplying it by $\pi / 180$ and returns it (we haven't declared the `angle` parameter as a constant since we are changing its value). If you attempt to compile your program you will get a compiler error that `pi` is undefined. This is because `pi` is a **local variable** for the `main()` function. We can correct this using the following:
+Here our function called `radians()` converts the float parameter `angle` to radians by multiplying it by $\pi / 180$ and returns it. If you attempt to compile your program you will get a compiler error that `pi` is undefined. This is because `pi` is a **local variable** for the `main()` function. We can correct this using the following:
 
 - declare `pi` to be a local variable within the `radians` function (preferred if we are unlikely to be using `pi` elsewhere in the program);
 - declare `pi` to be a global variable outside of all functions (preferred if `pi` is likely to be used elsewhere in the program);
@@ -389,8 +392,7 @@ Fix your program by defining `pi` to be a global variable so that it compiles. C
 float angle = angleInDegrees;
 angle = radians(angle);
 
-std::cout << angleInDegrees << " degrees is equal to " 
-          << angle << " radians." << std::endl;
+std::cout << "\n" << angleInDegrees << " degrees is equal to "<< angle << " radians." << std::endl;
 ```
 
 ### Pass by reference
@@ -411,8 +413,7 @@ Here we have passed the reference to the `angle` variable (the memory address of
 float angle = angleInDegrees;
 radians(angle);
 
-std::cout << "\n" << angleInDegrees << " degrees is equal to "
-          << angle << " radians." << std::endl;
+std::cout << "\n" << angleInDegrees << " degrees is equal to "<< angle << " radians." << std::endl;
 ```
 
 ---
@@ -487,7 +488,8 @@ void Car::print_details()
 To call a method we use the syntax `<object name> . <method name>(<inputs>)`. We can now print the details of the car object using the following code.
 
 ```cpp
-delorean.details()
+std::cout << "\nClasses\n-------" << std::endl;
+delorean.print_details();
 ```
 
 Output:
@@ -570,7 +572,7 @@ Car delorean("DeLorean", "DMC-12", 1981);
 
 ### Header files
 
-When dealing with larger programs and larger classes is become necessary to split the code over multiple files. Classes are declared in a **header file** which usually have the extension **.hpp** (this isn't a requirement but has become standard practice in C++ programming). The methods of a class are then defined in a separate source files which have the extension **.cpp**.
+When dealing with larger programs and larger classes is become necessary to split the code over multiple files. Classes are declared in a **header file** which usually have the extension `.hpp` (this isn't a requirement but has become standard practice in C++ programming). The methods of a class are then defined in a separate source files which have the extension `.cpp`.
 
 Lets create a header file for our `Car` class.
 
@@ -578,8 +580,8 @@ Lets create a header file for our `Car` class.
 
 1. Right-click on the project name in the **Solution Explorer** and the select **Add > New Item...** (or press Ctrl+Shift+A).
 2. Select **C++ Class** and click on **Add**.
-3. Enter **Car** in the **Class name** field and change the **.h file** field to **Car.hpp** (we could have left this as Car.h but I've always used .hpp as the file extension for header files).
-4. This creates the header file **Car.hpp** in the **Header files** filter and the source file **Car.cpp** in the **Source Files** filter.
+3. Enter **Car** in the **Class name** field and change the **.h file** field to `Car.hpp` (we could have left this as `Car.h` but I've always used `.hpp` as the file extension for header files).
+4. This creates the header file `Car.hpp` in the **Header files** filter and the source file `Car.cpp` in the **Source Files** filter.
 
 The header file we have created contains the following code.
 
@@ -590,24 +592,15 @@ class Car
 };
 ```
 
-The command `#pragma once` is used to prevent multiple header files of the same name from being included in the compilation of the program. An alternative way of doing this inherited from C is to use <a href="https://en.wikipedia.org/wiki/Include_guard" target="_blank">include guards</a> which for our `Car` class would require the following.
-
-```cpp
-#ifndef CAR_H
-#define CAR_H
-
-// Contents of the header file
-
-#endif
-```
+The command `#pragma once` is used to prevent multiple header files of the same name from being included in the compilation of the program.
 
 #### Xcode
 
 1. Click on **File > New > File...** (or just press ⌘N) and select **C++ File**, make sure the checkbox next to **Also create header file** is selected and click on **Next**.
-2. Enter **Car** in the **Save As** field and click on **Next**, make sure the folder where your **main.cpp** is selected and click on **Create**.
-3. This creates the header file **Car.hpp** and the code file **Car.cpp** in your Xcode project.
+2. Enter `Car` in the **Save As** field and click on **Next**, make sure the folder where your `main.cpp` is selected and click on **Create**.
+3. This creates the header file `Car.hpp` and the code file `Car.cpp` in your Xcode project.
 
-The header file we have created contains the following code (note that Xcode defaults to using include guard - you can use `#pragma once` if you want to).
+The header file we have created contains the following code. Xcode uses <a href="https://en.wikipedia.org/wiki/Include_guard" target="_blank">include guards</a> which perform the same function as `#pragma once`.
 
 ```cpp
 #ifndef Car_hpp
@@ -618,7 +611,7 @@ The header file we have created contains the following code (note that Xcode def
 #endif /* Car_hpp */
 ```
 
-Copy the `Car` class from **main.cpp** into our **Car.hpp** header file so that it looks like the following.
+Copy the `Car` class from `main.cpp` into our `Car.hpp` header file so that it looks like the following.
 
 ```cpp
 #pragma once
@@ -642,7 +635,7 @@ public:
 };
 ```
 
-Note that we also need the `#include <iostream>` library so we can use strings and input/output commands. The methods are defined in the **Cap.cpp** source file. Cut and paste your `Car` class methods from **main.cpp** and edit it so it looks like the following.
+Note that we also need the `#include <iostream>` library so we can use strings and input/output commands. The methods are defined in the `Car.cpp` source file. Cut and paste your `Car` class methods from `main.cpp` and edit it so it looks like the following.
 
 ```cpp
 #include <iostream>

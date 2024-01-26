@@ -168,18 +168,22 @@ int main()
     // Exercise Solutions
 
     // Exercise 2
+    std::cout << "\nExercise 2\n----------" << std::endl;
     Student ellie("Ellie", "Williams", 12345678, "Computer Science", 5);
     
     // Exercise 4
+    std::cout << "\nExercise 4\n----------" << std::endl;
     int level4Marks[] = {55, 60, 72, 64};
     int level5Marks[] = {68, 62, 74, 70};
     ellie.add_level_marks(level4Marks, 4);
     ellie.add_level_marks(level5Marks, 5);
     
     // Exercise 5
+    std::cout << "\nExercise 5\n----------" << std::endl;
     ellie.print_marks();
     
     // Exercise 7
+    std::cout << "\nExercise 7\n----------" << std::endl;
     int level6Marks[] = {72, 68, 76, 65};
     ellie.add_level_marks(level6Marks, 6);
     ellie.print_marks();

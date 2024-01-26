@@ -8,21 +8,23 @@ In this lab we will be creating our first graphics application in OpenGL.
 
 To start using OpenGL we are going to have to download and compile several libraries and configure the IDE (we will be using Visual Studio on Windows). This can be quite an involved process (see <a href="https://learnopengl.com/Getting-started/Creating-a-window" target="_blank">Learn OpenGL</a> for a detailed tutorial on doing this). However, I have adapted the excellent resource <a href="https://www.opengl-tutorial.org/" target="_blank">opengl-tutorial.org</a> to do this for us.
 
-1. Download the file **GraphicsLabs.zip** from Moodle and extract the contents to your OneDrive area.
+1. Download {download}`Lab02.zip<../code/Lab02/Lab02.zip>` and extract the contents to your OneDrive area.
 
-2. Copy the **GraphicsLabs/** folder over to a sensible area on your OneDrive folder.
+2. Create a folder in the `Lab02/` folder and call it `build/`.
 
-3. Create a folder in the **GraphicsLabs/** and call this something sensible like 'VS_projects' for Visual Studio.
+3. Run CMake and select the `Lab02/` folder for the source code and the `Lab02/build/` folder for where to build the binaries.
 
-4. Run CMake and select the **GraphicsLabs/** folder for the source code and the folder you created in step 2 for where to build the binaries.
+4. Click **Configure** and select your IDE (in our case this is Visual Studio) and click on **Done**. Click **Configure** again and the red background should disappear.
 
-5. Click 'Configure' (near the bottom) and select your IDE (in our case this is Visual Studio) and click on 'Finish'. Click 'Configure' again until the red background disappears.
+5. Click **Generate** which will create your project files in the `Lab02/build/` folder you created in step 2. Open the project file `Lab02.sln` (or `Lab02.xcodeproj` on macOS) and right-click on the **Lab02** project and select **Set as Startup Project**.
 
-6. Click 'Generate' which will create your project files in the folder you created in step 2. Open the project file **GraphicsLabs.sln** and right-click on the **lab01_hello_triangle** project and select 'Set as Startup Project.'
+6. Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).
 
-7. Build the project by pressing CTRL + B which should build without errors. Run the executable by pressing F5.
+```{important}
+If you are using Xcode you need to make sure you have the target **Lab02** selected.
+```
 
-If all has gone to plan you should be looking at a boring window with a grey background. Familiarise yourself with the source files. For now, this is quite simple and just contains the main C++ program lab01_hello_triangle.cpp in the **Source Files/** folder and the C++ and header files **shader.cpp** and **shader.hpp** in the **common/** folder.
+If all has gone to plan you should be looking at a boring window with a grey background. Familiarise yourself with the source files. For now, this just contains the main C++ program `main.cpp` in the `source/` folder.
 
 ```{figure} ../images/hello_window.png
 :width: 500
@@ -94,6 +96,8 @@ At its most basic it consists of a **vertex shader** and a **fragment shader**. 
 
 The fragment is clipped to the display so that any part of the fragment outside of our view is discarded and then is passed to the fragment shader. The fragment shader is called once for each pixel in the fragment and determines the colour of that pixel.
 
+The shaders are compiled by the application at runtime.
+
 (vertex-shader-section)=
 
 ### Vertex shader
@@ -135,7 +139,18 @@ This fragment shader outputs a single 4-element vector called `colour` which def
 
 ### Shader program
 
-We now need to combine the vertex and fragment shaders into a single shader program which is done using the following code.
+We now need to combine the vertex and fragment shaders into a single shader program. To do this we are going use the function `LoadShaders()` written by contributors of <a hrf = "https://www.opengl-tutorial.org" target="_blank">opengl-tutorial.org</a>. Add a header file called `shader.hpp` along with the associated `shader.cpp` file to your project and copy and paste the code linked to below into these.
+
+- {download}`shader.hpp<../code/shader/shader.hpp>`
+- {download}`shader.cpp<../code/shader/shader.cpp>`
+
+Include the shader class by including the following near the beginning of the `main.cpp` file
+
+```cpp
+#include "shader.hpp"
+```
+
+We can now compiler the shader program using the `LoadShaders()` function.
 
 ```cpp
 // Compile shader program
@@ -437,7 +452,7 @@ static const GLfloat colours[] = {
 
 ````
 
-3. Draw a hexagon constructed from different coloured triangles.
+3. Use six different coloured triangles to draw a hexagon.
 
 ````{dropdown} Solution
 

@@ -590,7 +590,7 @@ $$ \frac{8}{2} = 4. $$
 
 We could also write this division as the multiplication of 1/2 and 8, i.e.,
 
-$$ \frac{1}{2} \cdot 8 = 4. $$
+$$ \frac{1}{2} \times 8 = 4. $$
 
 Here we have shown that 1/2 is the **multiplicative inverse** of 2. A multiplicative inverse of a number $x$ is denoted as $x^{-1}$ and satisfies $x \cdot x^{-1} = 1$. The inverse of a matrix $A$ is denoted by $A^{-1}$ and satisfied $A^{-1}A = I$ where $I$ is the identity matrix. For example, the inverse of the matrix
 

@@ -165,7 +165,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="04_vectors_and_matrices.html">4. Vectors and Matrices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_transformations.html">5. Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="06_MVP.html">6. Model, View and Projection Matrices</a></li>
-<li class="toctree-l1"><a class="reference internal" href="A1_intro_to_cpp_solutions.html">7. Introduction to C++ Exercises Solutions</a></li>
 </ul>
 
     </div>
@@ -389,15 +388,18 @@ document.write(`
 <h2><span class="section-number">2.1. </span>Hello window<a class="headerlink" href="#hello-window" title="Permalink to this heading">#</a></h2>
 <p>To start using OpenGL we are going to have to download and compile several libraries and configure the IDE (we will be using Visual Studio on Windows). This can be quite an involved process (see <a href="https://learnopengl.com/Getting-started/Creating-a-window" target="_blank">Learn OpenGL</a> for a detailed tutorial on doing this). However, I have adapted the excellent resource <a href="https://www.opengl-tutorial.org/" target="_blank">opengl-tutorial.org</a> to do this for us.</p>
 <ol class="arabic simple">
-<li><p>Download the file <strong>GraphicsLabs.zip</strong> from Moodle and extract the contents to your OneDrive area.</p></li>
-<li><p>Copy the <strong>GraphicsLabs/</strong> folder over to a sensible area on your OneDrive folder.</p></li>
-<li><p>Create a folder in the <strong>GraphicsLabs/</strong> and call this something sensible like ‘VS_projects’ for Visual Studio.</p></li>
-<li><p>Run CMake and select the <strong>GraphicsLabs/</strong> folder for the source code and the folder you created in step 2 for where to build the binaries.</p></li>
-<li><p>Click ‘Configure’ (near the bottom) and select your IDE (in our case this is Visual Studio) and click on ‘Finish’. Click ‘Configure’ again until the red background disappears.</p></li>
-<li><p>Click ‘Generate’ which will create your project files in the folder you created in step 2. Open the project file <strong>GraphicsLabs.sln</strong> and right-click on the <strong>lab01_hello_triangle</strong> project and select ‘Set as Startup Project.’</p></li>
-<li><p>Build the project by pressing CTRL + B which should build without errors. Run the executable by pressing F5.</p></li>
+<li><p>Download <a class="reference download internal" download="" href="../_downloads/a028daceaebb2746faf8a44f5d775731/Lab02.zip"><code class="xref download docutils literal notranslate"><span class="pre">Lab02.zip</span></code></a> and extract the contents to your OneDrive area.</p></li>
+<li><p>Create a folder in the <code class="docutils literal notranslate"><span class="pre">Lab02/</span></code> folder and call it <code class="docutils literal notranslate"><span class="pre">build/</span></code>.</p></li>
+<li><p>Run CMake and select the <code class="docutils literal notranslate"><span class="pre">Lab02/</span></code> folder for the source code and the <code class="docutils literal notranslate"><span class="pre">Lab02/build/</span></code> folder for where to build the binaries.</p></li>
+<li><p>Click <strong>Configure</strong> and select your IDE (in our case this is Visual Studio) and click on <strong>Done</strong>. Click <strong>Configure</strong> again and the red background should disappear.</p></li>
+<li><p>Click <strong>Generate</strong> which will create your project files in the <code class="docutils literal notranslate"><span class="pre">Lab02/build/</span></code> folder you created in step 2. Open the project file <code class="docutils literal notranslate"><span class="pre">Lab02.sln</span></code> (or <code class="docutils literal notranslate"><span class="pre">Lab02.xcodeproj</span></code> on macOS) and right-click on the <strong>Lab02</strong> project and select <strong>Set as Startup Project</strong>.</p></li>
+<li><p>Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).</p></li>
 </ol>
-<p>If all has gone to plan you should be looking at a boring window with a grey background. Familiarise yourself with the source files. For now, this is quite simple and just contains the main C++ program lab01_hello_triangle.cpp in the <strong>Source Files/</strong> folder and the C++ and header files <strong>shader.cpp</strong> and <strong>shader.hpp</strong> in the <strong>common/</strong> folder.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>If you are using Xcode you need to make sure you have the target <strong>Lab02</strong> selected.</p>
+</div>
+<p>If all has gone to plan you should be looking at a boring window with a grey background. Familiarise yourself with the source files. For now, this just contains the main C++ program <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> in the <code class="docutils literal notranslate"><span class="pre">source/</span></code> folder.</p>
 <figure class="align-default" id="id1">
 <a class="reference internal image-reference" href="../_images/hello_window.png"><img alt="../_images/hello_window.png" src="../_images/hello_window.png" style="width: 500px;" /></a>
 <figcaption>
@@ -455,6 +457,7 @@ document.write(`
 </figure>
 <p>At its most basic it consists of a <strong>vertex shader</strong> and a <strong>fragment shader</strong>. The vertex shader is called once for each vertex and calculates the position of the current vertex and stores it in a special GLSL vector <code class="docutils literal notranslate"><span class="pre">gl_Position</span></code>. The vertices that form a polygon are then passed to OpenGL which maps the polygon to the corresponding pixels on the display. The part of the display raster that contains the pixels that correspond to a polygon is called a <strong>fragment</strong>.</p>
 <p>The fragment is clipped to the display so that any part of the fragment outside of our view is discarded and then is passed to the fragment shader. The fragment shader is called once for each pixel in the fragment and determines the colour of that pixel.</p>
+<p>The shaders are compiled by the application at runtime.</p>
 <section id="vertex-shader">
 <span id="vertex-shader-section"></span><h3><span class="section-number">2.3.1. </span>Vertex shader<a class="headerlink" href="#vertex-shader" title="Permalink to this heading">#</a></h3>
 <p>Click on <strong>File &gt; New &gt; File…</strong> (or just press CTRL + N) and select text file. Enter the following program into the new file and save it in the <strong>GraphicsLabs/lab01_hello_triangle/</strong> folder using the filename <strong>simpleVertexShader.vs</strong> (the file extension doesn’t matter but it is common to use <code class="docutils literal notranslate"><span class="pre">.vs</span></code> or <code class="docutils literal notranslate"><span class="pre">vert</span></code> to denote the vertex shader).</p>
@@ -490,7 +493,16 @@ document.write(`
 </section>
 <section id="shader-program">
 <h3><span class="section-number">2.3.3. </span>Shader program<a class="headerlink" href="#shader-program" title="Permalink to this heading">#</a></h3>
-<p>We now need to combine the vertex and fragment shaders into a single shader program which is done using the following code.</p>
+<p>We now need to combine the vertex and fragment shaders into a single shader program. To do this we are going use the function <code class="docutils literal notranslate"><span class="pre">LoadShaders()</span></code> written by contributors of <a hrf = "https://www.opengl-tutorial.org" target="_blank">opengl-tutorial.org</a>. Add a header file called <code class="docutils literal notranslate"><span class="pre">shader.hpp</span></code> along with the associated <code class="docutils literal notranslate"><span class="pre">shader.cpp</span></code> file to your project and copy and paste the code linked to below into these.</p>
+<ul class="simple">
+<li><p><a class="reference download internal" download="" href="../_downloads/324c4ae1574308c469f756f50f09de2c/shader.hpp"><code class="xref download docutils literal notranslate"><span class="pre">shader.hpp</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="../_downloads/6f9c4a6971ba749b27176b65fc307797/shader.cpp"><code class="xref download docutils literal notranslate"><span class="pre">shader.cpp</span></code></a></p></li>
+</ul>
+<p>Include the shader class by including the following near the beginning of the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;shader.hpp&quot;</span>
+</pre></div>
+</div>
+<p>We can now compiler the shader program using the <code class="docutils literal notranslate"><span class="pre">LoadShaders()</span></code> function.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Compile shader program</span>
 <span class="n">GLuint</span><span class="w"> </span><span class="n">shaderID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LoadShaders</span><span class="p">(</span><span class="s">&quot;simpleVertexShader.vs&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;simpleFragmentShader.fs&quot;</span><span class="p">);</span>
 </pre></div>
@@ -570,7 +582,7 @@ document.write(`
 <p><span class="caption-number">Fig. 2.3 </span><span class="caption-text">The ‘hello triangle’ example</span><a class="headerlink" href="#id3" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>If you are having trouble getting to this stage, the code for producing this triangle is given <a class="reference download internal" download="" href="../_downloads/5ce07f1bba109ce8b97dd215a1435497/lab01_hello_triangle.cpp"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a></p>
+<p>If you are having trouble getting to this stage, the code for producing this triangle is given <code class="xref download docutils literal notranslate"><span class="pre">here</span></code></p>
 </section>
 <hr class="docutils" />
 <section id="more-colours">
@@ -777,7 +789,7 @@ Solution<div class="sd-summary-down docutils">
 </figure>
 </div>
 </details><ol class="arabic simple" start="3">
-<li><p>Draw a hexagon constructed from different coloured triangles.</p></li>
+<li><p>Use six different coloured triangles to draw a hexagon.</p></li>
 </ol>
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
 <summary class="sd-summary-title sd-card-header">
