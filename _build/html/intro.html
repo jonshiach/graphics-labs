@@ -158,7 +158,10 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pages/01_intro_to_cpp.html">1. Introduction to C++</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pages/02_hello_triangle.html">2. Creating a triangle in OpenGL</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pages/03_maths_revision.html">3. Vectors and Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/03_textures.html">3. Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/04_vectors_and_matrices.html">4. Vectors and Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/05_transformations.html">5. Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/06_MVP.html">6. Model, View and Projection Matrices</a></li>
 </ul>
 
     </div>
@@ -213,7 +216,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+      <li><a href="https://github.com/jonshiach/graphics-labs" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -230,7 +233,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/jonshiach/graphics-labs/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -356,13 +359,73 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="computer-graphics-labs">
 <h1>Computer Graphics Labs<a class="headerlink" href="#computer-graphics-labs" title="Permalink to this heading">#</a></h1>
-<p>This book contains the materials used in the lab sessions for the Computer Graphics unit. They are designed for students to work through in the labs with the help of the tutors.</p>
+<p>This site contains the materials used in the lab sessions for the Computer Graphics unit. They are designed for students to work through in the labs with the help of the tutors. The table below shows the teaching schedule that will be employed. If you happen to miss a week for whatever reason you must make sure you catch up with the material.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p><div style="width:50px">Week</div></p></th>
+<th class="head text-center"><p>Date (w/c)</p></th>
+<th class="head text-left"><p>Lab</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>1</p></td>
+<td class="text-center"><p>29/01/2024</p></td>
+<td class="text-left"><p><a class="reference internal" href="pages/01_intro_to_cpp.html#intro-to-cpp-section"><span class="std std-ref">Introduction to C++</span></a>: Introduction/revision of C++ fundamentals. Variables, arrays, loops and if statements. Functions, classes, methods and header files.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>2</p></td>
+<td class="text-center"><p>05/02/2024</p></td>
+<td class="text-left"><p><a class="reference internal" href="pages/02_hello_triangle.html#hello-triangle-section"><span class="std std-ref">Creating a triangle in OpenGL</span></a>: Creating a window in OpenGL and drawing a triangle. Introduction to shaders.</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>3</p></td>
+<td class="text-center"><p>12/02/2024</p></td>
+<td class="text-left"><p>Textures, texture co-ordinates, mipmaps, texture filtering. Applying texture maps to polygons.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>4</p></td>
+<td class="text-center"><p>19/02/2024</p></td>
+<td class="text-left"><p><a class="reference internal" href="pages/04_vectors_and_matrices.html#vectors-and-matrices-section"><span class="std std-ref">Vectors and Matrices</span></a>: Revision of vectors and matrices. Dot and cross products, matrix multiplication, transpose, the identity matrix and matrix inverse.</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>5</p></td>
+<td class="text-center"><p>26/02/2024</p></td>
+<td class="text-left"><p><a class="reference internal" href="pages/05_transformations.html#transformations-section"><span class="std std-ref">Transformations</span></a>: Translation, scaling and rotation transformations. Applying transformations to polygons.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>6</p></td>
+<td class="text-center"><p>04/03/2024</p></td>
+<td class="text-left"><p>Model, View and Projection matrices. Controlling the camera using keyboard and mouse.</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>7</p></td>
+<td class="text-center"><p>11/03/2024</p></td>
+<td class="text-left"><p>Quaternions, SLERP, third-person camera view</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>8</p></td>
+<td class="text-center"><p>18/03/2024</p></td>
+<td class="text-left"><p>Lighting, Phong’s reflection model, lighting shaders</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>-</p></td>
+<td class="text-center"><p>23/03/2024 - 14/04/2024</p></td>
+<td class="text-left"><p>Easter break</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>9</p></td>
+<td class="text-center"><p>15/04/2024</p></td>
+<td class="text-left"><p>Assignment work</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>10</p></td>
+<td class="text-center"><p>22/04/2024</p></td>
+<td class="text-left"><p>Assignment work</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>11</p></td>
+<td class="text-center"><p>29/04/2024</p></td>
+<td class="text-left"><p>Assignment work !</p></td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+<a class="reference internal image-reference" href="_images/jon_Shiach.jpeg"><img alt="Jon Shiach" class="align-left" src="_images/jon_Shiach.jpeg" style="width: 125px;" /></a>
+<p>Dr Jon Shiach <br>
+Homepage: <a href="https://jonshiach.github.io/" target="_blank">jonshiach.github.io</a> <br>
+Email: <a href="mailto:j.shiach@mmu.ac.uk">j.shiach&#64;mmu.ac.uk</a> <br>
+Tel: 0161 247 1515 <br>
+Office: E115b</p>
 <div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="pages/01_intro_to_cpp.html">1. Introduction to C++</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pages/02_hello_triangle.html">2. Creating a triangle in OpenGL</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pages/03_maths_revision.html">3. Vectors and Matrices</a></li>
-</ul>
 </div>
 </section>
 

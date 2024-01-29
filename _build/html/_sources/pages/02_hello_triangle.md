@@ -1,3 +1,5 @@
+(hello-triangle-section)=
+
 # Creating a triangle in OpenGL
 
 In this lab we will be creating our first graphics application in OpenGL.
@@ -6,21 +8,25 @@ In this lab we will be creating our first graphics application in OpenGL.
 
 To start using OpenGL we are going to have to download and compile several libraries and configure the IDE (we will be using Visual Studio on Windows). This can be quite an involved process (see <a href="https://learnopengl.com/Getting-started/Creating-a-window" target="_blank">Learn OpenGL</a> for a detailed tutorial on doing this). However, I have adapted the excellent resource <a href="https://www.opengl-tutorial.org/" target="_blank">opengl-tutorial.org</a> to do this for us.
 
-1. Download the file **GraphicsLabs.zip** from Moodle and extract the contents to your OneDrive area.
+1. Download {download}`Lab02.zip<../code/Lab02/Lab02.zip>` and extract the contents to your OneDrive area.
 
-2. Copy the **GraphicsLabs/** folder over to a sensible area on your OneDrive folder.
+2. Download <a href="https://github.com/Kitware/CMake/releases/download/v3.28.1/cmake-3.28.1-windows-x86_64.zip">Cmake</a> and extract the contents to your OneDriver area (macOS users will need to download <a href="https://github.com/Kitware/CMake/releases/download/v3.28.1/cmake-3.28.1-macos-universal.dmg">this one</a>). 
 
-3. Create a folder in the **GraphicsLabs/** and call this something sensible like 'VS_projects' for Visual Studio.
+3. Create a folder in the `Lab02/` folder and call it `build/`.
 
-4. Run CMake and select the **GraphicsLabs/** folder for the source code and the folder you created in step 2 for where to build the binaries.
+4. Run the CMake gui and select the `Lab02/` folder for the source code and the `Lab02/build/` folder for where to build the binaries.
 
-5. Click 'Configure' (near the bottom) and select your IDE (in our case this is Visual Studio) and click on 'Finish'. Click 'Configure' again until the red background disappears.
+5. Click **Configure** and select your IDE (in our case this is Visual Studio) and click on **Done**. Click **Configure** again and the red background should disappear.
 
-6. Click 'Generate' which will create your project files in the folder you created in step 2. Open the project file **GraphicsLabs.sln** and right-click on the **lab01_hello_triangle** project and select 'Set as Startup Project.'
+6. Click **Generate** which will create your project files in the `Lab02/build/` folder you created in step 2. Open the project file `Lab02.sln` (or `Lab02.xcodeproj` on macOS) and right-click on the **Lab02** project and select **Set as Startup Project**.
 
-7. Build the project by pressing CTRL + B which should build without errors. Run the executable by pressing F5.
+7. Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).
 
-If all has gone to plan you should be looking at a boring window with a grey background. Familiarise yourself with the source files. For now, this is quite simple and just contains the main C++ program lab01_hello_triangle.cpp in the **Source Files/** folder and the C++ and header files **shader.cpp** and **shader.hpp** in the **common/** folder.
+```{important}
+If you are using Xcode you need to make sure you have the target **Lab02** selected.
+```
+
+If all has gone to plan you should be looking at a boring window with a grey background. Familiarise yourself with the source files. For now, this just contains the main C++ program `main.cpp` in the `source/` folder.
 
 ```{figure} ../images/hello_window.png
 :width: 500
@@ -44,7 +50,7 @@ glBindVertexArray(vertexArrayID);
 ```
 
 ```{note}
-Here we have defined the integer `vertexArrayID` using `GLunit` instead of plain old `unsigned int`. `GLuint` stands for *OpenGL unsigned integer* and we use this because different architectures stores variables using different memory sizes. In order to ensure our application works across various platforms we use OpenGL types.
+Here we have defined the integer `vertexArrayID` using `GLunit` instead of plain old `unsigned int`. `GLuint` stands for **OpenGL unsigned integer** and we use this because different architectures stores variables using different memory sizes. In order to ensure our application works across various platforms we use OpenGL types.
 ```
 
 OpenGL expects the $x$, $y$ and $z$ co-ordinates of all vertices to be between -1.0 and 1.0 where the $x$ and $y$ axes point to the right and up respectively and the $z$ axes points out from the screen (these are known as **Normalised Device Co-ordinates (NDC)** - more on this later). For now we are going to draw a triangle with vertex co-ordinates (-0.5,-0.5,0), (0.5,-0.5,0) and (0,0.5,0) for the bottom-left, bottom-right and top vertices respectively.
@@ -52,7 +58,7 @@ OpenGL expects the $x$, $y$ and $z$ co-ordinates of all vertices to be between -
 ```{figure} ../images/opengl_window.svg
 :width: 400
 
-OpenGL Normalise Device Co-ordinates are in the range -1.0 to 1.0.
+OpenGL Normalised Device Co-ordinates are in the range -1.0 to 1.0.
 ```
 
 We define these co-ordinates in an array of floats called `vertices` using the following code.
@@ -82,13 +88,23 @@ glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 ## Write and compile the shader
 
-Now we have defined our triangle and copied the information over to OpenGL we now need to tell OpenGL how to display the triangle. This is done using a shader program that OpenGL uses to tell it how to display each pixel in our window. At its most basic it consists of a **vertex shader** which deals with the positions of the vertices of the objects (think of our triangle) being displayed and the **fragment shader** which calculates the colour of the pixels that make up the object. The shader programs are written in **GLSL (openGL Shading Language)** which is similar to C.
+Now we have defined our triangle and copied the information over to OpenGL we now need to tell OpenGL how to display the triangle. This is done using a shader program that OpenGL uses to tell it how to display each pixel in our window. The shader programs are written in **GLSL (openGL Shading Language)** which is similar to C.
+
+```{figure} /images/shaders.svg
+:width: 600
+```
+
+At its most basic it consists of a **vertex shader** and a **fragment shader**. The vertex shader is called once for each vertex and calculates the position of the current vertex and stores it in a special GLSL vector `gl_Position`. The vertices that form a polygon are then passed to OpenGL which maps the polygon to the corresponding pixels on the display. The part of the display raster that contains the pixels that correspond to a polygon is called a **fragment**.
+
+The fragment is clipped to the display so that any part of the fragment outside of our view is discarded and then is passed to the fragment shader. The fragment shader is called once for each pixel in the fragment and determines the colour of that pixel.
+
+The shaders are compiled by the application at runtime.
 
 (vertex-shader-section)=
 
 ### Vertex shader
 
-Click on **File > New > File...** (or just press CTRL + N) and select text file. Enter the following program into the new file and save it in the **GraphicsLabs/lab01_hello_triangle/** folder using the filename **simpleVertexShader.vs**.
+Click on **File > New > File...** (or just press CTRL + N) and select text file. Enter the following program into the new file and save it in the **GraphicsLabs/lab01_hello_triangle/** folder using the filename **simpleVertexShader.vs** (the file extension doesn't matter but it is common to use `.vs` or `vert` to denote the vertex shader).
 
 ```glsl
 #version 330 core
@@ -102,11 +118,11 @@ void main() {
 }
 ```
 
-This is the GLSL program for a simple vertex shader. It takes in a single 3-element vector `vertexPosition` that contains the $(x,y,z)$ co-ordinates of a vertex and forwards a 4-element vector to the fragment shader. You may be wondering why we have this addition element, don't worry about this for now, it will be explained [later on](translation-section)).
+This is the GLSL program for a simple vertex shader. It takes in a single 3-element vector `position` that contains the $(x,y,z)$ co-ordinates of a vertex and outputs the 4-element vector `gl_Position` containing the co-ordinates. You may be wondering why we have this addition element `1.0`, don't worry about this for now, it will be explained [later on](translation-section)).
 
 ### Fragment shader
 
-Create a new file as you did with the vertex shader but with the following code and save it using the filename **simpleFragmentShader.fs**.
+Create a new file as you did with the vertex shader but with the following code and save it using the filename **simpleFragmentShader.fs** (again, the file extension doesn't matter but it is common to use `.fs` or `.frag` to denote fragment shader).
 
 ```glsl
 #version 330 core
@@ -121,11 +137,22 @@ void main() {
 }
 ```
 
-The fragment shader outputs a single 4-element vector called colour which defines the colour of the pixel using RGBA which stands for Red-Green-Blue-Alpha. The values are in the range 0 to 1 and so here we have red = 1, blue = 0, green = 0 so our pixel will be rendered in red and alpha = 0 which means it is fully opaque.
+This fragment shader outputs a single 4-element vector called `colour` which defines the colour of the pixel using RGBA which stands for Red-Green-Blue-Alpha. The values are in the range 0 to 1 and so here we have red = 1, blue = 0, green = 0 so our pixel (the same applies for all pixels in the triangle) will be rendered in red and alpha = 0 which means it is fully opaque.
 
 ### Shader program
 
-We now need to combine the vertex and fragment shaders into a single shader program which is done using the following code.
+We now need to combine the vertex and fragment shaders into a single shader program. To do this we are going use the function `LoadShaders()` written by contributors of <a hrf = "https://www.opengl-tutorial.org" target="_blank">opengl-tutorial.org</a>. Add a header file called `shader.hpp` along with the associated `shader.cpp` file to your project and copy and paste the code linked to below into these.
+
+- {download}`shader.hpp<../code/shader/shader.hpp>`
+- {download}`shader.cpp<../code/shader/shader.cpp>`
+
+Include the shader class by including the following near the beginning of the `main.cpp` file
+
+```cpp
+#include "shader.hpp"
+```
+
+We can now compiler the shader program using the `LoadShaders()` function.
 
 ```cpp
 // Compile shader program
@@ -193,7 +220,7 @@ glDeleteVertexArrays(1, &VertexArrayID);
 glDeleteProgram(shaderID);
 ```
 
-Compile and run your program. After all the syntax errors and bugs have been resolved (unless you are very lucky there will be at least one) you should be presented with a window within which is your red triangle that you have created. Note that this window no longer has the title 'Hello Window', can you change your code so that your window has a more accurate title?
+Compile and run your program. After all the syntax errors and bugs have been resolved (unless you are very lucky there will be at least one) you should be presented with a window within which is your red triangle that you have created. Note that this window no longer has the title "Hello Window", can you change your code so that your window has a more accurate title?
 
 ```{figure} ../images/hello_triangle.png
 :width: 500
@@ -295,7 +322,7 @@ Our snazzy triangle.
 
 ## Adding another triangle
 
-What's better than one triangle, well two triangles of course. Fortunately since we have done all of the grunt work in setting up the buffers for a single triangle adding another is a simple matter of defining the vertex co-ordinates and vertex colours for the additional triangle. Modify the `vertices[]` and `colours[]` arrays to the following.
+What could be better than one triangle? Well two triangles of course. Fortunately since we have done all of the grunt work in setting up the buffers for a single triangle adding another is a simple matter of defining the vertex co-ordinates and vertex colours for the additional triangle. Modify the `vertices[]` and `colours[]` arrays to the following.
 
 ```cpp
 // Define vertices
@@ -321,11 +348,11 @@ static const GLfloat colours[] = {
 
 Here the `vertices[]` array now defines six vertices for two triangles placed side-by-side. The `colours[]` array defines the first three vertices red and the second three set of vertices blue.
 
-We also need to instruct OpenGL to draw two triangles instead of one. To do this we simply change the number of vertices we want to draw from `3` to `sizeof(vertices)` which is the number of elements in the `vertices` array.
+We also need to instruct OpenGL to draw two triangles instead of one. To do this we simply change the number of vertices we want to draw from `3` to `6`.
 
 ```cpp
 // Draw the triangle
-glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices));
+glDrawArrays(GL_TRIANGLES, 0, 6);
 ```
 
 Compiling and running the executable results in the following.
@@ -342,11 +369,144 @@ Two triangles
 
 Now that you've got to the stage where you can draw triangles to the screen and alter the colours lets see if you can do the following.
 
-1. Draw the original triangle but alter the vertex shader to achieve the following results.
-    - the triangle is shifted by 0.5 to the right;
-    - the triangle is drawn upside-down;
-    - the triangle $x$ and $y$ co-ordinates are swapped.
+1. Draw the original triangle but alter the vertex shader to achieve the following results:
+    
+    (a) the triangle is shifted by 0.5 to the right; <br>
+    (b) the triangle is drawn upside-down;<br>
+    (c) the triangle $x$ and $y$ co-ordinates are swapped.
+
+
+``````{dropdown} Solution
+    
+```glsl
+#version 330 core
+
+layout(location = 0) in vec3 position;
+
+void main() {
+
+// Positions
+gl_Position = vec4(position.x + 0.5, position.y, position.z, 1.0); // Ex 1(a)
+//    gl_Position = vec4(position.x, -position.y, position.z, 1.0); // Ex 1(b)
+//    gl_Position = vec4(position.y, position.x, position.z, 1.0); // Ex 1(c)
+
+}
+```
+
+`````{grid}
+
+````{grid-item}
+:columns: 4
+(a)
+```{figure} /images/Lab02_Ex1a.png
+:width: 150
+```
+````
+
+````{grid-item}
+:columns: 4
+(b)
+```{figure} /images/Lab02_Ex1b.png
+:width: 150
+```
+````
+
+````{grid-item}
+:columns: 4
+(c)
+```{figure} /images/Lab02_Ex1c.png
+:width: 150
+```
+````
+`````
+``````
 
 2. Use two triangles to draw a green rectangle where the lower-left corner has co-ordinates (-0.5, -0.5, 0.0) and the upper-right corner has co-ordinates (0.5, 0.5, 0.0).
 
-3. Draw a hexagon constructed from different coloured triangles.
+````{dropdown} Solution
+
+```cpp
+// Exercise 2 - rectangle
+// Define vertices
+static const GLfloat vertices[] = {
+   -0.5f, -0.5f, 0.0f,
+    0.5f, -0.5f, 0.0f,
+    0.5f,  0.5f, 0.0f,
+   -0.5f, -0.5f, 0.0f,
+    0.5f,  0.5f, 0.0f,
+   -0.5f,  0.5f, 0.0f
+};
+
+// Define colours
+static const GLfloat colours[] = {
+   0.0f, 1.0f, 0.0f,
+   0.0f, 1.0f, 0.0f,
+   0.0f, 1.0f, 0.0f,
+   0.0f, 1.0f, 0.0f,
+   0.0f, 1.0f, 0.0f,
+   0.0f, 1.0f, 0.0f,
+};
+```
+
+```{figure} /images/Lab02_Ex2.png
+:width: 500
+```
+
+````
+
+3. Use six different coloured triangles to draw a hexagon.
+
+````{dropdown} Solution
+
+```cpp
+// Exercise 3 - hexagon
+// Define vertices
+static const GLfloat vertices[] = {
+   0.00f,  0.00f, 0.0f,
+  -0.25f, -0.50f, 0.0f,
+   0.25f, -0.50f, 0.0f,
+   0.00f,  0.00f, 0.0f,
+   0.25f, -0.50f, 0.0f,
+   0.50f,  0.00f, 0.0f,
+   0.00f,  0.00f, 0.0f,
+   0.50f,  0.00f, 0.0f,
+   0.25f,  0.50f, 0.0f,
+   0.00f,  0.00f, 0.0f,
+   0.25f,  0.50f, 0.0f,
+  -0.25f,  0.50f, 0.0f,
+   0.00f,  0.00f, 0.0f,
+  -0.25f,  0.50f, 0.0f,
+  -0.50f,  0.00f, 0.0f,
+   0.00f,  0.00f, 0.0f,
+  -0.50f, -0.00f, 0.0f,
+  -0.25f, -0.50f, 0.0f
+};
+
+// Define colours
+static const GLfloat colours[] = {
+  1.0f, 0.0f, 0.0f,   // red
+  1.0f, 0.0f, 0.0f,
+  1.0f, 0.0f, 0.0f,
+  0.0f, 1.0f, 0.0f,   // green
+  0.0f, 1.0f, 0.0f,
+  0.0f, 1.0f, 0.0f,
+  0.0f, 0.0f, 1.0f,   // blue
+  0.0f, 0.0f, 1.0f,
+  0.0f, 0.0f, 1.0f,
+  1.0f, 1.0f, 0.0f,   // yellow
+  1.0f, 1.0f, 0.0f,
+  1.0f, 1.0f, 0.0f,
+  1.0f, 0.0f, 1.0f,   // magenta
+  1.0f, 0.0f, 1.0f,
+  1.0f, 0.0f, 1.0f,
+  0.0f, 1.0f, 1.0f,   // cyan
+  0.0f, 1.0f, 1.0f,
+  0.0f, 1.0f, 1.0f,
+};
+```
+
+```{figure} /images/Lab02_Ex3.png
+:width: 500
+```
+
+````
