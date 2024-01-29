@@ -18,11 +18,12 @@ float power(const float x, const int y)
     return xPowerY;
 }
 
-//float radians(float angle)
-//{
-//    angle *= pi / 180.0f;
-//    return angle;
-//}
+/* radions() function has been redefined below
+float radians(const float angle)
+{
+    return angle * pi / 180.0f;
+}
+*/
 
 void radians(float &angle)
 {
@@ -76,7 +77,9 @@ int main()
               << angleInRadians << " radians." << std::endl;
     
     // Determine whether it is acute or obtuse
+    std::cout << "\nIf statements\n-------------" << std::endl;
     std::cout << angleInDegrees << " degrees is an ";
+    
     if (angleInDegrees < 90)
     {
         std::cout << "acute angle." << std::endl;
@@ -87,7 +90,7 @@ int main()
     }
     
     // Output the first 10 powers of 2
-    std::cout << "\nPowers of two\n-------------" << std::endl;
+    std::cout << "\nFor loop\n--------" << std::endl;
     int powerOfTwo = 1;
 
     for (int i = 0; i < 10; i++)
@@ -100,8 +103,7 @@ int main()
     int n, step;
     n = 10;
     step = 0;
-    std::cout << "\nCollatz conjecture\n------------------" << std::endl;
-    std::cout << n;
+    std::cout << "\nWhile loop\n----------\n" << n;
 
     while (n > 1)
     {
@@ -137,56 +139,76 @@ int main()
     
     std::cout << "\nsize of vertices = " << sizeof(vertices) << std::endl;
     
-    std::cout << "\nnumber of elements = "
-              << sizeof(vertices) / sizeof(float) << std::endl;
+    std::cout << "\nnumber of elements = " << sizeof(vertices) / sizeof(float) << std::endl;
     
     // Call the power function
     float twoPowerTen = power(2.0f, 10);
 
-    std::cout << "\n2^10 = " << twoPowerTen << std::endl;
+    std::cout << "\nFunctions\n---------" << std::endl;
+    std::cout << "2^10 = " << twoPowerTen << std::endl;
     
     // Call the radians function
     float angle = angleInDegrees;
 //    angle = radians(angle);
     radians(angle);
 
-    std::cout << "\n" << angleInDegrees << " degrees is equal to "
-              << angle << " radians." << std::endl;
+    std::cout << "\n" << angleInDegrees << " degrees is equal to "<< angle << " radians." << std::endl;
     
     // Define car object
 //    Car delorean;
 //    delorean.make = "Delorean";
 //    delorean.model = "DMC-12";
 //    delorean.year = 1981;
-    Car delorean("DeLorean", "DMC-12", 1981);
     
+    std::cout << "\nClasses\n-------" << std::endl;
+    Car delorean("DeLorean", "DMC-12", 1981);
     delorean.print_details();
     
     // Call accelerate method
     delorean.accelerate(88.0f);
     
+    // Convert speed from mph to kph
+    std::cout << "\n" << 88 << " mph is equivalent to " << Car::mph2kph(88.0f) << " kph." << std::endl;
+    
     // Exercise Solutions
-
+    std::cout << "\n\nExercises\n---------" << std::endl;
+    
+    // Exercise 1 - see Student.hpp
+    
     // Exercise 2
     std::cout << "\nExercise 2\n----------" << std::endl;
     Student ellie("Ellie", "Williams", 12345678, "Computer Science", 5);
     
-    // Exercise 4
-    std::cout << "\nExercise 4\n----------" << std::endl;
+    // Exercise 3
     int level4Marks[] = {55, 60, 72, 64};
     int level5Marks[] = {68, 62, 74, 70};
-    ellie.add_level_marks(level4Marks, 4);
-    ellie.add_level_marks(level5Marks, 5);
+    ellie.addLevelMarks(level4Marks, 4);
+    ellie.addLevelMarks(level5Marks, 5);
+    
+    std::cout << "\nExercise 3\n----------" << std::endl;
+    for (int i = 0; i < 12; i++)
+    {
+        std::cout << ellie.marks[i] << ", ";
+    }
+    std::cout << std::endl;
+    
+    // Exercise 4
+    std::cout << "\nExercise 4\n----------" << std::endl;
+    ellie.outputMarks();
     
     // Exercise 5
     std::cout << "\nExercise 5\n----------" << std::endl;
-    ellie.print_marks();
+    std::cout << Student::levelAverage(ellie.marks, 4) << std::endl;
+    
+    // Exercise 6
+    std::cout << "\nExercise 6\n----------" << std::endl;
+    ellie.classification();
     
     // Exercise 7
     std::cout << "\nExercise 7\n----------" << std::endl;
     int level6Marks[] = {72, 68, 76, 65};
-    ellie.add_level_marks(level6Marks, 6);
-    ellie.print_marks();
+    ellie.addLevelMarks(level6Marks, 6);
+    ellie.outputMarks();
     ellie.classification();
     
     return 0;

@@ -4,31 +4,10 @@
 Student::Student(
                  const std::string firstNameInput,
                  const std::string lastNameInput,
-                 const unsigned int idNumberInput,
+                 const int idNumberInput,
                  const std::string courseInput,
-                 const unsigned int levelInput)
+                 const int levelInput)
 {
-    // Check ID number
-    if (idNumberInput < 10000000 || idNumberInput > 99999999)
-    {
-        std::cout << "Error::Student::ID number needs to be an 8 digit integer." << std::endl;
-        return;
-    }
-    
-    // Check the course
-    if (courseInput != "Computer Science" && courseInput != "Computer Games Development")
-    {
-        std::cout << "Error::Student::Course needs to be either 'Computer Science' or 'Computer Games Development'." << std::endl;
-        return;
-    }
-    
-    // Check the level
-    if (levelInput < 4 || levelInput > 6)
-    {
-        std::cout << "Error::Student::Level needs to be one of 4, 5 or 6." << std::endl;
-        return;
-    }
-    
     firstName = firstNameInput;
     lastName = lastNameInput;
     idNumber = idNumberInput;
@@ -38,7 +17,7 @@ Student::Student(
     std::cout << "\nStudent object " << firstName << " " << lastName << " created." << std::endl;
 }
 
-void Student::add_level_marks(const int marksInput[], const int levelInput)
+void Student::addLevelMarks(const int marksInput[], const int levelInput)
 {
     for (int i = 0; i < 4; i++)
     {
@@ -52,9 +31,9 @@ void Student::add_level_marks(const int marksInput[], const int levelInput)
     }
 }
 
-void Student::print_marks()
+void Student::outputMarks()
 {
-    std::cout << "\n" << firstName << " " << lastName << " (" << idNumber << ") marks\n" << std::endl;
+    std::cout << "\n" << firstName << " " << lastName << " (" << idNumber << ")\n" << std::endl;
     
     for (int i = 0; i < level - 3; i++)
     {
@@ -67,32 +46,37 @@ void Student::print_marks()
     }
 }
 
+float Student::levelAverage(const int marks[], const int level)
+{
+    int i = 4 * (level - 4);
+    return (marks[i] + marks[i+1] + marks[i+2] + marks[i+3]) / 4.0f;
+}
+
 void Student::classification()
 {
-    float weightedAverge, level5Average, level6Average;
-    level5Average = (marks[4] + marks[5] + marks[6] + marks[7]) / 4;
-    level6Average = (marks[8] + marks[9] + marks[10] + marks[11]) / 4;
-    weightedAverge = 0.25f * level5Average + 0.75f * level6Average;
+    int weightedAverage;
+    weightedAverage = 0.25 * levelAverage(marks, 5) + 0.75 * levelAverage(marks, 6);
     
     std::cout << "\nClassification: ";
-    if (weightedAverge >= 70.0f)
+    if (weightedAverage >= 70.0f)
     {
-        std::cout << "First-class" << std::endl;
+        std::cout << "First-class";
     }
-    else if (weightedAverge >= 60.0f)
+    else if (weightedAverage >= 60.0f)
     {
-        std::cout << "Upper second-class" << std::endl;
+        std::cout << "Upper second-class";
     }
-    else if (weightedAverge >= 50.0f)
+    else if (weightedAverage >= 50.0f)
     {
-        std::cout << "Lower second-class" << std::endl;
+        std::cout << "Lower second-class";
     }
-    else if (weightedAverge >= 40.0f)
+    else if (weightedAverage >= 40.0f)
     {
-        std::cout << "Third-lcass" << std::endl;
+        std::cout << "Third-lcass";
     }
     else
     {
-        std::cout << "Fail" << std::endl;
+        std::cout << "Fail";
     }
+    std::cout << " (weighted average = " << weightedAverage << ")." << std::endl;
 }

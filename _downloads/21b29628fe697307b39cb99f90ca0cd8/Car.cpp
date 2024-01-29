@@ -21,3 +21,8 @@ void Car::accelerate(const float increment)
     speed = +increment;
     std::cout << "\nThe car has accelerated to " << speed << " mph." << std::endl;
 }
+
+float Car::mph2kph(const float speed)
+{
+    return speed * 1.60934f;
+}

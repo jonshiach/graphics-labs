@@ -16,4 +16,5 @@ public:
     // Methods
     void print_details();
     void accelerate(const float);
+    static float mph2kph(const float);
 };

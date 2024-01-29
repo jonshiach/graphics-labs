@@ -2,7 +2,7 @@
 
 # Introduction to C++
 
-In this first lab we will be introducing/revisiting the fundamentals of the C++ language. C++ (pronounced "C-plus-plus") is a general purpose high performance programming language developed by Bjarne Stroustrup in the early 1980s. It's an extension of the C programming language with added classes (the original name for C++ was "C with classes") so it shares the same syntax as C. It is also similar to Java so it won't be too difficult to make the switch from Java to C++.
+In this first lab we will be introducing/revisiting the fundamentals of the C++ language. C++ (pronounced "C-plus-plus") is a general purpose high performance programming language developed by Bjarne Stroustrup in 1979. It's an extension of the C programming language with added classes (the original name for C++ was "C with classes") so it shares the same syntax as C. It is also similar to Java so it won't be too difficult to make the switch from Java to C++.
 
 In this semester we will be using OpenGL to create graphics applications. OpenGL uses C++ so its important you are comfortable with the syntax and the use of classes.
 
@@ -20,10 +20,10 @@ The latest version of Visual Studio can be installed via the App Store and this 
 
 1. Open **Visual Studio** and click on 'Create a new project' (or File > New > New Project if you are already in Visual Studio). Select **Empty Project** and click on **Next**.
 
-2. Give your project a suitable name like **lab00\_intro\_to\_cpp**, select a directory in your OneDrive area and click on **Create**.
-   This will create a folder with the name of your project within which there will be a file with the extension **.sln** (along with some other files). This is your project file and double clicking on this will open your project in Visual Studio.
+2. Give your project a suitable name like `Lab01_Intro_to_cpp`, select a directory in your OneDrive area and click on **Create**.
+   This will create a folder with the name of your project within which there will be a file with the extension `.sln` (along with some other files). This is your project file and double clicking on this will open your project in Visual Studio.
 
-3. We need to add a file which will contain code to our project. Right-click on **Source Files** in the Solution Explorer and **Add > New Item...** Make sure **C++ File (.cpp)** is highlighted, give the file a suitable name like **main.cpp** and click **Add**.
+3. We need to add a file which will contain code to our project. Right-click on **Source Files** in the Solution Explorer and **Add > New Item...** Make sure **C++ File (.cpp)** is highlighted, give the file a suitable name like `main.cpp` and click **Add**.
 
 ### Xcode (macOS)
 
@@ -31,11 +31,11 @@ The latest version of Xcode can be installed via the Mac App Store.
 
 1. Open Xcode and click on **Create a new Xcode project** (or if you are already in Xcode click File > New > Project or press ⇧⌘N), choose **Command Line Tool** and click **Next**.
 
-2. Give your project a suitable name like **lab00\_intro\_to\_cpp** and click **Next**, select a directory in your OneDrive area and click on **Create**.
+2. Give your project a suitable name like `Lab01_Intro_to_cpp` and click **Next**, select a directory in your OneDrive area and click on **Create**.
 
-    This will create a folder with the name of your project within which there will be a file with the extension **.xcodeproj**. This is your project file and double clicking on this will open your project in Xcode.
+    This will create a folder with the name of your project within which there will be a file with the extension `.xcodeproj`. This is your project file and double clicking on this will open your project in Xcode.
 
-3. Xcode has already given you a **main.cpp** file with a basic hello world example program.
+3. Xcode has already given you a `main.cpp` file with a basic hello world example program.
 
 ---
 
@@ -146,7 +146,7 @@ Let add the following code to our program to determine whether an angle is acute
 
 ```cpp
 // Determine whether it is acute or obtuse
-std::cout << "\nIf statements\n-----------" << std::endl;
+std::cout << "\nIf statements\n-------------" << std::endl;
 std::cout << angleInDegrees << " degrees is an ";
 
 if (angleInDegrees < 90)
@@ -163,7 +163,7 @@ Output:
 
 ```text
 If statements
------------
+-------------
 45 degrees is an acute angle.
 ```
 
@@ -570,6 +570,40 @@ Now we can define the object attributes by creating the object using the followi
 Car delorean("DeLorean", "DMC-12", 1981);
 ```
 
+### Static member functions
+
+A **static member function** is a function that belongs to a class rather than an instance of the class. Static member functions are useful because we can call them without needing an object of that class. Static member functions can be declared simply by prepending the keyword `static` to the function declaration.
+
+Let's say we want to define a function in the `Car` class that converts speed from miles per hour to kilometers per hour. We declare a static member function in the class
+
+```cpp
+static float mph2kph(const float);
+```
+
+and then define the function outside of the `Car` class
+
+```cpp
+float Car::mph2kph(const float speed)
+{
+    return speed * 1.60934f;
+}
+```
+
+We can now convert from miles per hour to kilometers per hour without needing to have a `Car` object declared. If Back to the Future had been set in Europe what would the speed be required for time travel? Let's call our static member function `mph2kph()` to find out.
+
+```cpp
+// Convert speed from mph to kph
+std::cout << "\n" << 88 << " mph is equivalent to " << Car::mph2kph(88.0f) << " kph." << std::endl;
+```
+
+Which gives the output
+
+```text
+88 mph is equivalent to 141.622 kph.
+```
+
+Doesn't quite have the same ring to it does it.
+
 ### Header files
 
 When dealing with larger programs and larger classes is become necessary to split the code over multiple files. Classes are declared in a **header file** which usually have the extension `.hpp` (this isn't a requirement but has become standard practice in C++ programming). The methods of a class are then defined in a separate source files which have the extension `.cpp`.
@@ -673,10 +707,10 @@ Here we have also included the `iostream` library as well as our `Car.hpp` heade
 
    - first name - string;
    - last name - string;
-   - ID number - unsigned integer;
+   - ID number - integer;
    - course - string;
-   - level - unsigned integer;
-   - marks - 12-element unsigned integer array (marks for four units over the three years);
+   - level - integer;
+   - marks - 12-element integer array (marks for four units over the three years);
 
 2. Create a constructor for your class with parameters for creating an object. Use your constructor to create an object with the following attribute values.
 
@@ -686,20 +720,27 @@ Here we have also included the `iostream` library as well as our `Car.hpp` heade
     - course: Computer Science
     - level: 5
 
-3. Modify your constructor so that it checks whether the attributes for an object adhere to the following conditions and prints and error message if not.
-
-    - ID number is an 8-digit number;
-    - The course is either "Computer Science" or "Computer Games Development";
-    - The level is either 4, 5 or 6.
-
-4. Create a method called `add_level_marks()` which uses input parameters of a 4-element integer array containing unit marks and an integer variable containing the level and places the unit marks into the correct elements of the `marks` array for the object. For example, if the level 5 unit marks are `40, 50, 60, 70` then `marks[4] = 50`, `marks[5] = 60` etc. Use your method to updates Ellie's marks with the following.
+3. Create a method called `addLevelMarks()` which uses input parameters of a 4-element integer array containing unit marks and an integer variable containing the level and places the unit marks into the correct elements of the `marks` array for the object. For example, if the level 5 unit marks are `40, 50, 60, 70` then `marks[4] = 50`, `marks[5] = 60` etc. Use your method to updates Ellie's marks with the following.
 
     - level 4 marks: 55, 60, 72, 64;
     - level 5 marks: 68, 62, 74, 70.
 
-5. Create a method called `print_marks()` which prints unit marks for each level that a student has been enrolled.
+4. Create a method called `outputMarks()` which outputs unit marks for each level in which a student has been enrolled, i.e.,
 
-6. A student's degree classification is determined by calculating a weighted average of the level 5 and 6 marks such that `weighted average = 0.25 * level 5 average + 0.75 * level 6 average` and then using the table below. Create a method called `classification()` which prints the degree classification for a student.
+```text
+Ellie Williams (12345678)
+
+Level 4: 55, 60, 72, 64
+Level 5: 68, 62, 74, 70
+```
+
+5. Create a static member function called `levelAverage()` which takes in inputs of a 12-element integer array containing unit marks and an integer specifying the level and returns the average mark for that level.
+
+6. A student's degree classification is determined by calculating a weighted average of the level 5 and 6 marks such that
+
+$$\textsf{weighted average} = 0.25 \times \textsf{level 5 average} + 0.75 \times \textsf{level 6 average},$$ 
+
+and then checked against the table below. 
 
 | weighted average | Degree classification |
 |:--:|:--|
@@ -709,7 +750,23 @@ Here we have also included the `iostream` library as well as our `Car.hpp` heade
 | >= 40 | Third-class |
 | < 40 | Fail |
 
-7. Ellie has survived another year and has achieved level 6 marks of 72, 68, 76 and 65. Update the object and determine their degree classification.
+Create a method called `classification()` which uses your static member function from exercise 5 to calculate the weighted average for a student object and outputs the degree classification and the weighted average to the nearest integer.
+
+```
+Classification: xxxx (weighted average = xx).
+```
+
+7. Ellie has evaded the infected and survived another year. In level 6 they achieved marks of 72, 68, 76 and 65 (it is impressive that the university it still functioning during a world wide cordyceps pandemic). Update the object and output their level 4, 5 and 6 marks as well as their degree classification, i.e.,
+
+```
+Ellie Williams (12345678)
+
+Level 4: 55, 60, 72, 64
+Level 5: 68, 62, 74, 70
+Level 6: 72, 68, 76, 65
+
+Classification: xxxx (weighted average = xx).
+```
 
 ## Source code
 

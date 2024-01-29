@@ -7,20 +7,21 @@ class Student {
 public:
     std::string firstName;
     std::string lastName;
-    unsigned int idNumber;
+    int idNumber;
     std::string course;
-    unsigned int level;
-    unsigned int marks[12];
+    int level;
+    int marks[12];
     
     // Constructor
     Student(const std::string firstNameInput,
             const std::string lastNameInput,
-            const unsigned int idNumberInput,
+            const int idNumberInput,
             const std::string courseInput,
-            const unsigned int levelInput);
+            const int levelInput);
     
     // Methods
-    void add_level_marks(const int[], const int);
-    void print_marks();
+    void addLevelMarks(const int[], const int);
+    void outputMarks();
     void classification();
+    static float levelAverage(const int[], const int);
 };
