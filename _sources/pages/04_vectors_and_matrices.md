@@ -278,7 +278,7 @@ $$ \begin{align*}
     &= 19.
 \end{align*} $$
 
-The glm function for calculating the dot product is `glm::dot(a,b)`. Add the following to your program.
+Add the following to your program.
 
 ```cpp
 // The dot product
@@ -792,7 +792,7 @@ Exercise 2
 
  $$A^{-1} = \dfrac{1}{ad - bc} \begin{pmatrix} d & -b \\ -c & a \end{pmatrix}.$$
 
-&emsp;&emsp; Use your class to answer questions 1 and 2.
+&emsp;&emsp; Use your class to answer questions 1 and 2 (you may use glm vectors and matrices).
 
 ````{dropdown} Solution
 Header file

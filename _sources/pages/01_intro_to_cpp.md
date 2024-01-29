@@ -350,6 +350,10 @@ float power(const float x, const int y)
 }
 ```
 
+```{important}
+The C++ compiler reads source code from top to bottom so functions that are defined in the `main.cpp` file need to appear above the `main()` function.
+```
+
 Here we have declared the function called `power()` that takes in inputs of a floating point variable `x` and an integer variable `y` and outputs a floating point variable. The values of our inputs will not change during the execution of the function so we specify them as constants using the `const` keyword which makes the compiled code more efficient. We can call the function to calculate $\text{2}^\text{10}$ by adding the following inside the `main()` function.
 
 ```cpp
@@ -462,10 +466,10 @@ The methods for a class a functions that the objects in the class share. At the 
 
 ```cpp
 // Methods
-void print_details();
+void outputDetails();
 ```
 
-This declares a method called `print_details()` which does not have any inputs. To define the method itself we use the syntax
+This declares a method called `outputDetails()` which does not have any inputs. To define the method itself we use the syntax
 
 ```text
 <return type> <class name> :: <method name>()
@@ -474,10 +478,10 @@ This declares a method called `print_details()` which does not have any inputs. 
 }
 ```
 
-So to define the `print_details()` method add the following code outside of the Car class.
+So to define the `outputDetails()` method add the following code outside of the Car class.
 
 ```cpp
-void Car::print_details()
+void Car::outputDetails()
 {
     std::cout << "\nMake: " << make
               << "\nModel: " << model
@@ -485,11 +489,13 @@ void Car::print_details()
 }
 ```
 
+The `Car::` bit tells the compiler that this method belongs to the `Car` class. We could define the method inside of the class where we would not need `Car::` but this is not recommended practice.
+
 To call a method we use the syntax `<object name> . <method name>(<inputs>)`. We can now print the details of the car object using the following code.
 
 ```cpp
 std::cout << "\nClasses\n-------" << std::endl;
-delorean.print_details();
+delorean.outputDetails();
 ```
 
 Output:
@@ -500,7 +506,7 @@ Model: DMC-12
 Year: 1981
 ```
 
-Our `print_details()` method doesn't require any inputs because the attributes are known. Lets define a method for accelerating the car which has an input argument for the amount of acceleration. Add the following to your Car class.
+Our `outputDetails()` method does not require any inputs because the attributes are known to all objects of the class. Lets define a method for accelerating the car which has an input argument for the amount of acceleration. Add the following to your Car class.
 
 ```cpp
 void accelerate(const float);
@@ -516,7 +522,7 @@ void Car::accelerate(const float increment)
 }
 ```
 
-Note that we do not have to given the name of the input in the header file (some people choose to do so to help with the readability of the code). Now we have created the `acceleration()` methods lets accelerate our car to 88 mph.
+Note that we do not have to give the name of the input in the method declaration (some people choose to do so to help with the readability of the code). Now we have created the `acceleration()` method lets accelerate our car to 88 mph.
 
 ```cpp
 // Call accelerate method
@@ -602,14 +608,15 @@ Which gives the output
 88 mph is equivalent to 141.622 kph.
 ```
 
-Doesn't quite have the same ring to it does it.
+"141.622 kilometers per hour!" doesn't quite have the same ring to it as "88 miles per hour!" does it.
 
 ### Header files
 
-When dealing with larger programs and larger classes is become necessary to split the code over multiple files. Classes are declared in a **header file** which usually have the extension `.hpp` (this isn't a requirement but has become standard practice in C++ programming). The methods of a class are then defined in a separate source files which have the extension `.cpp`.
+When dealing with larger programs and larger classes it becomes necessary to split the code over multiple files. Classes are declared in a **header file** which usually have the extension `.hpp` (this isn't a requirement but has become standard practice in C++ programming). The methods of a class are then defined in a separate source files which have the extension `.cpp`.
 
 Lets create a header file for our `Car` class.
 
+---
 #### Visual Studio
 
 1. Right-click on the project name in the **Solution Explorer** and the select **Add > New Item...** (or press Ctrl+Shift+A).
@@ -644,8 +651,9 @@ The header file we have created contains the following code. Xcode uses <a href=
 
 #endif /* Car_hpp */
 ```
+---
 
-Copy the `Car` class from `main.cpp` into our `Car.hpp` header file so that it looks like the following.
+Cut and paste the `Car` class from `main.cpp` into our `Car.hpp` header file so that it looks like the following.
 
 ```cpp
 #pragma once
@@ -664,12 +672,13 @@ public:
     Car(const std::string, const std::string, const int);
 
     // Methods
-    void print_details();
+    void outputDetails();
     void accelerate(const float);
+    static float mph2kph(const float);
 };
 ```
 
-Note that we also need the `#include <iostream>` library so we can use strings and input/output commands. The methods are defined in the `Car.cpp` source file. Cut and paste your `Car` class methods from `main.cpp` and edit it so it looks like the following.
+Note that we also need the `#include <iostream>` library so we can use strings and input/output commands. The methods are defined in the `Car.cpp` source file. Cut and paste your `Car` class methods from `main.cpp` and so it looks like the following.
 
 ```cpp
 #include <iostream>
@@ -683,7 +692,7 @@ Car::Car(const std::string makeInput, const std::string modelInput, const int ye
     std::cout << "\nCar object created" << std::endl;
 }
 
-void Car::print_details()
+void Car::outputDetails()
 {
     std::cout << "\nMake: " << make
               << "\nModel: " << model
@@ -695,6 +704,12 @@ void Car::accelerate(const float increment)
     speed = +increment;
     std::cout << "\nThe car has accelerated to " << speed << " mph." << std::endl;
 }
+
+float Car::mph2kph(const float speed)
+{
+    return speed * 1.60934f;
+}
+
 ```
 
 Here we have also included the `iostream` library as well as our `Car.hpp` header file. We also need to make sure we include the `Car.hpp` header file in `main.cpp`. Compile and run the program to check everything works ok.
@@ -720,7 +735,7 @@ Here we have also included the `iostream` library as well as our `Car.hpp` heade
     - course: Computer Science
     - level: 5
 
-3. Create a method called `addLevelMarks()` which uses input parameters of a 4-element integer array containing unit marks and an integer variable containing the level and places the unit marks into the correct elements of the `marks` array for the object. For example, if the level 5 unit marks are `40, 50, 60, 70` then `marks[4] = 50`, `marks[5] = 60` etc. Use your method to updates Ellie's marks with the following.
+3. Create a method called `addLevelMarks()` which uses input parameters of a 4-element integer array containing unit marks and an integer variable containing the level and places the unit marks into the correct elements of the `marks` array for the object. For example, if the level 5 unit marks are `40, 50, 60, 70` then `marks[4] = 40`, `marks[5] = 50` etc. Use your method to updates Ellie's marks with the following.
 
     - level 4 marks: 55, 60, 72, 64;
     - level 5 marks: 68, 62, 74, 70.

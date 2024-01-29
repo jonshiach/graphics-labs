@@ -219,7 +219,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+      <li><a href="https://github.com/jonshiach/graphics-labs" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -236,7 +236,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fpages/02_hello_triangle.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/jonshiach/graphics-labs/issues/new?title=Issue%20on%20page%20%2Fpages/02_hello_triangle.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -389,8 +389,9 @@ document.write(`
 <p>To start using OpenGL we are going to have to download and compile several libraries and configure the IDE (we will be using Visual Studio on Windows). This can be quite an involved process (see <a href="https://learnopengl.com/Getting-started/Creating-a-window" target="_blank">Learn OpenGL</a> for a detailed tutorial on doing this). However, I have adapted the excellent resource <a href="https://www.opengl-tutorial.org/" target="_blank">opengl-tutorial.org</a> to do this for us.</p>
 <ol class="arabic simple">
 <li><p>Download <a class="reference download internal" download="" href="../_downloads/a028daceaebb2746faf8a44f5d775731/Lab02.zip"><code class="xref download docutils literal notranslate"><span class="pre">Lab02.zip</span></code></a> and extract the contents to your OneDrive area.</p></li>
+<li><p>Download <a href="https://github.com/Kitware/CMake/releases/download/v3.28.1/cmake-3.28.1-windows-x86_64.zip">Cmake</a> and extract the contents to your OneDriver area (macOS users will need to download <a href="https://github.com/Kitware/CMake/releases/download/v3.28.1/cmake-3.28.1-macos-universal.dmg">this one</a>).</p></li>
 <li><p>Create a folder in the <code class="docutils literal notranslate"><span class="pre">Lab02/</span></code> folder and call it <code class="docutils literal notranslate"><span class="pre">build/</span></code>.</p></li>
-<li><p>Run CMake and select the <code class="docutils literal notranslate"><span class="pre">Lab02/</span></code> folder for the source code and the <code class="docutils literal notranslate"><span class="pre">Lab02/build/</span></code> folder for where to build the binaries.</p></li>
+<li><p>Run the CMake gui and select the <code class="docutils literal notranslate"><span class="pre">Lab02/</span></code> folder for the source code and the <code class="docutils literal notranslate"><span class="pre">Lab02/build/</span></code> folder for where to build the binaries.</p></li>
 <li><p>Click <strong>Configure</strong> and select your IDE (in our case this is Visual Studio) and click on <strong>Done</strong>. Click <strong>Configure</strong> again and the red background should disappear.</p></li>
 <li><p>Click <strong>Generate</strong> which will create your project files in the <code class="docutils literal notranslate"><span class="pre">Lab02/build/</span></code> folder you created in step 2. Open the project file <code class="docutils literal notranslate"><span class="pre">Lab02.sln</span></code> (or <code class="docutils literal notranslate"><span class="pre">Lab02.xcodeproj</span></code> on macOS) and right-click on the <strong>Lab02</strong> project and select <strong>Set as Startup Project</strong>.</p></li>
 <li><p>Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).</p></li>

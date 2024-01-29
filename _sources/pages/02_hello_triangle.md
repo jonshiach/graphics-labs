@@ -10,15 +10,17 @@ To start using OpenGL we are going to have to download and compile several libra
 
 1. Download {download}`Lab02.zip<../code/Lab02/Lab02.zip>` and extract the contents to your OneDrive area.
 
-2. Create a folder in the `Lab02/` folder and call it `build/`.
+2. Download <a href="https://github.com/Kitware/CMake/releases/download/v3.28.1/cmake-3.28.1-windows-x86_64.zip">Cmake</a> and extract the contents to your OneDriver area (macOS users will need to download <a href="https://github.com/Kitware/CMake/releases/download/v3.28.1/cmake-3.28.1-macos-universal.dmg">this one</a>). 
 
-3. Run CMake and select the `Lab02/` folder for the source code and the `Lab02/build/` folder for where to build the binaries.
+3. Create a folder in the `Lab02/` folder and call it `build/`.
 
-4. Click **Configure** and select your IDE (in our case this is Visual Studio) and click on **Done**. Click **Configure** again and the red background should disappear.
+4. Run the CMake gui and select the `Lab02/` folder for the source code and the `Lab02/build/` folder for where to build the binaries.
 
-5. Click **Generate** which will create your project files in the `Lab02/build/` folder you created in step 2. Open the project file `Lab02.sln` (or `Lab02.xcodeproj` on macOS) and right-click on the **Lab02** project and select **Set as Startup Project**.
+5. Click **Configure** and select your IDE (in our case this is Visual Studio) and click on **Done**. Click **Configure** again and the red background should disappear.
 
-6. Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).
+6. Click **Generate** which will create your project files in the `Lab02/build/` folder you created in step 2. Open the project file `Lab02.sln` (or `Lab02.xcodeproj` on macOS) and right-click on the **Lab02** project and select **Set as Startup Project**.
+
+7. Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).
 
 ```{important}
 If you are using Xcode you need to make sure you have the target **Lab02** selected.

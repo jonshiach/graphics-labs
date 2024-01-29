@@ -219,7 +219,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+      <li><a href="https://github.com/jonshiach/graphics-labs" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -236,7 +236,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fpages/01_intro_to_cpp.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/jonshiach/graphics-labs/issues/new?title=Issue%20on%20page%20%2Fpages/01_intro_to_cpp.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -736,6 +736,10 @@ vertices[8] = 0
 <span class="p">}</span>
 </pre></div>
 </div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The C++ compiler reads source code from top to bottom so functions that are defined in the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file need to appear above the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function.</p>
+</div>
 <p>Here we have declared the function called <code class="docutils literal notranslate"><span class="pre">power()</span></code> that takes in inputs of a floating point variable <code class="docutils literal notranslate"><span class="pre">x</span></code> and an integer variable <code class="docutils literal notranslate"><span class="pre">y</span></code> and outputs a floating point variable. The values of our inputs will not change during the execution of the function so we specify them as constants using the <code class="docutils literal notranslate"><span class="pre">const</span></code> keyword which makes the compiled code more efficient. We can call the function to calculate <span class="math notranslate nohighlight">\(\text{2}^\text{10}\)</span> by adding the following inside the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Call the power function</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">twoPowerTen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">power</span><span class="p">(</span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
@@ -842,18 +846,18 @@ vertices[8] = 0
 <h3><span class="section-number">1.4.2. </span>Class methods<a class="headerlink" href="#class-methods" title="Permalink to this heading">#</a></h3>
 <p>The methods for a class a functions that the objects in the class share. At the moment we have created a Car object but don’t have a way of seeing what the make, model or year of the object are. Lets create a method to print out the attributes. Inside the Car class definition add the following code.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Methods</span>
-<span class="kt">void</span><span class="w"> </span><span class="nf">print_details</span><span class="p">();</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">outputDetails</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>This declares a method called <code class="docutils literal notranslate"><span class="pre">print_details()</span></code> which does not have any inputs. To define the method itself we use the syntax</p>
+<p>This declares a method called <code class="docutils literal notranslate"><span class="pre">outputDetails()</span></code> which does not have any inputs. To define the method itself we use the syntax</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;return type&gt; &lt;class name&gt; :: &lt;method name&gt;()
 {
     // commands
 }
 </pre></div>
 </div>
-<p>So to define the <code class="docutils literal notranslate"><span class="pre">print_details()</span></code> method add the following code outside of the Car class.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">Car::print_details</span><span class="p">()</span>
+<p>So to define the <code class="docutils literal notranslate"><span class="pre">outputDetails()</span></code> method add the following code outside of the Car class.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">Car::outputDetails</span><span class="p">()</span>
 <span class="p">{</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Make: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">make</span>
 <span class="w">              </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Model: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">model</span>
@@ -861,9 +865,10 @@ vertices[8] = 0
 <span class="p">}</span>
 </pre></div>
 </div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Car::</span></code> bit tells the compiler that this method belongs to the <code class="docutils literal notranslate"><span class="pre">Car</span></code> class. We could define the method inside of the class where we would not need <code class="docutils literal notranslate"><span class="pre">Car::</span></code> but this is not recommended practice.</p>
 <p>To call a method we use the syntax <code class="docutils literal notranslate"><span class="pre">&lt;object</span> <span class="pre">name&gt;</span> <span class="pre">.</span> <span class="pre">&lt;method</span> <span class="pre">name&gt;(&lt;inputs&gt;)</span></code>. We can now print the details of the car object using the following code.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Classes</span><span class="se">\n</span><span class="s">-------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<span class="n">delorean</span><span class="p">.</span><span class="n">print_details</span><span class="p">();</span>
+<span class="n">delorean</span><span class="p">.</span><span class="n">outputDetails</span><span class="p">();</span>
 </pre></div>
 </div>
 <p>Output:</p>
@@ -872,7 +877,7 @@ Model: DMC-12
 Year: 1981
 </pre></div>
 </div>
-<p>Our <code class="docutils literal notranslate"><span class="pre">print_details()</span></code> method doesn’t require any inputs because the attributes are known. Lets define a method for accelerating the car which has an input argument for the amount of acceleration. Add the following to your Car class.</p>
+<p>Our <code class="docutils literal notranslate"><span class="pre">outputDetails()</span></code> method does not require any inputs because the attributes are known to all objects of the class. Lets define a method for accelerating the car which has an input argument for the amount of acceleration. Add the following to your Car class.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">accelerate</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -884,7 +889,7 @@ Year: 1981
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Note that we do not have to given the name of the input in the header file (some people choose to do so to help with the readability of the code). Now we have created the <code class="docutils literal notranslate"><span class="pre">acceleration()</span></code> methods lets accelerate our car to 88 mph.</p>
+<p>Note that we do not have to give the name of the input in the method declaration (some people choose to do so to help with the readability of the code). Now we have created the <code class="docutils literal notranslate"><span class="pre">acceleration()</span></code> method lets accelerate our car to 88 mph.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Call accelerate method</span>
 <span class="n">delorean</span><span class="p">.</span><span class="n">accelerate</span><span class="p">(</span><span class="mf">88.0f</span><span class="p">);</span>
 </pre></div>
@@ -949,12 +954,13 @@ Year: 1981
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>88 mph is equivalent to 141.622 kph.
 </pre></div>
 </div>
-<p>Doesn’t quite have the same ring to it does it.</p>
+<p>“141.622 kilometers per hour!” doesn’t quite have the same ring to it as “88 miles per hour!” does it.</p>
 </section>
 <section id="header-files">
 <h3><span class="section-number">1.4.5. </span>Header files<a class="headerlink" href="#header-files" title="Permalink to this heading">#</a></h3>
-<p>When dealing with larger programs and larger classes is become necessary to split the code over multiple files. Classes are declared in a <strong>header file</strong> which usually have the extension <code class="docutils literal notranslate"><span class="pre">.hpp</span></code> (this isn’t a requirement but has become standard practice in C++ programming). The methods of a class are then defined in a separate source files which have the extension <code class="docutils literal notranslate"><span class="pre">.cpp</span></code>.</p>
+<p>When dealing with larger programs and larger classes it becomes necessary to split the code over multiple files. Classes are declared in a <strong>header file</strong> which usually have the extension <code class="docutils literal notranslate"><span class="pre">.hpp</span></code> (this isn’t a requirement but has become standard practice in C++ programming). The methods of a class are then defined in a separate source files which have the extension <code class="docutils literal notranslate"><span class="pre">.cpp</span></code>.</p>
 <p>Lets create a header file for our <code class="docutils literal notranslate"><span class="pre">Car</span></code> class.</p>
+<hr class="docutils" />
 <section id="visual-studio">
 <h4><span class="section-number">1.4.5.1. </span>Visual Studio<a class="headerlink" href="#visual-studio" title="Permalink to this heading">#</a></h4>
 <ol class="arabic simple">
@@ -988,7 +994,8 @@ Year: 1981
 <span class="cp">#endif </span><span class="cm">/* Car_hpp */</span>
 </pre></div>
 </div>
-<p>Copy the <code class="docutils literal notranslate"><span class="pre">Car</span></code> class from <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> into our <code class="docutils literal notranslate"><span class="pre">Car.hpp</span></code> header file so that it looks like the following.</p>
+<hr class="docutils" />
+<p>Cut and paste the <code class="docutils literal notranslate"><span class="pre">Car</span></code> class from <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> into our <code class="docutils literal notranslate"><span class="pre">Car.hpp</span></code> header file so that it looks like the following.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma once</span>
 
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
@@ -1005,12 +1012,13 @@ Year: 1981
 <span class="w">    </span><span class="n">Car</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="p">);</span>
 
 <span class="w">    </span><span class="c1">// Methods</span>
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">print_details</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">outputDetails</span><span class="p">();</span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">accelerate</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="p">);</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="nf">mph2kph</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="p">);</span>
 <span class="p">};</span>
 </pre></div>
 </div>
-<p>Note that we also need the <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;iostream&gt;</span></code> library so we can use strings and input/output commands. The methods are defined in the <code class="docutils literal notranslate"><span class="pre">Car.cpp</span></code> source file. Cut and paste your <code class="docutils literal notranslate"><span class="pre">Car</span></code> class methods from <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> and edit it so it looks like the following.</p>
+<p>Note that we also need the <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;iostream&gt;</span></code> library so we can use strings and input/output commands. The methods are defined in the <code class="docutils literal notranslate"><span class="pre">Car.cpp</span></code> source file. Cut and paste your <code class="docutils literal notranslate"><span class="pre">Car</span></code> class methods from <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> and so it looks like the following.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Car.hpp&quot;</span>
 
@@ -1022,7 +1030,7 @@ Year: 1981
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Car object created&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="kt">void</span><span class="w"> </span><span class="n">Car</span><span class="o">::</span><span class="n">print_details</span><span class="p">()</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">Car</span><span class="o">::</span><span class="n">outputDetails</span><span class="p">()</span>
 <span class="p">{</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Make: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">make</span>
 <span class="w">              </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Model: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">model</span>
@@ -1033,6 +1041,11 @@ Year: 1981
 <span class="p">{</span>
 <span class="w">    </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">+</span><span class="n">increment</span><span class="p">;</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">The car has accelerated to &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; mph.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">float</span><span class="w"> </span><span class="n">Car</span><span class="o">::</span><span class="n">mph2kph</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">speed</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1.60934f</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -1063,7 +1076,7 @@ Year: 1981
 <li><p>level: 5</p></li>
 </ul>
 </li>
-<li><p>Create a method called <code class="docutils literal notranslate"><span class="pre">addLevelMarks()</span></code> which uses input parameters of a 4-element integer array containing unit marks and an integer variable containing the level and places the unit marks into the correct elements of the <code class="docutils literal notranslate"><span class="pre">marks</span></code> array for the object. For example, if the level 5 unit marks are <code class="docutils literal notranslate"><span class="pre">40,</span> <span class="pre">50,</span> <span class="pre">60,</span> <span class="pre">70</span></code> then <code class="docutils literal notranslate"><span class="pre">marks[4]</span> <span class="pre">=</span> <span class="pre">50</span></code>, <code class="docutils literal notranslate"><span class="pre">marks[5]</span> <span class="pre">=</span> <span class="pre">60</span></code> etc. Use your method to updates Ellie’s marks with the following.</p>
+<li><p>Create a method called <code class="docutils literal notranslate"><span class="pre">addLevelMarks()</span></code> which uses input parameters of a 4-element integer array containing unit marks and an integer variable containing the level and places the unit marks into the correct elements of the <code class="docutils literal notranslate"><span class="pre">marks</span></code> array for the object. For example, if the level 5 unit marks are <code class="docutils literal notranslate"><span class="pre">40,</span> <span class="pre">50,</span> <span class="pre">60,</span> <span class="pre">70</span></code> then <code class="docutils literal notranslate"><span class="pre">marks[4]</span> <span class="pre">=</span> <span class="pre">40</span></code>, <code class="docutils literal notranslate"><span class="pre">marks[5]</span> <span class="pre">=</span> <span class="pre">50</span></code> etc. Use your method to updates Ellie’s marks with the following.</p>
 <ul class="simple">
 <li><p>level 4 marks: 55, 60, 72, 64;</p></li>
 <li><p>level 5 marks: 68, 62, 74, 70.</p></li>
