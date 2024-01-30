@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>2. Creating a triangle in OpenGL &#8212; Computer Graphics Labs</title>
+    <title>2. Drawing Basic Shapes in OpenGL &#8212; Computer Graphics Labs</title>
   
   
   
@@ -160,7 +160,7 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="01_intro_to_cpp.html">1. Introduction to C++</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Creating a triangle in OpenGL</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Drawing Basic Shapes in OpenGL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03_textures.html">3. Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_vectors_and_matrices.html">4. Vectors and Matrices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_transformations.html">5. Transformations</a></li>
@@ -348,7 +348,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Creating a triangle in OpenGL</h1>
+    <h1>Drawing Basic Shapes in OpenGL</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -370,6 +370,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-colours">2.5. More colours</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-another-triangle">2.6. Adding another triangle</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">2.7. Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-code">2.8. Source code</a></li>
 </ul>
             </nav>
         </div>
@@ -381,26 +382,26 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="creating-a-triangle-in-opengl">
-<span id="hello-triangle-section"></span><h1><span class="section-number">2. </span>Creating a triangle in OpenGL<a class="headerlink" href="#creating-a-triangle-in-opengl" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="drawing-basic-shapes-in-opengl">
+<span id="hello-triangle-section"></span><h1><span class="section-number">2. </span>Drawing Basic Shapes in OpenGL<a class="headerlink" href="#drawing-basic-shapes-in-opengl" title="Permalink to this heading">#</a></h1>
 <p>In this lab we will be creating our first graphics application in OpenGL.</p>
 <section id="hello-window">
 <h2><span class="section-number">2.1. </span>Hello window<a class="headerlink" href="#hello-window" title="Permalink to this heading">#</a></h2>
 <p>To start using OpenGL we are going to have to download and compile several libraries and configure the IDE (we will be using Visual Studio on Windows). This can be quite an involved process (see <a href="https://learnopengl.com/Getting-started/Creating-a-window" target="_blank">Learn OpenGL</a> for a detailed tutorial on doing this). However, I have adapted the excellent resource <a href="https://www.opengl-tutorial.org/" target="_blank">opengl-tutorial.org</a> to do this for us.</p>
 <ol class="arabic simple">
-<li><p>Download <a class="reference download internal" download="" href="../_downloads/a028daceaebb2746faf8a44f5d775731/Lab02.zip"><code class="xref download docutils literal notranslate"><span class="pre">Lab02.zip</span></code></a> and extract the contents to your OneDrive area.</p></li>
+<li><p>Download <a class="reference download internal" download="" href="../_downloads/400c4f04f907bbbc35fcc5e535cfdb25/Lab02_Basic_shapes.zip"><code class="xref download docutils literal notranslate"><span class="pre">Lab02_Basic_shapes.zip</span></code></a> and extract the contents to your OneDrive area.</p></li>
 <li><p>Download <a href="https://github.com/Kitware/CMake/releases/download/v3.28.1/cmake-3.28.1-windows-x86_64.zip">Cmake</a> and extract the contents to your OneDriver area (macOS users will need to download <a href="https://github.com/Kitware/CMake/releases/download/v3.28.1/cmake-3.28.1-macos-universal.dmg">this one</a>).</p></li>
-<li><p>Create a folder in the <code class="docutils literal notranslate"><span class="pre">Lab02/</span></code> folder and call it <code class="docutils literal notranslate"><span class="pre">build/</span></code>.</p></li>
-<li><p>Run the CMake gui and select the <code class="docutils literal notranslate"><span class="pre">Lab02/</span></code> folder for the source code and the <code class="docutils literal notranslate"><span class="pre">Lab02/build/</span></code> folder for where to build the binaries.</p></li>
+<li><p>Create a folder in the <code class="docutils literal notranslate"><span class="pre">Lab02_Basic_shapes/</span></code> folder and call it <code class="docutils literal notranslate"><span class="pre">build/</span></code>.</p></li>
+<li><p>Run the CMake gui and select the <code class="docutils literal notranslate"><span class="pre">Lab02_Basic_shapes/</span></code> folder for the source code and the <code class="docutils literal notranslate"><span class="pre">Lab02_Basic_shapes/build/</span></code> folder for where to build the binaries.</p></li>
 <li><p>Click <strong>Configure</strong> and select your IDE (in our case this is Visual Studio) and click on <strong>Done</strong>. Click <strong>Configure</strong> again and the red background should disappear.</p></li>
-<li><p>Click <strong>Generate</strong> which will create your project files in the <code class="docutils literal notranslate"><span class="pre">Lab02/build/</span></code> folder you created in step 2. Open the project file <code class="docutils literal notranslate"><span class="pre">Lab02.sln</span></code> (or <code class="docutils literal notranslate"><span class="pre">Lab02.xcodeproj</span></code> on macOS) and right-click on the <strong>Lab02</strong> project and select <strong>Set as Startup Project</strong>.</p></li>
+<li><p>Click <strong>Generate</strong> which will create your project files in the <code class="docutils literal notranslate"><span class="pre">Lab02_Basic_shapes/build/</span></code> folder you created in step 2. Open the project file <code class="docutils literal notranslate"><span class="pre">Lab02_Basic_shapes.sln</span></code> (or <code class="docutils literal notranslate"><span class="pre">Lab02_Basic_shapes.xcodeproj</span></code> on macOS) and right-click on the <strong>Lab02</strong> project and select <strong>Set as Startup Project</strong>.</p></li>
 <li><p>Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).</p></li>
 </ol>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>If you are using Xcode you need to make sure you have the target <strong>Lab02</strong> selected.</p>
 </div>
-<p>If all has gone to plan you should be looking at a boring window with a grey background. Familiarise yourself with the source files. For now, this just contains the main C++ program <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> in the <code class="docutils literal notranslate"><span class="pre">source/</span></code> folder.</p>
+<p>If all has gone to plan you should be looking at a boring window with a grey background. Familiarise yourself with the source files. For now, this contains the main C++ program <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code>, the header file <code class="docutils literal notranslate"><span class="pre">shader.hpp</span></code> and associated code file <code class="docutils literal notranslate"><span class="pre">shader.cpp</span></code> in the <code class="docutils literal notranslate"><span class="pre">source/</span></code> folder.</p>
 <figure class="align-default" id="id1">
 <a class="reference internal image-reference" href="../_images/hello_window.png"><img alt="../_images/hello_window.png" src="../_images/hello_window.png" style="width: 500px;" /></a>
 <figcaption>
@@ -412,16 +413,16 @@ document.write(`
 <section id="define-our-triangle">
 <h2><span class="section-number">2.2. </span>Define our triangle<a class="headerlink" href="#define-our-triangle" title="Permalink to this heading">#</a></h2>
 <p>As you will probably agree, creating a plain grey window isn’t the most interesting of applications. What would make it much more exciting is to draw simple shapes in the window. The simplest shape, and one which we use extensively in computer graphics, is a triangle.</p>
-<p>The first thing we need to do is create the <strong>Vertex Array Object (VAO)</strong>. Enter the following into your <strong>lab01_hello_triangle.cpp</strong> file before the <code class="docutils literal notranslate"><span class="pre">do</span></code> loop.</p>
+<p>The first thing we need to do is create the <a href="https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Array_Object" target="_blank"><strong>Vertex Array Object (VAO)</strong></a> which is a container for the vertex attributes and associated vertex data (e.g., the vertex co-ordinates, colour, texture, normal vectors etc.) and bind it so that OpenGL knows that this is the current object it is dealing with. Enter the following into your <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file before the do/while loop.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create the Vertex Array Object (VAO)</span>
-<span class="n">GLuint</span><span class="w"> </span><span class="n">vertexArrayID</span><span class="p">;</span>
-<span class="n">glGenVertexArrays</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">vertexArrayID</span><span class="p">);</span>
-<span class="n">glBindVertexArray</span><span class="p">(</span><span class="n">vertexArrayID</span><span class="p">);</span>
+<span class="n">GLuint</span><span class="w"> </span><span class="n">VAO</span><span class="p">;</span>
+<span class="n">glGenVertexArrays</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">VAO</span><span class="p">);</span>
+<span class="n">glBindVertexArray</span><span class="p">(</span><span class="n">VAO</span><span class="p">);</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Here we have defined the integer <code class="docutils literal notranslate"><span class="pre">vertexArrayID</span></code> using <code class="docutils literal notranslate"><span class="pre">GLunit</span></code> instead of plain old <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span></code>. <code class="docutils literal notranslate"><span class="pre">GLuint</span></code> stands for <strong>OpenGL unsigned integer</strong> and we use this because different architectures stores variables using different memory sizes. In order to ensure our application works across various platforms we use OpenGL types.</p>
+<p>Here we have defined the integer <code class="docutils literal notranslate"><span class="pre">VAO</span></code> using <code class="docutils literal notranslate"><span class="pre">GLunit</span></code> instead of plain old <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span></code>. <code class="docutils literal notranslate"><span class="pre">GLuint</span></code> stands for <a href="https://www.khronos.org/opengl/wiki/OpenGL_Type" target="_blank"><strong>OpenGL unsigned integer</strong></a> and we use this because different architectures stores variables using different memory sizes. In order to ensure our application works across various platforms we use OpenGL types.</p>
 </div>
 <p>OpenGL expects the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> co-ordinates of all vertices to be between -1.0 and 1.0 where the <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> axes point to the right and up respectively and the <span class="math notranslate nohighlight">\(z\)</span> axes points out from the screen (these are known as <strong>Normalised Device Co-ordinates (NDC)</strong> - more on this later). For now we are going to draw a triangle with vertex co-ordinates (-0.5,-0.5,0), (0.5,-0.5,0) and (0,0.5,0) for the bottom-left, bottom-right and top vertices respectively.</p>
 <figure class="align-default" id="id2">
@@ -440,28 +441,29 @@ document.write(`
 <span class="p">};</span>
 </pre></div>
 </div>
-<p>We now need to define a <strong>Vertex Buffer Object (VBO)</strong> and copy the vertices information to the vertex buffer.</p>
+<p>We now need to define a <a href="https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Buffer_Object" target="_blank"><strong>Vertex Buffer Object (VBO)</strong></a> which is how we transfer the vertex data from the CPU to the GPU.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create Vertex Buffer Object</span>
-<span class="n">GLuint</span><span class="w"> </span><span class="n">vertexBuffer</span><span class="p">;</span>
-<span class="n">glGenBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">vertexBuffer</span><span class="p">);</span>
-<span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span><span class="w"> </span><span class="n">vertexBuffer</span><span class="p">);</span>
+<span class="n">GLuint</span><span class="w"> </span><span class="n">VBO</span><span class="p">;</span>
+<span class="n">glGenBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">VBO</span><span class="p">);</span>
+<span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span><span class="w"> </span><span class="n">VBO</span><span class="p">);</span>
 <span class="n">glBufferData</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">vertices</span><span class="p">),</span><span class="w"> </span><span class="n">vertices</span><span class="p">,</span><span class="w"> </span><span class="n">GL_STATIC_DRAW</span><span class="p">);</span>
 </pre></div>
 </div>
+<p>Here, after creating and binding the VBO we copy across the co-ordinates stored in the <code class="docutils literal notranslate"><span class="pre">vertices</span></code> array to the VBO using the <code class="docutils literal notranslate"><span class="pre">glBufferData()</span></code> function.</p>
 </section>
 <hr class="docutils" />
 <section id="write-and-compile-the-shader">
 <h2><span class="section-number">2.3. </span>Write and compile the shader<a class="headerlink" href="#write-and-compile-the-shader" title="Permalink to this heading">#</a></h2>
-<p>Now we have defined our triangle and copied the information over to OpenGL we now need to tell OpenGL how to display the triangle. This is done using a shader program that OpenGL uses to tell it how to display each pixel in our window. The shader programs are written in <strong>GLSL (openGL Shading Language)</strong> which is similar to C.</p>
+<p>Now we have defined our triangle and copied the information over to OpenGL we now need to tell OpenGL how to display the triangle. This is done using a shader program that OpenGL uses to tell it how to display each pixel in our window. The shader programs are written in <a href="https://www.khronos.org/opengl/wiki/Core_Language_(GLSL)" target="_blank"><strong>GLSL (openGL Shading Language)</strong></a> which is a language similar to C.</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/shaders.svg"><img alt="../_images/shaders.svg" src="../_images/shaders.svg" width="600" /></a>
 </figure>
-<p>At its most basic it consists of a <strong>vertex shader</strong> and a <strong>fragment shader</strong>. The vertex shader is called once for each vertex and calculates the position of the current vertex and stores it in a special GLSL vector <code class="docutils literal notranslate"><span class="pre">gl_Position</span></code>. The vertices that form a polygon are then passed to OpenGL which maps the polygon to the corresponding pixels on the display. The part of the display raster that contains the pixels that correspond to a polygon is called a <strong>fragment</strong>.</p>
+<p>At its most basic it consists of a <a href="https://www.khronos.org/opengl/wiki/Vertex_Shader" target="_blank"><strong>vertex shader</strong></a> and a <a href="https://www.khronos.org/opengl/wiki/Fragment_Shader" target="_blank"><strong>fragment shader</strong></a>. The vertex shader is called once for each vertex and calculates the position of the current vertex and stores it in a special GLSL vector <code class="docutils literal notranslate"><span class="pre">gl_Position</span></code>. The vertices that form a polygon are then passed to OpenGL which maps the polygon to the corresponding pixels on the display. The part of the display raster that contains the pixels that correspond to a polygon is called a <strong>fragment</strong>.</p>
 <p>The fragment is clipped to the display so that any part of the fragment outside of our view is discarded and then is passed to the fragment shader. The fragment shader is called once for each pixel in the fragment and determines the colour of that pixel.</p>
 <p>The shaders are compiled by the application at runtime.</p>
 <section id="vertex-shader">
 <span id="vertex-shader-section"></span><h3><span class="section-number">2.3.1. </span>Vertex shader<a class="headerlink" href="#vertex-shader" title="Permalink to this heading">#</a></h3>
-<p>Click on <strong>File &gt; New &gt; File…</strong> (or just press CTRL + N) and select text file. Enter the following program into the new file and save it in the <strong>GraphicsLabs/lab01_hello_triangle/</strong> folder using the filename <strong>simpleVertexShader.vs</strong> (the file extension doesn’t matter but it is common to use <code class="docutils literal notranslate"><span class="pre">.vs</span></code> or <code class="docutils literal notranslate"><span class="pre">vert</span></code> to denote the vertex shader).</p>
+<p>Click on <strong>File &gt; New &gt; File…</strong> (or just press CTRL + N) and select text file. Enter the following program into the new file and save it in the <code class="docutils literal notranslate"><span class="pre">Lab02_Basic_shapes/source</span></code> folder using the filename <code class="docutils literal notranslate"><span class="pre">simpleVertexShader.vert</span></code> (the file extension doesn’t matter but it is common to use <code class="docutils literal notranslate"><span class="pre">.vert</span></code> to denote the vertex shader).</p>
 <div class="highlight-glsl notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
 
 <span class="k">layout</span><span class="p">(</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mo">0</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">vec3</span><span class="w"> </span><span class="n">position</span><span class="p">;</span>
@@ -477,7 +479,7 @@ document.write(`
 </section>
 <section id="fragment-shader">
 <h3><span class="section-number">2.3.2. </span>Fragment shader<a class="headerlink" href="#fragment-shader" title="Permalink to this heading">#</a></h3>
-<p>Create a new file as you did with the vertex shader but with the following code and save it using the filename <strong>simpleFragmentShader.fs</strong> (again, the file extension doesn’t matter but it is common to use <code class="docutils literal notranslate"><span class="pre">.fs</span></code> or <code class="docutils literal notranslate"><span class="pre">.frag</span></code> to denote fragment shader).</p>
+<p>Create a new file as you did with the vertex shader but with the following code and save it using the filename <code class="docutils literal notranslate"><span class="pre">simpleFragmentShader.frag</span></code> (again, the file extension doesn’t matter but it is common to use <code class="docutils literal notranslate"><span class="pre">.frag</span></code> to denote fragment shader).</p>
 <div class="highlight-glsl notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
 
 <span class="c1">// Output data</span>
@@ -490,40 +492,31 @@ document.write(`
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>This fragment shader outputs a single 4-element vector called <code class="docutils literal notranslate"><span class="pre">colour</span></code> which defines the colour of the pixel using RGBA which stands for Red-Green-Blue-Alpha. The values are in the range 0 to 1 and so here we have red = 1, blue = 0, green = 0 so our pixel (the same applies for all pixels in the triangle) will be rendered in red and alpha = 0 which means it is fully opaque.</p>
+<p>This fragment shader outputs a single 4-element vector called <code class="docutils literal notranslate"><span class="pre">colour</span></code> which defines the colour of the pixel using RGBA which stands for Red-Green-Blue-Alpha. The values are in the range 0 to 1 and so here we have red = 1, blue = 0, green = 0 so our pixel (and all pixels in the triangle) will be rendered in red and alpha = 0 which means it is fully opaque.</p>
 </section>
 <section id="shader-program">
 <h3><span class="section-number">2.3.3. </span>Shader program<a class="headerlink" href="#shader-program" title="Permalink to this heading">#</a></h3>
-<p>We now need to combine the vertex and fragment shaders into a single shader program. To do this we are going use the function <code class="docutils literal notranslate"><span class="pre">LoadShaders()</span></code> written by contributors of <a hrf = "https://www.opengl-tutorial.org" target="_blank">opengl-tutorial.org</a>. Add a header file called <code class="docutils literal notranslate"><span class="pre">shader.hpp</span></code> along with the associated <code class="docutils literal notranslate"><span class="pre">shader.cpp</span></code> file to your project and copy and paste the code linked to below into these.</p>
-<ul class="simple">
-<li><p><a class="reference download internal" download="" href="../_downloads/324c4ae1574308c469f756f50f09de2c/shader.hpp"><code class="xref download docutils literal notranslate"><span class="pre">shader.hpp</span></code></a></p></li>
-<li><p><a class="reference download internal" download="" href="../_downloads/6f9c4a6971ba749b27176b65fc307797/shader.cpp"><code class="xref download docutils literal notranslate"><span class="pre">shader.cpp</span></code></a></p></li>
-</ul>
-<p>Include the shader class by including the following near the beginning of the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;shader.hpp&quot;</span>
-</pre></div>
-</div>
-<p>We can now compiler the shader program using the <code class="docutils literal notranslate"><span class="pre">LoadShaders()</span></code> function.</p>
+<p>We now need to combine the vertex and fragment shaders into a single shader program. To do this we are going use the function <code class="docutils literal notranslate"><span class="pre">LoadShaders()</span></code> written by contributors of <a href = "https://www.opengl-tutorial.org" target="_blank">opengl-tutorial.org</a>. The header and code files are already in the <code class="docutils literal notranslate"><span class="pre">source/</span></code> folder and the <code class="docutils literal notranslate"><span class="pre">shader</span></code> class has been included at the top of the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file.</p>
+<p>We can now compile the shader program using the <code class="docutils literal notranslate"><span class="pre">LoadShaders()</span></code> function.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Compile shader program</span>
-<span class="n">GLuint</span><span class="w"> </span><span class="n">shaderID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LoadShaders</span><span class="p">(</span><span class="s">&quot;simpleVertexShader.vs&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;simpleFragmentShader.fs&quot;</span><span class="p">);</span>
+<span class="n">GLuint</span><span class="w"> </span><span class="n">shaderID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LoadShaders</span><span class="p">(</span><span class="s">&quot;simpleVertexShader.vert&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;simpleFragmentShader.frag&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>This code creates a program object which can be referred to by <code class="docutils literal notranslate"><span class="pre">shaderID</span></code>. The code for the <code class="docutils literal notranslate"><span class="pre">LoadShaders()</span></code> function can be seen in the <strong>shaders.cpp</strong> file in the common folder (we aren’t really concerned with this but it’s nice to know what’s going on).</p>
+<p>This code creates a program object which will be referred to by <code class="docutils literal notranslate"><span class="pre">shaderID</span></code>. The code for the <code class="docutils literal notranslate"><span class="pre">LoadShaders()</span></code> function can be seen in the <code class="docutils literal notranslate"><span class="pre">shaders.cpp</span></code> file (we aren’t really concerned with this but it’s nice to know what’s going on).</p>
 </section>
 </section>
 <hr class="docutils" />
 <section id="draw-the-triangle">
 <h2><span class="section-number">2.4. </span>Draw the triangle<a class="headerlink" href="#draw-the-triangle" title="Permalink to this heading">#</a></h2>
-<p>Finally, we can now draw the triangle. Any commands to draw objects in our window go inside the <code class="docutils literal notranslate"><span class="pre">do</span></code> loop.</p>
-<p>After clearing the screen, we need to instruct OpenGL to use our shader program so enter the following code.</p>
+<p>Finally, we can now draw the triangle. Any commands to draw objects in our window go inside the do/while loop. After clearing the window, we need to instruct OpenGL to use our shader program so enter the following code.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Use the shader program</span>
 <span class="n">glUseProgram</span><span class="p">(</span><span class="n">shaderID</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Now we need to send the vertex array to the shaders for OpenGL to interpret.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Send vertices to buffer</span>
+<p>Now we need to by the VBO to the VAO to send all of the data to the shaders for OpenGL to interpret.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Send the VBO to the shaders</span>
 <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-<span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span><span class="w"> </span><span class="n">vertexBuffer</span><span class="p">);</span>
+<span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span><span class="w"> </span><span class="n">VBO</span><span class="p">);</span>
 <span class="n">glVertexAttribPointer</span><span class="p">(</span>
 <span class="w">                      </span><span class="mi">0</span><span class="p">,</span><span class="w">           </span><span class="c1">// attribute</span>
 <span class="w">                      </span><span class="mi">3</span><span class="p">,</span><span class="w">           </span><span class="c1">// size</span>
@@ -531,10 +524,14 @@ document.write(`
 <span class="w">                      </span><span class="n">GL_FALSE</span><span class="p">,</span><span class="w">    </span><span class="c1">// normalise</span>
 <span class="w">                      </span><span class="mi">0</span><span class="p">,</span><span class="w">           </span><span class="c1">// stride</span>
 <span class="w">                      </span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="mi">0</span><span class="w">     </span><span class="c1">// offset</span>
-<span class="p">);</span>
+<span class="w">                      </span><span class="p">);</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">glEnableVertexAttribArray();</span></code> enables a generic vertex array so we can pass our triangle data to OpenGL and <code class="docutils literal notranslate"><span class="pre">glBindBuffer();</span></code> binds our vertex buffer to OpenGL. <code class="docutils literal notranslate"><span class="pre">glVertexAttribPointer()</span></code> tells OpenGL how to interpret the data we are sending it. The input arguments are explained below.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">glEnableVertexAttribArray();</span></code> enables a generic vertex array so we can pass our triangle data to OpenGL;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">glBindBuffer();</span></code> binds our VBO to OpenGL;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">glVertexAttribPointer()</span></code> tells OpenGL how to interpret the data we are sending it. The input arguments are explained below.</p></li>
+</ul>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head text-left"><p>Argument</p></th>
@@ -568,15 +565,15 @@ document.write(`
 <span class="n">glDisableVertexAttribArray</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">glDrawArrays()</span></code> command tells OpenGL that we wish to draw triangles, the <code class="docutils literal notranslate"><span class="pre">0</span></code> specifies that the first vertex starts at the 0 index in the buffer and the <code class="docutils literal notranslate"><span class="pre">3</span></code> specifies the number of vertices we want to draw. Since we no longer need the vertex attribute array, we disable it.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">glDrawArrays()</span></code> command tells OpenGL that we wish to draw triangles, the <code class="docutils literal notranslate"><span class="pre">0</span></code> specifies that the first vertex starts at the 0 index in the buffer and the <code class="docutils literal notranslate"><span class="pre">3</span></code> specifies the number of vertices we want to draw. Since we no longer need the vertex attribute array, we disable it using <code class="docutils literal notranslate"><span class="pre">glDisableVertexAttribArray()</span></code>.</p>
 <p>Don’t get too excited just yet. As good programmers we should clean up after ourselves and not leave bits of data lying around. After the close of the <code class="docutils literal notranslate"><span class="pre">do</span></code> loop we de-allocate the vertex and buffer objects as well as deleting the shader program.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Cleanup</span>
-<span class="n">glDeleteBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">vertexBuffer</span><span class="p">);</span>
-<span class="n">glDeleteVertexArrays</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">VertexArrayID</span><span class="p">);</span>
+<span class="n">glDeleteBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">VBO</span><span class="p">);</span>
+<span class="n">glDeleteVertexArrays</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">VAO</span><span class="p">);</span>
 <span class="n">glDeleteProgram</span><span class="p">(</span><span class="n">shaderID</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Compile and run your program. After all the syntax errors and bugs have been resolved (unless you are very lucky there will be at least one) you should be presented with a window within which is your red triangle that you have created. Note that this window no longer has the title “Hello Window”, can you change your code so that your window has a more accurate title?</p>
+<p>Compile and run your program. After all the syntax errors and bugs have been resolved (unless you are very lucky there will be at least one) you should be presented with a window within which is your red triangle that you have created. Note that the window shown below no longer has the title “Hello Window”, can you change your code so that your window has a more accurate title?</p>
 <figure class="align-default" id="id3">
 <a class="reference internal image-reference" href="../_images/hello_triangle.png"><img alt="../_images/hello_triangle.png" src="../_images/hello_triangle.png" style="width: 500px;" /></a>
 <figcaption>
@@ -599,7 +596,7 @@ document.write(`
 </pre></div>
 </div>
 <p>Here we have assigned the colour red to the first (bottom-left) vertex, green to the second (bottom-right) vertex and blue to the third (top) vertex.</p>
-<p>Like the vertex array buffer, we need to create and bind a colour buffer.</p>
+<p>Like the VBO, we need to create and bind a buffer for the colours.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create colour buffer</span>
 <span class="n">GLuint</span><span class="w"> </span><span class="n">colourBuffer</span><span class="p">;</span>
 <span class="n">glGenBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">colourBuffer</span><span class="p">);</span>
@@ -607,11 +604,18 @@ document.write(`
 <span class="n">glBufferData</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">colours</span><span class="p">),</span><span class="w"> </span><span class="n">colours</span><span class="p">,</span><span class="w"> </span><span class="n">GL_STATIC_DRAW</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>And where we draw the triangle, we also need to send the colour buffer to the shaders.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Send colours to buffer</span>
+<p>And where we draw the triangle, we also need to bind the colour information to the VAO so it can be sent to the shaders.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Send colours to the shaders</span>
 <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span><span class="w"> </span><span class="n">colourBuffer</span><span class="p">);</span>
-<span class="n">glVertexAttribPointer</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">GL_FLOAT</span><span class="p">,</span><span class="w"> </span><span class="n">GL_FALSE</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="mi">0</span><span class="p">);</span>
+<span class="n">glVertexAttribPointer</span><span class="p">(</span>
+<span class="w">                      </span><span class="mi">1</span><span class="p">,</span><span class="w">           </span><span class="c1">// attribute</span>
+<span class="w">                      </span><span class="mi">3</span><span class="p">,</span><span class="w">           </span><span class="c1">// size</span>
+<span class="w">                      </span><span class="n">GL_FLOAT</span><span class="p">,</span><span class="w">    </span><span class="c1">// type</span>
+<span class="w">                      </span><span class="n">GL_FALSE</span><span class="p">,</span><span class="w">    </span><span class="c1">// normalise</span>
+<span class="w">                      </span><span class="mi">0</span><span class="p">,</span><span class="w">           </span><span class="c1">// stride</span>
+<span class="w">                      </span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="mi">0</span><span class="w">     </span><span class="c1">// offset</span>
+<span class="w">                      </span><span class="p">);</span>
 </pre></div>
 </div>
 <p>If you were to compile and run your program, you might be a little disappointed as your triangle is still red. Well of course, we haven’t told our shaders how to handle colours! Since our colours are associated with the vertices we need to modify the vertex shader to include the colours.</p>
@@ -625,16 +629,16 @@ document.write(`
 
 <span class="kt">void</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
-<span class="w">    </span><span class="c1">// Positions</span>
+<span class="w">    </span><span class="c1">// Vertex position</span>
 <span class="w">    </span><span class="nb">gl_Position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">.</span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
 
-<span class="w">    </span><span class="c1">// Colours</span>
+<span class="w">    </span><span class="c1">// Vertex colour</span>
 <span class="w">    </span><span class="n">vertexColour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">colour</span><span class="p">;</span>
 
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Here our vertex shader is a little more sophisticated than before. We’ve added another attribute with <code class="docutils literal notranslate"><span class="pre">location</span> <span class="pre">=</span> <span class="pre">1</span></code> for the colour data which is a 3-element vector. Also, since we need to pass the colour data to the fragment shader we need to output it from the vertex shader (the vertex data is output automatically).</p>
+<p>Here our vertex shader is a little more sophisticated than before. We’ve added another attribute with <code class="docutils literal notranslate"><span class="pre">location</span> <span class="pre">=</span> <span class="pre">1</span></code> for the colour data which is a 3-element vector. Also, since we need to pass the colour data to the fragment shader we need to output it from the vertex shader (the vertex data is outputted automatically in <code class="docutils literal notranslate"><span class="pre">gl_Position</span></code>).</p>
 <p>The changes to the fragment shader are just the addition of the colour input.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
 
@@ -685,9 +689,9 @@ document.write(`
 </pre></div>
 </div>
 <p>Here the <code class="docutils literal notranslate"><span class="pre">vertices[]</span></code> array now defines six vertices for two triangles placed side-by-side. The <code class="docutils literal notranslate"><span class="pre">colours[]</span></code> array defines the first three vertices red and the second three set of vertices blue.</p>
-<p>We also need to instruct OpenGL to draw two triangles instead of one. To do this we simply change the number of vertices we want to draw from <code class="docutils literal notranslate"><span class="pre">3</span></code> to <code class="docutils literal notranslate"><span class="pre">6</span></code>.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Draw the triangle</span>
-<span class="n">glDrawArrays</span><span class="p">(</span><span class="n">GL_TRIANGLES</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">);</span>
+<p>We also need to instruct OpenGL to draw two triangles instead of one. To do this we change the number of vertices we want to draw from <code class="docutils literal notranslate"><span class="pre">3</span></code> to the number of vertices we have. Since each vertex has 3 co-ordinates (x, y, z) and each co-ordinate is a single float then we can calculate the number of vertices we have by dividing <code class="docutils literal notranslate"><span class="pre">sizeof(vertices)</span></code> by <code class="docutils literal notranslate"><span class="pre">3</span> <span class="pre">*</span> <span class="pre">sizeof(float)</span></code>.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Draw the triangles</span>
+<span class="n">glDrawArrays</span><span class="p">(</span><span class="n">GL_TRIANGLES</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)));</span>
 </pre></div>
 </div>
 <p>Compiling and running the executable results in the following.</p>
@@ -708,148 +712,19 @@ document.write(`
 (b) the triangle is drawn upside-down;<br>
 (c) the triangle <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> co-ordinates are swapped.</p>
 </li>
-</ol>
-<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-Solution<div class="sd-summary-down docutils">
-<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
-<div class="sd-summary-up docutils">
-<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
-</summary><div class="sd-summary-content sd-card-body docutils">
-<div class="highlight-glsl notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
-
-<span class="k">layout</span><span class="p">(</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mo">0</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">vec3</span><span class="w"> </span><span class="n">position</span><span class="p">;</span>
-
-<span class="kt">void</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-
-<span class="c1">// Positions</span>
-<span class="nb">gl_Position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">.</span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span><span class="w"> </span><span class="c1">// Ex 1(a)</span>
-<span class="c1">//    gl_Position = vec4(position.x, -position.y, position.z, 1.0); // Ex 1(b)</span>
-<span class="c1">//    gl_Position = vec4(position.y, position.x, position.z, 1.0); // Ex 1(c)</span>
-
-<span class="p">}</span>
-</pre></div>
-</div>
-<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
-<div class="sd-row docutils">
-<div class="sd-col sd-d-flex-column sd-col-4 sd-col-xs-4 sd-col-sm-4 sd-col-md-4 sd-col-lg-4 docutils">
-<p class="sd-card-text">(a)</p>
-<figure class="align-default">
-<a class="reference internal image-reference" href="../_images/Lab02_Ex1a.png"><img alt="../_images/Lab02_Ex1a.png" src="../_images/Lab02_Ex1a.png" style="width: 150px;" /></a>
-</figure>
-</div>
-<div class="sd-col sd-d-flex-column sd-col-4 sd-col-xs-4 sd-col-sm-4 sd-col-md-4 sd-col-lg-4 docutils">
-<p class="sd-card-text">(b)</p>
-<figure class="align-default">
-<a class="reference internal image-reference" href="../_images/Lab02_Ex1b.png"><img alt="../_images/Lab02_Ex1b.png" src="../_images/Lab02_Ex1b.png" style="width: 150px;" /></a>
-</figure>
-</div>
-<div class="sd-col sd-d-flex-column sd-col-4 sd-col-xs-4 sd-col-sm-4 sd-col-md-4 sd-col-lg-4 docutils">
-<p class="sd-card-text">(c)</p>
-<figure class="align-default">
-<a class="reference internal image-reference" href="../_images/Lab02_Ex1c.png"><img alt="../_images/Lab02_Ex1c.png" src="../_images/Lab02_Ex1c.png" style="width: 150px;" /></a>
-</figure>
-</div>
-</div>
-</div>
-</div>
-</details><ol class="arabic simple" start="2">
 <li><p>Use two triangles to draw a green rectangle where the lower-left corner has co-ordinates (-0.5, -0.5, 0.0) and the upper-right corner has co-ordinates (0.5, 0.5, 0.0).</p></li>
-</ol>
-<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-Solution<div class="sd-summary-down docutils">
-<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
-<div class="sd-summary-up docutils">
-<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
-</summary><div class="sd-summary-content sd-card-body docutils">
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Exercise 2 - rectangle</span>
-<span class="c1">// Define vertices</span>
-<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">GLfloat</span><span class="w"> </span><span class="n">vertices</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">   </span><span class="mf">-0.5f</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.5f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">    </span><span class="mf">0.5f</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.5f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">    </span><span class="mf">0.5f</span><span class="p">,</span><span class="w">  </span><span class="mf">0.5f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">   </span><span class="mf">-0.5f</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.5f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">    </span><span class="mf">0.5f</span><span class="p">,</span><span class="w">  </span><span class="mf">0.5f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">   </span><span class="mf">-0.5f</span><span class="p">,</span><span class="w">  </span><span class="mf">0.5f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span>
-<span class="p">};</span>
-
-<span class="c1">// Define colours</span>
-<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">GLfloat</span><span class="w"> </span><span class="n">colours</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">   </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">   </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">   </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">   </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">   </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">   </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="p">};</span>
-</pre></div>
-</div>
-<figure class="align-default">
-<a class="reference internal image-reference" href="../_images/Lab02_Ex2.png"><img alt="../_images/Lab02_Ex2.png" src="../_images/Lab02_Ex2.png" style="width: 500px;" /></a>
-</figure>
-</div>
-</details><ol class="arabic simple" start="3">
 <li><p>Use six different coloured triangles to draw a hexagon.</p></li>
 </ol>
-<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-Solution<div class="sd-summary-down docutils">
-<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
-<div class="sd-summary-up docutils">
-<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
-</summary><div class="sd-summary-content sd-card-body docutils">
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Exercise 3 - hexagon</span>
-<span class="c1">// Define vertices</span>
-<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">GLfloat</span><span class="w"> </span><span class="n">vertices</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">   </span><span class="mf">0.00f</span><span class="p">,</span><span class="w">  </span><span class="mf">0.00f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">  </span><span class="mf">-0.25f</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.50f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">   </span><span class="mf">0.25f</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.50f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">   </span><span class="mf">0.00f</span><span class="p">,</span><span class="w">  </span><span class="mf">0.00f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">   </span><span class="mf">0.25f</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.50f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">   </span><span class="mf">0.50f</span><span class="p">,</span><span class="w">  </span><span class="mf">0.00f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">   </span><span class="mf">0.00f</span><span class="p">,</span><span class="w">  </span><span class="mf">0.00f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">   </span><span class="mf">0.50f</span><span class="p">,</span><span class="w">  </span><span class="mf">0.00f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">   </span><span class="mf">0.25f</span><span class="p">,</span><span class="w">  </span><span class="mf">0.50f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">   </span><span class="mf">0.00f</span><span class="p">,</span><span class="w">  </span><span class="mf">0.00f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">   </span><span class="mf">0.25f</span><span class="p">,</span><span class="w">  </span><span class="mf">0.50f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">  </span><span class="mf">-0.25f</span><span class="p">,</span><span class="w">  </span><span class="mf">0.50f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">   </span><span class="mf">0.00f</span><span class="p">,</span><span class="w">  </span><span class="mf">0.00f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">  </span><span class="mf">-0.25f</span><span class="p">,</span><span class="w">  </span><span class="mf">0.50f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">  </span><span class="mf">-0.50f</span><span class="p">,</span><span class="w">  </span><span class="mf">0.00f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">   </span><span class="mf">0.00f</span><span class="p">,</span><span class="w">  </span><span class="mf">0.00f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">  </span><span class="mf">-0.50f</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.00f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">  </span><span class="mf">-0.25f</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.50f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span>
-<span class="p">};</span>
-
-<span class="c1">// Define colours</span>
-<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">GLfloat</span><span class="w"> </span><span class="n">colours</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w">   </span><span class="c1">// red</span>
-<span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">  </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w">   </span><span class="c1">// green</span>
-<span class="w">  </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">  </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">  </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">   </span><span class="c1">// blue</span>
-<span class="w">  </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span>
-<span class="w">  </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span>
-<span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w">   </span><span class="c1">// yellow</span>
-<span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
-<span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">   </span><span class="c1">// magenta</span>
-<span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span>
-<span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span>
-<span class="w">  </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">   </span><span class="c1">// cyan</span>
-<span class="w">  </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span>
-<span class="w">  </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span>
-<span class="p">};</span>
-</pre></div>
-</div>
-<figure class="align-default">
-<a class="reference internal image-reference" href="../_images/Lab02_Ex3.png"><img alt="../_images/Lab02_Ex3.png" src="../_images/Lab02_Ex3.png" style="width: 500px;" /></a>
-</figure>
-</div>
-</details></section>
+</section>
+<section id="source-code">
+<h2><span class="section-number">2.8. </span>Source code<a class="headerlink" href="#source-code" title="Permalink to this heading">#</a></h2>
+<p>The source code for this lab, including the exercise solutions, can be downloaded using the links below.</p>
+<ul class="simple">
+<li><p>Main source code file: <a class="reference download internal" download="" href="../_downloads/7b2a63641ddace2efa26088817979ebe/main.cpp"><span class="xref download myst">main.cpp</span></a></p></li>
+<li><p>Vertex shader: <a class="reference download internal" download="" href="../_downloads/6755b9f63ab704ca4607ed0590f93e98/simpleVertexShader.vert"><span class="xref download myst">simpleVertexShader.vert</span></a></p></li>
+<li><p>Fragment shader: <a class="reference download internal" download="" href="../_downloads/de8a8c0022c3862148b352dd15e19289/simpleFragmentShader.frag"><span class="xref download myst">simpleFragmentShader.frag</span></a></p></li>
+</ul>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -931,6 +806,7 @@ Solution<div class="sd-summary-down docutils">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-colours">2.5. More colours</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-another-triangle">2.6. Adding another triangle</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">2.7. Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-code">2.8. Source code</a></li>
 </ul>
   </nav></div>
 
