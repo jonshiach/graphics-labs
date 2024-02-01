@@ -664,14 +664,6 @@ Compile and run the program and we have something quite different.
 </video>
 </center>
 
-````{important}
-Remember that transformations are applied in the reverse order in which the are written when multiplying the transformations matrices.
-
-```cpp
-transformation = third_transformation * second_transformation * first_transformation;
-```
-````
-
 ---
 
 ## Exercises
