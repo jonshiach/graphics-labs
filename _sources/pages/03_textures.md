@@ -33,6 +33,7 @@ This creates an OpenGL texture which can be referenced by the integer `texture1`
 The crate texture.
 ```
 
+(uniforms-section)=
 ### Uniforms
 
 A <a href="https://www.khronos.org/opengl/wiki/Uniform_(GLSL)" target="_blank">**uniform**</a> is a global shader that remained constant during the execution of the rendering pass and has the same value for all vertices and fragments. Uniforms provide a way to pass data to the shaders so are useful for passing the texture information to the fragment shader.
@@ -396,6 +397,8 @@ Here we have used the `mix()` GLSL function to combine the colour samples from t
 
 ```{figure} ../images/two_textures.png
 ```
+
+---
 
 ## Exercises
 

@@ -8,7 +8,7 @@ Computer graphics relies heavily on mathematics of vectors and matrices. In this
 
 The glm (<a href="https://github.com/g-truc/glm" target="_blank">OpenGL Mathematics</a>) library is a popular C++ mathematics library designed to provide classes and functions for mathematical operations, specifically tailored for graphics programming using OpenGL. We will be using functions from glm to perform calculations for us.
 
-1. Create an empty project in Visual Studio or Xcode and call it **Lab04_Vectors_and_matrices**.
+1. Create an empty project in Visual Studio or Xcode and call it `Lab04_Vectors_and_matrices`.
 
 2. Using the command prompt in Windows or the terminal in macOS and navigate to your newly created project folder. Within the project folder clone the GLM github repository.
 
@@ -16,20 +16,19 @@ The glm (<a href="https://github.com/g-truc/glm" target="_blank">OpenGL Mathemat
 git clone https://github.com/g-truc/glm
 ```
 
-3. Add the **glm/** folder to your project.
+3. Add the `glm/` folder to your project.
 
     **Visual studio:**
 
-    1. Right-click on your project in the project viewer and click on 'Properties'.
-    2. Select 'C/C++' and then 'General'.
-    3. Click on the down arrow next to 'Additional Include Directories' and then select 'Edit'. 
-    4. Add your glm/ folder and click OK a couple of times.
+    1. Right-click on your project in the project viewer and click on **Properties**.
+    2. Select **C/C++** and then **General**.
+    3. Click on the down arrow next to **Additional Include Directories** and then select **Edit**. 
+    4. Add your `glm/` folder and click OK a couple of times.
 
     **Xcode:**
-
-    5. Click on the project name on the left side of the window and then on 'Build Settings'.
-    6. In the search bar do a search for 'Search' which should show section titled 'Search Paths'.
-    7. Edit the 'Header Search Paths' and 'Library Search Paths' to include the folder glm/.
+    1. Click on the project name on the left side of the window and then on **Build Settings**.
+    2. In the search bar do a search for **Search** which should show section titled **Search Paths**.
+    3. Edit the **Header Search Paths** and **Library Search Paths** to include the folder `glm/`.
 
 ## Vectors
 
@@ -668,6 +667,9 @@ det(C) = 0
 ```
 
 ---
+
+(vectors-exercises)=
+
 ## Exercises
 
 1. Three points have the co-ordinates P = (5, 1, 3), Q = (10, 7, 4) and R = (0, 5, -3). Use C++ code to output the following:
@@ -679,46 +681,6 @@ det(C) = 0
     (e) A unit vector that points in the direction of the vector $\underline{q}$;<br>
     (f) The dot product $\underline{p} \cdot \underline{q}$;<br>
     (g) The cross product $\underline{q} \times \underline{r}$.
-
-````{dropdown} Solution
-
-Code
-
-```cpp
-// -------------------------------------------------------------------
-// Exercise 1
-glm::vec3 P = glm::vec3(5.0f, 1.0f, 3.0f);
-glm::vec3 Q = glm::vec3(10.0f, 7.0f, 4.0f);
-glm::vec3 R = glm::vec3(0.0f, 5.0f, -3.0f);
-glm::vec3 p = Q - P;
-glm::vec3 q = R - Q;
-glm::vec3 r = P - R;
-
-std::cout << "\nExercise 1\n----------" << std::endl;
-std::cout << "(a) p = " << p << std::endl;
-std::cout << "(b) p = " << q << std::endl;
-std::cout << "(c) p = " << r << std::endl;
-std::cout << "(d) |p| = " << glm::length(p) << std::endl;
-std::cout << "(e) phat = " << q / glm::length(q) << std::endl;
-std::cout << "(f) p . q = " << glm::dot(p, q) << std::endl;
-std::cout << "(g) q x r = " << glm::cross(q, r) << std::endl;
-```
-
-Output
-
-```text
-Exercise 1
-----------
-(a) p = [    5.000,    6.000,    1.000]
-(b) p = [  -10.000,   -2.000,   -7.000]
-(c) p = [    5.000,   -4.000,    6.000]
-(d) |p| = 7.87401
-(e) phat = [   -0.808,   -0.162,   -0.566]
-(f) p . q = -69
-(g) q x r = [  -40.000,   25.000,   50.000]
-```
-
-````
 
 2. The three matrices $A$, $B$ and $C$ are defined as
 
@@ -736,51 +698,6 @@ $$ \begin{align*}
 &emsp;&emsp; (d) $A^\mathsf{T}B$;<br>
 &emsp;&emsp; (f) $A^{-1}$.
 
-````{dropdown} Solution
-Code
-
-```cpp
-// Exercise 2
-A = glm::mat2(-1.0, 3.0f, 2.0f, -5.0f);
-B = glm::mat2(0.0f, 2.0f, 7.0f, 1.0f);
-C = glm::mat2(3.0f, 2.0f, -3.0f, -4.0f);
-
-std::cout << "\nExercise 2\n----------" << std::endl;
-std::cout << "(a) AB =" << glm::transpose(B * A) << std::endl;
-std::cout << "\n(b) ABC =" << glm::transpose(C * B * A) << std::endl;
-std::cout << "\n(c) CBA =" << glm::transpose(A * B * C) << std::endl;
-std::cout << "\n(d) A^T B =" << glm::transpose(B * glm::transpose(A)) << std::endl;
-std::cout << "\n(e) inv(A) = " << glm::transpose(glm::inverse(A)) << std::endl;
-```
-
-Output
-
-```text
-Exercise 2
-----------
-(a) AB =
-[[   21.000,    1.000]
- [  -35.000,   -1.000]]
-
-(b) ABC =
-[[   60.000,   38.000]
- [ -102.000,  -66.000]]
-
-(c) CBA =
-[[    2.000,    2.000]
- [    8.000,  -34.000]]
-
-(d) A^T B =
-[[   14.000,    0.000]
- [  -35.000,    1.000]]
-
-(e) inv(A) = 
-[[    5.000,    3.000]
- [    2.000,    1.000]]
-```
-
-````
-
 3. Create your own C++ class called MyLib using header and code files **MyLib.hpp** and **MyLib.cpp** respectively and define methods for calculating the following:
 
     (a) the length of a vector (equation {eq}`eq:vector-magnitude`);<br>
@@ -794,128 +711,10 @@ Exercise 2
 
 &emsp;&emsp; Use your class to answer questions 1 and 2 (you may use glm vectors and matrices).
 
-````{dropdown} Solution
-Header file
+## Source code
 
-```cpp
-# pragma once
+The source code for this lab, including the exercise solutions, can be downloaded using the links below.
 
-#include <iostream>
-#include <glm/glm.hpp>
-
-class MyLib
-{
-public:
-    static float length(const glm::vec3);
-    static float dot(const glm::vec3, const glm::vec3);
-    static glm::vec3 cross(const glm::vec3, const glm::vec3);
-    static glm::mat2 transpose(const glm::mat2);
-    static glm::mat2 multiplication(const glm::mat2, const glm::mat2);
-    static glm::mat2 inverse(const glm::mat2);
-};
-```
-
-Code file
-
-```cpp
-#include <glm/glm.hpp>
-#include "MyLib.hpp"
-
-float MyLib::length(const glm::vec3 v)
-{
-    float length = glm::sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
-    return length;
-}
-
-float MyLib::dot(const glm::vec3 a, glm::vec3 b)
-{
-    float aDotb = a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-    return aDotb;
-}
-
-glm::vec3 MyLib::cross(const glm::vec3 a, const glm::vec3 b)
-{
-    glm::vec3 aCrossb;
-    aCrossb[0] = a[1] * b[2] - a[2] * b[1];
-    aCrossb[1] = a[2] * b[0] - a[0] * b[2];
-    aCrossb[2] = a[0] * b[1] - a[1] * b[0];
-    return aCrossb;
-}
-
-glm::mat2 MyLib::transpose(const glm::mat2 A)
-{
-    glm::mat2 AT = glm::mat2(A[0][0], A[1][0], A[0][1], A[1][1]);
-    return AT;
-}
-
-glm::mat2 MyLib::multiplication(const glm::mat2 A, const glm::mat2 B)
-{
-    glm::mat2 AB;
-    AB[0][0] = A[0][0] * B[0][0] + A[0][1] * B[1][0];
-    AB[0][1] = A[0][0] * B[0][1] + A[0][1] * B[1][1];
-    AB[1][0] = A[1][0] * B[0][0] + A[1][1] * B[1][0];
-    AB[1][1] = A[1][0] * B[0][1] + A[1][1] * B[1][1];
-    return AB;
-}
-
-glm::mat2 MyLib::inverse(const glm::mat2 A)
-{
-    glm::mat2 invA;
-    float denom = A[0][0] * A[1][1] - A[0][1] * A[1][0];
-    invA[0][0] = A[1][1] / denom;
-    invA[0][1] = -A[1][0] / denom;
-    invA[1][0] = -A[0][1] / denom;
-    invA[1][1] = A[0][0] / denom;
-    return invA;
-}
-```
-
-Main file
-
-```cpp
-// Exercise 3
-std::cout << "\nExercise 3\n----------" << std::endl;
-std::cout << "1(d) |p| = " << MyLib::length(p) << std::endl;
-std::cout << "1(e) phat = " << q / MyLib::length(q) << std::endl;
-std::cout << "1(f) p . q = " << MyLib::dot(p, q) << std::endl;
-std::cout << "1(g) q x r = " << MyLib::cross(q, r) << std::endl;
-
-std::cout << "\n2(a) AB =" << MyLib::transpose(MyLib::multiplication(A, B)) << std::endl;
-std::cout << "\n2(b) ABC =" << MyLib::transpose(MyLib::multiplication(A, MyLib::multiplication(B, C))) << std::endl;
-std::cout << "\n2(c) CBA =" << MyLib::transpose(MyLib::multiplication(C, MyLib::multiplication(B, A)))  << std::endl;
-std::cout << "\n2(d) A^T B =" << MyLib::transpose(MyLib::multiplication(MyLib::transpose(A), B)) << std::endl;
-std::cout << "\n2(e) inv(A) = " << MyLib::transpose(MyLib::inverse(A)) << std::endl;
-```
-
-Output
-
-```text
-Exercise 3
-----------
-1(d) |p| = 7.87401
-1(e) phat = [   -0.808,   -0.162,   -0.566]
-1(f) p . q = -69
-1(g) q x r = [  -40.000,   25.000,   50.000]
-
-2(a) AB =
-[[   21.000,    1.000]
- [  -35.000,   -1.000]]
-
-2(b) ABC =
-[[   60.000,   38.000]
- [ -102.000,  -66.000]]
-
-2(c) CBA =
-[[    2.000,    2.000]
- [    8.000,  -34.000]]
-
-2(d) A^T B =
-[[   14.000,    0.000]
- [  -35.000,    1.000]]
-
-2(e) inv(A) = 
-[[    5.000,    2.000]
- [    3.000,    1.000]]
-```
-
-````
+- [main.cpp](../code/Lab04_Vectors_and_matrices/main.cpp)
+- [MyLib.hpp](../code/Lab04_Vectors_and_matrices/MyLib.hpp)
+- [MyLib.cpp](../code/Lab04_Vectors_and_matrices/MyLib.cpp)
