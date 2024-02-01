@@ -635,14 +635,14 @@ Comment out all of the code used to calculate the transformation matrices we hav
 
  ```cpp
 // Calculate transformations
-float angle = glfwGetTime();
+float time = glfwGetTime();
 glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.5f, 0.3f, 0.0f));
 glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f, 1.0f, 1.0f));
-glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0.0f, 0.0f, 1.0f));
+glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), time, glm::vec3(0.0f, 0.0f, 1.0f));
 glm::mat4 transformation = translate * rotate * scale;
 ```
 
-Here we have defined the `translate`, `scale` and `rotate` matrices and used them to calculate the composite transformation matrix. Note that we have used the time for the value of the `angle` variable which will cause the rectangle to rotate. Compile and run the program and you should so the rectangle rotate.
+Here we have defined the `translate`, `scale` and `rotate` matrices and used them to calculate the composite transformation matrix. Note that we have used the `time` variable which will cause the rectangle to rotate. Compile and run the program and you should see something similar to the following.
 
 <center>
 <video controls muted="true" loop="true" width="500">
