@@ -321,35 +321,130 @@
 % \end{tikzpicture}
 
 % Shaders
-\begin{tikzpicture}
-    \tikzmath{\x1=1;\y1=1;\x2=3;\y2=1;\x3=3;\y3=3;}
-    \coordinate (1) at (0,0);
-    \coordinate (2) at ($(1)+(6,0)$);
-    \coordinate (3) at ($(2)+(6,0)$);
-    \draw [fill=blue!10,rounded corners] (0,0) rectangle ++(4,4);
-    % \draw [thick] ($(1)+(\x1,\y1)$) -- ($(1)+(\x2,\y2)$) -- ($(1)+(\x3,\y3)$) -- cycle;
-    \draw [fill] ($(1)+(\x1,\y1)$) circle (2pt);
-    \draw [fill] ($(1)+(\x2,\y2)$) circle (2pt);
-    \draw [fill] ($(1)+(\x3,\y3)$) circle (2pt);
-    \draw [rounded corners,fill=blue!10,] (2) rectangle ++(4,4);
-    \foreach \i in {0, ..., 10} {
-        \foreach \j in {\i ,..., 10} {
-            \draw [gray,fill=white] ($(2)+(\x1-0.1,\y1-0.1)+(\j*0.2,\i*0.2)$) rectangle ++(0.2, 0.2);
-        }
-    }
-    \draw [thick] ($(2)+(\x1,\y1)$) -- ($(2)+(\x2,\y2)$) -- ($(2)+(\x3,\y3)$) -- cycle;
-    \draw [rounded corners,fill=blue!10] (3) rectangle ++(4,4);
-    \foreach \i in {0, ..., 10} {
-        \foreach \j in {\i ,..., 10} {
-            \draw [gray,fill=white] ($(3)+(\x1-0.1,\y1-0.1)+(\j*0.2,\i*0.2)$) rectangle ++(0.2, 0.2);
-        }
-    }
-    \fill [red] ($(3)+(\x1,\y1)+(1.1, 0.5)$) rectangle ++(0.2,0.2);
-    \node at ($(1)+(2,-0.5)$) {Vertex Shader};
-    \node at ($(2)+(2,-0.5)$) {Rasterisation};
-    \node at ($(3)+(2,-0.5)$) {Fragment Shader};
-    \draw [-stealth', gray,line width=3pt] ($(1)+(4.1,2)$) -- ++(1.8, 0);
-    \draw [-stealth', gray,line width=3pt] ($(2)+(4.1,2)$) -- ++(1.8, 0);
+% \begin{tikzpicture}
+%     \tikzmath{\x1=1;\y1=1;\x2=3;\y2=1;\x3=3;\y3=3;}
+%     \coordinate (1) at (0,0);
+%     \coordinate (2) at ($(1)+(6,0)$);
+%     \coordinate (3) at ($(2)+(6,0)$);
+%     \draw [fill=blue!10,rounded corners] (0,0) rectangle ++(4,4);
+%     % \draw [thick] ($(1)+(\x1,\y1)$) -- ($(1)+(\x2,\y2)$) -- ($(1)+(\x3,\y3)$) -- cycle;
+%     \draw [fill] ($(1)+(\x1,\y1)$) circle (2pt);
+%     \draw [fill] ($(1)+(\x2,\y2)$) circle (2pt);
+%     \draw [fill] ($(1)+(\x3,\y3)$) circle (2pt);
+%     \draw [rounded corners,fill=blue!10,] (2) rectangle ++(4,4);
+%     \foreach \i in {0, ..., 10} {
+%         \foreach \j in {\i ,..., 10} {
+%             \draw [gray,fill=white] ($(2)+(\x1-0.1,\y1-0.1)+(\j*0.2,\i*0.2)$) rectangle ++(0.2, 0.2);
+%         }
+%     }
+%     \draw [thick] ($(2)+(\x1,\y1)$) -- ($(2)+(\x2,\y2)$) -- ($(2)+(\x3,\y3)$) -- cycle;
+%     \draw [rounded corners,fill=blue!10] (3) rectangle ++(4,4);
+%     \foreach \i in {0, ..., 10} {
+%         \foreach \j in {\i ,..., 10} {
+%             \draw [gray,fill=white] ($(3)+(\x1-0.1,\y1-0.1)+(\j*0.2,\i*0.2)$) rectangle ++(0.2, 0.2);
+%         }
+%     }
+%     \fill [red] ($(3)+(\x1,\y1)+(1.1, 0.5)$) rectangle ++(0.2,0.2);
+%     \node at ($(1)+(2,-0.5)$) {Vertex Shader};
+%     \node at ($(2)+(2,-0.5)$) {Rasterisation};
+%     \node at ($(3)+(2,-0.5)$) {Fragment Shader};
+%     \draw [-stealth', gray,line width=3pt] ($(1)+(4.1,2)$) -- ++(1.8, 0);
+%     \draw [-stealth', gray,line width=3pt] ($(2)+(4.1,2)$) -- ++(1.8, 0);
+% \end{tikzpicture}
+
+% Texture mapping
+% \begin{tikzpicture}
+%     \node {\includegraphics[width=3.8cm]{smiley}};
+%     \draw (-2,-2) rectangle ++(4,4);
+%     \draw [-stealth'] (-2,-2) -- ++(4.2,0) node [right] {$u$};
+%     \draw [-stealth'] (-2,-2) -- ++(0,4.2) node [above] {$v$};
+%     \node [below] at (-2,-2) {0};
+%     \node [below] at (2,-2) {1};
+%     \node [left] at (-2,-2) {0};
+%     \node [left] at (-2,2) {1};
+%     \node at (0,-2.5) {texture};
+%     \draw [red,line width=2pt] (-1,-1) coordinate (1)-- ++(3,1) coordinate (2) -- ++(-2,1.5) coordinate (3) -- cycle;
+%     \begin{scope}
+%         \clip (5,-1) coordinate (4) -- ++(3,1) coordinate (5) -- ++(-2,1.5) coordinate (6) -- cycle;
+%         \node at (6,0) {\includegraphics[width=3.8cm]{smiley}};
+%     \end{scope}
+%     \node at (6.5,-2.5) {window};
+%     \draw [red,-latex',shorten >= 2pt, shorten <= 2pt,line width=1pt] (1) to [bend right=20] (4);
+%     \draw [red,-latex',shorten >= 2pt, shorten <= 2pt,line width=1pt] (3) to [bend left=20] (6);
+%     \draw [red,-latex',shorten >= 2pt, shorten <= 2pt,line width=1pt] (2) to [bend left=10] (5);
+%     \draw (4, -2) rectangle ++(5,4);
+%     \draw [-stealth'] (4,-2) -- ++(5.2,0) node [right] {$x$};
+%     \draw [-stealth'] (4,-2) -- ++(0,4.2) node [above] {$y$};
+% \end{tikzpicture}
+
+% Rectangle
+% \begin{tikzpicture}
+%     \draw [fill=blue!50] (-1.5,-1) coordinate (P1) 
+%     -- (1.5,-1) coordinate (P2)  
+%     -- (1.5,1) coordinate (P3) -- cycle;
+%     \draw [fill=red!50] (P1) -- (P3) -- (-1.5,1) coordinate (P4) -- cycle;
+%     \draw [line width=1pt] (-3,-2) -- ++(6, 0) -- ++(0, 4) -- ++(-6, 0) -- cycle;
+%     \draw [-stealth'] (-4, 0) -- ++(8, 0) node [right] {$x$};
+%     \draw [-stealth'] (0, -3) -- ++(0, 6) node [above] {$y$};
+%     \node [below left] at (-3, 0) {-1};
+%     \node [below right] at (3,0) {1};
+%     \node [below left] at (0,-2) {-1};
+%     \node [above left] at (0,2) {1};
+%     \node [point] at (P1) {};
+%     \node [point] at (P2) {};
+%     \node [point] at (P3) {};
+%     \node [point] at (P4) {};
+%     \node [below] at (P1) {(-0.5,-0.5)};
+%     \node [below] at (P2) {(0.5,-0.5)};
+%     \node [above] at (P3) {(0.5,0.5)};
+%     \node [above] at (P4) {(-0.5,0.5)};
+% \end{tikzpicture}
+
+% Linear filtering
+% \begin{tikzpicture}
+%     \tikzmath{\c1=100;\c2=75;\c3=50;\c4=25;\c5=(\c1+\c2+\c3+\c4)/4;\x=1.5;\y=2.5;};
+%     \fill [blue!\c1] (0,2) rectangle ++(2,2);    
+%     \fill [blue!\c2] (2,2) rectangle ++(2,2);    
+%     \fill [blue!\c3] (0,0) rectangle ++(2,2);    
+%     \fill [blue!\c4] (2,0) rectangle ++(2,2);  
+%     \draw [->,line width=4pt] (4.5, 2) -- ++(1,0);
+%     \fill [blue!\c5] (6,1) rectangle ++(2,2);
+%     \node [below] at (7,1) {colour sample};
+%     \draw (0.9,3) -- ++(0.2,0) (1,2.9) -- ++(0,0.2);
+%     \draw (2.9,3) -- ++(0.2,0) (3,2.9) -- ++(0,0.2);
+%     \draw (0.9,1) -- ++(0.2,0) (1,0.9) -- ++(0,0.2);
+%     \draw (2.9,1) -- ++(0.2,0) (3,0.9) -- ++(0,0.2);
+%     \node [point] at (\x,\y) {};
+% \end{tikzpicture}
+
+% \begin{tikzpicture}
+%     \tikzmath{\c1=100;\c2=75;\c3=50;\c4=25;\x=1.5;\y=2.5;\c5=90;};
+%     \fill [blue!\c1] (0,2) rectangle ++(2,2);    
+%     \fill [blue!\c2] (2,2) rectangle ++(2,2);    
+%     \fill [blue!\c3] (0,0) rectangle ++(2,2);    
+%     \fill [blue!\c4] (2,0) rectangle ++(2,2);  
+%     \draw [->,line width=4pt] (4.5, 2) -- ++(1,0);
+%     \fill [blue!\c5] (6,1) rectangle ++(2,2);
+%     \node [below] at (7,1) {colour sample};
+%     \draw (0.9,3) -- ++(0.2,0) (1,2.9) -- ++(0,0.2);
+%     \draw (2.9,3) -- ++(0.2,0) (3,2.9) -- ++(0,0.2);
+%     \draw (0.9,1) -- ++(0.2,0) (1,0.9) -- ++(0,0.2);
+%     \draw (2.9,1) -- ++(0.2,0) (3,0.9) -- ++(0,0.2);
+%     \node [point] (pixel) at (\x,\y) {};
+%     \draw [<->,red,line width=1pt] (pixel) -- (\x,3);
+%     \draw [<->,red,line width=1pt] (pixel) -- (\x,1);
+%     \draw [<->,red,line width=1pt] (pixel) -- (1,\y);
+%     \draw [<->,red,line width=1pt] (pixel) -- (3,\y);
+% \end{tikzpicture}
+
+\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+    \node [anchor=south west] {\includegraphics[width=4cm,height=4cm]{smiley_checkerboard.png}};
+    \node [anchor=south west] at (4,2) {\includegraphics[width=2cm,height=2cm]{smiley_checkerboard.png}};
+    \node [anchor=south west] at (4,1) {\includegraphics[width=1cm,height=1cm]{smiley_checkerboard.png}};
+    \node [anchor=south west] at (4,0.5) {\includegraphics[width=0.5cm,height=0.5cm]{smiley_checkerboard.png}};
+    \node [anchor=south west] at (4,0.25) {\includegraphics[width=0.25cm,height=0.25cm]{smiley_checkerboard.png}};
+    \node [anchor=south west] at (4,0.125) {\includegraphics[width=0.125cm,height=0.125cm]{smiley_checkerboard.png}};
 \end{tikzpicture}
+
 
 \end{document}

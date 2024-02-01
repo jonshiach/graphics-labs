@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.8.30)  24 JAN 2024 15:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.6.6)  1 FEB 2024 08:27
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/Users/55093290/Library/CloudStorage/OneDrive-MMU/Documents/2023_2024/Graphics/graphics-labs/images/tikz/tikz_figures.tex
-(/Users/55093290/Library/CloudStorage/OneDrive-MMU/Documents/2023_2024/Graphics/graphics-labs/images/tikz/tikz_figures.tex
+**/Users/jon/Library/CloudStorage/Dropbox/Work/2023_2024/Graphics/graphics-labs/images/tikz/tikz_figures.tex
+(/Users/jon/Library/CloudStorage/Dropbox/Work/2023_2024/Graphics/graphics-labs/images/tikz/tikz_figures.tex
 LaTeX2e <2022-11-01> patch level 1
 L3 programming layer <2023-02-22> (/usr/local/texlive/2023/texmf-dist/tex/latex/standalone/standalone.cls
 Document Class: standalone 2022/10/10 v1.3b Class to compile TeX sub-files standalone
@@ -455,22 +455,48 @@ Package grfext Info: Graphics extension search list:
 (grfext)             \AppendGraphicsExtensions on input line 504.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
-)) [1
+))
+<smiley_checkerboard.png, id=4, 506.6428pt x 506.6428pt>
+File: smiley_checkerboard.png Graphic file (type png)
+<use smiley_checkerboard.png>
+Package pdftex.def Info: smiley_checkerboard.png  used on input line 441.
+(pdftex.def)             Requested size: 113.80417pt x 113.80417pt.
+File: smiley_checkerboard.png Graphic file (type png)
+<use smiley_checkerboard.png>
+Package pdftex.def Info: smiley_checkerboard.png  used on input line 442.
+(pdftex.def)             Requested size: 56.89821pt x 56.89821pt.
+File: smiley_checkerboard.png Graphic file (type png)
+<use smiley_checkerboard.png>
+Package pdftex.def Info: smiley_checkerboard.png  used on input line 443.
+(pdftex.def)             Requested size: 28.4491pt x 28.4491pt.
+File: smiley_checkerboard.png Graphic file (type png)
+<use smiley_checkerboard.png>
+Package pdftex.def Info: smiley_checkerboard.png  used on input line 444.
+(pdftex.def)             Requested size: 14.22455pt x 14.22455pt.
+File: smiley_checkerboard.png Graphic file (type png)
+<use smiley_checkerboard.png>
+Package pdftex.def Info: smiley_checkerboard.png  used on input line 445.
+(pdftex.def)             Requested size: 7.11227pt x 7.11227pt.
+File: smiley_checkerboard.png Graphic file (type png)
+<use smiley_checkerboard.png>
+Package pdftex.def Info: smiley_checkerboard.png  used on input line 446.
+(pdftex.def)             Requested size: 3.55614pt x 3.55614pt.
+ [1
 
-{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}] (./tikz_figures.aux) ) 
+ <./smiley_checkerboard.png>] (./tikz_figures.aux) ) 
 Here is how much of TeX's memory you used:
- 17573 strings out of 476025
- 389823 string characters out of 5790017
- 1869388 words of memory out of 5000000
- 37696 multiletter control sequences out of 15000+600000
+ 17487 strings out of 476025
+ 388161 string characters out of 5790018
+ 1854388 words of memory out of 5000000
+ 37610 multiletter control sequences out of 15000+600000
  513048 words of font info for 33 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 117i,7n,118p,502b,662s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb>
-Output written on tikz_figures.pdf (1 page, 14536 bytes).
+ 117i,7n,118p,487b,670s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+Output written on tikz_figures.pdf (1 page, 100683 bytes).
 PDF statistics:
- 17 PDF objects out of 1000 (max. 8388607)
- 11 compressed objects within 1 object stream
+ 12 PDF objects out of 1000 (max. 8388607)
+ 7 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 18 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -35,3 +35,7 @@ html:
   use_repository_button: true
 
 exclude_patterns: [/*.cpp]
+
+sphinx:
+  config:
+    html_extra_path: ['./videos']

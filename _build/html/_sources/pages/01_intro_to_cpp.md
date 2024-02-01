@@ -787,6 +787,6 @@ Classification: xxxx (weighted average = xx).
 
 The source code for this lab, including the exercise solutions, can be downloaded using the links below.
 
-- Main source code file: {download}`main.cpp<../code/Lab01/main.cpp>`
-- Car class: {download}`Car.hpp<../code/Lab01/Car.hpp>`, {download}`Car.cpp<../code/Lab01/Car.cpp>`
-- Student class: {download}`Student.hpp<../code/Lab01/Student.hpp>`, {download}`Student.cpp<../code/Lab01/Student.cpp>`
+- Main source code file: [main.cpp](../code/Lab01/main.cpp)
+- Car class: [Car.hpp](../code/Lab01/Car.hpp), [Car.cpp](../code/Lab01/Car.cpp)
+- Student class: [Student.hpp](../code/Lab01/Student.hpp), [Student.cpp](../code/Lab01/Student.cpp)
