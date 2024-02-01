@@ -6,188 +6,82 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-// Include shader class
+// Include shader function
 #include "shader.hpp"
 
 int main( void )
 {
-	// Initialise GLFW
-	if( !glfwInit() )
-	{
-		fprintf( stderr, "Failed to initialize GLFW\n" );
-		getchar();
-		return -1;
-	}
+    // Initialise GLFW
+    if( !glfwInit() )
+    {
+        fprintf( stderr, "Failed to initialize GLFW\n" );
+        getchar();
+        return -1;
+    }
 
-	glfwWindowHint(GLFW_SAMPLES, 4);
-	glfwWindowHint(GLFW_RESIZABLE,GL_FALSE);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_SAMPLES, 4);
+    glfwWindowHint(GLFW_RESIZABLE,GL_FALSE);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	// Open a window and create its OpenGL context
+    // Open a window and create its OpenGL context
     GLFWwindow* window = glfwCreateWindow( 1024, 768, "Hello Triangle", NULL, NULL);
-	if( window == NULL ){
-		fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
-		getchar();
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(window);
+    if( window == NULL ){
+        fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
+        glfwTerminate();
+        return -1;
+    }
+    glfwMakeContextCurrent(window);
 
-	// Initialize GLEW
+    // Initialize GLEW
     glewExperimental = true; // Needed for core profile
-	if (glewInit() != GLEW_OK) {
-		fprintf(stderr, "Failed to initialize GLEW\n");
-		getchar();
-		glfwTerminate();
-		return -1;
-	}
+    if (glewInit() != GLEW_OK) {
+        fprintf(stderr, "Failed to initialize GLEW\n");
+        getchar();
+        glfwTerminate();
+        return -1;
+    }
 
-	// Ensure we can capture the escape key being pressed below
-	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+    // Ensure we can capture the escape key being pressed below
+    glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
     
     // Dark grey background
     glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
     
     // Compile shader program
-    GLuint shaderID = LoadShaders("simpleVertexShader.vert", "simpleFragmentShader.frag");
+    GLuint shaderID = LoadShaders("simpleVertexShader.vs", "simpleFragmentShader.fs");
     
     // Create the Vertex Array Object (VAO)
-    GLuint VAO;
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
+    GLuint vertexArrayID;
+    glGenVertexArrays(1, &vertexArrayID);
+    glBindVertexArray(vertexArrayID);
     
     // Define vertex positions
     static const GLfloat vertices[] = {
-        -0.9f, -0.5f, 0.0f,    // triangle 1
-        -0.1f, -0.5f, 0.0f,
-        -0.5f,  0.5f, 0.0f,
-         0.1f, -0.5f, 0.0f,    // triangle 2
-         0.9f, -0.5f, 0.0f,
-         0.5f,  0.5f, 0.0f
+        // x     y      z
+        -0.5f, -0.5f,  0.0f,
+         0.5f, -0.5f,  0.0f,
+         0.0f,  0.5f,  0.0f
     };
 
-    // Define colours
-    static const GLfloat colours[] = {
-        1.0f, 0.0f, 0.0f,    // red
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 1.0f,    // blue
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-    };
-    
-    /*
-    // Exercise 1 - Single red triangle
-    // Define vertex positions
-    static const GLfloat vertices[] = {
-        -0.5f, -0.5f, 0.0f,    // triangle 1
-         0.5f, -0.5f, 0.0f,
-         0.0f,  0.5f, 0.0f,
-    };
-
-    // Define colours
-    static const GLfloat colours[] = {
-        1.0f, 0.0f, 0.0f,    // red
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-    };
-    */
-    
-    /*
-    // Exercise 2 - rectangle
-    // Define vertices
-    static const GLfloat vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f,
-         0.5f,  0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f,
-         0.5f,  0.5f, 0.0f,
-        -0.5f,  0.5f, 0.0f
-    };
-    
-    // Define colours
-    static const GLfloat colours[] = {
-        0.0f, 1.0f, 0.0f,   // green
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-    };
-    */
-    
-    /*
-    // Exercise 3 - hexagon
-    // Define vertices
-    static const GLfloat vertices[] = {
-         0.00f,  0.00f, 0.0f,
-        -0.25f, -0.50f, 0.0f,
-         0.25f, -0.50f, 0.0f,
-         0.00f,  0.00f, 0.0f,
-         0.25f, -0.50f, 0.0f,
-         0.50f,  0.00f, 0.0f,
-         0.00f,  0.00f, 0.0f,
-         0.50f,  0.00f, 0.0f,
-         0.25f,  0.50f, 0.0f,
-         0.00f,  0.00f, 0.0f,
-         0.25f,  0.50f, 0.0f,
-        -0.25f,  0.50f, 0.0f,
-         0.00f,  0.00f, 0.0f,
-        -0.25f,  0.50f, 0.0f,
-        -0.50f,  0.00f, 0.0f,
-         0.00f,  0.00f, 0.0f,
-        -0.50f, -0.00f, 0.0f,
-        -0.25f, -0.50f, 0.0f
-    };
-
-    // Define colours
-    static const GLfloat colours[] = {
-        1.0f, 0.0f, 0.0f,   // red
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,   // green
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 1.0f,   // blue
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f,   // yellow
-        1.0f, 1.0f, 0.0f,
-        1.0f, 1.0f, 0.0f,
-        1.0f, 0.0f, 1.0f,   // magenta
-        1.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 1.0f,   // cyan
-        0.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f,
-    };
-    */
-    
     // Create Vertex Buffer Object
-    GLuint VBO;
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    GLuint vertexBuffer;
+    glGenBuffers(1, &vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     
-    // Create colour buffer
-    GLuint colourBuffer;
-    glGenBuffers(1, &colourBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, colourBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(colours), colours, GL_STATIC_DRAW);
-    
-	do{
+    do {
         // Clear the window
-		glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT);
 
         // Use the shader program
         glUseProgram(shaderID);
         
-        // Send the VBO to the shaders
+        // Send vertices to buffer
         glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
         glVertexAttribPointer(
                               0,           // attribute
                               3,           // size
@@ -195,41 +89,29 @@ int main( void )
                               GL_FALSE,    // normalise
                               0,           // stride
                               (void*)0     // offset
-                              );
-        
-        // Send colours to the shaders
-        glEnableVertexAttribArray(1);
-        glBindBuffer(GL_ARRAY_BUFFER, colourBuffer);
-        glVertexAttribPointer(
-                              1,           // attribute
-                              3,           // size
-                              GL_FLOAT,    // type
-                              GL_FALSE,    // normalise
-                              0,           // stride
-                              (void*)0     // offset
-                              );
+        );
         
         // Draw the triangle
-        glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / (sizeof(float) * 3));
+        glDrawArrays(GL_TRIANGLES, 0, 18);
         glDisableVertexAttribArray(0);
         
-		// Swap buffers
-		glfwSwapBuffers(window);
-		glfwPollEvents();
+        // Swap buffers
+        glfwSwapBuffers(window);
+        glfwPollEvents();
 
-	}
+    }
     
     // Check if the ESC key was pressed or the window was closed
-	while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
-		   glfwWindowShouldClose(window) == 0 );
+    while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
+           glfwWindowShouldClose(window) == 0 );
 
     // Cleanup
-    glDeleteBuffers(1, &VBO);
-    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &vertexBuffer);
+    glDeleteVertexArrays(1, &vertexArrayID);
     glDeleteProgram(shaderID);
     
-	// Close OpenGL window and terminate GLFW
-	glfwTerminate();
+    // Close OpenGL window and terminate GLFW
+    glfwTerminate();
 
-	return 0;
+    return 0;
 }

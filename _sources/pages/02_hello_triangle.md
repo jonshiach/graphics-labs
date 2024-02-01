@@ -4,6 +4,7 @@
 
 In this lab we will be creating our first graphics application in OpenGL.
 
+(hello-window-section)=
 ## Hello window
 
 To start using OpenGL we are going to have to download and compile several libraries and configure the IDE (we will be using Visual Studio on Windows). This can be quite an involved process (see <a href="https://learnopengl.com/Getting-started/Creating-a-window" target="_blank">Learn OpenGL</a> for a detailed tutorial on doing this). However, I have adapted the excellent resource <a href="https://www.opengl-tutorial.org/" target="_blank">opengl-tutorial.org</a> to do this for us.
@@ -31,7 +32,7 @@ If all has gone to plan you should be looking at a boring window with a grey bac
 ```{figure} ../images/hello_window.png
 :width: 500
 
-The 'hello window' example (boring isn't it)
+The "hello window" example (boring isn't it)
 ```
 
 ---
@@ -53,7 +54,7 @@ glBindVertexArray(VAO);
 Here we have defined the integer `VAO` using `GLunit` instead of plain old `unsigned int`. `GLuint` stands for <a href="https://www.khronos.org/opengl/wiki/OpenGL_Type" target="_blank">**OpenGL unsigned integer**</a> and we use this because different architectures stores variables using different memory sizes. In order to ensure our application works across various platforms we use OpenGL types.
 ```
 
-OpenGL expects the $x$, $y$ and $z$ co-ordinates of all vertices to be between -1.0 and 1.0 where the $x$ and $y$ axes point to the right and up respectively and the $z$ axes points out from the screen (these are known as **Normalised Device Co-ordinates (NDC)** - more on this later). For now we are going to draw a triangle with vertex co-ordinates (-0.5,-0.5,0), (0.5,-0.5,0) and (0,0.5,0) for the bottom-left, bottom-right and top vertices respectively.
+OpenGL expects the x, y and z co-ordinates of all vertices to be between -1.0 and 1.0 where the x and y axes point to the right and up respectively and the z axes points out from the screen (these are known as **Normalised Device Co-ordinates (NDC)** - more on this later). For now we are going to draw a triangle with vertex co-ordinates (-0.5,-0.5,0), (0.5,-0.5,0) and (0,0.5,0) for the bottom-left, bottom-right and top vertices respectively.
 
 ```{figure} ../images/opengl_window.svg
 :width: 400
@@ -76,7 +77,7 @@ static const GLfloat vertices[] = {
 We now need to define a <a href="https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Buffer_Object" target="_blank">**Vertex Buffer Object (VBO)**</a> which is how we transfer the vertex data from the CPU to the GPU.
 
 ```cpp
-// Create Vertex Buffer Object
+// Create Vertex Buffer Object (VBO)
 GLuint VBO;
 glGenBuffers(1, &VBO);
 glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -95,35 +96,42 @@ Now we have defined our triangle and copied the information over to OpenGL we no
 :width: 600
 ```
 
-At its most basic it consists of a <a href="https://www.khronos.org/opengl/wiki/Vertex_Shader" target="_blank">**vertex shader**</a> and a <a href="https://www.khronos.org/opengl/wiki/Fragment_Shader" target="_blank">**fragment shader**</a>. The vertex shader is called once for each vertex and calculates the position of the current vertex and stores it in a special GLSL vector `gl_Position`. The vertices that form a polygon are then passed to OpenGL which maps the polygon to the corresponding pixels on the display. The part of the display raster that contains the pixels that correspond to a polygon is called a **fragment**.
-
-The fragment is clipped to the display so that any part of the fragment outside of our view is discarded and then is passed to the fragment shader. The fragment shader is called once for each pixel in the fragment and determines the colour of that pixel.
+At its most basic it consists of a <a href="https://www.khronos.org/opengl/wiki/Vertex_Shader" target="_blank">**vertex shader**</a> and a <a href="https://www.khronos.org/opengl/wiki/Fragment_Shader" target="_blank">**fragment shader**</a>. The vertex shader is called once for each vertex and calculates the position of the current vertex and stores it in a special GLSL vector `gl_Position`. The vertices that form a polygon are then passed to OpenGL which maps the polygon to the corresponding pixels on the display. A **fragment** is a data structure that represents a potential pixel on the display. The fragment shader is called once for each pixel in the fragment and determines the colour of that pixel.
 
 The shaders are compiled by the application at runtime.
 
 (vertex-shader-section)=
-
+)
 ### Vertex shader
 
 Click on **File > New > File...** (or just press CTRL + N) and select text file. Enter the following program into the new file and save it in the `Lab02_Basic_shapes/source` folder using the filename `simpleVertexShader.vert` (the file extension doesn't matter but it is common to use `.vert` to denote the vertex shader).
+
+```{important}
+Make sure the file is saved with the correct file extension, i.e., `simpleVertexShader.vert` and not something like `simpleVertexShader.vert.txt` else the shader program will not be able to find the vertex shader.
+```
 
 ```glsl
 #version 330 core
 
 layout(location = 0) in vec3 position;
 
-void main() {
-
-    gl_Position = vec4(position.x, position.y, position.z, 1.0);
-
+void main() 
+{
+    gl_Position = vec4(position, 1.0);
 }
 ```
 
-This is the GLSL program for a simple vertex shader. It takes in a single 3-element vector `position` that contains the $(x,y,z)$ co-ordinates of a vertex and outputs the 4-element vector `gl_Position` containing the co-ordinates. You may be wondering why we have this addition element `1.0`, don't worry about this for now, it will be explained [later on](translation-section)).
+This is the GLSL program for a simple vertex shader. It takes in a single 3-element vector `position` that contains the (x,y,z) co-ordinates of a vertex and outputs the 4-element vector `gl_Position` containing the co-ordinates. The individual elements of a vector in GLSL can be accessed using `<vector name>.x`, `<vector name>.y` and `<vector name>.z` so we could have used the following instead.
+
+```cpp
+gl_Position = vec4(position.x, position.y, position.z, 1.0)
+```
+
+You may be wondering why we have this additional element `1.0`, don't worry about this for now, it will be explained [later on](translation-section).
 
 ### Fragment shader
 
-Create a new file as you did with the vertex shader but with the following code and save it using the filename `simpleFragmentShader.frag` (again, the file extension doesn't matter but it is common to use `.frag` to denote fragment shader).
+Create a new file as you did with the vertex shader but with the following code and save it using the filename `simpleFragmentShader.frag` (again, makes sure the file has the correct extension).
 
 ```glsl
 #version 330 core
@@ -131,18 +139,17 @@ Create a new file as you did with the vertex shader but with the following code 
 // Output data
 out vec4 colour;
 
-void main() {
-
+void main() 
+{
     colour = vec4(1.0, 0.0, 0.0, 1.0);    // RGBA
-
 }
 ```
 
-This fragment shader outputs a single 4-element vector called `colour` which defines the colour of the pixel using RGBA which stands for Red-Green-Blue-Alpha. The values are in the range 0 to 1 and so here we have red = 1, blue = 0, green = 0 so our pixel (and all pixels in the triangle) will be rendered in red and alpha = 0 which means it is fully opaque.
+This fragment shader outputs a single 4-element vector called `colour` which defines the colour of the fragment using RGBA which stands for Red-Green-Blue-Alpha. The values are in the range 0 to 1 and so here we have red = 1, blue = 0, green = 0 so our pixel (and all pixels in the triangle) will be rendered in red with an Alpha value of 1 which means it is fully opaque.
 
 ### Shader program
 
-We now need to combine the vertex and fragment shaders into a single shader program. To do this we are going use the function `LoadShaders()` written by contributors of <a href = "https://www.opengl-tutorial.org" target="_blank">opengl-tutorial.org</a>. The header and code files are already in the `source/` folder and the `shader` class has been included at the top of the `main.cpp` file. 
+We now need to combine the vertex and fragment shaders into a single shader program. To do this we are going use the function `LoadShaders()` written by contributors of <a href = "https://www.opengl-tutorial.org" target="_blank">opengl-tutorial.org</a>. The header and code files are already in the `source/` folder and the `shader` class has been included at the top of the `main.cpp` file.
 
 We can now compile the shader program using the `LoadShaders()` function.
 
@@ -164,7 +171,7 @@ Finally, we can now draw the triangle. Any commands to draw objects in our windo
 glUseProgram(shaderID);
 ```
 
-Now we need to by the VBO to the VAO to send all of the data to the shaders for OpenGL to interpret.
+Now we need to bind the VBO to the VAO to send all of the data to the shaders for OpenGL to interpret.
 
 ```cpp
 // Send the VBO to the shaders
@@ -180,18 +187,20 @@ glVertexAttribPointer(
                       );
 ```
 
- - `glEnableVertexAttribArray();` enables a generic vertex array so we can pass our triangle data to OpenGL;
- - `glBindBuffer();` binds our VBO to OpenGL;
+The three functions we've used here are:
+
+ - `glEnableVertexAttribArray()` enables a generic vertex array so we can pass our triangle data to OpenGL;
+ - `glBindBuffer()` binds our VBO to OpenGL;
  - `glVertexAttribPointer()` tells OpenGL how to interpret the data we are sending it. The input arguments are explained below.
 
 | Argument | Explanation |
 |:--|:--|
 | Attribute | A number that defines which vertex attribute we want to configure. In the vertex shader we used `location = 0` for the vertex co-ordinates and since we are passing vertex co-ordinates, we set the attribute to 0. |
-| Size | How many values does the vertex attribute have. Here we have $(x,y,z)$ co-ordinates so this is 3. |
+| Size | How many values does the vertex attribute have. Here we have (x,y,z) co-ordinates so this is 3. |
 | Type | Our co-ordinates are floats. |
 | Normalise | We have already set out vertex co-ordinates in NDC (i.e., in the range -1 to 1) so we set this to false. |
 | Stride | The space between consecutive vertex attributes. Here one vertex immediately follows the next, so this is zero. |
-| Offset | Where does the first data point appear in the buffer. For us this is at the beginning, so we set it to 0. |
+| Offset | Where does the first data point appear in the buffer? For us this is at the beginning, so we set it to 0. |
 
 Now we instruct OpenGL to draw the triangle.
 
@@ -203,7 +212,7 @@ glDisableVertexAttribArray(0);
 
 The `glDrawArrays()` command tells OpenGL that we wish to draw triangles, the `0` specifies that the first vertex starts at the 0 index in the buffer and the `3` specifies the number of vertices we want to draw. Since we no longer need the vertex attribute array, we disable it using `glDisableVertexAttribArray()`.
 
-Don't get too excited just yet. As good programmers we should clean up after ourselves and not leave bits of data lying around. After the close of the `do` loop we de-allocate the vertex and buffer objects as well as deleting the shader program.
+Don't get too excited just yet. As good programmers we should clean up after ourselves and not leave bits of data lying around. After the close of the do/while loop we de-allocate the vertex and buffer objects as well as deleting the shader program.
 
 ```cpp
 // Cleanup
@@ -212,15 +221,15 @@ glDeleteVertexArrays(1, &VAO);
 glDeleteProgram(shaderID);
 ```
 
-Compile and run your program. After all the syntax errors and bugs have been resolved (unless you are very lucky there will be at least one) you should be presented with a window within which is your red triangle that you have created. Note that the window shown below no longer has the title "Hello Window", can you change your code so that your window has a more accurate title?
+Compile and run your program. After all the syntax errors and bugs have been resolved (unless you are very lucky there will be at least one) you should be presented with a window within which is your red triangle that you have created. Note that the window shown below no longer has the title "Hello Window", can you change your code so that your window has the title "Hello Triangle"?
 
 ```{figure} ../images/hello_triangle.png
 :width: 500
 
-The 'hello triangle' example
+The "hello triangle" example
 ```
 
-If you are having trouble getting to this stage, the code for producing this triangle is given {download}`here<../code/lab01_hello_triangle.cpp>`
+If you are having trouble getting to this stage, the code for producing this triangle is given [here](../code/Lab02_Basic_shapes/main.cpp).
 
 ---
 
@@ -233,6 +242,7 @@ Create an array of float that contains the RGB colour data for each vertex.
 ```cpp
 // Define vertex colours
 static const GLfloat colours[] = {
+    // R   G     B
     1.0f, 0.0f, 0.0f,    // red
     0.0f, 1.0f, 0.0f,    // green
     0.0f, 0.0f, 1.0f,    // blue
@@ -272,20 +282,20 @@ If you were to compile and run your program, you might be a little disappointed 
 ```glsl
 #version 330 core
 
+// Input vertex data
 layout(location = 0) in vec3 position;
-layout(location = 1) in vec3 colour;
+layout(location = 1) in vec2 textureCoords;
 
 // Output data
-out vec3 vertexColour;
+out vec2 uv;
 
-void main() {
-
-    // Vertex position
-    gl_Position = vec4(position.x, position.y, position.z, 1.0);
-
-    // Vertex colour
-    vertexColour = colour;
-
+void main()
+{
+    // Output vertex postion
+    gl_Position = vec4(position, 1.0);
+    
+    // Output (u,v) co-ordinates
+    uv = textureCoords;
 }
 ```
 
@@ -302,10 +312,9 @@ in vec3 vertexColour;
 // Output data
 out vec4 colour;
 
-void main() {
-
+void main() 
+{
     colour = vec4(vertexColour, 0);    // rgba
-
 }
 ```
 
@@ -347,11 +356,11 @@ static const GLfloat colours[] = {
 
 Here the `vertices[]` array now defines six vertices for two triangles placed side-by-side. The `colours[]` array defines the first three vertices red and the second three set of vertices blue.
 
-We also need to instruct OpenGL to draw two triangles instead of one. To do this we change the number of vertices we want to draw from `3` to the number of vertices we have. Since each vertex has 3 co-ordinates (x, y, z) and each co-ordinate is a single float then we can calculate the number of vertices we have by dividing `sizeof(vertices)` by `3 * sizeof(float)`.
+We also need to instruct OpenGL to draw two triangles instead of one. To do this we change the number of vertices we want to draw from `3` to the number of vertices we have. Since each vertex has 3 co-ordinates (x, y, z) and each co-ordinate is a single `GLfloat` then we can calculate the number of vertices we have by dividing `sizeof(vertices)` by `3 * sizeof(GLfloat)`.
 
 ```cpp
 // Draw the triangles
-glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / (3 * sizeof(float)));
+glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / (3 * sizeof(GLfloat)));
 ```
 
 Compiling and running the executable results in the following.
@@ -372,11 +381,36 @@ Now that you've got to the stage where you can draw triangles to the screen and 
     
     (a) the triangle is shifted by 0.5 to the right; <br>
     (b) the triangle is drawn upside-down;<br>
-    (c) the triangle $x$ and $y$ co-ordinates are swapped.
+    (c) the triangle x and y co-ordinates are swapped.
+
+`````{grid}
+````{grid-item}
+```{figure} ../images/Lab02_Ex1a.png
+```
+````
+
+````{grid-item}
+```{figure} ../images/Lab02_Ex1b.png
+```
+````
+
+````{grid-item}
+```{figure} ../images/Lab02_Ex1c.png
+```
+````
+`````
 
 2. Use two triangles to draw a green rectangle where the lower-left corner has co-ordinates (-0.5, -0.5, 0.0) and the upper-right corner has co-ordinates (0.5, 0.5, 0.0).
 
+```{figure} ../images/Lab02_Ex2.png
+:width: 500
+```
+
 3. Use six different coloured triangles to draw a hexagon.
+
+```{figure} ../images/Lab02_Ex3.png
+:width: 500
+```
 
 ## Source code
 

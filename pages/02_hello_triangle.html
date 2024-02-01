@@ -61,8 +61,6 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/02_hello_triangle';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -386,7 +384,7 @@ document.write(`
 <span id="hello-triangle-section"></span><h1><span class="section-number">2. </span>Drawing Basic Shapes in OpenGL<a class="headerlink" href="#drawing-basic-shapes-in-opengl" title="Permalink to this heading">#</a></h1>
 <p>In this lab we will be creating our first graphics application in OpenGL.</p>
 <section id="hello-window">
-<h2><span class="section-number">2.1. </span>Hello window<a class="headerlink" href="#hello-window" title="Permalink to this heading">#</a></h2>
+<span id="hello-window-section"></span><h2><span class="section-number">2.1. </span>Hello window<a class="headerlink" href="#hello-window" title="Permalink to this heading">#</a></h2>
 <p>To start using OpenGL we are going to have to download and compile several libraries and configure the IDE (we will be using Visual Studio on Windows). This can be quite an involved process (see <a href="https://learnopengl.com/Getting-started/Creating-a-window" target="_blank">Learn OpenGL</a> for a detailed tutorial on doing this). However, I have adapted the excellent resource <a href="https://www.opengl-tutorial.org/" target="_blank">opengl-tutorial.org</a> to do this for us.</p>
 <ol class="arabic simple">
 <li><p>Download <a class="reference download internal" download="" href="../_downloads/400c4f04f907bbbc35fcc5e535cfdb25/Lab02_Basic_shapes.zip"><code class="xref download docutils literal notranslate"><span class="pre">Lab02_Basic_shapes.zip</span></code></a> and extract the contents to your OneDrive area.</p></li>
@@ -405,7 +403,7 @@ document.write(`
 <figure class="align-default" id="id1">
 <a class="reference internal image-reference" href="../_images/hello_window.png"><img alt="../_images/hello_window.png" src="../_images/hello_window.png" style="width: 500px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 2.1 </span><span class="caption-text">The ‘hello window’ example (boring isn’t it)</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 2.1 </span><span class="caption-text">The “hello window” example (boring isn’t it)</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
@@ -424,7 +422,7 @@ document.write(`
 <p class="admonition-title">Note</p>
 <p>Here we have defined the integer <code class="docutils literal notranslate"><span class="pre">VAO</span></code> using <code class="docutils literal notranslate"><span class="pre">GLunit</span></code> instead of plain old <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span></code>. <code class="docutils literal notranslate"><span class="pre">GLuint</span></code> stands for <a href="https://www.khronos.org/opengl/wiki/OpenGL_Type" target="_blank"><strong>OpenGL unsigned integer</strong></a> and we use this because different architectures stores variables using different memory sizes. In order to ensure our application works across various platforms we use OpenGL types.</p>
 </div>
-<p>OpenGL expects the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> co-ordinates of all vertices to be between -1.0 and 1.0 where the <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> axes point to the right and up respectively and the <span class="math notranslate nohighlight">\(z\)</span> axes points out from the screen (these are known as <strong>Normalised Device Co-ordinates (NDC)</strong> - more on this later). For now we are going to draw a triangle with vertex co-ordinates (-0.5,-0.5,0), (0.5,-0.5,0) and (0,0.5,0) for the bottom-left, bottom-right and top vertices respectively.</p>
+<p>OpenGL expects the x, y and z co-ordinates of all vertices to be between -1.0 and 1.0 where the x and y axes point to the right and up respectively and the z axes points out from the screen (these are known as <strong>Normalised Device Co-ordinates (NDC)</strong> - more on this later). For now we are going to draw a triangle with vertex co-ordinates (-0.5,-0.5,0), (0.5,-0.5,0) and (0,0.5,0) for the bottom-left, bottom-right and top vertices respectively.</p>
 <figure class="align-default" id="id2">
 <a class="reference internal image-reference" href="../_images/opengl_window.svg"><img alt="../_images/opengl_window.svg" src="../_images/opengl_window.svg" width="400" /></a>
 <figcaption>
@@ -442,7 +440,7 @@ document.write(`
 </pre></div>
 </div>
 <p>We now need to define a <a href="https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Buffer_Object" target="_blank"><strong>Vertex Buffer Object (VBO)</strong></a> which is how we transfer the vertex data from the CPU to the GPU.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create Vertex Buffer Object</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create Vertex Buffer Object (VBO)</span>
 <span class="n">GLuint</span><span class="w"> </span><span class="n">VBO</span><span class="p">;</span>
 <span class="n">glGenBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">VBO</span><span class="p">);</span>
 <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span><span class="w"> </span><span class="n">VBO</span><span class="p">);</span>
@@ -458,41 +456,47 @@ document.write(`
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/shaders.svg"><img alt="../_images/shaders.svg" src="../_images/shaders.svg" width="600" /></a>
 </figure>
-<p>At its most basic it consists of a <a href="https://www.khronos.org/opengl/wiki/Vertex_Shader" target="_blank"><strong>vertex shader</strong></a> and a <a href="https://www.khronos.org/opengl/wiki/Fragment_Shader" target="_blank"><strong>fragment shader</strong></a>. The vertex shader is called once for each vertex and calculates the position of the current vertex and stores it in a special GLSL vector <code class="docutils literal notranslate"><span class="pre">gl_Position</span></code>. The vertices that form a polygon are then passed to OpenGL which maps the polygon to the corresponding pixels on the display. The part of the display raster that contains the pixels that correspond to a polygon is called a <strong>fragment</strong>.</p>
-<p>The fragment is clipped to the display so that any part of the fragment outside of our view is discarded and then is passed to the fragment shader. The fragment shader is called once for each pixel in the fragment and determines the colour of that pixel.</p>
+<p>At its most basic it consists of a <a href="https://www.khronos.org/opengl/wiki/Vertex_Shader" target="_blank"><strong>vertex shader</strong></a> and a <a href="https://www.khronos.org/opengl/wiki/Fragment_Shader" target="_blank"><strong>fragment shader</strong></a>. The vertex shader is called once for each vertex and calculates the position of the current vertex and stores it in a special GLSL vector <code class="docutils literal notranslate"><span class="pre">gl_Position</span></code>. The vertices that form a polygon are then passed to OpenGL which maps the polygon to the corresponding pixels on the display. A <strong>fragment</strong> is a data structure that represents a potential pixel on the display. The fragment shader is called once for each pixel in the fragment and determines the colour of that pixel.</p>
 <p>The shaders are compiled by the application at runtime.</p>
+<p id="vertex-shader-section">)</p>
 <section id="vertex-shader">
-<span id="vertex-shader-section"></span><h3><span class="section-number">2.3.1. </span>Vertex shader<a class="headerlink" href="#vertex-shader" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">2.3.1. </span>Vertex shader<a class="headerlink" href="#vertex-shader" title="Permalink to this heading">#</a></h3>
 <p>Click on <strong>File &gt; New &gt; File…</strong> (or just press CTRL + N) and select text file. Enter the following program into the new file and save it in the <code class="docutils literal notranslate"><span class="pre">Lab02_Basic_shapes/source</span></code> folder using the filename <code class="docutils literal notranslate"><span class="pre">simpleVertexShader.vert</span></code> (the file extension doesn’t matter but it is common to use <code class="docutils literal notranslate"><span class="pre">.vert</span></code> to denote the vertex shader).</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Make sure the file is saved with the correct file extension, i.e., <code class="docutils literal notranslate"><span class="pre">simpleVertexShader.vert</span></code> and not something like <code class="docutils literal notranslate"><span class="pre">simpleVertexShader.vert.txt</span></code> else the shader program will not be able to find the vertex shader.</p>
+</div>
 <div class="highlight-glsl notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
 
 <span class="k">layout</span><span class="p">(</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mo">0</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">vec3</span><span class="w"> </span><span class="n">position</span><span class="p">;</span>
 
-<span class="kt">void</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-
-<span class="w">    </span><span class="nb">gl_Position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">.</span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
-
+<span class="kt">void</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nb">gl_Position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>This is the GLSL program for a simple vertex shader. It takes in a single 3-element vector <code class="docutils literal notranslate"><span class="pre">position</span></code> that contains the <span class="math notranslate nohighlight">\((x,y,z)\)</span> co-ordinates of a vertex and outputs the 4-element vector <code class="docutils literal notranslate"><span class="pre">gl_Position</span></code> containing the co-ordinates. You may be wondering why we have this addition element <code class="docutils literal notranslate"><span class="pre">1.0</span></code>, don’t worry about this for now, it will be explained <a class="reference internal" href="05_transformations.html#translation-section"><span class="std std-ref">later on</span></a>).</p>
+<p>This is the GLSL program for a simple vertex shader. It takes in a single 3-element vector <code class="docutils literal notranslate"><span class="pre">position</span></code> that contains the (x,y,z) co-ordinates of a vertex and outputs the 4-element vector <code class="docutils literal notranslate"><span class="pre">gl_Position</span></code> containing the co-ordinates. The individual elements of a vector in GLSL can be accessed using <code class="docutils literal notranslate"><span class="pre">&lt;vector</span> <span class="pre">name&gt;.x</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;vector</span> <span class="pre">name&gt;.y</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;vector</span> <span class="pre">name&gt;.z</span></code> so we could have used the following instead.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">gl_Position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">.</span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You may be wondering why we have this additional element <code class="docutils literal notranslate"><span class="pre">1.0</span></code>, don’t worry about this for now, it will be explained <a class="reference internal" href="05_transformations.html#translation-section"><span class="std std-ref">later on</span></a>.</p>
 </section>
 <section id="fragment-shader">
 <h3><span class="section-number">2.3.2. </span>Fragment shader<a class="headerlink" href="#fragment-shader" title="Permalink to this heading">#</a></h3>
-<p>Create a new file as you did with the vertex shader but with the following code and save it using the filename <code class="docutils literal notranslate"><span class="pre">simpleFragmentShader.frag</span></code> (again, the file extension doesn’t matter but it is common to use <code class="docutils literal notranslate"><span class="pre">.frag</span></code> to denote fragment shader).</p>
+<p>Create a new file as you did with the vertex shader but with the following code and save it using the filename <code class="docutils literal notranslate"><span class="pre">simpleFragmentShader.frag</span></code> (again, makes sure the file has the correct extension).</p>
 <div class="highlight-glsl notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
 
 <span class="c1">// Output data</span>
 <span class="k">out</span><span class="w"> </span><span class="kt">vec4</span><span class="w"> </span><span class="n">colour</span><span class="p">;</span>
 
-<span class="kt">void</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-
+<span class="kt">void</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span>
+<span class="p">{</span>
 <span class="w">    </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">vec4</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span><span class="w">    </span><span class="c1">// RGBA</span>
-
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>This fragment shader outputs a single 4-element vector called <code class="docutils literal notranslate"><span class="pre">colour</span></code> which defines the colour of the pixel using RGBA which stands for Red-Green-Blue-Alpha. The values are in the range 0 to 1 and so here we have red = 1, blue = 0, green = 0 so our pixel (and all pixels in the triangle) will be rendered in red and alpha = 0 which means it is fully opaque.</p>
+<p>This fragment shader outputs a single 4-element vector called <code class="docutils literal notranslate"><span class="pre">colour</span></code> which defines the colour of the fragment using RGBA which stands for Red-Green-Blue-Alpha. The values are in the range 0 to 1 and so here we have red = 1, blue = 0, green = 0 so our pixel (and all pixels in the triangle) will be rendered in red with an Alpha value of 1 which means it is fully opaque.</p>
 </section>
 <section id="shader-program">
 <h3><span class="section-number">2.3.3. </span>Shader program<a class="headerlink" href="#shader-program" title="Permalink to this heading">#</a></h3>
@@ -513,7 +517,7 @@ document.write(`
 <span class="n">glUseProgram</span><span class="p">(</span><span class="n">shaderID</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Now we need to by the VBO to the VAO to send all of the data to the shaders for OpenGL to interpret.</p>
+<p>Now we need to bind the VBO to the VAO to send all of the data to the shaders for OpenGL to interpret.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Send the VBO to the shaders</span>
 <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
 <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span><span class="w"> </span><span class="n">VBO</span><span class="p">);</span>
@@ -527,9 +531,10 @@ document.write(`
 <span class="w">                      </span><span class="p">);</span>
 </pre></div>
 </div>
+<p>The three functions we’ve used here are:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">glEnableVertexAttribArray();</span></code> enables a generic vertex array so we can pass our triangle data to OpenGL;</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">glBindBuffer();</span></code> binds our VBO to OpenGL;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">glEnableVertexAttribArray()</span></code> enables a generic vertex array so we can pass our triangle data to OpenGL;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">glBindBuffer()</span></code> binds our VBO to OpenGL;</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">glVertexAttribPointer()</span></code> tells OpenGL how to interpret the data we are sending it. The input arguments are explained below.</p></li>
 </ul>
 <table class="table">
@@ -543,7 +548,7 @@ document.write(`
 <td class="text-left"><p>A number that defines which vertex attribute we want to configure. In the vertex shader we used <code class="docutils literal notranslate"><span class="pre">location</span> <span class="pre">=</span> <span class="pre">0</span></code> for the vertex co-ordinates and since we are passing vertex co-ordinates, we set the attribute to 0.</p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p>Size</p></td>
-<td class="text-left"><p>How many values does the vertex attribute have. Here we have <span class="math notranslate nohighlight">\((x,y,z)\)</span> co-ordinates so this is 3.</p></td>
+<td class="text-left"><p>How many values does the vertex attribute have. Here we have (x,y,z) co-ordinates so this is 3.</p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p>Type</p></td>
 <td class="text-left"><p>Our co-ordinates are floats.</p></td>
@@ -555,7 +560,7 @@ document.write(`
 <td class="text-left"><p>The space between consecutive vertex attributes. Here one vertex immediately follows the next, so this is zero.</p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p>Offset</p></td>
-<td class="text-left"><p>Where does the first data point appear in the buffer. For us this is at the beginning, so we set it to 0.</p></td>
+<td class="text-left"><p>Where does the first data point appear in the buffer? For us this is at the beginning, so we set it to 0.</p></td>
 </tr>
 </tbody>
 </table>
@@ -566,21 +571,21 @@ document.write(`
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">glDrawArrays()</span></code> command tells OpenGL that we wish to draw triangles, the <code class="docutils literal notranslate"><span class="pre">0</span></code> specifies that the first vertex starts at the 0 index in the buffer and the <code class="docutils literal notranslate"><span class="pre">3</span></code> specifies the number of vertices we want to draw. Since we no longer need the vertex attribute array, we disable it using <code class="docutils literal notranslate"><span class="pre">glDisableVertexAttribArray()</span></code>.</p>
-<p>Don’t get too excited just yet. As good programmers we should clean up after ourselves and not leave bits of data lying around. After the close of the <code class="docutils literal notranslate"><span class="pre">do</span></code> loop we de-allocate the vertex and buffer objects as well as deleting the shader program.</p>
+<p>Don’t get too excited just yet. As good programmers we should clean up after ourselves and not leave bits of data lying around. After the close of the do/while loop we de-allocate the vertex and buffer objects as well as deleting the shader program.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Cleanup</span>
 <span class="n">glDeleteBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">VBO</span><span class="p">);</span>
 <span class="n">glDeleteVertexArrays</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">VAO</span><span class="p">);</span>
 <span class="n">glDeleteProgram</span><span class="p">(</span><span class="n">shaderID</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Compile and run your program. After all the syntax errors and bugs have been resolved (unless you are very lucky there will be at least one) you should be presented with a window within which is your red triangle that you have created. Note that the window shown below no longer has the title “Hello Window”, can you change your code so that your window has a more accurate title?</p>
+<p>Compile and run your program. After all the syntax errors and bugs have been resolved (unless you are very lucky there will be at least one) you should be presented with a window within which is your red triangle that you have created. Note that the window shown below no longer has the title “Hello Window”, can you change your code so that your window has the title “Hello Triangle”?</p>
 <figure class="align-default" id="id3">
 <a class="reference internal image-reference" href="../_images/hello_triangle.png"><img alt="../_images/hello_triangle.png" src="../_images/hello_triangle.png" style="width: 500px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 2.3 </span><span class="caption-text">The ‘hello triangle’ example</span><a class="headerlink" href="#id3" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 2.3 </span><span class="caption-text">The “hello triangle” example</span><a class="headerlink" href="#id3" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>If you are having trouble getting to this stage, the code for producing this triangle is given <code class="xref download docutils literal notranslate"><span class="pre">here</span></code></p>
+<p>If you are having trouble getting to this stage, the code for producing this triangle is given <a class="reference download internal" download="" href="../_downloads/7b2a63641ddace2efa26088817979ebe/main.cpp"><span class="xref download myst">here</span></a>.</p>
 </section>
 <hr class="docutils" />
 <section id="more-colours">
@@ -589,6 +594,7 @@ document.write(`
 <p>Create an array of float that contains the RGB colour data for each vertex.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define vertex colours</span>
 <span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">GLfloat</span><span class="w"> </span><span class="n">colours</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// R   G     B</span>
 <span class="w">    </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w">    </span><span class="c1">// red</span>
 <span class="w">    </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w">    </span><span class="c1">// green</span>
 <span class="w">    </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">    </span><span class="c1">// blue</span>
@@ -621,20 +627,20 @@ document.write(`
 <p>If you were to compile and run your program, you might be a little disappointed as your triangle is still red. Well of course, we haven’t told our shaders how to handle colours! Since our colours are associated with the vertices we need to modify the vertex shader to include the colours.</p>
 <div class="highlight-glsl notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
 
+<span class="c1">// Input vertex data</span>
 <span class="k">layout</span><span class="p">(</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mo">0</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">vec3</span><span class="w"> </span><span class="n">position</span><span class="p">;</span>
-<span class="k">layout</span><span class="p">(</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">vec3</span><span class="w"> </span><span class="n">colour</span><span class="p">;</span>
+<span class="k">layout</span><span class="p">(</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">vec2</span><span class="w"> </span><span class="n">textureCoords</span><span class="p">;</span>
 
 <span class="c1">// Output data</span>
-<span class="k">out</span><span class="w"> </span><span class="kt">vec3</span><span class="w"> </span><span class="n">vertexColour</span><span class="p">;</span>
+<span class="k">out</span><span class="w"> </span><span class="kt">vec2</span><span class="w"> </span><span class="n">uv</span><span class="p">;</span>
 
-<span class="kt">void</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-
-<span class="w">    </span><span class="c1">// Vertex position</span>
-<span class="w">    </span><span class="nb">gl_Position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">.</span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
-
-<span class="w">    </span><span class="c1">// Vertex colour</span>
-<span class="w">    </span><span class="n">vertexColour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">colour</span><span class="p">;</span>
-
+<span class="kt">void</span><span class="w"> </span><span class="n">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// Output vertex postion</span>
+<span class="w">    </span><span class="nb">gl_Position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Output (u,v) co-ordinates</span>
+<span class="w">    </span><span class="n">uv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">textureCoords</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -648,10 +654,9 @@ document.write(`
 <span class="c1">// Output data</span>
 <span class="n">out</span><span class="w"> </span><span class="n">vec4</span><span class="w"> </span><span class="n">colour</span><span class="p">;</span>
 
-<span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-
+<span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span>
+<span class="p">{</span>
 <span class="w">    </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec4</span><span class="p">(</span><span class="n">vertexColour</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">    </span><span class="c1">// rgba</span>
-
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -689,9 +694,9 @@ document.write(`
 </pre></div>
 </div>
 <p>Here the <code class="docutils literal notranslate"><span class="pre">vertices[]</span></code> array now defines six vertices for two triangles placed side-by-side. The <code class="docutils literal notranslate"><span class="pre">colours[]</span></code> array defines the first three vertices red and the second three set of vertices blue.</p>
-<p>We also need to instruct OpenGL to draw two triangles instead of one. To do this we change the number of vertices we want to draw from <code class="docutils literal notranslate"><span class="pre">3</span></code> to the number of vertices we have. Since each vertex has 3 co-ordinates (x, y, z) and each co-ordinate is a single float then we can calculate the number of vertices we have by dividing <code class="docutils literal notranslate"><span class="pre">sizeof(vertices)</span></code> by <code class="docutils literal notranslate"><span class="pre">3</span> <span class="pre">*</span> <span class="pre">sizeof(float)</span></code>.</p>
+<p>We also need to instruct OpenGL to draw two triangles instead of one. To do this we change the number of vertices we want to draw from <code class="docutils literal notranslate"><span class="pre">3</span></code> to the number of vertices we have. Since each vertex has 3 co-ordinates (x, y, z) and each co-ordinate is a single <code class="docutils literal notranslate"><span class="pre">GLfloat</span></code> then we can calculate the number of vertices we have by dividing <code class="docutils literal notranslate"><span class="pre">sizeof(vertices)</span></code> by <code class="docutils literal notranslate"><span class="pre">3</span> <span class="pre">*</span> <span class="pre">sizeof(GLfloat)</span></code>.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Draw the triangles</span>
-<span class="n">glDrawArrays</span><span class="p">(</span><span class="n">GL_TRIANGLES</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)));</span>
+<span class="n">glDrawArrays</span><span class="p">(</span><span class="n">GL_TRIANGLES</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">GLfloat</span><span class="p">)));</span>
 </pre></div>
 </div>
 <p>Compiling and running the executable results in the following.</p>
@@ -710,11 +715,40 @@ document.write(`
 <li><p>Draw the original triangle but alter the vertex shader to achieve the following results:</p>
 <p>(a) the triangle is shifted by 0.5 to the right; <br>
 (b) the triangle is drawn upside-down;<br>
-(c) the triangle <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> co-ordinates are swapped.</p>
+(c) the triangle x and y co-ordinates are swapped.</p>
 </li>
+</ol>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row docutils">
+<div class="sd-col sd-d-flex-column docutils">
+<figure class="align-default">
+<img alt="../_images/Lab02_Ex1a.png" src="../_images/Lab02_Ex1a.png" />
+</figure>
+</div>
+<div class="sd-col sd-d-flex-column docutils">
+<figure class="align-default">
+<img alt="../_images/Lab02_Ex1b.png" src="../_images/Lab02_Ex1b.png" />
+</figure>
+</div>
+<div class="sd-col sd-d-flex-column docutils">
+<figure class="align-default">
+<img alt="../_images/Lab02_Ex1c.png" src="../_images/Lab02_Ex1c.png" />
+</figure>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="2">
 <li><p>Use two triangles to draw a green rectangle where the lower-left corner has co-ordinates (-0.5, -0.5, 0.0) and the upper-right corner has co-ordinates (0.5, 0.5, 0.0).</p></li>
+</ol>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/Lab02_Ex2.png"><img alt="../_images/Lab02_Ex2.png" src="../_images/Lab02_Ex2.png" style="width: 500px;" /></a>
+</figure>
+<ol class="arabic simple" start="3">
 <li><p>Use six different coloured triangles to draw a hexagon.</p></li>
 </ol>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/Lab02_Ex3.png"><img alt="../_images/Lab02_Ex3.png" src="../_images/Lab02_Ex3.png" style="width: 500px;" /></a>
+</figure>
 </section>
 <section id="source-code">
 <h2><span class="section-number">2.8. </span>Source code<a class="headerlink" href="#source-code" title="Permalink to this heading">#</a></h2>
