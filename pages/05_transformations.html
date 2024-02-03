@@ -61,12 +61,12 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script>window.MathJax = {"HTML-CSS": {"matchFontHeight": true, "preferredFont": "Neo Euler"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/05_transformations';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="6. Model, View and Projection Matrices" href="06_MVP.html" />
+    <link rel="next" title="6. 3D Worlds" href="06_MVP.html" />
     <link rel="prev" title="4. Vectors and Matrices" href="04_vectors_and_matrices.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -164,7 +164,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="03_textures.html">3. Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_vectors_and_matrices.html">4. Vectors and Matrices</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">5. Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06_MVP.html">6. Model, View and Projection Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_MVP.html">6. 3D Worlds</a></li>
 </ul>
 
     </div>
@@ -979,14 +979,14 @@ Derivation of the axis-angle rotation matrix (click to show)<div class="sd-summa
 <section id="exercises">
 <h2><span class="section-number">5.6. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
 <ol class="arabic simple">
-<li><p>Use translation to produce an animation of the original rectangle rotating around a circle of radius 0.5 centered at the centre of the window. Hint: the co-ordinates of points on a circle centered at (0,0) with radius <span class="math notranslate nohighlight">\(r\)</span> can be calculated using <span class="math notranslate nohighlight">\(x = r * cos(t)\)</span> and <span class="math notranslate nohighlight">\(y = r * sin(t)\)</span> where <span class="math notranslate nohighlight">\(t\)</span> is some number.</p></li>
+<li><p>Use translation to produce an animation of the original rectangle rotating around a circle of radius 0.5 centered at the centre of the window. Hint: the co-ordinates of points on a circle centered at (0,0) with radius <span class="math notranslate nohighlight">\(r\)</span> can be calculated using <span class="math notranslate nohighlight">\(x = r \cos(t)\)</span> and <span class="math notranslate nohighlight">\(y = r  \sin(t)\)</span> where <span class="math notranslate nohighlight">\(t\)</span> is some number.</p></li>
 </ol>
 <center>
 <video controls muted="true" loop="true" width="500">
     <source src="../rotating_smiley3.mp4" type="video/mp4">
 </video>
 </center>
-<ol class="arabic simple">
+<ol class="arabic simple" start="2">
 <li><p>Use rotation to rotate the rectangle from exercise 1 clockwise about its own centre with a rotation speed double that of the rotation speed used to rotate it around the circle.</p></li>
 </ol>
 <center>
@@ -1061,7 +1061,7 @@ Derivation of the axis-angle rotation matrix (click to show)<div class="sd-summa
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">6. </span>Model, View and Projection Matrices</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>3D Worlds</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

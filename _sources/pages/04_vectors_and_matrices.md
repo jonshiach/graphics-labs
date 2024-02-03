@@ -75,6 +75,8 @@ u = [    2.000,    2.000,    1.000]
 
 Taking a look at the code we see that the `glm::vec u(2.0f, 2.0f, 1.0f)` command defines the 3-element vector `u` with the values of the elements (2, 2, 1). This vector is then output to the console using the `std::cout` command.
 
+(vector-magnitude-section)=
+
 ### Vector magnitude
 
 The **magnitude** of a vector $\underline{a} = (a_x, a_y, a_z)$ is denoted by $|\underline{a}|$ is the length from the tail of the vector to the head and calculated using 
@@ -246,6 +248,8 @@ With the subtraction of the vector $\underline{b}$ we do similar but instead mul
 Vector addition and subtraction.
 ```
 
+(dot-product-section)= 
+
 ### Dot product
 
 The **dot product** between two vectors $\underline{a} = (a_x, a_y, a_z)$ and $\underline{b} = (b_x, b_y, b_z)$ is denoted by $\underline{a} \cdot \underline{b}$ and returns a scalar quantity (a number). The dot product is calculated using
@@ -296,6 +300,8 @@ u . v = 19
 ```
 
 The glm function `glm::dot(u, v)` calculates the dot product of the two vectors `u` and `v`. Use this to calculate $\underline{u} \cdot \underline{v}$ in your program to see that it gives the same result. 
+
+(cross-product-section)=
 
 ### Cross product
 

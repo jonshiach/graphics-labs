@@ -61,7 +61,7 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script>window.MathJax = {"HTML-CSS": {"matchFontHeight": true, "preferredFont": "Neo Euler"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/04_vectors_and_matrices';</script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -164,7 +164,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="03_textures.html">3. Textures</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Vectors and Matrices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_transformations.html">5. Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06_MVP.html">6. Model, View and Projection Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_MVP.html">6. 3D Worlds</a></li>
 </ul>
 
     </div>
@@ -459,7 +459,7 @@ u = [    2.000,    2.000,    1.000]
 </div>
 <p>Taking a look at the code we see that the <code class="docutils literal notranslate"><span class="pre">glm::vec</span> <span class="pre">u(2.0f,</span> <span class="pre">2.0f,</span> <span class="pre">1.0f)</span></code> command defines the 3-element vector <code class="docutils literal notranslate"><span class="pre">u</span></code> with the values of the elements (2, 2, 1). This vector is then output to the console using the <code class="docutils literal notranslate"><span class="pre">std::cout</span></code> command.</p>
 <section id="vector-magnitude">
-<h3><span class="section-number">4.2.1. </span>Vector magnitude<a class="headerlink" href="#vector-magnitude" title="Permalink to this heading">#</a></h3>
+<span id="vector-magnitude-section"></span><h3><span class="section-number">4.2.1. </span>Vector magnitude<a class="headerlink" href="#vector-magnitude" title="Permalink to this heading">#</a></h3>
 <p>The <strong>magnitude</strong> of a vector <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> is denoted by <span class="math notranslate nohighlight">\(|\underline{a}|\)</span> is the length from the tail of the vector to the head and calculated using</p>
 <div class="math notranslate nohighlight" id="equation-eq-vector-magnitude">
 <span class="eqno">(4.1)<a class="headerlink" href="#equation-eq-vector-magnitude" title="Permalink to this equation">#</a></span>\[ |\underline{a}| = \sqrt{a_x^2 + a_y^2 + a_z^2}. \]</div>
@@ -597,7 +597,7 @@ u - v = [   -1.000,   -2.000,   -4.000]
 </figure>
 </section>
 <section id="dot-product">
-<h3><span class="section-number">4.2.5. </span>Dot product<a class="headerlink" href="#dot-product" title="Permalink to this heading">#</a></h3>
+<span id="dot-product-section"></span><h3><span class="section-number">4.2.5. </span>Dot product<a class="headerlink" href="#dot-product" title="Permalink to this heading">#</a></h3>
 <p>The <strong>dot product</strong> between two vectors <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> and <span class="math notranslate nohighlight">\(\underline{b} = (b_x, b_y, b_z)\)</span> is denoted by <span class="math notranslate nohighlight">\(\underline{a} \cdot \underline{b}\)</span> and returns a scalar quantity (a number). The dot product is calculated using</p>
 <div class="math notranslate nohighlight" id="equation-eq-dot-product">
 <span class="eqno">(4.5)<a class="headerlink" href="#equation-eq-dot-product" title="Permalink to this equation">#</a></span>\[ \underline{a} \cdot \underline{b} = a_xb_x + a_yb_y + a_zb_z. \]</div>
@@ -637,7 +637,7 @@ u . v = 19
 <p>The glm function <code class="docutils literal notranslate"><span class="pre">glm::dot(u,</span> <span class="pre">v)</span></code> calculates the dot product of the two vectors <code class="docutils literal notranslate"><span class="pre">u</span></code> and <code class="docutils literal notranslate"><span class="pre">v</span></code>. Use this to calculate <span class="math notranslate nohighlight">\(\underline{u} \cdot \underline{v}\)</span> in your program to see that it gives the same result.</p>
 </section>
 <section id="cross-product">
-<h3><span class="section-number">4.2.6. </span>Cross product<a class="headerlink" href="#cross-product" title="Permalink to this heading">#</a></h3>
+<span id="cross-product-section"></span><h3><span class="section-number">4.2.6. </span>Cross product<a class="headerlink" href="#cross-product" title="Permalink to this heading">#</a></h3>
 <p>The <strong>cross product</strong> between two vectors <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> and <span class="math notranslate nohighlight">\(\underline{b} = (b_x, b_y, b_z)\)</span> is denoted by <span class="math notranslate nohighlight">\(\underline{a} \times \underline{b}\)</span> and returns a vector. The cross product is calculated using</p>
 <div class="math notranslate nohighlight" id="equation-eq-cross-product">
 <span class="eqno">(4.7)<a class="headerlink" href="#equation-eq-cross-product" title="Permalink to this equation">#</a></span>\[ \underline{a} \times \underline{b} = (a_yb_z - a_zb_y, a_zb_x - a_xb_z, a_xb_y - a_yb_x). \]</div>

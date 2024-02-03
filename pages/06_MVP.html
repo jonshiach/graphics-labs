@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>6. Model, View and Projection Matrices &#8212; Computer Graphics Labs</title>
+    <title>6. 3D Worlds &#8212; Computer Graphics Labs</title>
   
   
   
@@ -61,6 +61,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"HTML-CSS": {"matchFontHeight": true, "preferredFont": "Neo Euler"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/06_MVP';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -161,7 +163,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="03_textures.html">3. Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_vectors_and_matrices.html">4. Vectors and Matrices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_transformations.html">5. Transformations</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">6. Model, View and Projection Matrices</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">6. 3D Worlds</a></li>
 </ul>
 
     </div>
@@ -332,7 +334,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -343,11 +347,29 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Model, View and Projection Matrices</h1>
+    <h1>3D Worlds</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#co-ordinate-systems">6.1. Co-ordinate systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-models">6.2. 3D models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-matrix">6.3. The model matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-view-matrix">6.4. The view matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection">6.5. Projection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#orthographic-projection">6.5.1. Orthographic projection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#depth-testing">6.5.2. Depth testing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perspective-projection">6.5.3. Perspective projection</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-mvp-matrix">6.6. The MVP matrix</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -357,9 +379,368 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="model-view-and-projection-matrices">
-<h1><span class="section-number">6. </span>Model, View and Projection Matrices<a class="headerlink" href="#model-view-and-projection-matrices" title="Permalink to this heading">#</a></h1>
-<p>Under construction.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="d-worlds">
+<h1><span class="section-number">6. </span>3D Worlds<a class="headerlink" href="#d-worlds" title="Permalink to this heading">#</a></h1>
+<section id="co-ordinate-systems">
+<h2><span class="section-number">6.1. </span>Co-ordinate systems<a class="headerlink" href="#co-ordinate-systems" title="Permalink to this heading">#</a></h2>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/mvp.svg"><img alt="../_images/mvp.svg" src="../_images/mvp.svg" width="500" /></a>
+</figure>
+<ol class="arabic simple">
+<li><p>Each object that is to appear in the 3D world is defined in its own local co-ordinate spaces called the <strong>object space</strong>.</p></li>
+<li><p>The individual objects are copied and placed in the <strong>world space</strong> using scaling, rotation and translation operations.</p></li>
+<li><p>The world space co-ordinates are transformed to <strong>view space</strong> co-ordinates such that the world space is viewed from the position of a virtual camera.</p></li>
+<li><p>The 3D view space is projected onto the 2D <strong>screen space</strong>.</p></li>
+</ol>
+</section>
+<section id="d-models">
+<h2><span class="section-number">6.2. </span>3D models<a class="headerlink" href="#d-models" title="Permalink to this heading">#</a></h2>
+<p>In this lab we are going to extend the 2D images that we have been dealing with so far and take the exciting leap into the world of 3D. One of the simplest 3D objects is the unit cube which is centred at (0,0,0) and has side lengths of 2 parallel to the co-ordinate axes (<a class="reference internal" href="#unit-cube-figure"><span class="std std-numref">Fig. 6.1</span></a>).</p>
+<figure class="align-default" id="unit-cube-figure">
+<a class="reference internal image-reference" href="../_images/unit_cube.svg"><img alt="../_images/unit_cube.svg" src="../_images/unit_cube.svg" width="500" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 6.1 </span><span class="caption-text">A unit cube.</span><a class="headerlink" href="#unit-cube-figure" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Since each side of a cube is modelled by two triangles then to define this cube in our program we have 36 vertices (6 sides each of 2 triangles with 3 vertices) where the vertices are combinations of -1 and 1.</p>
+<p>Download and build the source code contained in <span class="xref myst">Lab05_3D_worlds.zip</span> using the instructions given <a class="reference internal" href="02_hello_triangle.html#hello-window-section"><span class="std std-ref">here</span></a>. Open up the project and take a look at the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file and you will see that the <code class="docutils literal notranslate"><span class="pre">vertices</span></code> and <code class="docutils literal notranslate"><span class="pre">uvCoords</span></code> arrays have been defined for our unit cube.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define vertex positions</span>
+<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">GLfloat</span><span class="w"> </span><span class="n">vertices</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">    </span><span class="c1">// front</span>
+<span class="w">   </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span>
+<span class="w">   </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span>
+<span class="w">  </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span>
+<span class="w">   </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span>
+<span class="w">  </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span>
+<span class="w">  </span>
+<span class="w">   </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">    </span><span class="c1">// right</span>
+<span class="w">   </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span>
+<span class="w">   </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span>
+<span class="w">   </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span>
+<span class="w">   </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span>
+<span class="w">   </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span>
+<span class="w">  </span>
+<span class="w">   </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">    </span><span class="c1">// back</span>
+<span class="w">  </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span>
+<span class="w">  </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span>
+<span class="w">   </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span>
+<span class="w">  </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span>
+<span class="w">   </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">    </span><span class="c1">// left</span>
+<span class="w">  </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span>
+<span class="w">  </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span>
+<span class="w">  </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span>
+<span class="w">  </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span>
+<span class="w">  </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">    </span><span class="c1">// base</span>
+<span class="w">   </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span>
+<span class="w">   </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span>
+<span class="w">  </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span>
+<span class="w">   </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span>
+<span class="w">  </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">    </span><span class="c1">// top</span>
+<span class="w">   </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span>
+<span class="w">   </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span>
+<span class="w">  </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span>
+<span class="w">   </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span>
+<span class="w">  </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span>
+<span class="p">};</span>
+
+<span class="c1">// Define texture co-ordinates</span>
+<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">GLfloat</span><span class="w"> </span><span class="n">uvCoords</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// u    v</span>
+<span class="w">  </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w">    </span><span class="c1">// base</span>
+<span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
+<span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span>
+<span class="w">  </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
+<span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span>
+<span class="w">  </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="o">:</span><span class="w">  </span><span class="c1">// each of the sides of the cube have the same texture co-ordinates</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>If you compile and run this program you will see that the <code class="docutils literal notranslate"><span class="pre">crate.bmp</span></code> texture fills the window because our cube vertices are the same as the limits of the NDC.</p>
+</section>
+<section id="the-model-matrix">
+<h2><span class="section-number">6.3. </span>The model matrix<a class="headerlink" href="#the-model-matrix" title="Permalink to this heading">#</a></h2>
+<p>In <a class="reference internal" href="05_transformations.html#transformations-section"><span class="std std-ref">Lab 5</span></a> we saw that we can combine transformations such as translation, scaling and rotation by multiplying the individual transformation matrices together. The <strong>model matrix</strong> is the matrix that is used to apply transformations to an object.</p>
+<p>Lets compute a model matrix for our cube where it is scaled down by a factor of 0.25 in each co-ordinate direction, rotated about a vector pointing vertically up and translated backwards from us by (0, 0, -1.0). In the rendering loop add the following code.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate the model matrix</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glfwGetTime</span><span class="p">();</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">cubeCentre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">);</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">translate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">translate</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">),</span><span class="w"> </span><span class="n">cubeCentre</span><span class="p">);</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">scale</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">),</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.25f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.25f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.25f</span><span class="p">));</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">rotate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">rotate</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">),</span><span class="w"> </span><span class="n">time</span><span class="p">,</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">));</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">translate</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">rotate</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">scale</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Here we calculate the individual transformation matrices and multiply them to give the <code class="docutils literal notranslate"><span class="pre">model</span></code> matrix. We need to send the <code class="docutils literal notranslate"><span class="pre">model</span></code> matrix to the vertex shader so that it can apply the transformations.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Send our model matrix to the vertex shader</span>
+<span class="n">GLuint</span><span class="w"> </span><span class="n">modelID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;model&quot;</span><span class="p">);</span>
+<span class="n">glUniformMatrix4fv</span><span class="p">(</span><span class="n">modelID</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">GL_FALSE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">model</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
+</pre></div>
+</div>
+<p>Also, we need to make sure we are using the <code class="docutils literal notranslate"><span class="pre">model</span></code> uniform in the vertex shader. Edit <code class="docutils literal notranslate"><span class="pre">vertexShader.vert</span></code> so that it looks like the following.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
+
+<span class="c1">// Input vertex data</span>
+<span class="n">layout</span><span class="p">(</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">position</span><span class="p">;</span>
+<span class="n">layout</span><span class="p">(</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">vec2</span><span class="w"> </span><span class="n">textureCoords</span><span class="p">;</span>
+
+<span class="c1">// Output data</span>
+<span class="n">out</span><span class="w"> </span><span class="n">vec2</span><span class="w"> </span><span class="n">uv</span><span class="p">;</span>
+
+<span class="c1">// Values that stay constant for the whole mesh</span>
+<span class="n">uniform</span><span class="w"> </span><span class="n">mat4</span><span class="w"> </span><span class="n">model</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// Output vertex position</span>
+<span class="w">    </span><span class="n">gl_Position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Output (u,v) co-ordinates</span>
+<span class="w">    </span><span class="n">uv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec2</span><span class="p">(</span><span class="n">textureCoords</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="the-view-matrix">
+<h2><span class="section-number">6.4. </span>The view matrix<a class="headerlink" href="#the-view-matrix" title="Permalink to this heading">#</a></h2>
+<p>OpenGL assumes that the camera is at (0,0,0) and looking down the <span class="math notranslate nohighlight">\(z\)</span>-axis so we need to transform the co-ordinates to this <strong>view space</strong> (<a class="reference internal" href="#view-space-figure"><span class="std std-numref">Fig. 6.2</span></a>).</p>
+<figure class="align-default" id="view-space-figure">
+<a class="reference internal image-reference" href="../_images/view_space.svg"><img alt="../_images/view_space.svg" src="../_images/view_space.svg" width="400" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 6.2 </span><span class="caption-text">The view space.</span><a class="headerlink" href="#view-space-figure" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>To calculate the world space to view space transformation we require three vectors</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\tt camera\)</span> - the co-ordinates where we are viewing the world space from, i.e., where is the camera</p></li>
+<li><p><span class="math notranslate nohighlight">\(\tt target\)</span> - the co-ordinates of the target point where we are pointing the camera</p></li>
+<li><p><span class="math notranslate nohighlight">\(\tt worldUp\)</span> - a vector pointing straight up in the world space which allows us to orientate the camera, this is usually always (0,1,0).</p></li>
+</ul>
+<p>The <span class="math notranslate nohighlight">\(\tt camera\)</span> and <span class="math notranslate nohighlight">\(\tt target\)</span> vectors are either determined by the user through keyboard, mouse or controller inputs or through some predetermined routine. To determine the view space transformation we first translate the camera position to (0,0,0) using the following translation matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+    \textsf{translation matrix} =
+    \begin{pmatrix}
+        1 &amp; 0 &amp; 0 &amp; 0 \\
+        0 &amp; 1 &amp; 0 &amp; 0 \\
+        0 &amp; 0 &amp; 1 &amp; 0 \\
+        -\tt camera.x &amp; -\tt camera.y &amp; -\tt camera.z &amp; 1
+    \end{pmatrix}
+\end{align*}. \end{split}\]</div>
+<p>The next step is to align the world space so that the direction vector is pointing down the <span class="math notranslate nohighlight">\(z\)</span> axis. To do this we use vectors <span class="math notranslate nohighlight">\(\tt cameraRight\)</span>, <span class="math notranslate nohighlight">\(\tt cameraUp\)</span> and <span class="math notranslate nohighlight">\(\tt cameraForward\)</span> which are unit vectors at right-angles to each other the point in directions relative to the camera (<a class="reference internal" href="#view-space-alignment-figure"><span class="std std-numref">Fig. 6.3</span></a>).</p>
+<figure class="align-default" id="view-space-alignment-figure">
+<a class="reference internal image-reference" href="../_images/view_space_alignment.svg"><img alt="../_images/view_space_alignment.svg" src="../_images/view_space_alignment.svg" width="600" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 6.3 </span><span class="caption-text">The vectors used in the transformation to the view space.</span><a class="headerlink" href="#view-space-alignment-figure" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The <span class="math notranslate nohighlight">\(\tt cameraForward\)</span> vector points directly forward of the camera and is calculated using</p>
+<div class="math notranslate nohighlight">
+\[ \texttt{cameraForward} = \textsf{normalise}(\tt camera - target).\]</div>
+<p>The <span class="math notranslate nohighlight">\(\tt cameraRight\)</span> vector points to the right of the camera so is at right-angles to both the <span class="math notranslate nohighlight">\(\tt cameraForward\)</span> and <span class="math notranslate nohighlight">\(\tt worldUp\)</span> vectors. We can use the <a class="reference internal" href="04_vectors_and_matrices.html#cross-product-section"><span class="std std-ref">cross product</span></a> between the two vectors to calculate this (note that the order of the vectors is important).</p>
+<div class="math notranslate nohighlight">
+\[ \tt right = \textsf{normalise}(worldUp \times cameraForward) .\]</div>
+<p>The <span class="math notranslate nohighlight">\(\tt up\)</span> vector points in the up direction of the camera and is at right-angles to the <span class="math notranslate nohighlight">\(\tt forward\)</span> and <span class="math notranslate nohighlight">\(\tt right\)</span> vectors we have already calculated. So this can be calculated using (we do not need to normalise this as <span class="math notranslate nohighlight">\(\tt cameraForward\)</span> and <span class="math notranslate nohighlight">\(\tt cameraRight\)</span> are unit vectors)</p>
+<div class="math notranslate nohighlight">
+\[ \tt cameraUp = cameraForward \times cameraRight.\]</div>
+<p>Once these vectors have been calculated the transformation matrix to align the <span class="math notranslate nohighlight">\(\tt direction\)</span> vector so that it points down the <span class="math notranslate nohighlight">\(z\)</span>-axis is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\textsf{alignment matrix} = \begin{pmatrix}
+    \tt cameraRight.x &amp; \tt cameraUp.x &amp; \tt cameraForward.x &amp; 0 \\
+    \tt cameraRight.y &amp; \tt cameraUp.y &amp; \tt cameraForward.y &amp; 0 \\
+    \tt cameraRight.z &amp; \tt cameraUp.z &amp; \tt cameraForward.z &amp; 0 \\
+    0 &amp; 0 &amp; 0 &amp; 1
+\end{pmatrix}\end{split}\]</div>
+<p>The translation matrix and alignment matrix are multiplied together to form the <strong>view matrix</strong> which transforms the world space co-ordinates to the view space.</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align*}
+    \textsf{view matrix} &amp;= \textsf{translation matrix} \cdot \textsf{alignment matrix}.
+\end{align*} \]</div>
+<p>Lets move the camera to look at our cube from the position (1,1,0) looking towards the center of the cube. Add the following to the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate view matrix</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">camera</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modelCentre</span><span class="p">;</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">worldUp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
+
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">cameraForward</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span><span class="n">camera</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">target</span><span class="p">);</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">cameraRight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">cross</span><span class="p">(</span><span class="n">worldUp</span><span class="p">,</span><span class="w"> </span><span class="n">cameraForward</span><span class="p">));</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">cameraUp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">cross</span><span class="p">(</span><span class="n">cameraForward</span><span class="p">,</span><span class="w"> </span><span class="n">cameraRight</span><span class="p">);</span>
+
+<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">align</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">);</span>
+<span class="n">translate</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">camera</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">translate</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">camera</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">translate</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">camera</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="n">align</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraRight</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">align</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraUp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">align</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraForward</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="n">align</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraRight</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">align</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraUp</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">align</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraForward</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="n">align</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraRight</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">align</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraUp</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">align</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraForward</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+
+<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">align</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">translate</span><span class="p">;</span>
+
+<span class="c1">// Send the view matrix to the vertex shader</span>
+<span class="n">GLuint</span><span class="w"> </span><span class="n">viewID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;view&quot;</span><span class="p">);</span>
+<span class="n">glUniformMatrix4fv</span><span class="p">(</span><span class="n">viewID</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">GL_FALSE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">view</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
+</pre></div>
+</div>
+<p>The code above should be pretty self explanatory as we have done similar in the past.</p>
+</section>
+<section id="projection">
+<h2><span class="section-number">6.5. </span>Projection<a class="headerlink" href="#projection" title="Permalink to this heading">#</a></h2>
+<p>The next step is to project the view space onto the screen space. OpenGL uses <strong>Normalized Device Co-ordinates (NDC)</strong> to to simplify the final transformation of the screen space to the display where the screen space is a unit cube where axes co-ordinates range from -1 to 1. Any fragments with co-ordinates outside of this range are ignored or <strong>clipped</strong>.</p>
+<section id="orthographic-projection">
+<h3><span class="section-number">6.5.1. </span>Orthographic projection<a class="headerlink" href="#orthographic-projection" title="Permalink to this heading">#</a></h3>
+<p>The simplest type of projection is <strong>orthographic projection</strong> where the co-ordinates in the view space are transformed to the screen space by simple translation and scaling transformations.</p>
+<p>The region of the view space that will form the screen space is defined by a cuboid bounded by a left, right, bottom, top, near and far clipping planes. Any objects outside of the cuboid are clipped and discarded from the rendering (<a class="reference internal" href="#orthographic-projection-figure"><span class="std std-numref">Fig. 6.4</span></a>).</p>
+<figure class="align-default" id="orthographic-projection-figure">
+<a class="reference internal image-reference" href="../_images/orthographic_projection.svg"><img alt="../_images/orthographic_projection.svg" src="../_images/orthographic_projection.svg" width="600" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 6.4 </span><span class="caption-text">Orthographic projection.</span><a class="headerlink" href="#orthographic-projection-figure" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The <strong>orthographic projection matrix</strong> is calculated using the left, right, bottom, top, near and far co-ordinates such that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+    \textsf{orthographic projection} = 
+    \begin{pmatrix}
+        \frac{2}{\textsf{right} - \textsf{left}} &amp; 0 &amp; 0 &amp; 0 \\
+        0 &amp; \frac{2}{\textsf{top} - \textsf{bottom}} &amp; 0 &amp; 0 \\
+        0 &amp; 0 &amp; \frac{2}{\textsf{near} - \textsf{far}} &amp; 0 \\
+        -\frac{\textsf{right} + \textsf{left}}{\textsf{right} - \textsf{left}} &amp; -\frac{\textsf{top} + \textsf{bottom}}{\textsf{top} - \textsf{bottom}} &amp; \frac{\textsf{near} + \textsf{far}}{\textsf{near} - \textsf{far}} &amp; 1
+    \end{pmatrix}
+\end{align*}. \end{split}\]</div>
+<p>If you are interested how this matrix is derived click on the dropdown link below.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Derivation of the orthographic projection matrix<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">To derive the orthographic projection we first need to translate the co-ordinates so that the centre of the cuboid that represents the clipping volume to (0,0,0). The centre co-ordinates are calculated using the average of the edge co-ordinates, e.g., <span class="math notranslate nohighlight">\(\frac{\textsf{right} + \textsf{left}}{2}\)</span>, so the translation matrix is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+    \textsf{translation matrix} = 
+    \begin{pmatrix}
+        1 &amp; 0 &amp; 0 &amp; 0 \\
+        0 &amp; 1 &amp; 0 &amp; 0 \\
+        0 &amp; 0 &amp; 1 &amp; 0 \\
+        -\frac{\textsf{right} + \textsf{left}}{2} &amp; -\frac{\textsf{top} - \textsf{bottom}}{2} &amp; \frac{\textsf{far} - \textsf{near}}{2} &amp; 1
+    \end{pmatrix}
+\end{align*} \end{split}\]</div>
+<p class="sd-card-text">The second step is to scale the clipping volume so that the co-ordinates are between -1 and 1. This is done by dividing the distance between the edges of the screen space by the distance between the clipping planes, e.g., <span class="math notranslate nohighlight">\(\frac{1 - (-1)}{\textsf{right} - \textsf{left}}=\frac{2}{\textsf{right} - \textsf{left}}\)</span>, so the scaling matrix is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+    \textsf{scaling matrix} = 
+    \begin{pmatrix}
+        \frac{2}{\textsf{right} - \textsf{left}} &amp; 0 &amp; 0 &amp; 0 \\
+        0 &amp; \frac{2}{\textsf{top} - \textsf{bottom}} &amp; 0 &amp; 0 \\
+        0 &amp; 0 &amp; \frac{2}{\textsf{far} - \textsf{near}} &amp; 0 \\
+        0 &amp; 0 &amp; 0 &amp; 1
+    \end{pmatrix}.
+\end{align*} \end{split}\]</div>
+<p class="sd-card-text">Combining the translation and scaling matrices gives the orthographic projection matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+    \textsf{orthographic projection} = 
+    \begin{pmatrix}
+        \frac{2}{\textsf{right} - \textsf{left}} &amp; 0 &amp; 0 &amp; 0 \\
+        0 &amp; \frac{2}{\textsf{top} - \textsf{bottom}} &amp; 0 &amp; 0 \\
+        0 &amp; 0 &amp; \frac{2}{\textsf{near} - \textsf{far}} &amp; 0 \\
+        -\frac{\textsf{right} + \textsf{left}}{\textsf{right} - \textsf{left}} &amp; -\frac{\textsf{top} + \textsf{bottom}}{\textsf{top} - \textsf{bottom}} &amp; \frac{\textsf{near} + \textsf{far}}{\textsf{near} - \textsf{far}} &amp; 1
+    \end{pmatrix}
+\end{align*} \end{split}\]</div>
+</div>
+</details><p>Let calculate the orthographic projection matrix using left = -1.2, right = 1.2, bottom = -1.2, top = 1.2, near = 0, far = 10 and send it to the vertex shader.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate orthographic projection matrix</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="n">near</span><span class="p">,</span><span class="w"> </span><span class="n">far</span><span class="p">,</span><span class="w"> </span><span class="n">top</span><span class="p">,</span><span class="w"> </span><span class="n">bottom</span><span class="p">;</span>
+<span class="n">left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">-1.2f</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.2f</span><span class="p">;</span>
+<span class="n">bottom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">-1.2f</span><span class="p">,</span><span class="w"> </span><span class="n">top</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.2f</span><span class="p">;</span>
+<span class="n">near</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="n">far</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">10.0f</span><span class="p">;</span>
+
+<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">projection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">);</span>
+<span class="n">projection</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0f</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">right</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">left</span><span class="p">);</span>
+<span class="n">projection</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0f</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">top</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">bottom</span><span class="p">);</span>
+<span class="n">projection</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0f</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">near</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">far</span><span class="p">);</span>
+<span class="n">projection</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">right</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">left</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">right</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">left</span><span class="p">);</span>
+<span class="n">projection</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">top</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bottom</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">top</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">bottom</span><span class="p">);</span>
+<span class="n">projection</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">near</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">far</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">near</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">far</span><span class="p">);</span>
+
+<span class="c1">// Send our projection matrix to the vertex shader</span>
+<span class="n">GLuint</span><span class="w"> </span><span class="n">projectionID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;projection&quot;</span><span class="p">);</span>
+<span class="n">glUniformMatrix4fv</span><span class="p">(</span><span class="n">projectionID</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">GL_FALSE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">projection</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
+</pre></div>
+</div>
+<p>Of course we also need to update the vertex shader so that is uses the <code class="docutils literal notranslate"><span class="pre">projection</span></code> matrix.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
+
+<span class="c1">// Input vertex data</span>
+<span class="n">layout</span><span class="p">(</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">position</span><span class="p">;</span>
+<span class="n">layout</span><span class="p">(</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">vec2</span><span class="w"> </span><span class="n">textureCoords</span><span class="p">;</span>
+
+<span class="c1">// Output data</span>
+<span class="n">out</span><span class="w"> </span><span class="n">vec2</span><span class="w"> </span><span class="n">uv</span><span class="p">;</span>
+
+<span class="c1">// Values that stay constant for the whole mesh</span>
+<span class="n">uniform</span><span class="w"> </span><span class="n">mat4</span><span class="w"> </span><span class="n">model</span><span class="p">;</span>
+<span class="n">uniform</span><span class="w"> </span><span class="n">mat4</span><span class="w"> </span><span class="n">view</span><span class="p">;</span>
+<span class="n">uniform</span><span class="w"> </span><span class="n">mat4</span><span class="w"> </span><span class="n">projection</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// Output vertex postion</span>
+<span class="w">    </span><span class="n">gl_Position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">projection</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Output (u,v) co-ordinates</span>
+<span class="w">    </span><span class="n">uv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec2</span><span class="p">(</span><span class="n">textureCoords</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Compile and run the program and you should see the following.</p>
+<center>
+<video controls muted="true" loop="true" width="500">
+    <source src="../cube_no_depth_test.mp4" type="video/mp4">
+</video>
+</center>
+<p>If you are having difficulty getting to this stage take a look at the source code <a class="reference download internal" download="" href="../_downloads/14f5c69b42c69b9aa4e2756380a3289b/3D_worlds_without_depth_test.cpp"><span class="xref download myst">main.cpp</span></a> and vertex shader <a class="reference download internal" download="" href="../_downloads/c8a81ffa5629e99d70e99eaf32d28a9b/vertexShader_no_MVP.vert"><span class="xref download myst">vertexShader.vert</span></a>.</p>
+</section>
+<section id="depth-testing">
+<h3><span class="section-number">6.5.2. </span>Depth testing<a class="headerlink" href="#depth-testing" title="Permalink to this heading">#</a></h3>
+<p>Our rendering of the cube doesn’t look quite right. What is happening here is that some parts of the sides of the cube that are further away from where we are viewing it (e.g., the bottom side) from have been rendered after the sides that are closer to us (<a class="reference internal" href="#depth-test-1-figure"><span class="std std-numref">Fig. 6.5</span></a>).</p>
+<figure class="align-default" id="depth-test-1-figure">
+<a class="reference internal image-reference" href="../_images/depth_test_1.svg"><img alt="../_images/depth_test_1.svg" src="../_images/depth_test_1.svg" width="300" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 6.5 </span><span class="caption-text">Rendering the far triangle after the near triangle.</span><a class="headerlink" href="#depth-test-1-figure" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>To overcome this issue OpenGL uses a <strong>depth test</strong> when computing the fragment shader. When OpenGL creates a frame buffer it also creates another buffer called a <strong>depth buffer</strong> where the <span class="math notranslate nohighlight">\(z\)</span> co-ordinate of each pixel in the frame buffer is stored and initialises all the values to -1 (the furthest possible <span class="math notranslate nohighlight">\(z\)</span> co-ordinate in the screen space). When the fragment shader is called it checks whether the fragment has a <span class="math notranslate nohighlight">\(z\)</span> co-ordinate more than that already stored in the depth buffer and if so it updates the colour of the fragment and stores its <span class="math notranslate nohighlight">\(z\)</span> co-ordinate in the depth-buffer as the current nearest fragment (if the fragment has a <span class="math notranslate nohighlight">\(z\)</span> co-ordinate less than what is already in the depth buffer the fragment shader does nothing). This means once the fragment shader has been called for all fragments of all objects, the pixels contain colours of the objects closest to the camera.</p>
+<p>To enable depth testing we used the following function before the rendering loop.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Enable depth test</span>
+<span class="n">glEnable</span><span class="p">(</span><span class="n">GL_DEPTH_TEST</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>We also need to reset the depth buffer at the start of each frame, change <code class="docutils literal notranslate"><span class="pre">glClear(GL_COLOR_BUFFER_BIT);</span></code> to the following.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">GL_DEPTH_BUFFER_BIT</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Make these changes to your code and you should get a much better result.</p>
+<center>
+<video controls muted="true" loop="true" width="500">
+    <source src="../cube_depth_test.mp4" type="video/mp4">
+</video>
+</center>
+</section>
+<section id="perspective-projection">
+<h3><span class="section-number">6.5.3. </span>Perspective projection<a class="headerlink" href="#perspective-projection" title="Permalink to this heading">#</a></h3>
+</section>
+</section>
+<section id="the-mvp-matrix">
+<h2><span class="section-number">6.6. </span>The MVP matrix<a class="headerlink" href="#the-mvp-matrix" title="Permalink to this heading">#</a></h2>
+<p>The <strong>MVP matrix</strong> stands for Model-View-Projection and it is a single transformation matrix that combines the model transformations, the world space to view space transformations and the projection in one. Rather than send three separate matrices to the shader and performing matrix multiplication of four matrices (model, view, projection and co-ordinates), it is much more efficient to send just one matrix to the shader and get the shader to perform a single matrix multiplication.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -411,6 +792,30 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#co-ordinate-systems">6.1. Co-ordinate systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-models">6.2. 3D models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-matrix">6.3. The model matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-view-matrix">6.4. The view matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection">6.5. Projection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#orthographic-projection">6.5.1. Orthographic projection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#depth-testing">6.5.2. Depth testing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perspective-projection">6.5.3. Perspective projection</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-mvp-matrix">6.6. The MVP matrix</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

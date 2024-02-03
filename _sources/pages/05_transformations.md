@@ -668,7 +668,7 @@ Compile and run the program and we have something quite different.
 
 ## Exercises
 
-1. Use translation to produce an animation of the original rectangle rotating around a circle of radius 0.5 centered at the centre of the window. Hint: the co-ordinates of points on a circle centered at (0,0) with radius $r$ can be calculated using $x = r * cos(t)$ and $y = r * sin(t)$ where $t$ is some number.
+1. Use translation to produce an animation of the original rectangle rotating around a circle of radius 0.5 centered at the centre of the window. Hint: the co-ordinates of points on a circle centered at (0,0) with radius $r$ can be calculated using $x = r \cos(t)$ and $y = r  \sin(t)$ where $t$ is some number.
 
 <center>
 <video controls muted="true" loop="true" width="500">
@@ -676,7 +676,7 @@ Compile and run the program and we have something quite different.
 </video>
 </center>
 
-1. Use rotation to rotate the rectangle from exercise 1 clockwise about its own centre with a rotation speed double that of the rotation speed used to rotate it around the circle.
+2. Use rotation to rotate the rectangle from exercise 1 clockwise about its own centre with a rotation speed double that of the rotation speed used to rotate it around the circle.
 
 <center>
 <video controls muted="true" loop="true" width="500">
