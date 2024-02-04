@@ -554,9 +554,10 @@ Here we have used the vector (0, 0, 1) as we wanted to rotate around the $z$-axi
 
 So far we have performed translation, scaling and rotation transformations on our rectangle separately. What if we wanted to combine these transformations so that we can control the size, rotation and position of the rectangle? If $T$, $S$ and $R$ are the transformation matrices for translation, scaling and rotation, then if we want to scale first, then rotate and then translate the scaled object we have
 
-$$ \begin{align*]
+$$ \begin{align*}
     (x', y', z', 1) &= (((x, y, z, 1) \cdot S) \cdot R) \cdot T \\
-    &= (x, y, z, 1) \cdot (S \cdot R \cdot T)$$
+    &= (x, y, z, 1) \cdot (S \cdot R \cdot T)
+\end{align*} $$
 
 $S \cdot R \cdot T$ is a single $4 \times 4$ transformation matrix that combines the three transformations known as the **composite transformation matrix**. 
 
@@ -664,19 +665,11 @@ Compile and run the program and we have something quite different.
 </video>
 </center>
 
-````{important}
-Remember that transformations are applied in the reverse order in which the are written when multiplying the transformations matrices.
-
-```cpp
-transformation = third_transformation * second_transformation * first_transformation;
-```
-````
-
 ---
 
 ## Exercises
 
-1. Use translation to produce an animation of the original rectangle rotating around a circle of radius 0.5 centered at the centre of the window. Hint: the co-ordinates of points on a circle centered at (0,0) with radius $r$ can be calculated using $x = r * cos(t)` and `y = r * sin(t)` where $t$ is some number.
+1. Use translation to produce an animation of the original rectangle rotating around a circle of radius 0.5 centered at the centre of the window. Hint: the co-ordinates of points on a circle centered at (0,0) with radius $r$ can be calculated using $x = r \cos(t)$ and $y = r  \sin(t)$ where $t$ is some number.
 
 <center>
 <video controls muted="true" loop="true" width="500">
@@ -684,7 +677,7 @@ transformation = third_transformation * second_transformation * first_transforma
 </video>
 </center>
 
-1. Use rotation to rotate the rectangle from exercise 1 clockwise about its own centre with a rotation speed double that of the rotation speed used to rotate it around the circle.
+2. Use rotation to rotate the rectangle from exercise 1 clockwise about its own centre with a rotation speed double that of the rotation speed used to rotate it around the circle.
 
 <center>
 <video controls muted="true" loop="true" width="500">

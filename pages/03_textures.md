@@ -104,7 +104,7 @@ Now that we have two brand new shaders we need to instruct the shader program to
 
 ```cpp
 // Compile shader program
-GLuint shaderID = LoadShaders("textureVertexShader.vert", "textureFragmentShader.frag");```
+GLuint shaderID = LoadShaders("textureVertexShader.vert", "textureFragmentShader.frag");
 ```
 
 ### Texture co-ordinates
@@ -414,7 +414,7 @@ Here we have used the `mix()` GLSL function to combine the colour samples from t
 :width: 500
 ```
 
-1. Apply a texture of your choice to the rectangle (e.g., a selfie). You will need to ensure that the source image is a bitmap so an online converter such as <a href="https://online-converting.com/image/convert2bmp/" target="_blank">https://online-converting.com/image/convert2bmp/</a> are useful for converting from various image formats.
+3. Apply a texture of your choice to the rectangle (e.g., a selfie). You will need to ensure that the source image is a bitmap so an online converter such as <a href="https://online-converting.com/image/convert2bmp/" target="_blank">https://online-converting.com/image/convert2bmp/</a> are useful for converting from various image formats.
 
 ```{figure} ../images/kratos_texture.png
 :width: 500

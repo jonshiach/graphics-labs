@@ -75,6 +75,8 @@ u = [    2.000,    2.000,    1.000]
 
 Taking a look at the code we see that the `glm::vec u(2.0f, 2.0f, 1.0f)` command defines the 3-element vector `u` with the values of the elements (2, 2, 1). This vector is then output to the console using the `std::cout` command.
 
+(vector-magnitude-section)=
+
 ### Vector magnitude
 
 The **magnitude** of a vector $\underline{a} = (a_x, a_y, a_z)$ is denoted by $|\underline{a}|$ is the length from the tail of the vector to the head and calculated using 
@@ -167,7 +169,7 @@ A unit vector is a vector that has a magnitude of 1. We can find a unit vector t
 
 $$ \hat{\underline{a}} = \frac{\underline{a}}{|\underline{a}|}. $$(eq:unit-vector)
 
-For example, to determine a unit vector pointing in the same direction as $\underline{u} = (2, 2, 1)$
+This process is callde **normalising a vector**. For example, to determine a unit vector pointing in the same direction as $\underline{u} = (2, 2, 1)$ we normalise it by dividing by its magnitude which is 3
 
 $$ \begin{align*}
     \hat{\underline{u}} &= \frac{(2, 2, 1)}{3} = \left( \frac{2}{3}, \frac{2}{3}, \frac{1}{3} \right) \approx (0.67, 0.67, 0.33).
@@ -196,6 +198,12 @@ Unit vectors
 ------------
 uHat = [    0.667,    0.667,    0.333]
 |uHat| = 1
+```
+
+The glm function `glm::normalize(u)` normalises the vector `u`. Edit your program so its uses this function to calculate `uHat` and you should get the same result.
+
+```cpp
+glm::vec3 uHat = glm::normalize(u);
 ```
 
 ### Vector addition and subtraction
@@ -245,6 +253,8 @@ With the subtraction of the vector $\underline{b}$ we do similar but instead mul
 
 Vector addition and subtraction.
 ```
+
+(dot-product-section)= 
 
 ### Dot product
 
@@ -296,6 +306,8 @@ u . v = 19
 ```
 
 The glm function `glm::dot(u, v)` calculates the dot product of the two vectors `u` and `v`. Use this to calculate $\underline{u} \cdot \underline{v}$ in your program to see that it gives the same result. 
+
+(cross-product-section)=
 
 ### Cross product
 
@@ -372,15 +384,19 @@ $$ A^\mathsf{T} = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}^\mathsf{T} = \beg
 
 ### Defining matrices in glm
 
-The glm command for defining a matrix is `glm::matn` where `n` is the number of rows and columns of the matrix (e.g., `glm::mat2` will define a $2\times 2$ matrix). Lets define the $2 \times 2$ matrix $A$ in our program and output it so add the following to your program.
+The glm command for defining a matrix is `glm::matn(1.0f)` where `n` is the number of rows and columns of the matrix, e.g., `glm::mat2(1.0f)` will define a $2\times 2$ matrix (in fact this defines a $2\times 2$ [identity matrix](identity-matrix-section)). Lets define the $2 \times 2$ matrix $A$ in our program and output it so add the following to your program.
 
 ```cpp
 // Defining a matrix
-glm::mat2 A = glm::mat2(1.0f, 2.0f, 3.0f, 4.0f);
+glm::mat2 A = glm::mat2(1.0f);
+A[0][0] = 1.0f, A[0][1] = 2.0f;
+A[1][0] = 3.0f, A[1][1] = 4.0f;
 
 std::cout << "\nDefining a matrix\n-----------------" << std::endl;
 std::cout << "A =" << A << std::endl;
 ```
+
+The indexing of glm matrices is done in a similar way to vectors but instead of having one index we now have two, one for the row number and one for the column number. So the value of the element $a_{11}$ is written in C++ as `A[0][0]`.
 
 Output
 
@@ -422,30 +438,6 @@ Defining a matrix
 A = 
 [[    1.000,    2.000]
  [    3.000,    4.000]]
-```
-
-### Indexing glm matrices
-
-The indexing of glm matrices is done in a similar way to vectors but instead of having one index we now have two, one for the row number and one for the column number. So the value of the element $a_{11}$ is written in C++ as `A[0][0]`. Add the following code to your program to test matrix indexing.
-
-```cpp
-// Matrix indexing
-std::cout << "\nMatrix indexing\n-----------------" << std::endl;
-std::cout << "A[0][0] = " << A[0][0] << std::endl;
-std::cout << "A[0][1] = " << A[0][1] << std::endl;
-std::cout << "A[1][0] = " << A[1][0] << std::endl;
-std::cout << "A[1][1] = " << A[1][1] << std::endl;
-```
-
-Output:
-
-```text
-Matrix indexing
------------------
-A[0][0] = 1
-A[0][1] = 2
-A[1][0] = 3
-A[1][1] = 4
 ```
 
 (matrix-multiplication-section)=
@@ -532,6 +524,7 @@ BA =
  [   31.000,   46.000]]
 ```
 
+(identity-matrix-section)=
 ### The identity matrix
 
 The **identity matrix** is a special square matrix (same number of rows and columns) where all the elements are zero apart from the elements on the diagonal line from the top-left element down to the bottom-right element (known as the **main diagonal**). For example the $4\times 4$ identity matrix is
@@ -587,11 +580,11 @@ Whilst matrix multiplication is defined for certain matrices there is no way of 
 
 $$ \frac{8}{2} = 4. $$
 
-We could also write this division as the multiplication of 1/2 and 8, i.e.,
+We could also write this division as the multiplication of \frac{1}{2} and 8, i.e.,
 
 $$ \frac{1}{2} \times 8 = 4. $$
 
-Here we have shown that 1/2 is the **multiplicative inverse** of 2. A multiplicative inverse of a number $x$ is denoted as $x^{-1}$ and satisfies $x \cdot x^{-1} = 1$. The inverse of a matrix $A$ is denoted by $A^{-1}$ and satisfied $A^{-1}A = I$ where $I$ is the identity matrix. For example, the inverse of the matrix
+Here we have shown that $\frac{1}{2}$ is the **multiplicative inverse** of 2. A multiplicative inverse of a number $x$ is denoted as $x^{-1}$ and satisfies $x \cdot x^{-1} = 1$. The inverse of a matrix $A$ is denoted by $A^{-1}$ and satisfied $A^{-1}A = I$ where $I$ is the identity matrix. For example, the inverse of the matrix
 
 $$A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}, $$
 

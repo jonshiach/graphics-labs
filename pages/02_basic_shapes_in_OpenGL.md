@@ -1,6 +1,6 @@
 (hello-triangle-section)=
 
-# Drawing Basic Shapes in OpenGL
+# Basic Shapes in OpenGL
 
 In this lab we will be creating our first graphics application in OpenGL.
 
@@ -35,9 +35,11 @@ If all has gone to plan you should be looking at a boring window with a grey bac
 The "hello window" example (boring isn't it)
 ```
 
+You can terminate your application by pressing the escape key or simply closing the window.
+
 ---
 
-## Define our triangle
+## Define a triangle
 
 As you will probably agree, creating a plain grey window isn't the most interesting of applications. What would make it much more exciting is to draw simple shapes in the window. The simplest shape, and one which we use extensively in computer graphics, is a triangle.
 
@@ -59,7 +61,7 @@ OpenGL expects the x, y and z co-ordinates of all vertices to be between -1.0 an
 ```{figure} ../images/opengl_window.svg
 :width: 400
 
-OpenGL Normalised Device Co-ordinates are in the range -1.0 to 1.0.
+OpenGL Normalised Device Co-ordinates are in the range -1 to 1.
 ```
 
 We define these co-ordinates in an array of floats called `vertices` using the following code.
@@ -90,7 +92,7 @@ Here, after creating and binding the VBO we copy across the co-ordinates stored 
 
 ## Write and compile the shader
 
-Now we have defined our triangle and copied the information over to OpenGL we now need to tell OpenGL how to display the triangle. This is done using a shader program that OpenGL uses to tell it how to display each pixel in our window. The shader programs are written in <a href="https://www.khronos.org/opengl/wiki/Core_Language_(GLSL)" target="_blank">**GLSL (openGL Shading Language)**</a> which is a language similar to C.
+Now we have defined our triangle and copied the information over to OpenGL we now need to tell OpenGL how to display the triangle. This is done using a shader program that OpenGL uses to tell it how to display each pixel in our window. The shader programs are written in <a href="https://www.khronos.org/opengl/wiki/Core_Language_(GLSL)" target="_blank">**GLSL (OpenGL Shader Language)**</a> which is a language similar to C.
 
 ```{figure} /images/shaders.svg
 :width: 600
@@ -101,7 +103,7 @@ At its most basic it consists of a <a href="https://www.khronos.org/opengl/wiki/
 The shaders are compiled by the application at runtime.
 
 (vertex-shader-section)=
-)
+
 ### Vertex shader
 
 Click on **File > New > File...** (or just press CTRL + N) and select text file. Enter the following program into the new file and save it in the `Lab02_Basic_shapes/source` folder using the filename `simpleVertexShader.vert` (the file extension doesn't matter but it is common to use `.vert` to denote the vertex shader).
@@ -284,18 +286,18 @@ If you were to compile and run your program, you might be a little disappointed 
 
 // Input vertex data
 layout(location = 0) in vec3 position;
-layout(location = 1) in vec2 textureCoords;
+layout(location = 1) in vec3 colour;
 
 // Output data
-out vec2 uv;
+out vec3 vertexColour;
 
 void main()
 {
-    // Output vertex postion
+    // Output vertex position
     gl_Position = vec4(position, 1.0);
     
-    // Output (u,v) co-ordinates
-    uv = textureCoords;
+    // Output vertex colour
+    vertexColour = colour;
 }
 ```
 
@@ -314,7 +316,7 @@ out vec4 colour;
 
 void main() 
 {
-    colour = vec4(vertexColour, 0);    // rgba
+    colour = vec4(vertexColour, 1.0);    // rgba
 }
 ```
 
