@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>4. Vectors and Matrices &#8212; Computer Graphics Labs</title>
   
@@ -19,48 +18,53 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=afe5de03"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script>window.MathJax = {"HTML-CSS": {"matchFontHeight": true, "preferredFont": "Neo Euler"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/04_vectors_and_matrices';</script>
@@ -77,7 +81,15 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -112,11 +124,14 @@ const thebe_selector_output = ".output, .cell_output"
 </form></div>
   </div>
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
+      
+      
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -131,9 +146,11 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../intro.html">
+  
   
   
   
@@ -143,12 +160,23 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Computer Graphics Labs - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Computer Graphics Labs - Home"/>`);</script>
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
@@ -318,20 +346,22 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -388,13 +418,13 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="vectors-and-matrices">
-<span id="vectors-and-matrices-section"></span><h1><span class="section-number">4. </span>Vectors and Matrices<a class="headerlink" href="#vectors-and-matrices" title="Permalink to this heading">#</a></h1>
+<span id="vectors-and-matrices-section"></span><h1><span class="section-number">4. </span>Vectors and Matrices<a class="headerlink" href="#vectors-and-matrices" title="Link to this heading">#</a></h1>
 <p>Computer graphics relies heavily on mathematics of vectors and matrices. In this lab we will be revising these and show how we can perform calculations in C++.</p>
 <section id="the-glm-library">
-<h2><span class="section-number">4.1. </span>The glm library<a class="headerlink" href="#the-glm-library" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">4.1. </span>The glm library<a class="headerlink" href="#the-glm-library" title="Link to this heading">#</a></h2>
 <p>The glm (<a href="https://github.com/g-truc/glm" target="_blank">OpenGL Mathematics</a>) library is a popular C++ mathematics library designed to provide classes and functions for mathematical operations, specifically tailored for graphics programming using OpenGL. We will be using functions from glm to perform calculations for us.</p>
 <ol class="arabic simple">
 <li><p>Create an empty project in Visual Studio or Xcode and call it <code class="docutils literal notranslate"><span class="pre">Lab04_Vectors_and_matrices</span></code>.</p></li>
@@ -422,7 +452,7 @@ document.write(`
 </ol>
 </section>
 <section id="vectors">
-<h2><span class="section-number">4.2. </span>Vectors<a class="headerlink" href="#vectors" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">4.2. </span>Vectors<a class="headerlink" href="#vectors" title="Link to this heading">#</a></h2>
 <p>A vector in is an object with magnitude (length) and direction. A vector is denoted by an underlined lower case letter, e.g., <span class="math notranslate nohighlight">\(\underline{a}\)</span> (or as a boldface character, e.g., <span class="math notranslate nohighlight">\(\mathbf{a}\)</span>) and represented mathematically by the 3-tuple</p>
 <div class="math notranslate nohighlight">
 \[ \underline{a} = (a_x, a_y, a_z), \]</div>
@@ -459,10 +489,10 @@ u = [    2.000,    2.000,    1.000]
 </div>
 <p>Taking a look at the code we see that the <code class="docutils literal notranslate"><span class="pre">glm::vec</span> <span class="pre">u(2.0f,</span> <span class="pre">2.0f,</span> <span class="pre">1.0f)</span></code> command defines the 3-element vector <code class="docutils literal notranslate"><span class="pre">u</span></code> with the values of the elements (2, 2, 1). This vector is then output to the console using the <code class="docutils literal notranslate"><span class="pre">std::cout</span></code> command.</p>
 <section id="vector-magnitude">
-<span id="vector-magnitude-section"></span><h3><span class="section-number">4.2.1. </span>Vector magnitude<a class="headerlink" href="#vector-magnitude" title="Permalink to this heading">#</a></h3>
+<span id="vector-magnitude-section"></span><h3><span class="section-number">4.2.1. </span>Vector magnitude<a class="headerlink" href="#vector-magnitude" title="Link to this heading">#</a></h3>
 <p>The <strong>magnitude</strong> of a vector <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> is denoted by <span class="math notranslate nohighlight">\(|\underline{a}|\)</span> is the length from the tail of the vector to the head and calculated using</p>
 <div class="math notranslate nohighlight" id="equation-eq-vector-magnitude">
-<span class="eqno">(4.1)<a class="headerlink" href="#equation-eq-vector-magnitude" title="Permalink to this equation">#</a></span>\[ |\underline{a}| = \sqrt{a_x^2 + a_y^2 + a_z^2}. \]</div>
+<span class="eqno">(4.1)<a class="headerlink" href="#equation-eq-vector-magnitude" title="Link to this equation">#</a></span>\[ |\underline{a}| = \sqrt{a_x^2 + a_y^2 + a_z^2}. \]</div>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/vector_magnitude.svg"><img alt="../_images/vector_magnitude.svg" height="100" src="../_images/vector_magnitude.svg" /></a>
 </figure>
@@ -492,10 +522,10 @@ u = [    2.000,    2.000,    1.000]
 <p>That makes things much easier.</p>
 </section>
 <section id="vector-multiplication-by-a-scalar">
-<h3><span class="section-number">4.2.2. </span>Vector multiplication by a scalar<a class="headerlink" href="#vector-multiplication-by-a-scalar" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.2.2. </span>Vector multiplication by a scalar<a class="headerlink" href="#vector-multiplication-by-a-scalar" title="Link to this heading">#</a></h3>
 <p>The multiplication of a vector <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> by a scalar (another way of saying a number) <span class="math notranslate nohighlight">\(k\)</span> is calculated using</p>
 <div class="math notranslate nohighlight" id="equation-eq-vector-multiplication">
-<span class="eqno">(4.2)<a class="headerlink" href="#equation-eq-vector-multiplication" title="Permalink to this equation">#</a></span>\[ k \underline{a} = (ka_x, ka_y, ka_z) \]</div>
+<span class="eqno">(4.2)<a class="headerlink" href="#equation-eq-vector-multiplication" title="Link to this equation">#</a></span>\[ k \underline{a} = (ka_x, ka_y, ka_z) \]</div>
 <p>Multiplying a vector by a positive scalar has the effect of scaling the length of the vector. Multiplying by a negative scalar reverses the direction of the vector.</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/vector_multiplication.svg"><img alt="../_images/vector_multiplication.svg" height="180" src="../_images/vector_multiplication.svg" /></a>
@@ -526,10 +556,10 @@ u = [    2.000,    2.000,    1.000]
 </div>
 </section>
 <section id="unit-vectors">
-<h3><span class="section-number">4.2.3. </span>Unit vectors<a class="headerlink" href="#unit-vectors" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.2.3. </span>Unit vectors<a class="headerlink" href="#unit-vectors" title="Link to this heading">#</a></h3>
 <p>A unit vector is a vector that has a magnitude of 1. We can find a unit vector that points in the same direction as a non-zero vector <span class="math notranslate nohighlight">\(\underline{a}\)</span>, which is denoted by <span class="math notranslate nohighlight">\(\hat{\underline{a}}\)</span> (pronounced “a-hat”), by dividing by its magnitude, i.e.,</p>
 <div class="math notranslate nohighlight" id="equation-eq-unit-vector">
-<span class="eqno">(4.3)<a class="headerlink" href="#equation-eq-unit-vector" title="Permalink to this equation">#</a></span>\[ \hat{\underline{a}} = \frac{\underline{a}}{|\underline{a}|}. \]</div>
+<span class="eqno">(4.3)<a class="headerlink" href="#equation-eq-unit-vector" title="Link to this equation">#</a></span>\[ \hat{\underline{a}} = \frac{\underline{a}}{|\underline{a}|}. \]</div>
 <p>For example, to determine a unit vector pointing in the same direction as <span class="math notranslate nohighlight">\(\underline{u} = (2, 2, 1)\)</span></p>
 <div class="math notranslate nohighlight">
 \[ \begin{align*}
@@ -557,10 +587,10 @@ uHat = [    0.667,    0.667,    0.333]
 </div>
 </section>
 <section id="vector-addition-and-subtraction">
-<h3><span class="section-number">4.2.4. </span>Vector addition and subtraction<a class="headerlink" href="#vector-addition-and-subtraction" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.2.4. </span>Vector addition and subtraction<a class="headerlink" href="#vector-addition-and-subtraction" title="Link to this heading">#</a></h3>
 <p>The addition and subtraction of two vectors <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> and <span class="math notranslate nohighlight">\(\underline{b} = (b_x, b_y, b_z)\)</span> is defined by</p>
 <div class="math notranslate nohighlight" id="equation-eq-vector-addition">
-<span class="eqno">(4.4)<a class="headerlink" href="#equation-eq-vector-addition" title="Permalink to this equation">#</a></span>\[ \underline{a} \pm \underline{b} = (a_x \pm b_x, a_y \pm b_y, a_z \pm b_z). \]</div>
+<span class="eqno">(4.4)<a class="headerlink" href="#equation-eq-vector-addition" title="Link to this equation">#</a></span>\[ \underline{a} \pm \underline{b} = (a_x \pm b_x, a_y \pm b_y, a_z \pm b_z). \]</div>
 <p>For example, given the vectors <span class="math notranslate nohighlight">\(\underline{u} = (2,2,1)\)</span> and <span class="math notranslate nohighlight">\(\underline{v} = (3, 4, 5)\)</span></p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
@@ -592,18 +622,18 @@ u - v = [   -1.000,   -2.000,   -4.000]
 <figure class="align-default" id="vector-addition-figure">
 <a class="reference internal image-reference" href="../_images/vector_addition.svg"><img alt="../_images/vector_addition.svg" height="180" src="../_images/vector_addition.svg" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 4.1 </span><span class="caption-text">Vector addition and subtraction.</span><a class="headerlink" href="#vector-addition-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 4.1 </span><span class="caption-text">Vector addition and subtraction.</span><a class="headerlink" href="#vector-addition-figure" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
 <section id="dot-product">
-<span id="dot-product-section"></span><h3><span class="section-number">4.2.5. </span>Dot product<a class="headerlink" href="#dot-product" title="Permalink to this heading">#</a></h3>
+<span id="dot-product-section"></span><h3><span class="section-number">4.2.5. </span>Dot product<a class="headerlink" href="#dot-product" title="Link to this heading">#</a></h3>
 <p>The <strong>dot product</strong> between two vectors <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> and <span class="math notranslate nohighlight">\(\underline{b} = (b_x, b_y, b_z)\)</span> is denoted by <span class="math notranslate nohighlight">\(\underline{a} \cdot \underline{b}\)</span> and returns a scalar quantity (a number). The dot product is calculated using</p>
 <div class="math notranslate nohighlight" id="equation-eq-dot-product">
-<span class="eqno">(4.5)<a class="headerlink" href="#equation-eq-dot-product" title="Permalink to this equation">#</a></span>\[ \underline{a} \cdot \underline{b} = a_xb_x + a_yb_y + a_zb_z. \]</div>
+<span class="eqno">(4.5)<a class="headerlink" href="#equation-eq-dot-product" title="Link to this equation">#</a></span>\[ \underline{a} \cdot \underline{b} = a_xb_x + a_yb_y + a_zb_z. \]</div>
 <p>The dot product is related to the angle between the two vectors by the relationship</p>
 <div class="math notranslate nohighlight" id="equation-eq-dot-product-geometric">
-<span class="eqno">(4.6)<a class="headerlink" href="#equation-eq-dot-product-geometric" title="Permalink to this equation">#</a></span>\[ \underline{a} \cdot \underline{b} = |\underline{a}| |\underline{b}| \cos(\theta), \]</div>
+<span class="eqno">(4.6)<a class="headerlink" href="#equation-eq-dot-product-geometric" title="Link to this equation">#</a></span>\[ \underline{a} \cdot \underline{b} = |\underline{a}| |\underline{b}| \cos(\theta), \]</div>
 <p>where <span class="math notranslate nohighlight">\(\theta\)</span> is the angle between the vectors <span class="math notranslate nohighlight">\(\underline{a}\)</span> and <span class="math notranslate nohighlight">\(\underline{b}\)</span>.</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/dot_product.svg"><img alt="../_images/dot_product.svg" height="150" src="../_images/dot_product.svg" /></a>
@@ -637,10 +667,10 @@ u . v = 19
 <p>The glm function <code class="docutils literal notranslate"><span class="pre">glm::dot(u,</span> <span class="pre">v)</span></code> calculates the dot product of the two vectors <code class="docutils literal notranslate"><span class="pre">u</span></code> and <code class="docutils literal notranslate"><span class="pre">v</span></code>. Use this to calculate <span class="math notranslate nohighlight">\(\underline{u} \cdot \underline{v}\)</span> in your program to see that it gives the same result.</p>
 </section>
 <section id="cross-product">
-<span id="cross-product-section"></span><h3><span class="section-number">4.2.6. </span>Cross product<a class="headerlink" href="#cross-product" title="Permalink to this heading">#</a></h3>
+<span id="cross-product-section"></span><h3><span class="section-number">4.2.6. </span>Cross product<a class="headerlink" href="#cross-product" title="Link to this heading">#</a></h3>
 <p>The <strong>cross product</strong> between two vectors <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> and <span class="math notranslate nohighlight">\(\underline{b} = (b_x, b_y, b_z)\)</span> is denoted by <span class="math notranslate nohighlight">\(\underline{a} \times \underline{b}\)</span> and returns a vector. The cross product is calculated using</p>
 <div class="math notranslate nohighlight" id="equation-eq-cross-product">
-<span class="eqno">(4.7)<a class="headerlink" href="#equation-eq-cross-product" title="Permalink to this equation">#</a></span>\[ \underline{a} \times \underline{b} = (a_yb_z - a_zb_y, a_zb_x - a_xb_z, a_xb_y - a_yb_x). \]</div>
+<span class="eqno">(4.7)<a class="headerlink" href="#equation-eq-cross-product" title="Link to this equation">#</a></span>\[ \underline{a} \times \underline{b} = (a_yb_z - a_zb_y, a_zb_x - a_xb_z, a_xb_y - a_yb_x). \]</div>
 <p>The cross product between two vectors produces another vector that is perpendicular to both vectors. This is another incredibly useful result as it allows use to calculate <strong>normal</strong> vectors for polygons which are used in calculating how light is reflected off surfaces.</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/cross_product.svg"><img alt="../_images/cross_product.svg" height="200" src="../_images/cross_product.svg" /></a>
@@ -687,20 +717,20 @@ v . (u x v) = 0
 </section>
 </section>
 <section id="matrices">
-<h2><span class="section-number">4.3. </span>Matrices<a class="headerlink" href="#matrices" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">4.3. </span>Matrices<a class="headerlink" href="#matrices" title="Link to this heading">#</a></h2>
 <p>A matrix is a rectangular array of numbers, e.g.,</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} A = \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix}. \end{split}\]</div>
 <p>We refer to the size of a matrix by the number of horizontal rows <span class="math notranslate nohighlight">\(\times\)</span> the number of vertical columns. Here the matrix <span class="math notranslate nohighlight">\(A\)</span> has 2 rows and 2 columns so we call this matrix a <span class="math notranslate nohighlight">\(2 \times 2\)</span> matrix. The individual elements of a matrix are referenced by an <strong>index</strong> which is a pair of numbers, the first of which is the row number and the second is the column number, so <span class="math notranslate nohighlight">\(a_{ij}\)</span> is the element in row <span class="math notranslate nohighlight">\(i\)</span> and column <span class="math notranslate nohighlight">\(j\)</span> of the matrix <span class="math notranslate nohighlight">\(A\)</span>. For example for the matrix <span class="math notranslate nohighlight">\(A\)</span> defined above <span class="math notranslate nohighlight">\(a_{11} = 1\)</span>, <span class="math notranslate nohighlight">\(a_{12} = 2\)</span>, <span class="math notranslate nohighlight">\(a_{21} = 3\)</span> and <span class="math notranslate nohighlight">\(a_{22} = 4\)</span>.</p>
 <section id="matrix-transpose">
-<h3><span class="section-number">4.3.1. </span>Matrix transpose<a class="headerlink" href="#matrix-transpose" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.3.1. </span>Matrix transpose<a class="headerlink" href="#matrix-transpose" title="Link to this heading">#</a></h3>
 <p>The <strong>transpose</strong> of a matrix <span class="math notranslate nohighlight">\(A\)</span> is denoted by <span class="math notranslate nohighlight">\(A^\mathsf{T}\)</span> and is defined by swapping the rows and columns of <span class="math notranslate nohighlight">\(A\)</span>.</p>
 <p>For example, given the matrix <span class="math notranslate nohighlight">\(A\)</span> defined earlier</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} A^\mathsf{T} = \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix}^\mathsf{T} = \begin{pmatrix} 1 &amp; 3 \\ 2 &amp; 4 \end{pmatrix}. \end{split}\]</div>
 </section>
 <section id="defining-matrices-in-glm">
-<h3><span class="section-number">4.3.2. </span>Defining matrices in glm<a class="headerlink" href="#defining-matrices-in-glm" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.3.2. </span>Defining matrices in glm<a class="headerlink" href="#defining-matrices-in-glm" title="Link to this heading">#</a></h3>
 <p>The glm command for defining a matrix is <code class="docutils literal notranslate"><span class="pre">glm::matn</span></code> where <code class="docutils literal notranslate"><span class="pre">n</span></code> is the number of rows and columns of the matrix (e.g., <code class="docutils literal notranslate"><span class="pre">glm::mat2</span></code> will define a <span class="math notranslate nohighlight">\(2\times 2\)</span> matrix). Lets define the <span class="math notranslate nohighlight">\(2 \times 2\)</span> matrix <span class="math notranslate nohighlight">\(A\)</span> in our program and output it so add the following to your program.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Defining a matrix</span>
 <span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0f</span><span class="p">);</span>
@@ -742,7 +772,7 @@ A =
 </div>
 </section>
 <section id="indexing-glm-matrices">
-<h3><span class="section-number">4.3.3. </span>Indexing glm matrices<a class="headerlink" href="#indexing-glm-matrices" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.3.3. </span>Indexing glm matrices<a class="headerlink" href="#indexing-glm-matrices" title="Link to this heading">#</a></h3>
 <p>The indexing of glm matrices is done in a similar way to vectors but instead of having one index we now have two, one for the row number and one for the column number. So the value of the element <span class="math notranslate nohighlight">\(a_{11}\)</span> is written in C++ as <code class="docutils literal notranslate"><span class="pre">A[0][0]</span></code>. Add the following code to your program to test matrix indexing.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Matrix indexing</span>
 <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Matrix indexing</span><span class="se">\n</span><span class="s">-----------------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
@@ -763,10 +793,10 @@ A[1][1] = 4
 </div>
 </section>
 <section id="matrix-multiplication">
-<span id="matrix-multiplication-section"></span><h3><span class="section-number">4.3.4. </span>Matrix multiplication<a class="headerlink" href="#matrix-multiplication" title="Permalink to this heading">#</a></h3>
+<span id="matrix-multiplication-section"></span><h3><span class="section-number">4.3.4. </span>Matrix multiplication<a class="headerlink" href="#matrix-multiplication" title="Link to this heading">#</a></h3>
 <p>The addition, subtraction and multiplication by a scalar for matrices is the same as it is for vectors so I’m not going to repeat it here. However, the multiplication of two matrices <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> is defined in a very specific way. If <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are two matrices then the element in row <span class="math notranslate nohighlight">\(i\)</span> and column <span class="math notranslate nohighlight">\(j\)</span> of the matrix <span class="math notranslate nohighlight">\(AB\)</span> is calculated using</p>
 <div class="math notranslate nohighlight" id="equation-eq-matrix-multiplication">
-<span class="eqno">(4.8)<a class="headerlink" href="#equation-eq-matrix-multiplication" title="Permalink to this equation">#</a></span>\[ [AB]_{ij} = \underline{a}_i \cdot \underline{b}_j, \]</div>
+<span class="eqno">(4.8)<a class="headerlink" href="#equation-eq-matrix-multiplication" title="Link to this equation">#</a></span>\[ [AB]_{ij} = \underline{a}_i \cdot \underline{b}_j, \]</div>
 <p>where <span class="math notranslate nohighlight">\(\underline{a}_i\)</span> is the vector formed from row <span class="math notranslate nohighlight">\(i\)</span> of <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(\underline{b}_j\)</span> is the vector formed from column <span class="math notranslate nohighlight">\(j\)</span> of <span class="math notranslate nohighlight">\(B\)</span>.</p>
 <p>For example, given the matrices <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span></p>
 <div class="math notranslate nohighlight">
@@ -837,7 +867,7 @@ BA =
 </div>
 </section>
 <section id="the-identity-matrix">
-<h3><span class="section-number">4.3.5. </span>The identity matrix<a class="headerlink" href="#the-identity-matrix" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.3.5. </span>The identity matrix<a class="headerlink" href="#the-identity-matrix" title="Link to this heading">#</a></h3>
 <p>The <strong>identity matrix</strong> is a special square matrix (same number of rows and columns) where all the elements are zero apart from the elements on the diagonal line from the top-left element down to the bottom-right element (known as the <strong>main diagonal</strong>). For example the <span class="math notranslate nohighlight">\(4\times 4\)</span> identity matrix is</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} I = \begin{pmatrix}
@@ -881,7 +911,7 @@ I =
 </div>
 </section>
 <section id="the-inverse-matrix">
-<h3><span class="section-number">4.3.6. </span>The inverse matrix<a class="headerlink" href="#the-inverse-matrix" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.3.6. </span>The inverse matrix<a class="headerlink" href="#the-inverse-matrix" title="Link to this heading">#</a></h3>
 <p>Whilst matrix multiplication is defined for certain matrices there is no way of dividing a matrix by another. However, for certain square matrices we can calculate an <strong>inverse matrix</strong> that performs a similar function to divide. Consider the division of two numbers, 4 and 2 say. If we wanted to divide 4 by two we could write</p>
 <div class="math notranslate nohighlight">
 \[ \frac{8}{2} = 4. \]</div>
@@ -951,7 +981,7 @@ std::cout &lt;&lt; &quot;\ninvA * A&quot; &lt;&lt; glm::transpose(invA * A) &lt;
 </section>
 </section>
 <section id="exercises">
-<span id="vectors-exercises"></span><h2><span class="section-number">4.4. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
+<span id="vectors-exercises"></span><h2><span class="section-number">4.4. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
 <ol class="arabic">
 <li><p>Three points have the co-ordinates P = (5, 1, 3), Q = (10, 7, 4) and R = (0, 5, -3). Use C++ code to output the following:</p>
 <p>(a) The vector <span class="math notranslate nohighlight">\(\underline{p}\)</span> that points from P to Q;<br>
@@ -991,7 +1021,7 @@ std::cout &lt;&lt; &quot;\ninvA * A&quot; &lt;&lt; glm::transpose(invA * A) &lt;
 <p>   Use your class to answer questions 1 and 2 (you may use glm vectors and matrices).</p>
 </section>
 <section id="source-code">
-<h2><span class="section-number">4.5. </span>Source code<a class="headerlink" href="#source-code" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">4.5. </span>Source code<a class="headerlink" href="#source-code" title="Link to this heading">#</a></h2>
 <p>The source code for this lab, including the exercise solutions, can be downloaded using the links below.</p>
 <ul class="simple">
 <li><p><a class="reference download internal" download="" href="../_downloads/d4638622e76e2478a1e4785c57518280/main.cpp"><span class="xref download myst">main.cpp</span></a></p></li>
@@ -1026,11 +1056,10 @@ std::cout &lt;&lt; &quot;\ninvA * A&quot; &lt;&lt; glm::transpose(invA * A) &lt;
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="03_textures.html"
@@ -1050,10 +1079,7 @@ std::cout &lt;&lt; &quot;\ninvA * A&quot; &lt;&lt; glm::transpose(invA * A) &lt;
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -1061,6 +1087,7 @@ std::cout &lt;&lt; &quot;\ninvA * A&quot; &lt;&lt; glm::transpose(invA * A) &lt;
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
@@ -1110,6 +1137,7 @@ By Dr Jon Shiach
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2024.
@@ -1136,8 +1164,8 @@ By Dr Jon Shiach
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
 
   <footer class="bd-footer">
   </footer>

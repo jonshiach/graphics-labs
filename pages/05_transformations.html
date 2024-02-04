@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>5. Transformations &#8212; Computer Graphics Labs</title>
   
@@ -19,48 +18,53 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=afe5de03"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script>window.MathJax = {"HTML-CSS": {"matchFontHeight": true, "preferredFont": "Neo Euler"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/05_transformations';</script>
@@ -77,7 +81,15 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -112,11 +124,14 @@ const thebe_selector_output = ".output, .cell_output"
 </form></div>
   </div>
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
+      
+      
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -131,9 +146,11 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../intro.html">
+  
   
   
   
@@ -143,12 +160,23 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Computer Graphics Labs - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Computer Graphics Labs - Home"/>`);</script>
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
@@ -318,20 +346,22 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -387,10 +417,10 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="transformations">
-<span id="transformations-section"></span><h1><span class="section-number">5. </span>Transformations<a class="headerlink" href="#transformations" title="Permalink to this heading">#</a></h1>
+<span id="transformations-section"></span><h1><span class="section-number">5. </span>Transformations<a class="headerlink" href="#transformations" title="Link to this heading">#</a></h1>
 <p>Computer graphics requires that shapes are manipulated in space by moving the shapes, shrinking or stretching, rotating and reflection to name a few. We call these manipulations <strong>transformations</strong>. We need a convenient way of telling the computer how to apply our transformations and for this we make use of matrices (hence why we needed to revise them here).</p>
 <p>Each transformation has an associated <strong>transformation matrix</strong> which we used to multiply the co-ordinates of our shapes to calculate the co-ordinates of the transformed shape. For example if <span class="math notranslate nohighlight">\(A\)</span> is a transformation matrix for a particular transformation and <span class="math notranslate nohighlight">\((x,y,z)\)</span> are the co-ordinates of a point then we apply the transformation using</p>
 <div class="math notranslate nohighlight">
@@ -402,17 +432,17 @@ document.write(`
 <figure class="align-default" id="id1">
 <a class="reference internal image-reference" href="../_images/opengl_axes.svg"><img alt="../_images/opengl_axes.svg" height="220" src="../_images/opengl_axes.svg" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 5.1 </span><span class="caption-text">The OpenGL co-ordinate system.</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 5.1 </span><span class="caption-text">The OpenGL co-ordinate system.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </div>
 <section id="translation">
-<span id="translation-section"></span><h2><span class="section-number">5.1. </span>Translation<a class="headerlink" href="#translation" title="Permalink to this heading">#</a></h2>
+<span id="translation-section"></span><h2><span class="section-number">5.1. </span>Translation<a class="headerlink" href="#translation" title="Link to this heading">#</a></h2>
 <p>The <strong>translation</strong> transformation when applied to a set of points moves each point by the same amount. For example, consider the triangle in <a class="reference internal" href="#translation-figure"><span class="std std-numref">Fig. 5.2</span></a>, each of the vertices has been translated by the same <strong>translation vector</strong> <span class="math notranslate nohighlight">\(\underline{t}\)</span> which has that effect of moving the triangle.</p>
 <figure class="align-default" id="translation-figure">
 <a class="reference internal image-reference" href="../_images/translation.svg"><img alt="../_images/translation.svg" height="280" src="../_images/translation.svg" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 5.2 </span><span class="caption-text">Translation of a triangle by the translation vector <span class="math notranslate nohighlight">\(\underline{t}= (t_x, t_y)\)</span>.</span><a class="headerlink" href="#translation-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 5.2 </span><span class="caption-text">Translation of a triangle by the translation vector <span class="math notranslate nohighlight">\(\underline{t}= (t_x, t_y)\)</span>.</span><a class="headerlink" href="#translation-figure" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>A problem we have is that no transformation matrix exists for applying translation to the co-ordinates <span class="math notranslate nohighlight">\((x, y, z)\)</span>, e.g., we can’t find a matrix <span class="math notranslate nohighlight">\(T\)</span> such that</p>
@@ -435,14 +465,14 @@ document.write(`
 \end{align*}\end{split}\]</div>
 <p>which is our desired translation. So the <strong>translation matrix</strong> for translating a set of points by the vector <span class="math notranslate nohighlight">\(\underline{t} = (t_x, t_y, t_z)\)</span> is</p>
 <div class="math notranslate nohighlight" id="equation-eq-translation-matrix">
-<span class="eqno">(5.1)<a class="headerlink" href="#equation-eq-translation-matrix" title="Permalink to this equation">#</a></span>\[\begin{split} T = \begin{pmatrix}
+<span class="eqno">(5.1)<a class="headerlink" href="#equation-eq-translation-matrix" title="Link to this equation">#</a></span>\[\begin{split} T = \begin{pmatrix}
     1 &amp; 0 &amp; 0 &amp; 0 \\
     0 &amp; 1 &amp; 0 &amp; 0 \\
     0 &amp; 0 &amp; 1 &amp; 0 \\
     t_x &amp; t_y &amp; t_z &amp; 1
 \end{pmatrix}. \end{split}\]</div>
 <section id="translation-in-opengl">
-<h3><span class="section-number">5.1.1. </span>Translation in OpenGL<a class="headerlink" href="#translation-in-opengl" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.1.1. </span>Translation in OpenGL<a class="headerlink" href="#translation-in-opengl" title="Link to this heading">#</a></h3>
 <p>Now we now the mathematical theory behind applying a transformation lets apply it to OpenGL. Download and build the source code contained in <a class="reference download internal" download="" href="../_downloads/62c731aa12e34ed5b90c320a7f8572ea/Lab05_Transformations.zip"><span class="xref download myst">Lab03_Textures.zip</span></a> using the instructions given <a class="reference internal" href="02_hello_triangle.html#hello-window-section"><span class="std std-ref">here</span></a>. Compile and run the project and you should be presented with our smiley texture from Lab03 applied to a rectangle.</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/transformation1.png"><img alt="../_images/transformation1.png" src="../_images/transformation1.png" style="width: 500px;" /></a>
@@ -517,12 +547,12 @@ document.write(`
 </section>
 </section>
 <section id="scaling">
-<h2><span class="section-number">5.2. </span>Scaling<a class="headerlink" href="#scaling" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">5.2. </span>Scaling<a class="headerlink" href="#scaling" title="Link to this heading">#</a></h2>
 <p>Scaling is the simplest transformation we can apply. Multiplying the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> co-ordinates of a point by a scalar quantity (a number) has the effect of moving the point closer or further away from the origin (0,0). For example, consider the triangle in <a class="reference internal" href="#scaling-about-origin-figure"><span class="std std-numref">Fig. 5.3</span></a>. The <span class="math notranslate nohighlight">\(x\)</span> co-ordinate of each vertex has been multiplied by <span class="math notranslate nohighlight">\(s_x\)</span> and the <span class="math notranslate nohighlight">\(y\)</span> co-ordinates have been multiplied by <span class="math notranslate nohighlight">\(s_y\)</span> which has the effect of scaling the triangle and moving the vertices further away from the origin (in this case <span class="math notranslate nohighlight">\(s_x\)</span> and <span class="math notranslate nohighlight">\(s_y\)</span> are both greater than 1).</p>
 <figure class="align-default" id="scaling-about-origin-figure">
 <a class="reference internal image-reference" href="../_images/scaling2.svg"><img alt="../_images/scaling2.svg" height="350" src="../_images/scaling2.svg" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 5.3 </span><span class="caption-text">Scaling a triangle centred at the origin.</span><a class="headerlink" href="#scaling-about-origin-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 5.3 </span><span class="caption-text">Scaling a triangle centred at the origin.</span><a class="headerlink" href="#scaling-about-origin-figure" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Since scaling is simply multiplying the co-ordinates by a number we have</p>
@@ -539,7 +569,7 @@ document.write(`
 \end{align*} \end{split}\]</div>
 <p>so the <strong>scaling matrix</strong> for applying the scaling transformation is</p>
 <div class="math notranslate nohighlight" id="equation-eq-scaling-matrix">
-<span class="eqno">(5.2)<a class="headerlink" href="#equation-eq-scaling-matrix" title="Permalink to this equation">#</a></span>\[\begin{split} S = 
+<span class="eqno">(5.2)<a class="headerlink" href="#equation-eq-scaling-matrix" title="Link to this equation">#</a></span>\[\begin{split} S = 
 \begin{pmatrix} 
     s_x &amp; 0 &amp; 0 &amp; 0 \\
     0 &amp; s_y &amp; 0 &amp; 0 \\
@@ -547,7 +577,7 @@ document.write(`
     0 &amp; 0 &amp; 0 &amp; 1
 \end{pmatrix}. \end{split}\]</div>
 <section id="scaling-in-opengl">
-<h3><span class="section-number">5.2.1. </span>Scaling in OpenGL<a class="headerlink" href="#scaling-in-opengl" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.2.1. </span>Scaling in OpenGL<a class="headerlink" href="#scaling-in-opengl" title="Link to this heading">#</a></h3>
 <p>Lets now apply scaling to our rectangle in OpenGL to double its size in both directions. The process is very similar to how we did the translation and since we have already created a uniform, passed it to the vertex shader and modified the vertex shader, all we need to do to apply shading is calculate the shading matrix. The scaling matrix for doubling the size of the rectangle is</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} S = \begin{pmatrix}
@@ -587,12 +617,12 @@ document.write(`
 </section>
 </section>
 <section id="rotation">
-<h2><span class="section-number">5.3. </span>Rotation<a class="headerlink" href="#rotation" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">5.3. </span>Rotation<a class="headerlink" href="#rotation" title="Link to this heading">#</a></h2>
 <p>As well as translating and scaling objects, the next most common transformation is the rotation of objects around the three co-ordinate axes <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span>. We define the rotation <strong>anti-clockwise</strong> around each of the co-ordinate axes by an angle <span class="math notranslate nohighlight">\(\theta\)</span> when looking down the axes (<a class="reference internal" href="#d-rotation-figure"><span class="std std-numref">Fig. 5.4</span></a>).</p>
 <figure class="align-default" id="d-rotation-figure">
 <a class="reference internal image-reference" href="../_images/3D_rotation.svg"><img alt="../_images/3D_rotation.svg" height="350" src="../_images/3D_rotation.svg" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 5.4 </span><span class="caption-text">Rotation is assumed to be in the anti-clockwise direction when looking down the axis.</span><a class="headerlink" href="#d-rotation-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 5.4 </span><span class="caption-text">Rotation is assumed to be in the anti-clockwise direction when looking down the axis.</span><a class="headerlink" href="#d-rotation-figure" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>The <strong>rotation matrices</strong> for achieving these rotations are</p>
@@ -626,7 +656,7 @@ Derivation of the rotation matrices (click to show)<div class="sd-summary-down d
 <figure class="align-default" id="rotation-figure">
 <a class="reference internal image-reference" href="../_images/rotation.svg"><img alt="../_images/rotation.svg" height="300" src="../_images/rotation.svg" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 5.5 </span><span class="caption-text">Rotating the vector <span class="math notranslate nohighlight">\(\underline{u}\)</span> anti-clockwise by angle <span class="math notranslate nohighlight">\(\theta\)</span> to the vector <span class="math notranslate nohighlight">\(\underline{v}\)</span>.</span><a class="headerlink" href="#rotation-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 5.5 </span><span class="caption-text">Rotating the vector <span class="math notranslate nohighlight">\(\underline{u}\)</span> anti-clockwise by angle <span class="math notranslate nohighlight">\(\theta\)</span> to the vector <span class="math notranslate nohighlight">\(\underline{v}\)</span>.</span><a class="headerlink" href="#rotation-figure" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p class="sd-card-text">Consider <a class="reference internal" href="#rotation-figure"><span class="std std-numref">Fig. 5.5</span></a> where the vector <span class="math notranslate nohighlight">\(\underline{u}\)</span> is rotated by angle <span class="math notranslate nohighlight">\(\theta\)</span> to the vector <span class="math notranslate nohighlight">\(\underline{v}\)</span>. To get this rotation we first consider the rotation of the vector <span class="math notranslate nohighlight">\(\underline{t}\)</span>, which has the same length as <span class="math notranslate nohighlight">\(\underline{u}\)</span> and points along the <span class="math notranslate nohighlight">\(x\)</span>-axis, by angle <span class="math notranslate nohighlight">\(\phi\)</span> to get to <span class="math notranslate nohighlight">\(\underline{u}\)</span>. If we form a right-angled triangle (the blue one) then we know the length of the hypotenuse, <span class="math notranslate nohighlight">\(|\underline{u}|\)</span>, and the angle so we can calculate the lengths of the adjacent and opposite sides using trigonometry. Remember our trig ratios (SOH-CAH-TOA)</p>
@@ -697,7 +727,7 @@ Derivation of the rotation matrices (click to show)<div class="sd-summary-down d
 <p>You may find some sources present the rotation matrices in a slightly different way where the negative sign for the <span class="math notranslate nohighlight">\(\sin(\theta)\)</span> is swapped (see <a href="https://en.wikipedia.org/wiki/Rotation_matrix" target="_blank">Wikipedia</a> for an example). This is because these assume that the vertices are multiplied by the transformation matrix on the left, e.g., <span class="math notranslate nohighlight">\((x', y', z', 1)^\mathsf{T} = T\cdot (x, y, z, 1)^\mathsf{T}\)</span>. With OpenGL we multiply by the transformation matrix on the right, e.g., <span class="math notranslate nohighlight">\((x', y', y', 1) = (x, y, z, 1) \cdot T\)</span> (although of course in our code this would be <code class="docutils literal notranslate"><span class="pre">T</span> <span class="pre">*</span> <span class="pre">[x,</span> <span class="pre">y,</span> <span class="pre">z,</span> <span class="pre">1]</span></code> since OpenGL uses column-major order - this can get quite confusing!).</p>
 </div>
 <section id="rotation-in-opengl">
-<h3><span class="section-number">5.3.1. </span>Rotation in OpenGL<a class="headerlink" href="#rotation-in-opengl" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.3.1. </span>Rotation in OpenGL<a class="headerlink" href="#rotation-in-opengl" title="Link to this heading">#</a></h3>
 <p>Lets rotate our original rectangle anti-clockwise about the <span class="math notranslate nohighlight">\(z\)</span>-axis by <span class="math notranslate nohighlight">\(\theta = 45^\circ\)</span>. The rotation matrix to do this is</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{pmatrix}
@@ -734,17 +764,17 @@ Derivation of the rotation matrices (click to show)<div class="sd-summary-down d
 </figure>
 </section>
 <section id="axis-angle-rotation">
-<h3><span class="section-number">5.3.2. </span>Axis-angle rotation<a class="headerlink" href="#axis-angle-rotation" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.3.2. </span>Axis-angle rotation<a class="headerlink" href="#axis-angle-rotation" title="Link to this heading">#</a></h3>
 <p>The three rotation transformations are only useful if we want to only rotate around one of the three co-ordinate axes. A more useful transformation is the rotation around the axis that points in the direction of a vector, <span class="math notranslate nohighlight">\(\underline{v}\)</span> say, which has its tail at (0,0,0) (<a class="reference internal" href="#axis-angle-rotation-figure"><span class="std std-numref">Fig. 5.6</span></a>).</p>
 <figure class="align-default" id="axis-angle-rotation-figure">
 <a class="reference internal image-reference" href="../_images/axis_angle_rotation_1.svg"><img alt="../_images/axis_angle_rotation_1.svg" height="250" src="../_images/axis_angle_rotation_1.svg" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 5.6 </span><span class="caption-text">Axis-angle rotation.</span><a class="headerlink" href="#axis-angle-rotation-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 5.6 </span><span class="caption-text">Axis-angle rotation.</span><a class="headerlink" href="#axis-angle-rotation-figure" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>The transformation matrix for rotation around a <strong>unit vector</strong> <span class="math notranslate nohighlight">\(\hat{\underline{v}} = (v_x, v_y, v_z)\)</span>, anti-clockwise by angle <span class="math notranslate nohighlight">\(\theta\)</span> when looking down the vector is.</p>
 <div class="math notranslate nohighlight" id="equation-eq-axis-angle-rotation-matrix">
-<span class="eqno">(5.3)<a class="headerlink" href="#equation-eq-axis-angle-rotation-matrix" title="Permalink to this equation">#</a></span>\[\begin{split} \begin{align*}
+<span class="eqno">(5.3)<a class="headerlink" href="#equation-eq-axis-angle-rotation-matrix" title="Link to this equation">#</a></span>\[\begin{split} \begin{align*}
     R =
     \begin{pmatrix}
         v_x^2 (1 - \cos(\theta)) + \cos(\theta) &amp;
@@ -782,7 +812,7 @@ Derivation of the axis-angle rotation matrix (click to show)<div class="sd-summa
 <figure class="align-default" id="axis-angle-rotation1-figure">
 <a class="reference internal image-reference" href="../_images/axis_angle_rotation_2.svg"><img alt="../_images/axis_angle_rotation_2.svg" height="250" src="../_images/axis_angle_rotation_2.svg" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 5.7 </span><span class="caption-text">Rotate <span class="math notranslate nohighlight">\(\underline{v}\)</span> around the <span class="math notranslate nohighlight">\(x\)</span>-axis</span><a class="headerlink" href="#axis-angle-rotation1-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 5.7 </span><span class="caption-text">Rotate <span class="math notranslate nohighlight">\(\underline{v}\)</span> around the <span class="math notranslate nohighlight">\(x\)</span>-axis</span><a class="headerlink" href="#axis-angle-rotation1-figure" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p class="sd-card-text">Therefore <span class="math notranslate nohighlight">\(\cos(\theta) = \dfrac{v_z}{\sqrt{v_y^2 + v_z^2}}\)</span> and <span class="math notranslate nohighlight">\(\sin(\theta) = \dfrac{v_y}{\sqrt{v_y^2 + v_z^2}}\)</span> so the rotation matrix is</p>
@@ -797,7 +827,7 @@ Derivation of the axis-angle rotation matrix (click to show)<div class="sd-summa
 <figure class="align-default" id="axis-angle-rotation2-figure">
 <a class="reference internal image-reference" href="../_images/axis_angle_rotation_3.svg"><img alt="../_images/axis_angle_rotation_3.svg" height="250" src="../_images/axis_angle_rotation_3.svg" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 5.8 </span><span class="caption-text">Rotate around the <span class="math notranslate nohighlight">\(y\)</span>-axis</span><a class="headerlink" href="#axis-angle-rotation2-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 5.8 </span><span class="caption-text">Rotate around the <span class="math notranslate nohighlight">\(y\)</span>-axis</span><a class="headerlink" href="#axis-angle-rotation2-figure" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p class="sd-card-text">Therefore <span class="math notranslate nohighlight">\(\cos(\theta) = \dfrac{\sqrt{v_y^2 + v_z^2}}{|\underline{v}|}\)</span> and <span class="math notranslate nohighlight">\(\sin(\theta) = \dfrac{v_x}{|\underline{v}|}\)</span>. Note that here we are rotating in the clockwise direction so the rotation matrix is</p>
@@ -882,7 +912,7 @@ Derivation of the axis-angle rotation matrix (click to show)<div class="sd-summa
 </section>
 </section>
 <section id="composite-transformations">
-<span id="composite-transformations-section"></span><h2><span class="section-number">5.4. </span>Composite transformations<a class="headerlink" href="#composite-transformations" title="Permalink to this heading">#</a></h2>
+<span id="composite-transformations-section"></span><h2><span class="section-number">5.4. </span>Composite transformations<a class="headerlink" href="#composite-transformations" title="Link to this heading">#</a></h2>
 <p>So far we have performed translation, scaling and rotation transformations on our rectangle separately. What if we wanted to combine these transformations so that we can control the size, rotation and position of the rectangle? If <span class="math notranslate nohighlight">\(T\)</span>, <span class="math notranslate nohighlight">\(S\)</span> and <span class="math notranslate nohighlight">\(R\)</span> are the transformation matrices for translation, scaling and rotation, then if we want to scale first, then rotate and then translate the scaled object we have</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*]
@@ -890,7 +920,7 @@ Derivation of the axis-angle rotation matrix (click to show)<div class="sd-summa
     &amp;= (x, y, z, 1) \cdot (S \cdot R \cdot T)\end{split}\]</div>
 <p><span class="math notranslate nohighlight">\(S \cdot R \cdot T\)</span> is a single <span class="math notranslate nohighlight">\(4 \times 4\)</span> transformation matrix that combines the three transformations known as the <strong>composite transformation matrix</strong>.</p>
 <section id="composite-transformations-in-opengl">
-<h3><span class="section-number">5.4.1. </span>Composite transformations in OpenGL<a class="headerlink" href="#composite-transformations-in-opengl" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.4.1. </span>Composite transformations in OpenGL<a class="headerlink" href="#composite-transformations-in-opengl" title="Link to this heading">#</a></h3>
 <p>Lets apply scaling, rotation and translation (in that order) to our rectangle. The composite transformation matrix is</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
@@ -941,7 +971,7 @@ Derivation of the axis-angle rotation matrix (click to show)<div class="sd-summa
 </section>
 </section>
 <section id="animating-objects">
-<h2><span class="section-number">5.5. </span>Animating objects<a class="headerlink" href="#animating-objects" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">5.5. </span>Animating objects<a class="headerlink" href="#animating-objects" title="Link to this heading">#</a></h2>
 <p>The effects of transformations can be seen more clearly when they are animated so lets animate our rectangle. We are going to rotate and translate the rectangle so that it appears to be rotating about its centre. Whilst it may appear that we have been rendering a single frame to our window what our application is actually doing is continuously refreshing the window with the same from in the do/while loop.</p>
 <p>So if we calculate the transformation matrices inside the render loop we can move the rectangle around the window. A useful function to help us is <code class="docutils literal notranslate"><span class="pre">glfwGetTime()</span></code> from the GLFW library which returns the time in seconds since the GLFW window was created. If we have a time value that is always increasing we can use this to animate our rectangle.</p>
 <p>Comment out all of the code used to calculate the transformation matrices we have entered so far this lab but leave the line where we get the location of the <code class="docutils literal notranslate"><span class="pre">transformation</span></code> uniform</p>
@@ -977,7 +1007,7 @@ Derivation of the axis-angle rotation matrix (click to show)<div class="sd-summa
 </section>
 <hr class="docutils" />
 <section id="exercises">
-<h2><span class="section-number">5.6. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">5.6. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p>Use translation to produce an animation of the original rectangle rotating around a circle of radius 0.5 centered at the centre of the window. Hint: the co-ordinates of points on a circle centered at (0,0) with radius <span class="math notranslate nohighlight">\(r\)</span> can be calculated using <span class="math notranslate nohighlight">\(x = r \cos(t)\)</span> and <span class="math notranslate nohighlight">\(y = r  \sin(t)\)</span> where <span class="math notranslate nohighlight">\(t\)</span> is some number.</p></li>
 </ol>
@@ -1007,7 +1037,7 @@ Derivation of the axis-angle rotation matrix (click to show)<div class="sd-summa
 </ol>
 </section>
 <section id="source-code">
-<h2><span class="section-number">5.7. </span>Source code<a class="headerlink" href="#source-code" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">5.7. </span>Source code<a class="headerlink" href="#source-code" title="Link to this heading">#</a></h2>
 <p>The source code for this lab, including the exercise solutions, can be downloaded using the links below.</p>
 <ul class="simple">
 <li><p><a class="reference download internal" download="" href="../_downloads/cfc377d90145dd3d168dbdc2b6abd74f/main.cpp"><span class="xref download myst">main.cpp</span></a></p></li>
@@ -1041,11 +1071,10 @@ Derivation of the axis-angle rotation matrix (click to show)<div class="sd-summa
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="04_vectors_and_matrices.html"
@@ -1065,10 +1094,7 @@ Derivation of the axis-angle rotation matrix (click to show)<div class="sd-summa
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -1076,6 +1102,7 @@ Derivation of the axis-angle rotation matrix (click to show)<div class="sd-summa
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
@@ -1124,6 +1151,7 @@ By Dr Jon Shiach
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2024.
@@ -1150,8 +1178,8 @@ By Dr Jon Shiach
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
 
   <footer class="bd-footer">
   </footer>

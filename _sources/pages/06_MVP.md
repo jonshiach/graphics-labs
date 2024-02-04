@@ -83,7 +83,7 @@ static const GLfloat uvCoords[] = {
   0.0f, 0.0f,
   1.0f, 1.0f,
   0.0f, 1.0f,
-  
+
   :  // each of the sides of the cube have the same texture co-ordinates
 };
 ```
@@ -114,30 +114,7 @@ GLuint modelID = glGetUniformLocation(shaderID, "model");
 glUniformMatrix4fv(modelID, 1, GL_FALSE, &model[0][0]);
 ```
 
-Also, we need to make sure we are using the `model` uniform in the vertex shader. Edit `vertexShader.vert` so that it looks like the following.
-
-```cpp
-#version 330 core
-
-// Input vertex data
-layout(location = 0) in vec3 position;
-layout(location = 1) in vec2 textureCoords;
-
-// Output data
-out vec2 uv;
-
-// Values that stay constant for the whole mesh
-uniform mat4 model;
-
-void main()
-{
-    // Output vertex position
-    gl_Position = model * vec4(position, 1.0);
-    
-    // Output (u,v) co-ordinates
-    uv = vec2(textureCoords);
-}
-```
+Also, we need to make sure we are using the `model` matrix in the vertex shader. We'll do that down below after we have looked at the view and projection matrices.
 
 ## The view matrix
 
@@ -323,7 +300,7 @@ GLuint projectionID = glGetUniformLocation(shaderID, "projection");
 glUniformMatrix4fv(projectionID, 1, GL_FALSE, &projection[0][0]);
 ```
 
-Of course we also need to update the vertex shader so that is uses the `projection` matrix.
+Of course we also need to update the vertex shader so that is uses the `model`, `view` and `projection` matrices. Edit `vertexShader.vert` so that it looks like the following.
 
 ```cpp
 #version 330 core
@@ -342,7 +319,7 @@ uniform mat4 projection;
 
 void main()
 {
-    // Output vertex postion
+    // Output vertex position
     gl_Position = projection * view * model * vec4(position, 1.0);
     
     // Output (u,v) co-ordinates
@@ -399,3 +376,26 @@ Make these changes to your code and you should get a much better result.
 ## The MVP matrix
 
 The **MVP matrix** stands for Model-View-Projection and it is a single transformation matrix that combines the model transformations, the world space to view space transformations and the projection in one. Rather than send three separate matrices to the shader and performing matrix multiplication of four matrices (model, view, projection and co-ordinates), it is much more efficient to send just one matrix to the shader and get the shader to perform a single matrix multiplication.
+
+```cpp
+#version 330 core
+
+// Input vertex data
+layout(location = 0) in vec3 position;
+layout(location = 1) in vec2 textureCoords;
+
+// Output data
+out vec2 uv;
+
+// Values that stay constant for the whole mesh
+uniform mat4 mvp;
+
+void main()
+{
+    // Output vertex position
+    gl_Position = mvp * vec4(position, 1.0);
+    
+    // Output (u,v) co-ordinates
+    uv = vec2(textureCoords);
+}
+```

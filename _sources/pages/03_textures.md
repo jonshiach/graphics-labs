@@ -104,7 +104,7 @@ Now that we have two brand new shaders we need to instruct the shader program to
 
 ```cpp
 // Compile shader program
-GLuint shaderID = LoadShaders("textureVertexShader.vert", "textureFragmentShader.frag");```
+GLuint shaderID = LoadShaders("textureVertexShader.vert", "textureFragmentShader.frag");
 ```
 
 ### Texture co-ordinates

@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>6. 3D Worlds &#8212; Computer Graphics Labs</title>
   
@@ -19,48 +18,53 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=afe5de03"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script>window.MathJax = {"HTML-CSS": {"matchFontHeight": true, "preferredFont": "Neo Euler"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/06_MVP';</script>
@@ -76,7 +80,15 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -111,11 +123,14 @@ const thebe_selector_output = ".output, .cell_output"
 </form></div>
   </div>
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
+      
+      
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -130,9 +145,11 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../intro.html">
+  
   
   
   
@@ -142,12 +159,23 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Computer Graphics Labs - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Computer Graphics Labs - Home"/>`);</script>
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
@@ -317,20 +345,22 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -377,12 +407,12 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="d-worlds">
-<h1><span class="section-number">6. </span>3D Worlds<a class="headerlink" href="#d-worlds" title="Permalink to this heading">#</a></h1>
+<h1><span class="section-number">6. </span>3D Worlds<a class="headerlink" href="#d-worlds" title="Link to this heading">#</a></h1>
 <section id="co-ordinate-systems">
-<h2><span class="section-number">6.1. </span>Co-ordinate systems<a class="headerlink" href="#co-ordinate-systems" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.1. </span>Co-ordinate systems<a class="headerlink" href="#co-ordinate-systems" title="Link to this heading">#</a></h2>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/mvp.svg"><img alt="../_images/mvp.svg" src="../_images/mvp.svg" width="500" /></a>
 </figure>
@@ -394,16 +424,16 @@ document.write(`
 </ol>
 </section>
 <section id="d-models">
-<h2><span class="section-number">6.2. </span>3D models<a class="headerlink" href="#d-models" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.2. </span>3D models<a class="headerlink" href="#d-models" title="Link to this heading">#</a></h2>
 <p>In this lab we are going to extend the 2D images that we have been dealing with so far and take the exciting leap into the world of 3D. One of the simplest 3D objects is the unit cube which is centred at (0,0,0) and has side lengths of 2 parallel to the co-ordinate axes (<a class="reference internal" href="#unit-cube-figure"><span class="std std-numref">Fig. 6.1</span></a>).</p>
 <figure class="align-default" id="unit-cube-figure">
 <a class="reference internal image-reference" href="../_images/unit_cube.svg"><img alt="../_images/unit_cube.svg" src="../_images/unit_cube.svg" width="500" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 6.1 </span><span class="caption-text">A unit cube.</span><a class="headerlink" href="#unit-cube-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 6.1 </span><span class="caption-text">A unit cube.</span><a class="headerlink" href="#unit-cube-figure" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Since each side of a cube is modelled by two triangles then to define this cube in our program we have 36 vertices (6 sides each of 2 triangles with 3 vertices) where the vertices are combinations of -1 and 1.</p>
-<p>Download and build the source code contained in <span class="xref myst">Lab05_3D_worlds.zip</span> using the instructions given <a class="reference internal" href="02_hello_triangle.html#hello-window-section"><span class="std std-ref">here</span></a>. Open up the project and take a look at the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file and you will see that the <code class="docutils literal notranslate"><span class="pre">vertices</span></code> and <code class="docutils literal notranslate"><span class="pre">uvCoords</span></code> arrays have been defined for our unit cube.</p>
+<p>Download and build the source code contained in <a class="reference internal" href="#../code/Lab05_3D_worlds/Lab05_3D_worlds.zip"><span class="xref myst">Lab05_3D_worlds.zip</span></a> using the instructions given <a class="reference internal" href="02_hello_triangle.html#hello-window-section"><span class="std std-ref">here</span></a>. Open up the project and take a look at the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file and you will see that the <code class="docutils literal notranslate"><span class="pre">vertices</span></code> and <code class="docutils literal notranslate"><span class="pre">uvCoords</span></code> arrays have been defined for our unit cube.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define vertex positions</span>
 <span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">GLfloat</span><span class="w"> </span><span class="n">vertices</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w">    </span><span class="c1">// front</span>
@@ -458,7 +488,7 @@ document.write(`
 <span class="w">  </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span>
 <span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span>
 <span class="w">  </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span>
-<span class="w">  </span>
+
 <span class="w">  </span><span class="o">:</span><span class="w">  </span><span class="c1">// each of the sides of the cube have the same texture co-ordinates</span>
 <span class="p">};</span>
 </pre></div>
@@ -466,7 +496,7 @@ document.write(`
 <p>If you compile and run this program you will see that the <code class="docutils literal notranslate"><span class="pre">crate.bmp</span></code> texture fills the window because our cube vertices are the same as the limits of the NDC.</p>
 </section>
 <section id="the-model-matrix">
-<h2><span class="section-number">6.3. </span>The model matrix<a class="headerlink" href="#the-model-matrix" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.3. </span>The model matrix<a class="headerlink" href="#the-model-matrix" title="Link to this heading">#</a></h2>
 <p>In <a class="reference internal" href="05_transformations.html#transformations-section"><span class="std std-ref">Lab 5</span></a> we saw that we can combine transformations such as translation, scaling and rotation by multiplying the individual transformation matrices together. The <strong>model matrix</strong> is the matrix that is used to apply transformations to an object.</p>
 <p>Lets compute a model matrix for our cube where it is scaled down by a factor of 0.25 in each co-ordinate direction, rotated about a vector pointing vertically up and translated backwards from us by (0, 0, -1.0). In the rendering loop add the following code.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate the model matrix</span>
@@ -484,37 +514,15 @@ document.write(`
 <span class="n">glUniformMatrix4fv</span><span class="p">(</span><span class="n">modelID</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">GL_FALSE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">model</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
 </pre></div>
 </div>
-<p>Also, we need to make sure we are using the <code class="docutils literal notranslate"><span class="pre">model</span></code> uniform in the vertex shader. Edit <code class="docutils literal notranslate"><span class="pre">vertexShader.vert</span></code> so that it looks like the following.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
-
-<span class="c1">// Input vertex data</span>
-<span class="n">layout</span><span class="p">(</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">position</span><span class="p">;</span>
-<span class="n">layout</span><span class="p">(</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">vec2</span><span class="w"> </span><span class="n">textureCoords</span><span class="p">;</span>
-
-<span class="c1">// Output data</span>
-<span class="n">out</span><span class="w"> </span><span class="n">vec2</span><span class="w"> </span><span class="n">uv</span><span class="p">;</span>
-
-<span class="c1">// Values that stay constant for the whole mesh</span>
-<span class="n">uniform</span><span class="w"> </span><span class="n">mat4</span><span class="w"> </span><span class="n">model</span><span class="p">;</span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-<span class="w">    </span><span class="c1">// Output vertex position</span>
-<span class="w">    </span><span class="n">gl_Position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
-<span class="w">    </span>
-<span class="w">    </span><span class="c1">// Output (u,v) co-ordinates</span>
-<span class="w">    </span><span class="n">uv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec2</span><span class="p">(</span><span class="n">textureCoords</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-</div>
+<p>Also, we need to make sure we are using the <code class="docutils literal notranslate"><span class="pre">model</span></code> matrix in the vertex shader. We’ll do that down below after we have looked at the view and projection matrices.</p>
 </section>
 <section id="the-view-matrix">
-<h2><span class="section-number">6.4. </span>The view matrix<a class="headerlink" href="#the-view-matrix" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.4. </span>The view matrix<a class="headerlink" href="#the-view-matrix" title="Link to this heading">#</a></h2>
 <p>OpenGL assumes that the camera is at (0,0,0) and looking down the <span class="math notranslate nohighlight">\(z\)</span>-axis so we need to transform the co-ordinates to this <strong>view space</strong> (<a class="reference internal" href="#view-space-figure"><span class="std std-numref">Fig. 6.2</span></a>).</p>
 <figure class="align-default" id="view-space-figure">
 <a class="reference internal image-reference" href="../_images/view_space.svg"><img alt="../_images/view_space.svg" src="../_images/view_space.svg" width="400" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 6.2 </span><span class="caption-text">The view space.</span><a class="headerlink" href="#view-space-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 6.2 </span><span class="caption-text">The view space.</span><a class="headerlink" href="#view-space-figure" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>To calculate the world space to view space transformation we require three vectors</p>
@@ -538,7 +546,7 @@ document.write(`
 <figure class="align-default" id="view-space-alignment-figure">
 <a class="reference internal image-reference" href="../_images/view_space_alignment.svg"><img alt="../_images/view_space_alignment.svg" src="../_images/view_space_alignment.svg" width="600" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 6.3 </span><span class="caption-text">The vectors used in the transformation to the view space.</span><a class="headerlink" href="#view-space-alignment-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 6.3 </span><span class="caption-text">The vectors used in the transformation to the view space.</span><a class="headerlink" href="#view-space-alignment-figure" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>The <span class="math notranslate nohighlight">\(\tt cameraForward\)</span> vector points directly forward of the camera and is calculated using</p>
@@ -589,16 +597,16 @@ document.write(`
 <p>The code above should be pretty self explanatory as we have done similar in the past.</p>
 </section>
 <section id="projection">
-<h2><span class="section-number">6.5. </span>Projection<a class="headerlink" href="#projection" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.5. </span>Projection<a class="headerlink" href="#projection" title="Link to this heading">#</a></h2>
 <p>The next step is to project the view space onto the screen space. OpenGL uses <strong>Normalized Device Co-ordinates (NDC)</strong> to to simplify the final transformation of the screen space to the display where the screen space is a unit cube where axes co-ordinates range from -1 to 1. Any fragments with co-ordinates outside of this range are ignored or <strong>clipped</strong>.</p>
 <section id="orthographic-projection">
-<h3><span class="section-number">6.5.1. </span>Orthographic projection<a class="headerlink" href="#orthographic-projection" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">6.5.1. </span>Orthographic projection<a class="headerlink" href="#orthographic-projection" title="Link to this heading">#</a></h3>
 <p>The simplest type of projection is <strong>orthographic projection</strong> where the co-ordinates in the view space are transformed to the screen space by simple translation and scaling transformations.</p>
 <p>The region of the view space that will form the screen space is defined by a cuboid bounded by a left, right, bottom, top, near and far clipping planes. Any objects outside of the cuboid are clipped and discarded from the rendering (<a class="reference internal" href="#orthographic-projection-figure"><span class="std std-numref">Fig. 6.4</span></a>).</p>
 <figure class="align-default" id="orthographic-projection-figure">
 <a class="reference internal image-reference" href="../_images/orthographic_projection.svg"><img alt="../_images/orthographic_projection.svg" src="../_images/orthographic_projection.svg" width="600" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 6.4 </span><span class="caption-text">Orthographic projection.</span><a class="headerlink" href="#orthographic-projection-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 6.4 </span><span class="caption-text">Orthographic projection.</span><a class="headerlink" href="#orthographic-projection-figure" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>The <strong>orthographic projection matrix</strong> is calculated using the left, right, bottom, top, near and far co-ordinates such that</p>
@@ -674,7 +682,7 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
 <span class="n">glUniformMatrix4fv</span><span class="p">(</span><span class="n">projectionID</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">GL_FALSE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">projection</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
 </pre></div>
 </div>
-<p>Of course we also need to update the vertex shader so that is uses the <code class="docutils literal notranslate"><span class="pre">projection</span></code> matrix.</p>
+<p>Of course we also need to update the vertex shader so that is uses the <code class="docutils literal notranslate"><span class="pre">model</span></code>, <code class="docutils literal notranslate"><span class="pre">view</span></code> and <code class="docutils literal notranslate"><span class="pre">projection</span></code> matrices. Edit <code class="docutils literal notranslate"><span class="pre">vertexShader.vert</span></code> so that it looks like the following.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
 
 <span class="c1">// Input vertex data</span>
@@ -691,7 +699,7 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
 
 <span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="c1">// Output vertex postion</span>
+<span class="w">    </span><span class="c1">// Output vertex position</span>
 <span class="w">    </span><span class="n">gl_Position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">projection</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="c1">// Output (u,v) co-ordinates</span>
@@ -708,12 +716,12 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
 <p>If you are having difficulty getting to this stage take a look at the source code <a class="reference download internal" download="" href="../_downloads/14f5c69b42c69b9aa4e2756380a3289b/3D_worlds_without_depth_test.cpp"><span class="xref download myst">main.cpp</span></a> and vertex shader <a class="reference download internal" download="" href="../_downloads/c8a81ffa5629e99d70e99eaf32d28a9b/vertexShader_no_MVP.vert"><span class="xref download myst">vertexShader.vert</span></a>.</p>
 </section>
 <section id="depth-testing">
-<h3><span class="section-number">6.5.2. </span>Depth testing<a class="headerlink" href="#depth-testing" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">6.5.2. </span>Depth testing<a class="headerlink" href="#depth-testing" title="Link to this heading">#</a></h3>
 <p>Our rendering of the cube doesn’t look quite right. What is happening here is that some parts of the sides of the cube that are further away from where we are viewing it (e.g., the bottom side) from have been rendered after the sides that are closer to us (<a class="reference internal" href="#depth-test-1-figure"><span class="std std-numref">Fig. 6.5</span></a>).</p>
 <figure class="align-default" id="depth-test-1-figure">
 <a class="reference internal image-reference" href="../_images/depth_test_1.svg"><img alt="../_images/depth_test_1.svg" src="../_images/depth_test_1.svg" width="300" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 6.5 </span><span class="caption-text">Rendering the far triangle after the near triangle.</span><a class="headerlink" href="#depth-test-1-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 6.5 </span><span class="caption-text">Rendering the far triangle after the near triangle.</span><a class="headerlink" href="#depth-test-1-figure" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>To overcome this issue OpenGL uses a <strong>depth test</strong> when computing the fragment shader. When OpenGL creates a frame buffer it also creates another buffer called a <strong>depth buffer</strong> where the <span class="math notranslate nohighlight">\(z\)</span> co-ordinate of each pixel in the frame buffer is stored and initialises all the values to -1 (the furthest possible <span class="math notranslate nohighlight">\(z\)</span> co-ordinate in the screen space). When the fragment shader is called it checks whether the fragment has a <span class="math notranslate nohighlight">\(z\)</span> co-ordinate more than that already stored in the depth buffer and if so it updates the colour of the fragment and stores its <span class="math notranslate nohighlight">\(z\)</span> co-ordinate in the depth-buffer as the current nearest fragment (if the fragment has a <span class="math notranslate nohighlight">\(z\)</span> co-ordinate less than what is already in the depth buffer the fragment shader does nothing). This means once the fragment shader has been called for all fragments of all objects, the pixels contain colours of the objects closest to the camera.</p>
@@ -734,12 +742,34 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
 </center>
 </section>
 <section id="perspective-projection">
-<h3><span class="section-number">6.5.3. </span>Perspective projection<a class="headerlink" href="#perspective-projection" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">6.5.3. </span>Perspective projection<a class="headerlink" href="#perspective-projection" title="Link to this heading">#</a></h3>
 </section>
 </section>
 <section id="the-mvp-matrix">
-<h2><span class="section-number">6.6. </span>The MVP matrix<a class="headerlink" href="#the-mvp-matrix" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.6. </span>The MVP matrix<a class="headerlink" href="#the-mvp-matrix" title="Link to this heading">#</a></h2>
 <p>The <strong>MVP matrix</strong> stands for Model-View-Projection and it is a single transformation matrix that combines the model transformations, the world space to view space transformations and the projection in one. Rather than send three separate matrices to the shader and performing matrix multiplication of four matrices (model, view, projection and co-ordinates), it is much more efficient to send just one matrix to the shader and get the shader to perform a single matrix multiplication.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
+
+<span class="c1">// Input vertex data</span>
+<span class="n">layout</span><span class="p">(</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">position</span><span class="p">;</span>
+<span class="n">layout</span><span class="p">(</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">vec2</span><span class="w"> </span><span class="n">textureCoords</span><span class="p">;</span>
+
+<span class="c1">// Output data</span>
+<span class="n">out</span><span class="w"> </span><span class="n">vec2</span><span class="w"> </span><span class="n">uv</span><span class="p">;</span>
+
+<span class="c1">// Values that stay constant for the whole mesh</span>
+<span class="n">uniform</span><span class="w"> </span><span class="n">mat4</span><span class="w"> </span><span class="n">mvp</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// Output vertex position</span>
+<span class="w">    </span><span class="n">gl_Position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mvp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Output (u,v) co-ordinates</span>
+<span class="w">    </span><span class="n">uv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec2</span><span class="p">(</span><span class="n">textureCoords</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -768,11 +798,10 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="05_transformations.html"
@@ -783,10 +812,7 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
         <p class="prev-next-title"><span class="section-number">5. </span>Transformations</p>
       </div>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -794,6 +820,7 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
@@ -833,6 +860,7 @@ By Dr Jon Shiach
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2024.
@@ -859,8 +887,8 @@ By Dr Jon Shiach
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
 
   <footer class="bd-footer">
   </footer>

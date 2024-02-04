@@ -101,7 +101,7 @@ At its most basic it consists of a <a href="https://www.khronos.org/opengl/wiki/
 The shaders are compiled by the application at runtime.
 
 (vertex-shader-section)=
-)
+
 ### Vertex shader
 
 Click on **File > New > File...** (or just press CTRL + N) and select text file. Enter the following program into the new file and save it in the `Lab02_Basic_shapes/source` folder using the filename `simpleVertexShader.vert` (the file extension doesn't matter but it is common to use `.vert` to denote the vertex shader).
