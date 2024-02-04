@@ -101,6 +101,7 @@ glm::vec3 cubeCentre = glm::vec3(0.0f, 0.0, -1.0f);
 glm::mat4 translate = glm::translate(glm::mat4(1.0f), cubeCentre);
 glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.25f, 0.25f, 0.25f));
 glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), time, glm::vec3(0.0f, 1.0f, 0.0f));
+
 glm::mat4 model = translate * rotate * scale;
 ```
 
@@ -127,8 +128,8 @@ The view space.
 
 To calculate the world space to view space transformation we require three vectors
 
-- $\tt camera$ - the co-ordinates where we are viewing the world space from, i.e., where is the camera
-- $\tt target$ - the co-ordinates of the target point where we are pointing the camera
+- $\tt camera$ - the co-ordinates where we are viewing the world space from;
+- $\tt target$ - the co-ordinates of the target point where we are pointing the camera;
 - $\tt worldUp$ - a vector pointing straight up in the world space which allows us to orientate the camera, this is usually always (0,1,0).
 
 The $\tt camera$ and $\tt target$ vectors are either determined by the user through keyboard, mouse or controller inputs or through some predetermined routine. To determine the view space transformation we first translate the camera position to (0,0,0) using the following translation matrix
@@ -247,7 +248,7 @@ $$ \begin{align*}
         1 & 0 & 0 & 0 \\
         0 & 1 & 0 & 0 \\
         0 & 0 & 1 & 0 \\
-        -\frac{\textsf{right} + \textsf{left}}{2} & -\frac{\textsf{top} - \textsf{bottom}}{2} & \frac{\textsf{far} - \textsf{near}}{2} & 1
+        -\frac{\textsf{right} + \textsf{left}}{2} & -\frac{\textsf{top} + \textsf{bottom}}{2} & \frac{\textsf{near} + \textsf{far}}{2} & 1
     \end{pmatrix}
 \end{align*} $$
 
@@ -258,7 +259,7 @@ $$ \begin{align*}
     \begin{pmatrix}
         \frac{2}{\textsf{right} - \textsf{left}} & 0 & 0 & 0 \\
         0 & \frac{2}{\textsf{top} - \textsf{bottom}} & 0 & 0 \\
-        0 & 0 & \frac{2}{\textsf{far} - \textsf{near}} & 0 \\
+        0 & 0 & \frac{2}{\textsf{near} - \textsf{far}} & 0 \\
         0 & 0 & 0 & 1
     \end{pmatrix}.
 \end{align*} $$
@@ -373,7 +374,7 @@ Make these changes to your code and you should get a much better result.
 
 ## The MVP matrix
 
-The **MVP matrix** stands for Model-View-Projection and it is a single transformation matrix that combines the model transformations, the world space to view space transformations and the projection in one. Rather than send three separate matrices to the shader and performing matrix multiplication of four matrices (model, view, projection and co-ordinates), it is much more efficient to send just one matrix to the shader and get the shader to perform a single matrix multiplication.
+The **MVP matrix** stands for Model-View-Projection and it is a single transformation matrix that combines the model transformations, the world space to view space transformations and the projection from the view space to the screen space. Rather than send three separate matrices to the shader and performing three matrix multiplications it is much more efficient to send one matrix to the shader and get the shader to perform a single matrix multiplication.
 
 ```cpp
 #version 330 core

@@ -443,7 +443,7 @@ document.write(`
 </section>
 <section id="uniforms">
 <span id="uniforms-section"></span><h3><span class="section-number">3.1.2. </span>Uniforms<a class="headerlink" href="#uniforms" title="Link to this heading">#</a></h3>
-<p>A <a href="https://www.khronos.org/opengl/wiki/Uniform_(GLSL)" target="_blank"><strong>uniform</strong></a> is a global shader that remained constant during the execution of the rendering pass and has the same value for all vertices and fragments. Uniforms provide a way to pass data to the shaders so are useful for passing the texture information to the fragment shader.</p>
+<p>A <a href="https://www.khronos.org/opengl/wiki/Uniform_(GLSL)" target="_blank"><strong>uniform</strong></a> is a global shader that remains constant during the execution of the rendering pass and has the same value for all vertices and fragments. Uniforms provide a way to pass data to the shaders so we will use one for passing the texture information to the fragment shader.</p>
 <p>To declare a uniform for our texture add the following code to your <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file (this can go anywhere before the rendering loop but it makes sense to put these after we have loaded out texture).</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get a handle for the texture sampler uniform</span>
 <span class="n">GLuint</span><span class="w"> </span><span class="n">texture1ID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;texture1Sampler&quot;</span><span class="p">);</span>
@@ -526,7 +526,7 @@ document.write(`
 </section>
 <section id="send-the-texture-to-opengl">
 <h3><span class="section-number">3.1.6. </span>Send the texture to OpenGL<a class="headerlink" href="#send-the-texture-to-opengl" title="Link to this heading">#</a></h3>
-<p>Now that we have loaded the texture and written our vertex and fragment shaders, the next and final step is to send the texture buffer to OpenGL. This is done in the same way as for the VBO (Vertex Buffer Object) but first we need to bind our texture to OpenGL. After we have instructed the application to use our shader program as the following code.</p>
+<p>Now that we have loaded the texture and written our vertex and fragment shaders, the next and final step is to send the texture buffer to OpenGL. This is done in the same way as for the VBO (Vertex Buffer Object) but first we need to bind our texture to OpenGL. After we have instructed the application to use our shader program add the following code.</p>
 <div class="highlight-cpp notranslate" id="texture-unit-code"><div class="highlight"><pre><span></span><span class="c1">// Bind the texture</span>
 <span class="n">glActiveTexture</span><span class="p">(</span><span class="n">GL_TEXTURE0</span><span class="p">);</span>
 <span class="n">glBindTexture</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span><span class="w"> </span><span class="n">texture1</span><span class="p">);</span>
@@ -555,7 +555,7 @@ document.write(`
 </div>
 <p>Note that since the texture has (u, v) co-ordinates instead of (x, y, z) the size attribute is <code class="docutils literal notranslate"><span class="pre">2</span></code> instead of <code class="docutils literal notranslate"><span class="pre">3</span></code>. Compile and run program and, after sending a prayer to the programming gods, you should be presented with a textured triangle.</p>
 <figure class="align-default">
-<img alt="../_images/texture_triangle.png" src="../_images/texture_triangle.png" />
+<a class="reference internal image-reference" href="../_images/texture_triangle.png"><img alt="../_images/texture_triangle.png" src="../_images/texture_triangle.png" style="width: 500px;" /></a>
 </figure>
 <p>If you are having difficulty with this check out the source code and shaders: <a class="reference download internal" download="" href="../_downloads/ef6867808d47d783517f40484df57517/texture_triangle.cpp"><span class="xref download myst">main.cpp</span></a>, <a class="reference download internal" download="" href="../_downloads/70c655632b75eda631ff3e4724a6d4de/textureVertexShader.vert"><span class="xref download myst">textureVertexShader.vert</span></a>, <a class="reference download internal" download="" href="../_downloads/ea21b22946f89741629556af17372ed2/textureFragmentShader.frag"><span class="xref download myst">textureFragmentShader.frag</span></a>.</p>
 </section>
@@ -594,7 +594,7 @@ document.write(`
 </div>
 <p>Compile and run the program and you should be presented with the more realistic image below.</p>
 <figure class="align-default">
-<img alt="../_images/texture_rectangle.png" src="../_images/texture_rectangle.png" />
+<a class="reference internal image-reference" href="../_images/texture_rectangle.png"><img alt="../_images/texture_rectangle.png" src="../_images/texture_rectangle.png" style="width: 500px;" /></a>
 </figure>
 </section>
 <section id="texture-wrapping">
@@ -742,7 +742,7 @@ document.write(`
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>Change the fragment shader</p></li>
+<li><p>Update the fragment shader</p></li>
 </ul>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
 
@@ -766,7 +766,7 @@ document.write(`
 </div>
 <p>Here we have used the <code class="docutils literal notranslate"><span class="pre">mix()</span></code> GLSL function to combine the colour samples from the two textures. The last number <code class="docutils literal notranslate"><span class="pre">0.3</span></code> is used to interpolate between the two textures so 30% of the fragment colour comes from the second texture and 70% comes from the first texture.</p>
 <figure class="align-default">
-<img alt="../_images/two_textures.png" src="../_images/two_textures.png" />
+<a class="reference internal image-reference" href="../_images/two_textures.png"><img alt="../_images/two_textures.png" src="../_images/two_textures.png" style="width: 500px;" /></a>
 </figure>
 </section>
 <hr class="docutils" />

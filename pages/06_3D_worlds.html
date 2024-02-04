@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
@@ -505,6 +505,7 @@ document.write(`
 <span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">translate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">translate</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">),</span><span class="w"> </span><span class="n">cubeCentre</span><span class="p">);</span>
 <span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">scale</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">),</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.25f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.25f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.25f</span><span class="p">));</span>
 <span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">rotate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">rotate</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">),</span><span class="w"> </span><span class="n">time</span><span class="p">,</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">));</span>
+
 <span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">translate</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">rotate</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">scale</span><span class="p">;</span>
 </pre></div>
 </div>
@@ -527,8 +528,8 @@ document.write(`
 </figure>
 <p>To calculate the world space to view space transformation we require three vectors</p>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(\tt camera\)</span> - the co-ordinates where we are viewing the world space from, i.e., where is the camera</p></li>
-<li><p><span class="math notranslate nohighlight">\(\tt target\)</span> - the co-ordinates of the target point where we are pointing the camera</p></li>
+<li><p><span class="math notranslate nohighlight">\(\tt camera\)</span> - the co-ordinates where we are viewing the world space from;</p></li>
+<li><p><span class="math notranslate nohighlight">\(\tt target\)</span> - the co-ordinates of the target point where we are pointing the camera;</p></li>
 <li><p><span class="math notranslate nohighlight">\(\tt worldUp\)</span> - a vector pointing straight up in the world space which allows us to orientate the camera, this is usually always (0,1,0).</p></li>
 </ul>
 <p>The <span class="math notranslate nohighlight">\(\tt camera\)</span> and <span class="math notranslate nohighlight">\(\tt target\)</span> vectors are either determined by the user through keyboard, mouse or controller inputs or through some predetermined routine. To determine the view space transformation we first translate the camera position to (0,0,0) using the following translation matrix</p>
@@ -636,7 +637,7 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
         1 &amp; 0 &amp; 0 &amp; 0 \\
         0 &amp; 1 &amp; 0 &amp; 0 \\
         0 &amp; 0 &amp; 1 &amp; 0 \\
-        -\frac{\textsf{right} + \textsf{left}}{2} &amp; -\frac{\textsf{top} - \textsf{bottom}}{2} &amp; \frac{\textsf{far} - \textsf{near}}{2} &amp; 1
+        -\frac{\textsf{right} + \textsf{left}}{2} &amp; -\frac{\textsf{top} + \textsf{bottom}}{2} &amp; \frac{\textsf{near} + \textsf{far}}{2} &amp; 1
     \end{pmatrix}
 \end{align*} \end{split}\]</div>
 <p class="sd-card-text">The second step is to scale the clipping volume so that the co-ordinates are between -1 and 1. This is done by dividing the distance between the edges of the screen space by the distance between the clipping planes, e.g., <span class="math notranslate nohighlight">\(\frac{1 - (-1)}{\textsf{right} - \textsf{left}}=\frac{2}{\textsf{right} - \textsf{left}}\)</span>, so the scaling matrix is</p>
@@ -646,7 +647,7 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
     \begin{pmatrix}
         \frac{2}{\textsf{right} - \textsf{left}} &amp; 0 &amp; 0 &amp; 0 \\
         0 &amp; \frac{2}{\textsf{top} - \textsf{bottom}} &amp; 0 &amp; 0 \\
-        0 &amp; 0 &amp; \frac{2}{\textsf{far} - \textsf{near}} &amp; 0 \\
+        0 &amp; 0 &amp; \frac{2}{\textsf{near} - \textsf{far}} &amp; 0 \\
         0 &amp; 0 &amp; 0 &amp; 1
     \end{pmatrix}.
 \end{align*} \end{split}\]</div>
@@ -747,7 +748,7 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
 </section>
 <section id="the-mvp-matrix">
 <h2><span class="section-number">6.6. </span>The MVP matrix<a class="headerlink" href="#the-mvp-matrix" title="Link to this heading">#</a></h2>
-<p>The <strong>MVP matrix</strong> stands for Model-View-Projection and it is a single transformation matrix that combines the model transformations, the world space to view space transformations and the projection in one. Rather than send three separate matrices to the shader and performing matrix multiplication of four matrices (model, view, projection and co-ordinates), it is much more efficient to send just one matrix to the shader and get the shader to perform a single matrix multiplication.</p>
+<p>The <strong>MVP matrix</strong> stands for Model-View-Projection and it is a single transformation matrix that combines the model transformations, the world space to view space transformations and the projection from the view space to the screen space. Rather than send three separate matrices to the shader and performing three matrix multiplications it is much more efficient to send one matrix to the shader and get the shader to perform a single matrix multiplication.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
 
 <span class="c1">// Input vertex data</span>
