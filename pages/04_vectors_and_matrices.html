@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
@@ -65,7 +65,7 @@ const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
-    <script>window.MathJax = {"HTML-CSS": {"matchFontHeight": true, "preferredFont": "Neo Euler"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/04_vectors_and_matrices';</script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -188,11 +188,11 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="01_intro_to_cpp.html">1. Introduction to C++</a></li>
-<li class="toctree-l1"><a class="reference internal" href="02_hello_triangle.html">2. Drawing Basic Shapes in OpenGL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_basic_shapes_in_OpenGL.html">2. Basic Shapes in OpenGL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03_textures.html">3. Textures</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Vectors and Matrices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_transformations.html">5. Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06_MVP.html">6. 3D Worlds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_3D_worlds.html">6. 3D Worlds</a></li>
 </ul>
 
     </div>
@@ -401,10 +401,9 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrices">4.3. Matrices</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-transpose">4.3.1. Matrix transpose</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-matrices-in-glm">4.3.2. Defining matrices in glm</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#indexing-glm-matrices">4.3.3. Indexing glm matrices</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-multiplication">4.3.4. Matrix multiplication</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-identity-matrix">4.3.5. The identity matrix</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-inverse-matrix">4.3.6. The inverse matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-multiplication">4.3.3. Matrix multiplication</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-identity-matrix">4.3.4. The identity matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-inverse-matrix">4.3.5. The inverse matrix</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">4.4. Exercises</a></li>
@@ -560,7 +559,7 @@ u = [    2.000,    2.000,    1.000]
 <p>A unit vector is a vector that has a magnitude of 1. We can find a unit vector that points in the same direction as a non-zero vector <span class="math notranslate nohighlight">\(\underline{a}\)</span>, which is denoted by <span class="math notranslate nohighlight">\(\hat{\underline{a}}\)</span> (pronounced “a-hat”), by dividing by its magnitude, i.e.,</p>
 <div class="math notranslate nohighlight" id="equation-eq-unit-vector">
 <span class="eqno">(4.3)<a class="headerlink" href="#equation-eq-unit-vector" title="Link to this equation">#</a></span>\[ \hat{\underline{a}} = \frac{\underline{a}}{|\underline{a}|}. \]</div>
-<p>For example, to determine a unit vector pointing in the same direction as <span class="math notranslate nohighlight">\(\underline{u} = (2, 2, 1)\)</span></p>
+<p>This process is callde <strong>normalising a vector</strong>. For example, to determine a unit vector pointing in the same direction as <span class="math notranslate nohighlight">\(\underline{u} = (2, 2, 1)\)</span> we normalise it by dividing by its magnitude which is 3</p>
 <div class="math notranslate nohighlight">
 \[ \begin{align*}
     \hat{\underline{u}} &amp;= \frac{(2, 2, 1)}{3} = \left( \frac{2}{3}, \frac{2}{3}, \frac{1}{3} \right) \approx (0.67, 0.67, 0.33).
@@ -583,6 +582,10 @@ u = [    2.000,    2.000,    1.000]
 ------------
 uHat = [    0.667,    0.667,    0.333]
 |uHat| = 1
+</pre></div>
+</div>
+<p>The glm function <code class="docutils literal notranslate"><span class="pre">glm::normalize(u)</span></code> normalises the vector <code class="docutils literal notranslate"><span class="pre">u</span></code>. Edit your program so its uses this function to calculate <code class="docutils literal notranslate"><span class="pre">uHat</span></code> and you should get the same result.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">uHat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
 </pre></div>
 </div>
 </section>
@@ -731,14 +734,17 @@ v . (u x v) = 0
 </section>
 <section id="defining-matrices-in-glm">
 <h3><span class="section-number">4.3.2. </span>Defining matrices in glm<a class="headerlink" href="#defining-matrices-in-glm" title="Link to this heading">#</a></h3>
-<p>The glm command for defining a matrix is <code class="docutils literal notranslate"><span class="pre">glm::matn</span></code> where <code class="docutils literal notranslate"><span class="pre">n</span></code> is the number of rows and columns of the matrix (e.g., <code class="docutils literal notranslate"><span class="pre">glm::mat2</span></code> will define a <span class="math notranslate nohighlight">\(2\times 2\)</span> matrix). Lets define the <span class="math notranslate nohighlight">\(2 \times 2\)</span> matrix <span class="math notranslate nohighlight">\(A\)</span> in our program and output it so add the following to your program.</p>
+<p>The glm command for defining a matrix is <code class="docutils literal notranslate"><span class="pre">glm::matn(1.0f)</span></code> where <code class="docutils literal notranslate"><span class="pre">n</span></code> is the number of rows and columns of the matrix, e.g., <code class="docutils literal notranslate"><span class="pre">glm::mat2(1.0f)</span></code> will define a <span class="math notranslate nohighlight">\(2\times 2\)</span> matrix (in fact this defines a <span class="math notranslate nohighlight">\(2\times 2\)</span> <a class="reference internal" href="#identity-matrix-section"><span class="std std-ref">identity matrix</span></a>). Lets define the <span class="math notranslate nohighlight">\(2 \times 2\)</span> matrix <span class="math notranslate nohighlight">\(A\)</span> in our program and output it so add the following to your program.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Defining a matrix</span>
-<span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0f</span><span class="p">);</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">);</span>
+<span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">;</span>
+<span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.0f</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">4.0f</span><span class="p">;</span>
 
 <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Defining a matrix</span><span class="se">\n</span><span class="s">-----------------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A =&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </pre></div>
 </div>
+<p>The indexing of glm matrices is done in a similar way to vectors but instead of having one index we now have two, one for the row number and one for the column number. So the value of the element <span class="math notranslate nohighlight">\(a_{11}\)</span> is written in C++ as <code class="docutils literal notranslate"><span class="pre">A[0][0]</span></code>.</p>
 <p>Output</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Defining a matrix
 -----------------
@@ -771,29 +777,8 @@ A =
 </pre></div>
 </div>
 </section>
-<section id="indexing-glm-matrices">
-<h3><span class="section-number">4.3.3. </span>Indexing glm matrices<a class="headerlink" href="#indexing-glm-matrices" title="Link to this heading">#</a></h3>
-<p>The indexing of glm matrices is done in a similar way to vectors but instead of having one index we now have two, one for the row number and one for the column number. So the value of the element <span class="math notranslate nohighlight">\(a_{11}\)</span> is written in C++ as <code class="docutils literal notranslate"><span class="pre">A[0][0]</span></code>. Add the following code to your program to test matrix indexing.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Matrix indexing</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Matrix indexing</span><span class="se">\n</span><span class="s">-----------------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A[0][0] = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A[0][1] = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A[1][0] = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A[1][1] = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-</pre></div>
-</div>
-<p>Output:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Matrix indexing
------------------
-A[0][0] = 1
-A[0][1] = 2
-A[1][0] = 3
-A[1][1] = 4
-</pre></div>
-</div>
-</section>
 <section id="matrix-multiplication">
-<span id="matrix-multiplication-section"></span><h3><span class="section-number">4.3.4. </span>Matrix multiplication<a class="headerlink" href="#matrix-multiplication" title="Link to this heading">#</a></h3>
+<span id="matrix-multiplication-section"></span><h3><span class="section-number">4.3.3. </span>Matrix multiplication<a class="headerlink" href="#matrix-multiplication" title="Link to this heading">#</a></h3>
 <p>The addition, subtraction and multiplication by a scalar for matrices is the same as it is for vectors so I’m not going to repeat it here. However, the multiplication of two matrices <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> is defined in a very specific way. If <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are two matrices then the element in row <span class="math notranslate nohighlight">\(i\)</span> and column <span class="math notranslate nohighlight">\(j\)</span> of the matrix <span class="math notranslate nohighlight">\(AB\)</span> is calculated using</p>
 <div class="math notranslate nohighlight" id="equation-eq-matrix-multiplication">
 <span class="eqno">(4.8)<a class="headerlink" href="#equation-eq-matrix-multiplication" title="Link to this equation">#</a></span>\[ [AB]_{ij} = \underline{a}_i \cdot \underline{b}_j, \]</div>
@@ -867,7 +852,7 @@ BA =
 </div>
 </section>
 <section id="the-identity-matrix">
-<h3><span class="section-number">4.3.5. </span>The identity matrix<a class="headerlink" href="#the-identity-matrix" title="Link to this heading">#</a></h3>
+<span id="identity-matrix-section"></span><h3><span class="section-number">4.3.4. </span>The identity matrix<a class="headerlink" href="#the-identity-matrix" title="Link to this heading">#</a></h3>
 <p>The <strong>identity matrix</strong> is a special square matrix (same number of rows and columns) where all the elements are zero apart from the elements on the diagonal line from the top-left element down to the bottom-right element (known as the <strong>main diagonal</strong>). For example the <span class="math notranslate nohighlight">\(4\times 4\)</span> identity matrix is</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} I = \begin{pmatrix}
@@ -911,14 +896,14 @@ I =
 </div>
 </section>
 <section id="the-inverse-matrix">
-<h3><span class="section-number">4.3.6. </span>The inverse matrix<a class="headerlink" href="#the-inverse-matrix" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">4.3.5. </span>The inverse matrix<a class="headerlink" href="#the-inverse-matrix" title="Link to this heading">#</a></h3>
 <p>Whilst matrix multiplication is defined for certain matrices there is no way of dividing a matrix by another. However, for certain square matrices we can calculate an <strong>inverse matrix</strong> that performs a similar function to divide. Consider the division of two numbers, 4 and 2 say. If we wanted to divide 4 by two we could write</p>
 <div class="math notranslate nohighlight">
 \[ \frac{8}{2} = 4. \]</div>
-<p>We could also write this division as the multiplication of 1/2 and 8, i.e.,</p>
+<p>We could also write this division as the multiplication of \frac{1}{2} and 8, i.e.,</p>
 <div class="math notranslate nohighlight">
 \[ \frac{1}{2} \times 8 = 4. \]</div>
-<p>Here we have shown that 1/2 is the <strong>multiplicative inverse</strong> of 2. A multiplicative inverse of a number <span class="math notranslate nohighlight">\(x\)</span> is denoted as <span class="math notranslate nohighlight">\(x^{-1}\)</span> and satisfies <span class="math notranslate nohighlight">\(x \cdot x^{-1} = 1\)</span>. The inverse of a matrix <span class="math notranslate nohighlight">\(A\)</span> is denoted by <span class="math notranslate nohighlight">\(A^{-1}\)</span> and satisfied <span class="math notranslate nohighlight">\(A^{-1}A = I\)</span> where <span class="math notranslate nohighlight">\(I\)</span> is the identity matrix. For example, the inverse of the matrix</p>
+<p>Here we have shown that <span class="math notranslate nohighlight">\(\frac{1}{2}\)</span> is the <strong>multiplicative inverse</strong> of 2. A multiplicative inverse of a number <span class="math notranslate nohighlight">\(x\)</span> is denoted as <span class="math notranslate nohighlight">\(x^{-1}\)</span> and satisfies <span class="math notranslate nohighlight">\(x \cdot x^{-1} = 1\)</span>. The inverse of a matrix <span class="math notranslate nohighlight">\(A\)</span> is denoted by <span class="math notranslate nohighlight">\(A^{-1}\)</span> and satisfied <span class="math notranslate nohighlight">\(A^{-1}A = I\)</span> where <span class="math notranslate nohighlight">\(I\)</span> is the identity matrix. For example, the inverse of the matrix</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}A = \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix}, \end{split}\]</div>
 <p>is</p>
@@ -1108,10 +1093,9 @@ std::cout &lt;&lt; &quot;\ninvA * A&quot; &lt;&lt; glm::transpose(invA * A) &lt;
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrices">4.3. Matrices</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-transpose">4.3.1. Matrix transpose</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-matrices-in-glm">4.3.2. Defining matrices in glm</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#indexing-glm-matrices">4.3.3. Indexing glm matrices</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-multiplication">4.3.4. Matrix multiplication</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-identity-matrix">4.3.5. The identity matrix</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-inverse-matrix">4.3.6. The inverse matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-multiplication">4.3.3. Matrix multiplication</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-identity-matrix">4.3.4. The identity matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-inverse-matrix">4.3.5. The inverse matrix</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">4.4. Exercises</a></li>

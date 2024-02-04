@@ -554,9 +554,10 @@ Here we have used the vector (0, 0, 1) as we wanted to rotate around the $z$-axi
 
 So far we have performed translation, scaling and rotation transformations on our rectangle separately. What if we wanted to combine these transformations so that we can control the size, rotation and position of the rectangle? If $T$, $S$ and $R$ are the transformation matrices for translation, scaling and rotation, then if we want to scale first, then rotate and then translate the scaled object we have
 
-$$ \begin{align*]
+$$ \begin{align*}
     (x', y', z', 1) &= (((x, y, z, 1) \cdot S) \cdot R) \cdot T \\
-    &= (x, y, z, 1) \cdot (S \cdot R \cdot T)$$
+    &= (x, y, z, 1) \cdot (S \cdot R \cdot T)
+\end{align*} $$
 
 $S \cdot R \cdot T$ is a single $4 \times 4$ transformation matrix that combines the three transformations known as the **composite transformation matrix**. 
 

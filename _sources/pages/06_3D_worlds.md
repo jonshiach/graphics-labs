@@ -2,8 +2,6 @@
 
 ## Co-ordinate systems
 
-
-
 ```{figure} ../images/mvp.svg
 :width: 500
 ```
@@ -84,17 +82,17 @@ static const GLfloat uvCoords[] = {
   1.0f, 1.0f,
   0.0f, 1.0f,
 
-  :  // each of the sides of the cube have the same texture co-ordinates
+  // all sides of the cube have the same texture co-ordinates
 };
 ```
 
-If you compile and run this program you will see that the `crate.bmp` texture fills the window because our cube vertices are the same as the limits of the NDC. 
+If you compile and run this program you will see that the `crate.bmp` texture fills the window because our cube vertices are the same as the limits of the NDC.
 
 ## The model matrix
 
 In [Lab 5](transformations-section) we saw that we can combine transformations such as translation, scaling and rotation by multiplying the individual transformation matrices together. The **model matrix** is the matrix that is used to apply transformations to an object.
 
-Lets compute a model matrix for our cube where it is scaled down by a factor of 0.25 in each co-ordinate direction, rotated about a vector pointing vertically up and translated backwards from us by (0, 0, -1.0). In the rendering loop add the following code.
+Lets compute a model matrix for our cube where it is scaled down by a factor of 0.25 in each co-ordinate direction, rotated about a vector pointing vertically up and translated backwards down the $z$-axis so that its centre is at (0, 0, -1). In the rendering loop add the following code.
 
 ```cpp
 // Calculate the model matrix

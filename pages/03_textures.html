@@ -69,7 +69,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="4. Vectors and Matrices" href="04_vectors_and_matrices.html" />
-    <link rel="prev" title="2. Drawing Basic Shapes in OpenGL" href="02_hello_triangle.html" />
+    <link rel="prev" title="2. Basic Shapes in OpenGL" href="02_basic_shapes_in_OpenGL.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -186,11 +186,11 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="01_intro_to_cpp.html">1. Introduction to C++</a></li>
-<li class="toctree-l1"><a class="reference internal" href="02_hello_triangle.html">2. Drawing Basic Shapes in OpenGL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_basic_shapes_in_OpenGL.html">2. Basic Shapes in OpenGL</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_vectors_and_matrices.html">4. Vectors and Matrices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_transformations.html">5. Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06_MVP.html">6. 3D Worlds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_3D_worlds.html">6. 3D Worlds</a></li>
 </ul>
 
     </div>
@@ -423,7 +423,7 @@ document.write(`
 </figcaption>
 </figure>
 <p>The texture is a 2D <a href="https://en.wikipedia.org/wiki/Bitmap" target="_blank"><strong>bitmap</strong></a> image where each pixel within the texture, known as a <strong>textel</strong>, is referenced using the <strong>texture coordiantes</strong> given as (u,v) where u and v are in the range 0 to 1, i.e., (0,0) corresponds to the textel in the bottom left corner and (1,1) corresponds to the textel in the top-right corner. When a fragment is created by the shader the corresponding texture co-ordinates are calculated and the sample colour of the textel is used for the fragment. Fortunately we do not need to write a texture mapper functions since these are in OpenGL.</p>
-<p>Lets apply a texture map to our triangle from <a class="reference internal" href="02_hello_triangle.html#hello-triangle-section"><span class="std std-ref">Lab 2</span></a>. First download and build the source code contained in <a class="reference download internal" download="" href="../_downloads/7877073bc937b0b3aff4a3dc5895c08b/Lab03_Textures.zip"><span class="xref download myst">Lab03_Textures.zip</span></a> using the instructions given <a class="reference internal" href="02_hello_triangle.html#hello-window-section"><span class="std std-ref">here</span></a>. Compile and run the project and you should be presented with the red triangle from Lab 2.</p>
+<p>Lets apply a texture map to our triangle from <a class="reference internal" href="02_basic_shapes_in_OpenGL.html#hello-triangle-section"><span class="std std-ref">Lab 2</span></a>. First download and build the source code contained in <a class="reference download internal" download="" href="../_downloads/7877073bc937b0b3aff4a3dc5895c08b/Lab03_Textures.zip"><span class="xref download myst">Lab03_Textures.zip</span></a> using the instructions given <a class="reference internal" href="02_basic_shapes_in_OpenGL.html#hello-window-section"><span class="std std-ref">here</span></a>. Compile and run the project and you should be presented with the red triangle from Lab 2.</p>
 <section id="texture-triangle">
 <h2><span class="section-number">3.1. </span>Texture triangle<a class="headerlink" href="#texture-triangle" title="Link to this heading">#</a></h2>
 <section id="loading-a-bitmap-image">
@@ -453,7 +453,7 @@ document.write(`
 </section>
 <section id="vertex-shader">
 <h3><span class="section-number">3.1.3. </span>Vertex shader<a class="headerlink" href="#vertex-shader" title="Link to this heading">#</a></h3>
-<p>Recall that the <a class="reference internal" href="02_hello_triangle.html#vertex-shader-section"><span class="std std-ref">vertex shader</span></a> deals with the vertex co-ordinates and is used by OpenGL to calculate the co-ordinates of the fragment. So, in addition to passing the (x, y, z) co-ordinates of the vertices we must also pass the (u, v) co-ordinates of the textels that correspond to the vertices.</p>
+<p>Recall that the <a class="reference internal" href="02_basic_shapes_in_OpenGL.html#vertex-shader-section"><span class="std std-ref">vertex shader</span></a> deals with the vertex co-ordinates and is used by OpenGL to calculate the co-ordinates of the fragment. So, in addition to passing the (x, y, z) co-ordinates of the vertices we must also pass the (u, v) co-ordinates of the textels that correspond to the vertices.</p>
 <p>Create a new file in the <code class="docutils literal notranslate"><span class="pre">source/</span></code> folder called <code class="docutils literal notranslate"><span class="pre">textureVertexShader.vert</span></code> and edit it so that it looks like the following.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
 
@@ -784,7 +784,7 @@ document.write(`
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/smiley_reversed.png"><img alt="../_images/smiley_reversed.png" src="../_images/smiley_reversed.png" style="width: 500px;" /></a>
 </figure>
-<ol class="arabic simple">
+<ol class="arabic simple" start="3">
 <li><p>Apply a texture of your choice to the rectangle (e.g., a selfie). You will need to ensure that the source image is a bitmap so an online converter such as <a href="https://online-converting.com/image/convert2bmp/" target="_blank">https://online-converting.com/image/convert2bmp/</a> are useful for converting from various image formats.</p></li>
 </ol>
 <figure class="align-default">
@@ -841,12 +841,12 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="02_hello_triangle.html"
+       href="02_basic_shapes_in_OpenGL.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">2. </span>Drawing Basic Shapes in OpenGL</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>Basic Shapes in OpenGL</p>
       </div>
     </a>
     <a class="right-next"

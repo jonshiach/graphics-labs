@@ -65,12 +65,12 @@ const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
-    <script>window.MathJax = {"HTML-CSS": {"matchFontHeight": true, "preferredFont": "Neo Euler"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/05_transformations';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="6. 3D Worlds" href="06_MVP.html" />
+    <link rel="next" title="6. 3D Worlds" href="06_3D_worlds.html" />
     <link rel="prev" title="4. Vectors and Matrices" href="04_vectors_and_matrices.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -188,11 +188,11 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="01_intro_to_cpp.html">1. Introduction to C++</a></li>
-<li class="toctree-l1"><a class="reference internal" href="02_hello_triangle.html">2. Drawing Basic Shapes in OpenGL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_basic_shapes_in_OpenGL.html">2. Basic Shapes in OpenGL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03_textures.html">3. Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_vectors_and_matrices.html">4. Vectors and Matrices</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">5. Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06_MVP.html">6. 3D Worlds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_3D_worlds.html">6. 3D Worlds</a></li>
 </ul>
 
     </div>
@@ -451,7 +451,7 @@ document.write(`
 <p>Don’t worry, all is not lost. We can use a trick where we use <a href="https://en.wikipedia.org/wiki/Homogeneous_coordinates" target="_blank"><strong>homogeneous</strong></a> co-ordinates instead. Homogeneous co-ordinates add another value, <span class="math notranslate nohighlight">\(w\)</span> say, to the co-ordinates (known as Cartesian co-ordinates) such that when the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> values are divided by <span class="math notranslate nohighlight">\(w\)</span> we get the Cartesian co-ordinates.</p>
 <div class="math notranslate nohighlight">
 \[\underbrace{(x, y, z, w)}_{\textsf{homogeneous}} \equiv \underbrace{\left( \frac{x}{w}, \frac{y}{w}, \frac{z}{w} \right)}_{\textsf{Cartesian}}.\]</div>
-<p>So if we choose <span class="math notranslate nohighlight">\(w=1\)</span> then we can write the Cartesian co-ordinates <span class="math notranslate nohighlight">\((x, y, z)\)</span> as the homogeneous co-ordinates <span class="math notranslate nohighlight">\((x, y, z, 1)\)</span> (remember that 4-element vector with the additional 1 in our <a class="reference internal" href="02_hello_triangle.html#vertex-shader-section"><span class="std std-ref">vertex shader</span></a>?). So how does that help us with our elusive translation matrix? Well we can now represent translation as a <span class="math notranslate nohighlight">\(4 \times 4\)</span> matrix</p>
+<p>So if we choose <span class="math notranslate nohighlight">\(w=1\)</span> then we can write the Cartesian co-ordinates <span class="math notranslate nohighlight">\((x, y, z)\)</span> as the homogeneous co-ordinates <span class="math notranslate nohighlight">\((x, y, z, 1)\)</span> (remember that 4-element vector with the additional 1 in our <a class="reference internal" href="02_basic_shapes_in_OpenGL.html#vertex-shader-section"><span class="std std-ref">vertex shader</span></a>?). So how does that help us with our elusive translation matrix? Well we can now represent translation as a <span class="math notranslate nohighlight">\(4 \times 4\)</span> matrix</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
    (x, y, z, 1)
@@ -473,7 +473,7 @@ document.write(`
 \end{pmatrix}. \end{split}\]</div>
 <section id="translation-in-opengl">
 <h3><span class="section-number">5.1.1. </span>Translation in OpenGL<a class="headerlink" href="#translation-in-opengl" title="Link to this heading">#</a></h3>
-<p>Now we now the mathematical theory behind applying a transformation lets apply it to OpenGL. Download and build the source code contained in <a class="reference download internal" download="" href="../_downloads/62c731aa12e34ed5b90c320a7f8572ea/Lab05_Transformations.zip"><span class="xref download myst">Lab03_Textures.zip</span></a> using the instructions given <a class="reference internal" href="02_hello_triangle.html#hello-window-section"><span class="std std-ref">here</span></a>. Compile and run the project and you should be presented with our smiley texture from Lab03 applied to a rectangle.</p>
+<p>Now we now the mathematical theory behind applying a transformation lets apply it to OpenGL. Download and build the source code contained in <a class="reference download internal" download="" href="../_downloads/62c731aa12e34ed5b90c320a7f8572ea/Lab05_Transformations.zip"><span class="xref download myst">Lab03_Textures.zip</span></a> using the instructions given <a class="reference internal" href="02_basic_shapes_in_OpenGL.html#hello-window-section"><span class="std std-ref">here</span></a>. Compile and run the project and you should be presented with our smiley texture from Lab03 applied to a rectangle.</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/transformation1.png"><img alt="../_images/transformation1.png" src="../_images/transformation1.png" style="width: 500px;" /></a>
 </figure>
@@ -915,9 +915,10 @@ Derivation of the axis-angle rotation matrix (click to show)<div class="sd-summa
 <span id="composite-transformations-section"></span><h2><span class="section-number">5.4. </span>Composite transformations<a class="headerlink" href="#composite-transformations" title="Link to this heading">#</a></h2>
 <p>So far we have performed translation, scaling and rotation transformations on our rectangle separately. What if we wanted to combine these transformations so that we can control the size, rotation and position of the rectangle? If <span class="math notranslate nohighlight">\(T\)</span>, <span class="math notranslate nohighlight">\(S\)</span> and <span class="math notranslate nohighlight">\(R\)</span> are the transformation matrices for translation, scaling and rotation, then if we want to scale first, then rotate and then translate the scaled object we have</p>
 <div class="math notranslate nohighlight">
-\[\begin{split} \begin{align*]
+\[\begin{split} \begin{align*}
     (x', y', z', 1) &amp;= (((x, y, z, 1) \cdot S) \cdot R) \cdot T \\
-    &amp;= (x, y, z, 1) \cdot (S \cdot R \cdot T)\end{split}\]</div>
+    &amp;= (x, y, z, 1) \cdot (S \cdot R \cdot T)
+\end{align*} \end{split}\]</div>
 <p><span class="math notranslate nohighlight">\(S \cdot R \cdot T\)</span> is a single <span class="math notranslate nohighlight">\(4 \times 4\)</span> transformation matrix that combines the three transformations known as the <strong>composite transformation matrix</strong>.</p>
 <section id="composite-transformations-in-opengl">
 <h3><span class="section-number">5.4.1. </span>Composite transformations in OpenGL<a class="headerlink" href="#composite-transformations-in-opengl" title="Link to this heading">#</a></h3>
@@ -1086,7 +1087,7 @@ Derivation of the axis-angle rotation matrix (click to show)<div class="sd-summa
       </div>
     </a>
     <a class="right-next"
-       href="06_MVP.html"
+       href="06_3D_worlds.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
