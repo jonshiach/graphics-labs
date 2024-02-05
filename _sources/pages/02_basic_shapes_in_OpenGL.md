@@ -17,7 +17,7 @@ To start using OpenGL we are going to have to download and compile several libra
 
 4. Run the CMake gui and select the `Lab02_Basic_shapes/` folder for the source code and the `Lab02_Basic_shapes/build/` folder for where to build the binaries.
 
-5. Click **Configure** and select your IDE (in our case this is Visual Studio) and click on **Done**. Click **Configure** again and the red background should disappear.
+5. Click **Configure** and select your IDE (this is Visual Studio on Windows or Xcode on macOS) and click on **Done**. Click **Configure** again and the red background should disappear.
 
 6. Click **Generate** which will create your project files in the `Lab02_Basic_shapes/build/` folder you created in step 2. Open the project file `Lab02_Basic_shapes.sln` (or `Lab02_Basic_shapes.xcodeproj` on macOS) and right-click on the **Lab02** project and select **Set as Startup Project**.
 
@@ -29,7 +29,7 @@ If you are using Xcode you need to make sure you have the target **Lab02** selec
 
 If all has gone to plan you should be looking at a boring window with a grey background. Familiarise yourself with the source files. For now, this contains the main C++ program `main.cpp`, the header file `shader.hpp` and associated code file `shader.cpp` in the `source/` folder.
 
-```{figure} ../images/hello_window.png
+```{figure} ../images/02_hello_window.png
 :width: 500
 
 The "hello window" example (boring isn't it)
@@ -58,7 +58,7 @@ Here we have defined the integer `VAO` using `GLunit` instead of plain old `unsi
 
 OpenGL expects the x, y and z co-ordinates of all vertices to be between -1.0 and 1.0 where the x and y axes point to the right and up respectively and the z axes points out from the screen (these are known as **Normalised Device Co-ordinates (NDC)** - more on this later). For now we are going to draw a triangle with vertex co-ordinates (-0.5,-0.5,0), (0.5,-0.5,0) and (0,0.5,0) for the bottom-left, bottom-right and top vertices respectively.
 
-```{figure} ../images/opengl_window.svg
+```{figure} ../images/02_opengl_window.svg
 :width: 400
 
 OpenGL Normalised Device Co-ordinates are in the range -1 to 1.
@@ -94,7 +94,7 @@ Here, after creating and binding the VBO we copy across the co-ordinates stored 
 
 Now we have defined our triangle and copied the information over to OpenGL we now need to tell OpenGL how to display the triangle. This is done using a shader program that OpenGL uses to tell it how to display each pixel in our window. The shader programs are written in <a href="https://www.khronos.org/opengl/wiki/Core_Language_(GLSL)" target="_blank">**GLSL (OpenGL Shader Language)**</a> which is a language similar to C.
 
-```{figure} /images/shaders.svg
+```{figure} /images/02_shaders.svg
 :width: 600
 ```
 
@@ -225,7 +225,7 @@ glDeleteProgram(shaderID);
 
 Compile and run your program. After all the syntax errors and bugs have been resolved (unless you are very lucky there will be at least one) you should be presented with a window within which is your red triangle that you have created. Note that the window shown below no longer has the title "Hello Window", can you change your code so that your window has the title "Hello Triangle"?
 
-```{figure} ../images/hello_triangle.png
+```{figure} ../images/02_hello_triangle.png
 :width: 500
 
 The "hello triangle" example
@@ -322,7 +322,7 @@ void main()
 
 Compile and run your program and if everything has gone to plan you should be presented with your new triangle in all its colourful snazzy goodness. Notice how the pixels in between the three vertex pixels have been shaded a colour which are combinations of the three vertex colours red, green and blue. OpenGL has interpolated the colours across the triangle.
 
-```{figure} ../images/hello_snazzy_triangle.png
+```{figure} ../images/02_hello_snazzy_triangle.png
 :width: 500
 
 Our snazzy triangle.
@@ -367,7 +367,7 @@ glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / (3 * sizeof(GLfloat)));
 
 Compiling and running the executable results in the following.
 
-```{figure} ../images/two_triangles.png
+```{figure} ../images/02_two_triangles.png
 :width: 500
 
 Two triangles
@@ -387,30 +387,30 @@ Now that you've got to the stage where you can draw triangles to the screen and 
 
 `````{grid}
 ````{grid-item}
-```{figure} ../images/Lab02_Ex1a.png
+```{figure} ../images/02_Ex1a.png
 ```
 ````
 
 ````{grid-item}
-```{figure} ../images/Lab02_Ex1b.png
+```{figure} ../images/02_Ex1b.png
 ```
 ````
 
 ````{grid-item}
-```{figure} ../images/Lab02_Ex1c.png
+```{figure} ../images/02_Ex1c.png
 ```
 ````
 `````
 
 2. Use two triangles to draw a green rectangle where the lower-left corner has co-ordinates (-0.5, -0.5, 0.0) and the upper-right corner has co-ordinates (0.5, 0.5, 0.0).
 
-```{figure} ../images/Lab02_Ex2.png
+```{figure} ../images/02_Ex2.png
 :width: 500
 ```
 
 3. Use six different coloured triangles to draw a hexagon.
 
-```{figure} ../images/Lab02_Ex3.png
+```{figure} ../images/02_Ex3.png
 :width: 500
 ```
 
@@ -418,6 +418,6 @@ Now that you've got to the stage where you can draw triangles to the screen and 
 
 The source code for this lab, including the exercise solutions, can be downloaded using the links below.
 
-- Main source code file: [main.cpp](../code/Lab02_Basic_shapes/main.cpp)
-- Vertex shader: [simpleVertexShader.vert](../code/Lab02_Basic_shapes/simpleVertexShader.vert)
-- Fragment shader: [simpleFragmentShader.frag](../code/Lab02_Basic_shapes/simpleFragmentShader.frag)
+- Hello triangle: [main.cpp](../code/Lab02_Basic_shapes/main.cpp), [simpleVertexShader.vert](../code/Lab02_Basic_shapes/simpleVertexShader.vert), [simpleFragmentShader.frag](../code/Lab02_Basic_shapes/simpleFragmentShader.frag)
+- Colour shaders: [colourVertexShader](../code/Lab02_Basic_shapes/colourVertexShader.vert), [colourFragmentShader.frag](../code/Lab02_Basic_shapes/colourFragmentShader.frag)
+- Exercise solutions: [main.cpp](../code/Lab02_Basic_shapes/Lab02_solutions.cpp), [ex1VertexShader.vert](../code/Lab02_Basic_shapes/ex1VertexShader.vert)
