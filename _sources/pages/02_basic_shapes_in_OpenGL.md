@@ -9,7 +9,7 @@ In this lab we will be creating our first graphics application in OpenGL.
 
 To start using OpenGL we are going to have to download and compile several libraries and configure the IDE (we will be using Visual Studio on Windows). This can be quite an involved process (see <a href="https://learnopengl.com/Getting-started/Creating-a-window" target="_blank">Learn OpenGL</a> for a detailed tutorial on doing this). However, I have adapted the excellent resource <a href="https://www.opengl-tutorial.org/" target="_blank">opengl-tutorial.org</a> to do this for us.
 
-1. Download {download}`Lab02_Basic_shapes.zip<../code/Lab02_Basic_shapes/Lab02_Basic_shapes.zip>` and extract the contents to your OneDrive area.
+1. Download [Lab02_Basic_shapes.zip](../code/Lab02_Basic_shapes/Lab02_Basic_shapes.zip) and extract the contents to your OneDrive area.
 
 2. Download <a href="https://github.com/Kitware/CMake/releases/download/v3.28.1/cmake-3.28.1-windows-x86_64.zip">Cmake</a> and extract the contents to your OneDriver area (macOS users will need to download <a href="https://github.com/Kitware/CMake/releases/download/v3.28.1/cmake-3.28.1-macos-universal.dmg">this one</a>). 
 
