@@ -422,6 +422,7 @@ std::cout << "\n" << angleInDegrees << " degrees is equal to "<< angle << " radi
 
 ---
 
+(oop-section)=
 ## Object orientated programming
 
 The main difference between C++ and its predecessor C is that C++ has **classes** which allow us to use <a href="https://en.wikipedia.org/wiki/Object-oriented_programming" target="_blank">**Object Orientated Programming (OOP)**</a>. Procedural programming requires use to write code that performs operations on data whereas object orientated programming allows us to create objects that include both data and code. Object orientated programming makes code easier to write and modify and is often faster than procedural programming.

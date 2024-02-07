@@ -30,7 +30,7 @@ int main( void )
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Open a window and create its OpenGL context
-    GLFWwindow* window = glfwCreateWindow( 1024, 768, "3D World", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow( 1024, 768, "3D Worlds", NULL, NULL);
     if( window == NULL ){
         fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
         getchar();
@@ -57,11 +57,17 @@ int main( void )
     // Compile shader program
     GLuint shaderID = LoadShaders("vertexShader.vert", "fragmentShader.frag");
     
+    // Use the shader program
+    glUseProgram(shaderID);
+    
     // Create OpenGL textures
     GLuint texture1 = loadBMP_custom("crate.bmp");
     
-    // Get a handle for the texture sampler uniforms
+    // Get the handles for the shader uniforms
     GLuint texture1ID = glGetUniformLocation(shaderID, "texture1Sampler");
+    GLuint modelID = glGetUniformLocation(shaderID, "model");
+    GLuint viewID = glGetUniformLocation(shaderID, "view");
+    GLuint projectionID = glGetUniformLocation(shaderID, "projection");
     
     // Create the Vertex Array Object (VAO)
     GLuint VAO;
@@ -76,35 +82,35 @@ int main( void )
         -1.0f, -1.0f,  1.0f,
          1.0f,  1.0f,  1.0f,
         -1.0f,  1.0f,  1.0f,
-        
+
          1.0f, -1.0f,  1.0f,    // right
          1.0f, -1.0f, -1.0f,
          1.0f,  1.0f, -1.0f,
          1.0f, -1.0f,  1.0f,
          1.0f,  1.0f, -1.0f,
          1.0f,  1.0f,  1.0f,
-        
+
          1.0f, -1.0f, -1.0f,    // back
         -1.0f, -1.0f, -1.0f,
         -1.0f,  1.0f, -1.0f,
          1.0f, -1.0f, -1.0f,
         -1.0f,  1.0f, -1.0f,
          1.0f,  1.0f, -1.0f,
-        
+
         -1.0f, -1.0f, -1.0f,    // left
         -1.0f, -1.0f,  1.0f,
         -1.0f,  1.0f,  1.0f,
         -1.0f, -1.0f, -1.0f,
         -1.0f,  1.0f,  1.0f,
         -1.0f,  1.0f, -1.0f,
-        
+
         -1.0f, -1.0f, -1.0f,    // base
          1.0f, -1.0f, -1.0f,
          1.0f, -1.0f,  1.0f,
         -1.0f, -1.0f, -1.0f,
          1.0f, -1.0f,  1.0f,
         -1.0f, -1.0f,  1.0f,
-        
+
         -1.0f,  1.0f,  1.0f,    // top
          1.0f,  1.0f,  1.0f,
          1.0f,  1.0f, -1.0f,
@@ -112,7 +118,7 @@ int main( void )
          1.0f,  1.0f, -1.0f,
         -1.0f,  1.0f, -1.0f
     };
-    
+
     // Define texture co-ordinates
     static const GLfloat uvCoords[] = {
         // u    v
@@ -123,7 +129,7 @@ int main( void )
         1.0f, 1.0f,
         0.0f, 1.0f,
         
-        0.0f, 0.0f,    // right
+        0.0f, 0.0f,    // front
         1.0f, 0.0f,
         1.0f, 1.0f,
         0.0f, 0.0f,
@@ -131,6 +137,13 @@ int main( void )
         0.0f, 1.0f,
         
         0.0f, 0.0f,    // right
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f,
+        
+        0.0f, 0.0f,    // back
         1.0f, 0.0f,
         1.0f, 1.0f,
         0.0f, 0.0f,
@@ -144,19 +157,12 @@ int main( void )
         1.0f, 1.0f,
         0.0f, 1.0f,
         
-        0.0f, 0.0f,    // base
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-        0.0f, 0.0f,
-        1.0f, 1.0f,
-        0.0f, 1.0f,
-        
         0.0f, 0.0f,    // top
         1.0f, 0.0f,
         1.0f, 1.0f,
         0.0f, 0.0f,
         1.0f, 1.0f,
-        0.0f, 1.0f,
+        0.0f, 1.0f
     };
     
     // Create Vertex Buffer Object
@@ -174,9 +180,11 @@ int main( void )
     do {
         // Clear the window
         glClear(GL_COLOR_BUFFER_BIT);
-
-        // Use the shader program
-        glUseProgram(shaderID);
+        
+        // Bind the textures
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture1);
+        glUniform1i(texture1ID, 0);
         
         // Send the VBO to the shaders
         glEnableVertexAttribArray(0);
@@ -190,63 +198,6 @@ int main( void )
                               (void*)0     // offset
                               );
         
-        // Bind the textures
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture1);
-        glUniform1i(texture1ID, 0);
-        
-        // Calculate Model matrix
-        float time = glfwGetTime();
-        glm::vec3 modelCentre = glm::vec3(0.0f, 0.0, -1.0f);
-        glm::mat4 translate = glm::translate(glm::mat4(1.0f), modelCentre);
-        glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.25f, 0.25f, 0.25f));
-        glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), time, glm::vec3(0.0f, 1.0f, 0.0f));
-        glm::mat4 model = translate * rotate * scale;
-        
-        // Send the model matrix to the vertex shader
-        GLuint modelID = glGetUniformLocation(shaderID, "model");
-        glUniformMatrix4fv(modelID, 1, GL_FALSE, &model[0][0]);
-        
-        // Calculate view matrix
-        glm::vec3 camera = glm::vec3(1.0f, 1.0f, 0.0f);
-        glm::vec3 target = modelCentre;
-        glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
-        
-        // /* view matrix calculated using lookAt() below
-        glm::vec3 cameraForward = glm::normalize(camera - target);
-        glm::vec3 cameraRight = glm::normalize(glm::cross(worldUp, cameraForward));
-        glm::vec3 cameraUp = glm::cross(cameraForward, cameraRight);
-        
-        glm::mat4 align = glm::mat4(1.0f);
-        translate[3][0] = -camera[0], translate[3][1] = -camera[1], translate[3][2] = -camera[2];
-        align[0][0] = cameraRight[0], align[0][1] = cameraUp[0], align[0][2] = cameraForward[0];
-        align[1][0] = cameraRight[1], align[1][1] = cameraUp[1], align[1][2] = cameraForward[1];
-        align[2][0] = cameraRight[2], align[2][1] = cameraUp[2], align[2][2] = cameraForward[2];
-        
-        glm::mat4 view = align * translate;
-
-        // Send the view matrix to the vertex shader
-        GLuint viewID = glGetUniformLocation(shaderID, "view");
-        glUniformMatrix4fv(viewID, 1, GL_FALSE, &view[0][0]);
-        
-        // Calculate orthographic projection matrix
-        float left, right, near, far, top, bottom;
-        left = -1.2f, right = 1.2f;
-        bottom = -1.2f, top = 1.2f;
-        near = 0.0f, far = 10.0f;
-        
-        glm::mat4 projection = glm::mat4(1.0f);
-        projection[0][0] = 2.0f / (right - left);
-        projection[1][1] = 2.0f / (top - bottom);
-        projection[2][2] = 2.0f / (near - far);
-        projection[3][0] = - (right + left) / (right - left);
-        projection[3][1] = - (top + bottom) / (top - bottom);
-        projection[3][2] = (near + far) / (near - far);
-
-        // Send our projection matrix to the vertex shader
-        GLuint projectionID = glGetUniformLocation(shaderID, "projection");
-        glUniformMatrix4fv(projectionID, 1, GL_FALSE, &projection[0][0]);
-        
         // Send the uv buffer to the shaders
         glEnableVertexAttribArray(1);
         glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
@@ -258,6 +209,54 @@ int main( void )
                               0,           // stride
                               (void*)0     // offset
                               );
+        
+        // Calculate the model matrix
+        float time = glfwGetTime();
+        glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -4.0f));
+        glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f, 0.5f, 0.5f));
+        glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), time, glm::vec3(0.0f, 1.0f, 0.0f));
+        
+        glm::mat4 model = translate * rotate * scale;
+        
+        // Send the model matrix to the vertex shader
+        glUniformMatrix4fv(modelID, 1, GL_FALSE, &model[0][0]);
+        
+        // Calculate view matrix
+        glm::vec3 camera = glm::vec3(2.0f, 2.0f, 0.0f);
+        glm::vec3 target = glm::vec3(0.0f, 0.0f, -4.0f);
+        glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+        glm::vec3 cameraForward = glm::normalize(camera - target);
+        glm::vec3 cameraRight = glm::normalize(glm::cross(worldUp, cameraForward));
+        glm::vec3 cameraUp = glm::cross(cameraForward, cameraRight);
+
+        glm::mat4 align = glm::mat4(1.0f);
+        translate[3][0] = -camera[0], translate[3][1] = -camera[1], translate[3][2] = -camera[2];
+        align[0][0] = cameraRight[0], align[0][1] = cameraUp[0], align[0][2] = cameraForward[0];
+        align[1][0] = cameraRight[1], align[1][1] = cameraUp[1], align[1][2] = cameraForward[1];
+        align[2][0] = cameraRight[2], align[2][1] = cameraUp[2], align[2][2] = cameraForward[2];
+
+        glm::mat4 view = align * translate;
+
+        // Send the view matrix to the vertex shader
+        glUniformMatrix4fv(viewID, 1, GL_FALSE, &view[0][0]);
+        
+        // Calculate orthographic projection matrix
+        float left, right, near, far, top, bottom;
+        left = -2.0f, right = 2.0f;
+        bottom = -2.0f, top = 2.0f;
+        near = 0.0f, far = 10.0f;
+
+        glm::mat4 projection = glm::mat4(1.0f);
+        projection[0][0] = 2.0f / (right - left);
+        projection[1][1] = 2.0f / (top - bottom);
+        projection[2][2] = 2.0f / (near - far);
+        projection[3][0] = - (right + left) / (right - left);
+        projection[3][1] = - (top + bottom) / (top - bottom);
+        projection[3][2] = (near + far) / (near - far);
+        
+        // Send the projection matrix to the vertex shader
+        glUniformMatrix4fv(projectionID, 1, GL_FALSE, &projection[0][0]);
         
         // Draw the triangle
         glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / (sizeof(float) * 3));

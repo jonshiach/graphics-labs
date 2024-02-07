@@ -12,7 +12,20 @@ Mapping a texture to a polygon.
 
 The texture is a 2D <a href="https://en.wikipedia.org/wiki/Bitmap" target="_blank">**bitmap**</a> image where each pixel within the texture, known as a **textel**, is referenced using the **texture coordiantes** given as (u,v) where u and v are in the range 0 to 1, i.e., (0,0) corresponds to the textel in the bottom left corner and (1,1) corresponds to the textel in the top-right corner. When a fragment is created by the shader the corresponding texture co-ordinates are calculated and the sample colour of the textel is used for the fragment. Fortunately we do not need to write a texture mapper functions since these are in OpenGL.
 
-Lets apply a texture map to our triangle from [Lab 2](hello-triangle-section). First download and build the source code contained in [Lab03_Textures.zip](../code/Lab03_Textures/Lab03_Textures.zip) using the instructions given [here](hello-window-section). Compile and run the project and you should be presented with the red triangle from Lab 2. 
+Lets apply a texture map to our triangle from [Lab 2](hello-triangle-section). First download and build the project files for this lab.
+
+1. Go to <a href="https://github.com/jonshiach/Lab03_Textures" target="_blank">https://github.com/jonshiach/Lab03_Textures</a> and follow the instructions to download and build the project files.
+2. Open the project file `Lab03_Textures.sln` (or `Lab03_Textures.xcodeproj` on macOS) set the **Lab03_Textures** project as the startup project.
+    - Visual Studio: right-click on the **Lab03_Textures** project and select **Set as Startup Project**.
+    - Xcode: Click on the target select dropdown (to the right of the name of the project at the top of the window) and select **Lab03_Textures** as the target.
+
+3. Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).
+
+If all has gone to plan you should see the red triangle example from Lab 2.
+
+```{figure} ../images/03_red_triangle.png
+:width: 500
+```
 
 ## Texture triangle
 
@@ -36,7 +49,7 @@ The crate texture.
 (uniforms-section)=
 ### Uniforms
 
-A <a href="https://www.khronos.org/opengl/wiki/Uniform_(GLSL)" target="_blank">**uniform**</a> is a global shader that remained constant during the execution of the rendering pass and has the same value for all vertices and fragments. Uniforms provide a way to pass data to the shaders so are useful for passing the texture information to the fragment shader.
+A <a href="https://www.khronos.org/opengl/wiki/Uniform_(GLSL)" target="_blank">**uniform**</a> is a global shader that remains constant during the execution of the rendering pass and has the same value for all vertices and fragments. Uniforms provide a way to pass data to the shaders so we will use one for passing the texture information to the fragment shader.
 
 To declare a uniform for our texture add the following code to your `main.cpp` file (this can go anywhere before the rendering loop but it makes sense to put these after we have loaded out texture).
 
@@ -132,7 +145,7 @@ So here the bottom-left triangle vertex at (-0.5, -0.5, 0) is mapped to the text
 
 ### Send the texture to OpenGL
 
-Now that we have loaded the texture and written our vertex and fragment shaders, the next and final step is to send the texture buffer to OpenGL. This is done in the same way as for the VBO (Vertex Buffer Object) but first we need to bind our texture to OpenGL. After we have instructed the application to use our shader program as the following code.
+Now that we have loaded the texture and written our vertex and fragment shaders, the next and final step is to send the texture buffer to OpenGL. This is done in the same way as for the VBO (Vertex Buffer Object) but first we need to bind our texture to OpenGL. After we have instructed the application to use our shader program add the following code.
 
 (texture-unit-code)=
 ```cpp        
@@ -167,6 +180,7 @@ glVertexAttribPointer(
 Note that since the texture has (u, v) co-ordinates instead of (x, y, z) the size attribute is `2` instead of `3`. Compile and run program and, after sending a prayer to the programming gods, you should be presented with a textured triangle.
 
 ```{figure} ../images/texture_triangle.png
+:width: 500
 ```
 
 If you are having difficulty with this check out the source code and shaders: [main.cpp](../code/Lab03_Textures/texture_triangle.cpp), [textureVertexShader.vert](../code/Lab03_Textures/textureVertexShader.vert), [textureFragmentShader.frag](../code/Lab03_Textures/textureFragmentShader.frag).
@@ -209,6 +223,7 @@ static const GLfloat uvCoords[] = {
 Compile and run the program and you should be presented with the more realistic image below.
 
 ```{figure} ../images/texture_rectangle.png
+:width: 500
 ```
 
 ## Texture wrapping
@@ -370,7 +385,7 @@ glBindTexture(GL_TEXTURE_2D, texture2);
 glUniform1i(texture2ID, 1);
 ```
 
-- Change the fragment shader
+- Update the fragment shader
 
 ```cpp
 #version 330 core
@@ -396,6 +411,7 @@ void main ()
 Here we have used the `mix()` GLSL function to combine the colour samples from the two textures. The last number `0.3` is used to interpolate between the two textures so 30% of the fragment colour comes from the second texture and 70% comes from the first texture.
 
 ```{figure} ../images/two_textures.png
+:width: 500
 ```
 
 ---
