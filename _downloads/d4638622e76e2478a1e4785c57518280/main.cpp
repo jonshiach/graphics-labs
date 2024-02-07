@@ -1,6 +1,5 @@
-//  Lab04_Vectors_and_matrices
-
 #include <iostream>
+#include <cmath>
 
 // Include the glm library
 #define GLM_ENABLE_EXPERIMENTAL
@@ -12,6 +11,8 @@
 
 int main()
 {
+    std::cout << "Lab 4 Vectors and Matrices\n--------------------------\n" << std::endl;
+    
     // Defining a vector
     glm::vec3 u(2.0f, 2.0f, 1.0f);
     
@@ -19,7 +20,7 @@ int main()
     std::cout << "u = " << u << std::endl;
 
     // Vector magnitude
-//    float lengthU = glm::sqrt(u[0] * u[0] + u[1] * u[1] + u[2] * u[2]);
+//    float lengthU = sqrt(u[0] * u[0] + u[1] * u[1] + u[2] * u[2]);
     float lengthU = glm::length(u);
     
     std::cout << "\nVector magnitude\n----------------" << std::endl;

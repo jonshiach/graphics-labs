@@ -1,9 +1,10 @@
 #include <glm/glm.hpp>
+#include <cmath>
 #include "MyLib.hpp"
 
 float MyLib::length(const glm::vec3 v)
 {
-    float length = glm::sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+    float length = sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
     return length;
 }
 

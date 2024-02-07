@@ -393,7 +393,21 @@ document.write(`
 </figcaption>
 </figure>
 <p>The texture is a 2D <a href="https://en.wikipedia.org/wiki/Bitmap" target="_blank"><strong>bitmap</strong></a> image where each pixel within the texture, known as a <strong>textel</strong>, is referenced using the <strong>texture coordiantes</strong> given as (u,v) where u and v are in the range 0 to 1, i.e., (0,0) corresponds to the textel in the bottom left corner and (1,1) corresponds to the textel in the top-right corner. When a fragment is created by the shader the corresponding texture co-ordinates are calculated and the sample colour of the textel is used for the fragment. Fortunately we do not need to write a texture mapper functions since these are in OpenGL.</p>
-<p>Lets apply a texture map to our triangle from <a class="reference internal" href="02_basic_shapes_in_OpenGL.html#hello-triangle-section"><span class="std std-ref">Lab 2</span></a>. First download and build the source code contained in <a class="reference download internal" download="" href="../_downloads/7877073bc937b0b3aff4a3dc5895c08b/Lab03_Textures.zip"><span class="xref download myst">Lab03_Textures.zip</span></a> using the instructions given <a class="reference internal" href="02_basic_shapes_in_OpenGL.html#hello-window-section"><span class="std std-ref">here</span></a>. Compile and run the project and you should be presented with the red triangle from Lab 2.</p>
+<p>Lets apply a texture map to our triangle from <a class="reference internal" href="02_basic_shapes_in_OpenGL.html#hello-triangle-section"><span class="std std-ref">Lab 2</span></a>. First download and build the project files for this lab.</p>
+<ol class="arabic simple">
+<li><p>Go to <a href="https://github.com/jonshiach/Lab03_Textures" target="_blank">https://github.com/jonshiach/Lab03_Textures</a> and follow the instructions to download and build the project files.</p></li>
+<li><p>Open the project file <code class="docutils literal notranslate"><span class="pre">Lab03_Textures.sln</span></code> (or <code class="docutils literal notranslate"><span class="pre">Lab03_Textures.xcodeproj</span></code> on macOS) set the <strong>Lab03_Textures</strong> project as the startup project.</p>
+<ul class="simple">
+<li><p>Visual Studio: right-click on the <strong>Lab03_Textures</strong> project and select <strong>Set as Startup Project</strong>.</p></li>
+<li><p>Xcode: Click on the target select dropdown (to the right of the name of the project at the top of the window) and select <strong>Lab03_Textures</strong> as the target.</p></li>
+</ul>
+</li>
+<li><p>Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).</p></li>
+</ol>
+<p>If all has gone to plan you should see the red triangle example from Lab 2.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/03_red_triangle.png"><img alt="../_images/03_red_triangle.png" src="../_images/03_red_triangle.png" style="width: 500px;" /></a>
+</figure>
 <section id="texture-triangle">
 <h2><span class="section-number">3.1. </span>Texture triangle<a class="headerlink" href="#texture-triangle" title="Permalink to this heading">#</a></h2>
 <section id="loading-a-bitmap-image">

@@ -4,32 +4,6 @@
 
 Computer graphics relies heavily on mathematics of vectors and matrices. In this lab we will be revising these and show how we can perform calculations in C++.
 
-## The glm library
-
-The glm (<a href="https://github.com/g-truc/glm" target="_blank">OpenGL Mathematics</a>) library is a popular C++ mathematics library designed to provide classes and functions for mathematical operations, specifically tailored for graphics programming using OpenGL. We will be using functions from glm to perform calculations for us.
-
-1. Create an empty project in Visual Studio or Xcode and call it `Lab04_Vectors_and_matrices`.
-
-2. Using the command prompt in Windows or the terminal in macOS and navigate to your newly created project folder. Within the project folder clone the GLM github repository.
-
-```text
-git clone https://github.com/g-truc/glm
-```
-
-3. Add the `glm/` folder to your project.
-
-    **Visual studio:**
-
-    1. Right-click on your project in the project viewer and click on **Properties**.
-    2. Select **C/C++** and then **General**.
-    3. Click on the down arrow next to **Additional Include Directories** and then select **Edit**. 
-    4. Add your `glm/` folder and click OK a couple of times.
-
-    **Xcode:**
-    1. Click on the project name on the left side of the window and then on **Build Settings**.
-    2. In the search bar do a search for **Search** which should show section titled **Search Paths**.
-    3. Edit the **Header Search Paths** and **Library Search Paths** to include the folder `glm/`.
-
 ## Vectors
 
 A vector in is an object with magnitude (length) and direction. A vector is denoted by an underlined lower case letter, e.g., $\underline{a}$ (or as a boldface character, e.g., $\mathbf{a}$) and represented mathematically by the 3-tuple
@@ -42,10 +16,22 @@ where $a_x$, $a_y$ and $a_z$ are the displacement of the vector in the $x$, $y$ 
 :height: 250
 ```
 
-We will now define the vector $\underline{u} = (2, 2, 1)$ in C++ using the glm library. Edit your program so it looks like the following and compile and execute the program.
+## The glm library
+
+The glm (<a href="https://github.com/g-truc/glm" target="_blank">OpenGL Mathematics</a>) library is a popular C++ mathematics library designed to provide classes and functions for mathematical operations, specifically tailored for graphics programming using OpenGL. We will be using functions from glm to perform calculations for us. First download and build the project files for this lab.
+
+1. Go to <a href="https://github.com/jonshiach/Lab04_Vectors_and_matrices" target="_blank">https://github.com/jonshiach/Lab04_Vectors_and_matrices</a> and follow the instructions to download and build the project files.
+2. Open the project file `Lab04_Vectors_and_matrices.sln` (or `Lab04_Vectors_and_matrices.xcodeproj` on macOS) set the **Lab04_Vectors_and_matrices** project as the startup project.
+    - Visual Studio: right-click on the **Lab04_Vectors_and_matrices** project and select **Set as Startup Project**.
+    - Xcode: Click on the target select dropdown (to the right of the name of the project at the top of the window) and select **Lab04_Vectors_and_matrices** as the target.
+
+3. Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).
+
+Take a look the `main.cpp` file in the `source/` folder.
 
 ```cpp
 #include <iostream>
+#include <cmath>
 
 // Include the glm library
 #define GLM_ENABLE_EXPERIMENTAL
@@ -53,19 +39,22 @@ We will now define the vector $\underline{u} = (2, 2, 1)$ in C++ using the glm l
 #include <glm/ext.hpp>
 #include <glm/gtx/io.hpp>
 
-int main() 
+int main()
 {
+    std::cout << "Lab 4 Vectors and Matrices\n--------------------------\n" << std::endl;
+    
     // Defining a vector
     glm::vec3 u(2.0f, 2.0f, 1.0f);
     
     std::cout << "Defining a vector\n-----------------" << std::endl;
     std::cout << "u = " << u << std::endl;
-
+    
     return 0;
 }
+
 ```
 
-If everything has gone ok your output should look like
+The output should look like the following.
 
 ```text
 Defining a vector
@@ -95,13 +84,13 @@ Let's do this calculating in our program, add the following code.
 
 ```cpp
 // Vector magnitude
-float lengthU = glm::sqrt(u[0] * u[0] + u[1] * u[1] + u[2] * u[2]);
+float lengthU = sqrt(u[0] * u[0] + u[1] * u[1] + u[2] * u[2]);
 
 std::cout << "\nVector magnitude\n----------------" << std::endl;
 std::cout << "|u| = " << lengthU << std::endl;
 ```
 
-Here we have calculated the magnitude of the vector `u` using `lengthU = glm::sqrt(u[0] * u[0] + u[1] * u[1] + u[2] * u[2])`. Note that `u[0]` refers to the first element in `u`, `u[1]` refers to the second element in `u` and so on. So C++ is known as a **zero indexing** language where array indices start at 0 so we need to remember to subtract 1 from the indices when coding.
+Here we have calculated the magnitude of the vector `u` using `lengthU = sqrt(u[0] * u[0] + u[1] * u[1] + u[2] * u[2])`. The `sqrt()` function is from the `cmath` library and calculates the square root of a number.
 
 The output of the program is shown below.
 
@@ -702,7 +691,9 @@ $$ \begin{align*}
 
  $$A^{-1} = \dfrac{1}{ad - bc} \begin{pmatrix} d & -b \\ -c & a \end{pmatrix}.$$
 
-&emsp;&emsp; Use your class to answer questions 1 and 2 (you may use glm vectors and matrices).
+Use your class to answer questions 1 and 2 (you may use glm vectors and matrices).
+
+Refer to the section on [Object Orientated Programming](oop-section) for a reminder on how to add classes to your program.
 
 ## Source code
 

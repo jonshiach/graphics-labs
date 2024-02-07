@@ -13,7 +13,7 @@ where $(x',y',z')$ are the co-ordinates of the transformed point.
 ````{note}
 The co-ordinate system used by OpenGL is a <a href="https://en.wikipedia.org/wiki/Right-hand_rule" target="_blank">right-hand</a> 3D co-ordinate system (on your right hand the thumb represents the $x$-axis, the index finger the $y$-axis and the middle finger the $z$-axis) with the $x$-axis pointing to the right, the $y$-axis point upwards and the $z$-axis pointing out of the screen towards the viewer.
 
-```{figure} ../images/opengl_axes.svg
+```{figure} ../images/05_opengl_axes.svg
 :height: 220
 
 The OpenGL co-ordinate system.
@@ -26,7 +26,7 @@ The OpenGL co-ordinate system.
 
 The **translation** transformation when applied to a set of points moves each point by the same amount. For example, consider the triangle in {numref}`translation-figure`, each of the vertices has been translated by the same **translation vector** $\underline{t}$ which has that effect of moving the triangle.
 
-```{figure} ../images/translation.svg
+```{figure} ../images/05_translation.svg
 :height: 280
 :name: translation-figure
 
@@ -37,6 +37,7 @@ A problem we have is that no transformation matrix exists for applying translati
 
 $$(x, y, z) \cdot T = (x + t_x, y + t_y, z + t_z).$$
 
+(homogeneous-coordinates-section)=
 Don't worry, all is not lost. We can use a trick where we use <a href="https://en.wikipedia.org/wiki/Homogeneous_coordinates" target="_blank">**homogeneous**</a> co-ordinates instead. Homogeneous co-ordinates add another value, $w$ say, to the co-ordinates (known as Cartesian co-ordinates) such that when the $x$, $y$ and $z$ values are divided by $w$ we get the Cartesian co-ordinates.
 
 $$\underbrace{(x, y, z, w)}_{\textsf{homogeneous}} \equiv \underbrace{\left( \frac{x}{w}, \frac{y}{w}, \frac{z}{w} \right)}_{\textsf{Cartesian}}.$$
@@ -65,13 +66,22 @@ $$ T = \begin{pmatrix}
 
 ### Translation in OpenGL
 
-Now we now the mathematical theory behind applying a transformation lets apply it to OpenGL. Download and build the source code contained in [Lab03_Textures.zip](../code/Lab05_Transformations/Lab05_Transformations.zip) using the instructions given [here](hello-window-section). Compile and run the project and you should be presented with our smiley texture from Lab03 applied to a rectangle.
+Now we now the mathematical theory behind applying a transformation lets apply it to OpenGL. First download and build the project files for this lab.
 
-```{figure} ../images/transformation1.png
+1. Go to <a href="https://github.com/jonshiach/Lab05_Transformations" target="_blank">https://github.com/jonshiach/Lab05_Transformations</a> and follow the instructions to download and build the project files.
+2. Open the project file `Lab05_Transformations.sln` (or `Lab05_Transformations.xcodeproj` on macOS) set the **Lab05_Transformations** project as the startup project.
+    - Visual Studio: right-click on the **Lab05_Transformations** project and select **Set as Startup Project**.
+    - Xcode: Click on the target select dropdown (to the right of the name of the project at the top of the window) and select **Lab05_Transformations** as the target.
+
+3. Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).
+
+If all has gone to plan you should be presented with our smiley texture from Lab03 applied to a rectangle.
+
+```{figure} ../images/05_texture.png
 :width: 500
 ```
 
-Lets translate the rectangle 0.5 to the right and 0.3 upwards (remember we are dealing with NDC so the window co-ordinates are between (-1,-1) and (1,1)). The transformation matrix to perform this translation is
+Lets translate the rectangle 0.5 to the right and 0.3 upwards (remember we are dealing with normlised device co-ordinates so the window co-ordinates are between -1 and 1). The transformation matrix to perform this translation is
 
 $$ T = \begin{pmatrix}
     1 & 0 & 0 & 0 \\
@@ -83,14 +93,14 @@ $$ T = \begin{pmatrix}
 Add the following code to the `main.cpp` file before the do/while loop.
 
 ```cpp
-// Transformation matrices
+// Define the translation matrix
 glm::mat4 translate = glm::mat4(1.0f);
-translate[3][0] = 0.5f;
-translate[3][1] = 0.3f;
+translate[3][0] = 0.5f, translate[3][1] = 0.3f;
+
 std::cout << "translate = " << glm::transpose(translate) << "\n" << std::cout;
 ```
 
-The output command is there to check we have defined the translation matrix correctly.
+The output command is there to check we have defined the translation matrix correctly. You should see the following in the output terminal (the window hasn't changed, we'll do that in a minute).
 
 ```text
 translate = 
@@ -100,22 +110,30 @@ translate =
  [    0.500,    0.300,    0.000,    1.000]]
  ```
 
-We need a way of passing a transformation matrix to the vertex shader so we use [uniforms](uniforms-section) to do this. Add the following code to your `main.cpp` file to define a transformation matrix and get the uniform ID.
+We need a way of passing the `translate` matrix to the shader. Since we are going to be using multiple transformations we will define a `transformation` matrix (for now we set this equal to `translate`) and send it to the vertex shader using a [uniform](uniforms-section). Add the following code to your `main.cpp` file to define `transformation` and get the handle of the uniform.
 
 ```cpp
-// Define the transformation matrix and get its uniform location
-glm::mat4 transformation = translate;
-GLuint transformationID = glGetUniformLocation(shaderID, "transformation");
+// Calculate the transformation matrix
+ glm::mat4 transformation = translate;
+ 
+ // Get the handle for the transformation matrix
+ GLuint transformationID = glGetUniformLocation(shaderID, "transformation");
 ```
 
-We send the uniform to the vertex shader in the rendering loop near where we send the texture uniforms. Since we have a 4 $\times$ 4 matrix we need to using the `glUniformMatrix4fv()` function to do this.
+We send the uniform to the vertex shader in the rendering loop just before we draw the triangles. Since we have a 4 $\times$ 4 matrix we need to using the `glUniformMatrix4fv()` function to do this.
 
 ```cpp
 // Send our transformation matrix to the vertex shader
 glUniformMatrix4fv(transformationID, 1, GL_FALSE, &transformation[0][0]);
 ```
 
-The four inputs are: the handle of the uniform we are sending, the number of matrices we have, an OpenGL Boolean value that determines whether we want to transpose the matrix and a pointer to the matrix. All we now have to do is modify the vertex shader to use the transformation matrix.
+The four inputs of `glUniformMatrix4fv()` are:
+ - the handle of the uniform we are sending;
+ - the number of matrices we have;
+ - an OpenGL Boolean value that determines whether we want to transpose the matrix;
+ - a pointer to the matrix.
+
+All we now have to do is modify the vertex shader to use the transformation matrix.
 
 ```cpp
 #version 330 core
@@ -140,25 +158,28 @@ void main()
 }
 ```
 
-The only thing we've changed here is specify that we are passing the `transformation` matrix via a uniform and we have multiplied the 4-element vector containing the homogeneous co-ordinates of the vertex by the `transformation` matrix. Compile and run the program and you should see that our rectangle has been translated to the right and up a bit.
+The only thing we've changed here is specify that we are passing the `transformation` matrix via a uniform and we have multiplied the 4-element vector containing the homogeneous co-ordinates of the vertex by the `transformation` matrix (remember that we reverse the order of the matrix multiplication in OpenGL). Compile and run the program and you should see that our rectangle has been translated to the right and up a bit.
 
-```{figure} ../images/transformation2.png
+```{figure} ../images/05_translation.png
 :width: 500
 ```
 
-Whilst it wasn't particularly difficult to define the `translate` matrix it is something it is a common operation so the glm function `glm::translate(matrix, vector)` outputs the translation matrix for the translation by `vector` applied to `matrix`. So we can replace the two lines of code where we calculate `translationMatrix` with the following
+If you are having difficulty getting this to work take a look at [main.cpp](../code/Lab05_Transformations/main.cpp) and [vertexShader.vert](../code/Lab05_Transformations/vertexShader.vert).
+
+Whilst it wasn't particularly difficult to define the `translate` matrix it is something it is a common operation so the glm function `glm::translate(matrix, vector)` outputs the translation matrix for the translation by `vector` applied to `matrix`. So we can replace the line of code where we calculated `translate` with the following
 
 ```cpp
-glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.5f, 0.3f, 0.0f));
+translate = glm::translate(glm::mat4(1.0f),                 // matrix that translation is being applied to
+                           glm::vec3(0.5f, 0.3f, 0.0f));    // translation vector (tx, ty, tz)
 ```
 
-The first input to the `glm::translate()` function is the matrix we want to apply the translation to (here we use the identity matrix) and the second input is a 3-element translation vector.
+The first input to the `glm::translate()` function is the matrix we want to apply the translation to (here we have used the identity matrix) and the second input is the 3-element translation vector.
 
 ## Scaling
 
 Scaling is the simplest transformation we can apply. Multiplying the $x$, $y$ and $z$ co-ordinates of a point by a scalar quantity (a number) has the effect of moving the point closer or further away from the origin (0,0). For example, consider the triangle in {numref}`scaling-about-origin-figure`. The $x$ co-ordinate of each vertex has been multiplied by $s_x$ and the $y$ co-ordinates have been multiplied by $s_y$ which has the effect of scaling the triangle and moving the vertices further away from the origin (in this case $s_x$ and $s_y$ are both greater than 1).
 
-```{figure} ../images/scaling2.svg
+```{figure} ../images/05_scaling.svg
 :height: 350
 :name: scaling-about-origin-figure
 
@@ -190,11 +211,11 @@ $$ S =
 
 ### Scaling in OpenGL
 
-Lets now apply scaling to our rectangle in OpenGL to double its size in both directions. The process is very similar to how we did the translation and since we have already created a uniform, passed it to the vertex shader and modified the vertex shader, all we need to do to apply shading is calculate the shading matrix. The scaling matrix for doubling the size of the rectangle is
+Lets now apply scaling to our rectangle in OpenGL to increase its size by a factor of 2 and 1.5 in the $x$ and $y$ directions respectively. The process is very similar to how we did the translation and since we have already created a uniform, passed it to the vertex shader and modified the vertex shader, all we need to do to apply shading is calculate the shading matrix. The scaling matrix for doubling the size of the rectangle is
 
 $$ S = \begin{pmatrix}
     2 & 0 & 0 & 0 \\
-    0 & 2 & 0 & 0 \\
+    0 & 1.5 & 0 & 0 \\
     0 & 0 & 1 & 0 \\
     0 & 0 & 0 & 1
 \end{pmatrix}.$$
@@ -204,8 +225,8 @@ Define the scaling matrix using the code below.
 ```cpp
 // Scaling matrix
 glm::mat4 scale = glm::mat4(1.0f);
-scale[0][0] = 2.0f;
-scale[1][1] = 2.0f;
+scale[0][0] = 2.0f, scale[1][1] = 1.5f;
+
 std::cout << "\nscale = " << glm::transpose(scale) << "\n" << std::cout;
 ```
 
@@ -220,28 +241,29 @@ Compiling and running the program should output the `scale` matrix so we can che
 ```text
 scale = 
 [[    2.000,    0.000,    0.000,    0.000]
- [    0.000,    2.000,    0.000,    0.000]
+ [    0.000,    1.500,    0.000,    0.000]
  [    0.000,    0.000,    1.000,    0.000]
  [    0.000,    0.000,    0.000,    1.000]]
 ```
 
-```{figure} ../images/transformation3.png
+```{figure} ../images/05_scaling.png
 :width: 500
 ```
 
-As with the translation matrix, glm has the function `glm::scale()` which returns a scaling matrix. Replace the two lines of code where we calculate the `scale` matrix is the following.
+As with the translation matrix, glm has the function `glm::scale()` which returns a scaling matrix. Replace the line of code where we calculated the `scale` matrix is the following.
 
 ```cpp
-scale = glm::scale(glm::mat4(1.0f), glm::vec3(2.0f, 2.0f, 1.0f));
+scale = glm::scale(glm::mat4(1.0f),               // matrix that scaling is applied to
+                   glm::vec3(2.0f, 1.5f, 1.0f));  // scaling factors (sx, sy, sz)
 ```
 
-If you compile and run the program you will notice nothing has changed. 
+If you compile and run the program you will notice nothing has changed.
 
 ## Rotation
 
 As well as translating and scaling objects, the next most common transformation is the rotation of objects around the three co-ordinate axes $x$, $y$ and $z$. We define the rotation **anti-clockwise** around each of the co-ordinate axes by an angle $\theta$ when looking down the axes ({numref}`3D-rotation-figure`).
 
-```{figure} ../images/3D_rotation.svg
+```{figure} ../images/05_3D_rotation.svg
 :height: 350
 :name: 3D-rotation-figure
 
@@ -262,7 +284,7 @@ You don't really need to know how these are derived but if you are curious you c
 
 We will consider rotation about the $z$-axis and will restrict our co-ordinates to 2D.
 
-```{figure} ../images/rotation.svg
+```{figure} ../images/05_rotation.svg
 :height: 300
 :name: rotation-figure
 
@@ -367,27 +389,32 @@ $$ \begin{pmatrix}
 Define the rotation matrix using the code below.
 
 ```cpp
-// Rotation matrix
+// Define rotation matrix
 glm::mat4 rotate = glm::mat4(1.0f);
 float angle = glm::radians(45.0f);
-rotate[0][0] = glm::cos(angle);
-rotate[0][1] = glm::sin(angle);
-rotate[1][0] = -glm::sin(angle);
-rotate[1][1] = glm::cos(angle);
+rotate[0][0] = cos(angle),  rotate[0][1] = sin(angle);
+rotate[1][0] = -sin(angle), rotate[1][1] = cos(angle);
+
 std::cout << "\nrotate = " << glm::transpose(rotate) << "\n" << std::cout;
 ```
 
-Note that here we needed to convert 40$^\circ$ into <a href="https://en.wikipedia.org/wiki/Radian" target="_blank">**radians**</a> since this is what OpenGL uses. 
-
-Setting the `transformation` matrix equal to our `rotate` matrix
+Note that here we needed to convert 40$^\circ$ into <a href="https://en.wikipedia.org/wiki/Radian" target="_blank">**radians**</a> since OpenGL expects angles to be in radians. We now set the `transformation` matrix equal to our `rotate` matrix
 
 ```cpp
 glm::mat4 transformation = rotate;
 ```
 
-Compiling and running the program should output the `rotate` matrix so we can check this is correct and present us with our textured rectangle rotated 45$^\circ$ (or $\pi/4 \approx 0.786$ radians) in the anti-clockwise direction.
+Compiling and running the program should output the `rotate` matrix to the terminal so we can check this is correct and we can see in our application window that the textured rectangle has been rotated 45$^\circ$ in the anti-clockwise direction.
 
-```{figure} ../images/transformation4.png
+```text
+rotate = 
+[[    0.707,    0.707,    0.000,    0.000]
+ [   -0.707,    0.707,    0.000,    0.000]
+ [    0.000,    0.000,    1.000,    0.000]
+ [    0.000,    0.000,    0.000,    1.000]]
+```
+
+```{figure} ../images/05_rotation.png
 :width: 500
 ```
 
@@ -395,7 +422,7 @@ Compiling and running the program should output the `rotate` matrix so we can ch
 
 The three rotation transformations are only useful if we want to only rotate around one of the three co-ordinate axes. A more useful transformation is the rotation around the axis that points in the direction of a vector, $\underline{v}$ say, which has its tail at (0,0,0) ({numref}`axis-angle-rotation-figure`).
 
-```{figure} ../images/axis_angle_rotation_1.svg
+```{figure} ../images/05_axis_angle_rotation_1.svg
 :height: 250
 :name: axis-angle-rotation-figure
 
@@ -437,7 +464,7 @@ The rotation about the vector $\underline{v} = (v_x, v_y, v_z)$ by angle $\theta
 
 The rotation around the $x$-axis is achieved by forming a right-angled triangle in the $yz$-plane where the the angle of rotation $\theta$ has an adjacent side of length $v_z$, an opposite side of length $v_y$ and a hypotenuse of length $\sqrt{v_y^2 + v_z^2}$ ({numref}`axis-angle-rotation1-figure`). 
 
-```{figure} ../images/axis_angle_rotation_2.svg
+```{figure} ../images/05_axis_angle_rotation_2.svg
 :height: 250
 :name: axis-angle-rotation1-figure
 
@@ -455,7 +482,7 @@ $$ R_1 = \begin{pmatrix}
 
 The rotation around the $y$-axis is achieved by forming another right-angled triangle in the $xz$-plane where $\theta$ has an adjacent side of length $\sqrt{v_y^2 + v_z^2}$, an opposite side of length $v_x$ and a hypotenuse of length $|\underline{v}|$ ({numref}`axis-angle-rotation2-figure`).
 
-```{figure} ../images/axis_angle_rotation_3.svg
+```{figure} ../images/05_axis_angle_rotation_3.svg
 :height: 250
 :name: axis-angle-rotation2-figure
 
@@ -541,13 +568,15 @@ $$ \begin{align*}
 \end{align*} $$
 ````
 
-Fortunately we do not need to code this matrix into C++ as glm has a function to calculate the axis-angle rotation. The function is `glm::rotate(matrix, angle, vector)` where `angle` is in radians and `vector` is the direction vector which were are rotating around. Replace the commands for defining `rotate` in your program with the following
+Fortunately we do not need to code this matrix into C++ as glm has a function to calculate the axis-angle rotation. The function is `glm::rotate(matrix, angle, vector)` where `angle` is in radians and `vector` is the direction vector which were are rotating around. Replace the two lines of code where we have defined the `rotate` matrix with the following
 
 ```cpp
-rotate = glm::rotate(glm::mat4(1.0f), glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+rotate = glm::rotate(glm::mat4(1.0f),               // matrix that rotation is applied to
+                     glm::radians(45.0f),           // rotation angle
+                     glm::vec3(0.0f, 0.0f, 1.0f));  // vector to rotate around
 ```
 
-Here we have used the vector (0, 0, 1) as we wanted to rotate around the $z$-axis.
+Here we have used the vector (0, 0, 1) as we wanted to rotate around the $z$-axis. You should see no change in the output.
 
 (composite-transformations-section)=
 ## Composite transformations
@@ -563,42 +592,10 @@ $S \cdot R \cdot T$ is a single $4 \times 4$ transformation matrix that combines
 
 ### Composite transformations in OpenGL
 
-Lets apply scaling, rotation and translation (in that order) to our rectangle. The composite transformation matrix is
-
-$$ \begin{align*}
-    S \cdot R \cdot T &=
-    \begin{pmatrix} 
-        2 & 0 & 0 & 0 \\
-        0 & 2 & 0 & 0 \\
-        0 & 0 & 1 & 0 \\
-        0 & 0 & 0 & 1
-    \end{pmatrix}
-    \begin{pmatrix}
-       0.707 & 0.707 & 0 & 0 \\
-       -0.707 & 0.707 & 0 & 0 \\
-       0 & 0 & 1 & 0 \\
-       0 & 0 & 0 & 1
-    \end{pmatrix}
-    \begin{pmatrix}
-        1 & 0 & 0 & 0 \\
-        0 & 1 & 0 & 0 \\
-        0 & 0 & 1 & 0 \\
-        0.5 & 0.3 & 0 & 1
-    \end{pmatrix} \\
-    &=
-    \begin{pmatrix}
-        1.414 & 1.414 & 0 & 0 \\
-        -1.414 & 1.414 & 0 & 0 \\
-        0 & 0 & 1 & 0 \\
-        0.5 & 0.3 & 0 & 1
-    \end{pmatrix}
-\end{align*} $$
-
-Since we have already calculated the separate transformation matrices all we need to do is to multiply them together and set it equal to `transformation`.
+Lets apply scaling, rotation and translation (in that order) to our rectangle. Since we have already calculated the separate transformation matrices all we need to do is to multiply them together and set it equal to `transformation`.
 
 ```cpp
 glm::mat4 transformation = translate * rotate * scale;
-std::cout << "\ntransformation = " << glm::transpose(transformation) << "\n" << std::cout;
 ```
 
 (column-major-important-note)=
@@ -615,24 +612,19 @@ i.e., the transformations are applied from right to left.
 
 After compiling and running the program you should see the following.
 
-```{figure} ../images/transformation5.png
+```{figure} ../images/05_composite_transformation.png
 :width: 500
 ```
 
 ## Animating objects
 
-The effects of transformations can be seen more clearly when they are animated so lets animate our rectangle. We are going to rotate and translate the rectangle so that it appears to be rotating about its centre. Whilst it may appear that we have been rendering a single frame to our window what our application is actually doing is continuously refreshing the window with the same from in the do/while loop. 
+It may appear that our application is displaying a static image of the textured rectangle but what is actually happing is that the window is constantly being updated with new frame buffers as and when they have been calculated. We can animate our rectangle by applying the transformations within the render loop. We are going to rotate and translate the rectangle so that it appears to be rotating about its centre.
 
-So if we calculate the transformation matrices inside the render loop we can move the rectangle around the window. A useful function to help us is `glfwGetTime()` from the GLFW library which returns the time in seconds since the GLFW window was created. If we have a time value that is always increasing we can use this to animate our rectangle.
+If we calculate the transformation matrices inside the render loop we can move the rectangle around the window. A useful function to help us is `glfwGetTime()` from the GLFW library which returns the time in seconds since the GLFW window was created. If we have a time value that is always increasing we can use this to animate our rectangle.
 
-Comment out all of the code used to calculate the transformation matrices we have entered so far this lab but leave the line where we get the location of the `transformation` uniform
+Comment out all of the code used to calculate the transformation matrices we have entered so far this lab but leave the line where we get the location of the `transformation` uniform.
 
-```cpp
- // Get uniform location of the transformation matrix
- GLuint transformationID = glGetUniformLocation(shaderID, "transformation");
- ```
-
- Inside the render loop add the following code.
+Inside the render loop just before we send the `transformation` matrix to the shader add the following code.
 
  ```cpp
 // Calculate transformations
@@ -647,7 +639,7 @@ Here we have defined the `translate`, `scale` and `rotate` matrices and used the
 
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../rotating_smiley1.mp4" type="video/mp4">
+    <source src="../05_rotating_smiley_1.mp4" type="video/mp4">
 </video>
 </center>
 
@@ -661,7 +653,7 @@ Compile and run the program and we have something quite different.
 
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../rotating_smiley2.mp4" type="video/mp4">
+    <source src="../05_rotating_smiley_2.mp4" type="video/mp4">
 </video>
 </center>
 
@@ -673,7 +665,7 @@ Compile and run the program and we have something quite different.
 
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../rotating_smiley3.mp4" type="video/mp4">
+    <source src="../05_Ex1.mp4" type="video/mp4">
 </video>
 </center>
 
@@ -681,23 +673,25 @@ Compile and run the program and we have something quite different.
 
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../rotating_smiley4.mp4" type="video/mp4">
+    <source src="../05_Ex2.mp4" type="video/mp4">
 </video>
 </center>
 
-3. Use scaling to scale the rectangle so that it grows and shrinks as it is moving. Hint: function $s = 1 + 0.25 \sin(t)$ oscillates between 0.75 and 1.25 as $t$ increases. Experiment with the speed of which the rectangle grows and shrinks by changing the value of $a$. 
+3. Use scaling to scale the rectangle so that it grows and shrinks as it is moving. Hint: the function $s(t) = 1 + 0.5 \sin(at)$ oscillates between 0.75 and 1.25 as $t$ increases. Experiment with the speed of which the rectangle grows and shrinks by changing the value of $a$. 
 
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../rotating_smiley5.mp4" type="video/mp4">
+    <source src="../05_Ex3.mp4" type="video/mp4">
 </video>
 </center>
 
-4. Extend your MyLib class from [Lab04 Vectors and Matrices](vectors-exercises) so that is calculates translation, scaling and angle-axis rotation. Replace the glm functions with functions from MyLib to answer exercises 1 to 3.
+4. Create your own class called `MyLib` using header and code files `MyLib.hpp` and `MyLib.cpp` that includes static member functions to calculate the translation, scaling and angle-axis rotation matrices (you may use `glm::mat4()`, `glm::vec3` and the `cmath` library). Replace the glm functions `glm::translate()`, `glm::scale()` and `glm::rotate` with functions from MyLib to answer exercises 1 to 3.
 
 ## Source code
 
 The source code for this lab, including the exercise solutions, can be downloaded using the links below.
 
-- [main.cpp](../code/Lab05_Transformations/main.cpp)
+- [main.cpp](../code/Lab05_Transformations/Lab05_solutions.cpp)
+- [MyLib.hpp](../code/Lab05_Transformations/MyLib.hpp)
+- [MyLib.cpp](../code/Lab05_Transformations/MyLib.cpp)
 - [vertexShader.vert](../code/Lab05_Transformations/vertexShader.vert)

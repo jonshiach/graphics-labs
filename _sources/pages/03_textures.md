@@ -12,7 +12,20 @@ Mapping a texture to a polygon.
 
 The texture is a 2D <a href="https://en.wikipedia.org/wiki/Bitmap" target="_blank">**bitmap**</a> image where each pixel within the texture, known as a **textel**, is referenced using the **texture coordiantes** given as (u,v) where u and v are in the range 0 to 1, i.e., (0,0) corresponds to the textel in the bottom left corner and (1,1) corresponds to the textel in the top-right corner. When a fragment is created by the shader the corresponding texture co-ordinates are calculated and the sample colour of the textel is used for the fragment. Fortunately we do not need to write a texture mapper functions since these are in OpenGL.
 
-Lets apply a texture map to our triangle from [Lab 2](hello-triangle-section). First download and build the source code contained in [Lab03_Textures.zip](../code/Lab03_Textures/Lab03_Textures.zip) using the instructions given [here](hello-window-section). Compile and run the project and you should be presented with the red triangle from Lab 2. 
+Lets apply a texture map to our triangle from [Lab 2](hello-triangle-section). First download and build the project files for this lab.
+
+1. Go to <a href="https://github.com/jonshiach/Lab03_Textures" target="_blank">https://github.com/jonshiach/Lab03_Textures</a> and follow the instructions to download and build the project files.
+2. Open the project file `Lab03_Textures.sln` (or `Lab03_Textures.xcodeproj` on macOS) set the **Lab03_Textures** project as the startup project.
+    - Visual Studio: right-click on the **Lab03_Textures** project and select **Set as Startup Project**.
+    - Xcode: Click on the target select dropdown (to the right of the name of the project at the top of the window) and select **Lab03_Textures** as the target.
+
+3. Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).
+
+If all has gone to plan you should see the red triangle example from Lab 2.
+
+```{figure} ../images/03_red_triangle.png
+:width: 500
+```
 
 ## Texture triangle
 

@@ -211,8 +211,7 @@ int main( void )
         glm::vec3 camera = glm::vec3(1.0f, 1.0f, 0.0f);
         glm::vec3 target = modelCentre;
         glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
-        
-        // /* view matrix calculated using lookAt() below
+
         glm::vec3 cameraForward = glm::normalize(camera - target);
         glm::vec3 cameraRight = glm::normalize(glm::cross(worldUp, cameraForward));
         glm::vec3 cameraUp = glm::cross(cameraForward, cameraRight);
@@ -231,8 +230,8 @@ int main( void )
         
         // Calculate orthographic projection matrix
         float left, right, near, far, top, bottom;
-        left = -1.2f, right = 1.2f;
-        bottom = -1.2f, top = 1.2f;
+        left = -0.8f, right = 0.8f;
+        bottom = -0.8f, top = 0.8f;
         near = 0.0f, far = 10.0f;
         
         glm::mat4 projection = glm::mat4(1.0f);

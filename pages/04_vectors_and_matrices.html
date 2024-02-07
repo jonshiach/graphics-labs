@@ -358,8 +358,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-glm-library">4.1. The glm library</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vectors">4.2. Vectors</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vectors">4.1. Vectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-glm-library">4.2. The glm library</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-magnitude">4.2.1. Vector magnitude</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-multiplication-by-a-scalar">4.2.2. Vector multiplication by a scalar</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unit-vectors">4.2.3. Unit vectors</a></li>
@@ -392,36 +392,8 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="vectors-and-matrices">
 <span id="vectors-and-matrices-section"></span><h1><span class="section-number">4. </span>Vectors and Matrices<a class="headerlink" href="#vectors-and-matrices" title="Permalink to this heading">#</a></h1>
 <p>Computer graphics relies heavily on mathematics of vectors and matrices. In this lab we will be revising these and show how we can perform calculations in C++.</p>
-<section id="the-glm-library">
-<h2><span class="section-number">4.1. </span>The glm library<a class="headerlink" href="#the-glm-library" title="Permalink to this heading">#</a></h2>
-<p>The glm (<a href="https://github.com/g-truc/glm" target="_blank">OpenGL Mathematics</a>) library is a popular C++ mathematics library designed to provide classes and functions for mathematical operations, specifically tailored for graphics programming using OpenGL. We will be using functions from glm to perform calculations for us.</p>
-<ol class="arabic simple">
-<li><p>Create an empty project in Visual Studio or Xcode and call it <code class="docutils literal notranslate"><span class="pre">Lab04_Vectors_and_matrices</span></code>.</p></li>
-<li><p>Using the command prompt in Windows or the terminal in macOS and navigate to your newly created project folder. Within the project folder clone the GLM github repository.</p></li>
-</ol>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/g-truc/glm
-</pre></div>
-</div>
-<ol class="arabic" start="3">
-<li><p>Add the <code class="docutils literal notranslate"><span class="pre">glm/</span></code> folder to your project.</p>
-<p><strong>Visual studio:</strong></p>
-<ol class="arabic simple">
-<li><p>Right-click on your project in the project viewer and click on <strong>Properties</strong>.</p></li>
-<li><p>Select <strong>C/C++</strong> and then <strong>General</strong>.</p></li>
-<li><p>Click on the down arrow next to <strong>Additional Include Directories</strong> and then select <strong>Edit</strong>.</p></li>
-<li><p>Add your <code class="docutils literal notranslate"><span class="pre">glm/</span></code> folder and click OK a couple of times.</p></li>
-</ol>
-<p><strong>Xcode:</strong></p>
-<ol class="arabic simple">
-<li><p>Click on the project name on the left side of the window and then on <strong>Build Settings</strong>.</p></li>
-<li><p>In the search bar do a search for <strong>Search</strong> which should show section titled <strong>Search Paths</strong>.</p></li>
-<li><p>Edit the <strong>Header Search Paths</strong> and <strong>Library Search Paths</strong> to include the folder <code class="docutils literal notranslate"><span class="pre">glm/</span></code>.</p></li>
-</ol>
-</li>
-</ol>
-</section>
 <section id="vectors">
-<h2><span class="section-number">4.2. </span>Vectors<a class="headerlink" href="#vectors" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">4.1. </span>Vectors<a class="headerlink" href="#vectors" title="Permalink to this heading">#</a></h2>
 <p>A vector in is an object with magnitude (length) and direction. A vector is denoted by an underlined lower case letter, e.g., <span class="math notranslate nohighlight">\(\underline{a}\)</span> (or as a boldface character, e.g., <span class="math notranslate nohighlight">\(\mathbf{a}\)</span>) and represented mathematically by the 3-tuple</p>
 <div class="math notranslate nohighlight">
 \[ \underline{a} = (a_x, a_y, a_z), \]</div>
@@ -429,8 +401,23 @@ document.write(`
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/vector.svg"><img alt="../_images/vector.svg" height="250" src="../_images/vector.svg" /></a>
 </figure>
-<p>We will now define the vector <span class="math notranslate nohighlight">\(\underline{u} = (2, 2, 1)\)</span> in C++ using the glm library. Edit your program so it looks like the following and compile and execute the program.</p>
+</section>
+<section id="the-glm-library">
+<h2><span class="section-number">4.2. </span>The glm library<a class="headerlink" href="#the-glm-library" title="Permalink to this heading">#</a></h2>
+<p>The glm (<a href="https://github.com/g-truc/glm" target="_blank">OpenGL Mathematics</a>) library is a popular C++ mathematics library designed to provide classes and functions for mathematical operations, specifically tailored for graphics programming using OpenGL. We will be using functions from glm to perform calculations for us. First download and build the project files for this lab.</p>
+<ol class="arabic simple">
+<li><p>Go to <a href="https://github.com/jonshiach/Lab04_Vectors_and_matrices" target="_blank">https://github.com/jonshiach/Lab04_Vectors_and_matrices</a> and follow the instructions to download and build the project files.</p></li>
+<li><p>Open the project file <code class="docutils literal notranslate"><span class="pre">Lab04_Vectors_and_matrices.sln</span></code> (or <code class="docutils literal notranslate"><span class="pre">Lab04_Vectors_and_matrices.xcodeproj</span></code> on macOS) set the <strong>Lab04_Vectors_and_matrices</strong> project as the startup project.</p>
+<ul class="simple">
+<li><p>Visual Studio: right-click on the <strong>Lab04_Vectors_and_matrices</strong> project and select <strong>Set as Startup Project</strong>.</p></li>
+<li><p>Xcode: Click on the target select dropdown (to the right of the name of the project at the top of the window) and select <strong>Lab04_Vectors_and_matrices</strong> as the target.</p></li>
+</ul>
+</li>
+<li><p>Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).</p></li>
+</ol>
+<p>Take a look the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file in the <code class="docutils literal notranslate"><span class="pre">source/</span></code> folder.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cmath&gt;</span>
 
 <span class="c1">// Include the glm library</span>
 <span class="cp">#define GLM_ENABLE_EXPERIMENTAL</span>
@@ -438,19 +425,21 @@ document.write(`
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;glm/ext.hpp&gt;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;glm/gtx/io.hpp&gt;</span>
 
-<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
 <span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Lab 4 Vectors and Matrices</span><span class="se">\n</span><span class="s">--------------------------</span><span class="se">\n</span><span class="s">&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span>
 <span class="w">    </span><span class="c1">// Defining a vector</span>
 <span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">u</span><span class="p">(</span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">);</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Defining a vector</span><span class="se">\n</span><span class="s">-----------------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;u = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-
+<span class="w">    </span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>If everything has gone ok your output should look like</p>
+<p>The output should look like the following.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Defining a vector
 -----------------
 u = [    2.000,    2.000,    1.000]
@@ -470,13 +459,13 @@ u = [    2.000,    2.000,    1.000]
 \[ | \underline{u} | = \sqrt{2^2 + 2^2 + 1^2} = \sqrt{4 + 4 + 1} = \sqrt{9} = 3. \]</div>
 <p>Let’s do this calculating in our program, add the following code.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Vector magnitude</span>
-<span class="kt">float</span><span class="w"> </span><span class="n">lengthU</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">sqrt</span><span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">lengthU</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqrt</span><span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
 
 <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Vector magnitude</span><span class="se">\n</span><span class="s">----------------&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;|u| = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">lengthU</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>Here we have calculated the magnitude of the vector <code class="docutils literal notranslate"><span class="pre">u</span></code> using <code class="docutils literal notranslate"><span class="pre">lengthU</span> <span class="pre">=</span> <span class="pre">glm::sqrt(u[0]</span> <span class="pre">*</span> <span class="pre">u[0]</span> <span class="pre">+</span> <span class="pre">u[1]</span> <span class="pre">*</span> <span class="pre">u[1]</span> <span class="pre">+</span> <span class="pre">u[2]</span> <span class="pre">*</span> <span class="pre">u[2])</span></code>. Note that <code class="docutils literal notranslate"><span class="pre">u[0]</span></code> refers to the first element in <code class="docutils literal notranslate"><span class="pre">u</span></code>, <code class="docutils literal notranslate"><span class="pre">u[1]</span></code> refers to the second element in <code class="docutils literal notranslate"><span class="pre">u</span></code> and so on. So C++ is known as a <strong>zero indexing</strong> language where array indices start at 0 so we need to remember to subtract 1 from the indices when coding.</p>
+<p>Here we have calculated the magnitude of the vector <code class="docutils literal notranslate"><span class="pre">u</span></code> using <code class="docutils literal notranslate"><span class="pre">lengthU</span> <span class="pre">=</span> <span class="pre">sqrt(u[0]</span> <span class="pre">*</span> <span class="pre">u[0]</span> <span class="pre">+</span> <span class="pre">u[1]</span> <span class="pre">*</span> <span class="pre">u[1]</span> <span class="pre">+</span> <span class="pre">u[2]</span> <span class="pre">*</span> <span class="pre">u[2])</span></code>. The <code class="docutils literal notranslate"><span class="pre">sqrt()</span></code> function is from the <code class="docutils literal notranslate"><span class="pre">cmath</span></code> library and calculates the square root of a number.</p>
 <p>The output of the program is shown below.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Vector magnitude
 ----------------
@@ -973,7 +962,8 @@ std::cout &lt;&lt; &quot;\ninvA * A&quot; &lt;&lt; glm::transpose(invA * A) &lt;
 </ol>
 <div class="math notranslate nohighlight">
 \[\begin{split}A^{-1} = \dfrac{1}{ad - bc} \begin{pmatrix} d &amp; -b \\ -c &amp; a \end{pmatrix}.\end{split}\]</div>
-<p>   Use your class to answer questions 1 and 2 (you may use glm vectors and matrices).</p>
+<p>Use your class to answer questions 1 and 2 (you may use glm vectors and matrices).</p>
+<p>Refer to the section on <a class="reference internal" href="01_intro_to_cpp.html#oop-section"><span class="std std-ref">Object Orientated Programming</span></a> for a reminder on how to add classes to your program.</p>
 </section>
 <section id="source-code">
 <h2><span class="section-number">4.5. </span>Source code<a class="headerlink" href="#source-code" title="Permalink to this heading">#</a></h2>
@@ -1053,8 +1043,8 @@ std::cout &lt;&lt; &quot;\ninvA * A&quot; &lt;&lt; glm::transpose(invA * A) &lt;
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-glm-library">4.1. The glm library</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vectors">4.2. Vectors</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vectors">4.1. Vectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-glm-library">4.2. The glm library</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-magnitude">4.2.1. Vector magnitude</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-multiplication-by-a-scalar">4.2.2. Vector multiplication by a scalar</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unit-vectors">4.2.3. Unit vectors</a></li>

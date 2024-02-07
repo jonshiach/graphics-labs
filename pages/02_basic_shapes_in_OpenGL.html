@@ -387,18 +387,15 @@ document.write(`
 <span id="hello-window-section"></span><h2><span class="section-number">2.1. </span>Hello window<a class="headerlink" href="#hello-window" title="Permalink to this heading">#</a></h2>
 <p>To start using OpenGL we are going to have to download and compile several libraries and configure the IDE (we will be using Visual Studio on Windows). This can be quite an involved process (see <a href="https://learnopengl.com/Getting-started/Creating-a-window" target="_blank">Learn OpenGL</a> for a detailed tutorial on doing this). However, I have adapted the excellent resource <a href="https://www.opengl-tutorial.org/" target="_blank">opengl-tutorial.org</a> to do this for us.</p>
 <ol class="arabic simple">
-<li><p>Download <a class="reference download internal" download="" href="../_downloads/400c4f04f907bbbc35fcc5e535cfdb25/Lab02_Basic_shapes.zip"><span class="xref download myst">Lab02_Basic_shapes.zip</span></a> and extract the contents to your OneDrive area.</p></li>
-<li><p>Download <a href="https://github.com/Kitware/CMake/releases/download/v3.28.1/cmake-3.28.1-windows-x86_64.zip">Cmake</a> and extract the contents to your OneDriver area (macOS users will need to download <a href="https://github.com/Kitware/CMake/releases/download/v3.28.1/cmake-3.28.1-macos-universal.dmg">this one</a>).</p></li>
-<li><p>Create a folder in the <code class="docutils literal notranslate"><span class="pre">Lab02_Basic_shapes/</span></code> folder and call it <code class="docutils literal notranslate"><span class="pre">build/</span></code>.</p></li>
-<li><p>Run the CMake gui and select the <code class="docutils literal notranslate"><span class="pre">Lab02_Basic_shapes/</span></code> folder for the source code and the <code class="docutils literal notranslate"><span class="pre">Lab02_Basic_shapes/build/</span></code> folder for where to build the binaries.</p></li>
-<li><p>Click <strong>Configure</strong> and select your IDE (this is Visual Studio on Windows or Xcode on macOS) and click on <strong>Done</strong>. Click <strong>Configure</strong> again and the red background should disappear.</p></li>
-<li><p>Click <strong>Generate</strong> which will create your project files in the <code class="docutils literal notranslate"><span class="pre">Lab02_Basic_shapes/build/</span></code> folder you created in step 2. Open the project file <code class="docutils literal notranslate"><span class="pre">Lab02_Basic_shapes.sln</span></code> (or <code class="docutils literal notranslate"><span class="pre">Lab02_Basic_shapes.xcodeproj</span></code> on macOS) and right-click on the <strong>Lab02</strong> project and select <strong>Set as Startup Project</strong>.</p></li>
+<li><p>Go to <a href="https://github.com/jonshiach/Lab02_Basic_shapes" target="_blank">https://github.com/jonshiach/Lab02_Basic_shapes</a> and follow the instructions to download and build the project files.</p></li>
+<li><p>Open the project file <code class="docutils literal notranslate"><span class="pre">Lab02_Basic_shapes.sln</span></code> (or <code class="docutils literal notranslate"><span class="pre">Lab02_Basic_shapes.xcodeproj</span></code> on macOS) set the <strong>Lab02_Basic_shapes</strong> project as the startup project.</p>
+<ul class="simple">
+<li><p>Visual Studio: right-click on the <strong>Lab02_Basic_shapes</strong> project and select <strong>Set as Startup Project</strong>.</p></li>
+<li><p>Xcode: Click on the target select dropdown (to the right of the name of the project at the top of the window) and select <strong>Lab02_Basic_shapes</strong> as the target.</p></li>
+</ul>
+</li>
 <li><p>Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).</p></li>
 </ol>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>If you are using Xcode you need to make sure you have the target <strong>Lab02</strong> selected.</p>
-</div>
 <p>If all has gone to plan you should be looking at a boring window with a grey background. Familiarise yourself with the source files. For now, this contains the main C++ program <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code>, the header file <code class="docutils literal notranslate"><span class="pre">shader.hpp</span></code> and associated code file <code class="docutils literal notranslate"><span class="pre">shader.cpp</span></code> in the <code class="docutils literal notranslate"><span class="pre">source/</span></code> folder.</p>
 <figure class="align-default" id="id1">
 <a class="reference internal image-reference" href="../_images/02_hello_window.png"><img alt="../_images/02_hello_window.png" src="../_images/02_hello_window.png" style="width: 500px;" /></a>
@@ -507,17 +504,31 @@ document.write(`
 </pre></div>
 </div>
 <p>This code creates a program object which will be referred to by <code class="docutils literal notranslate"><span class="pre">shaderID</span></code>. The code for the <code class="docutils literal notranslate"><span class="pre">LoadShaders()</span></code> function can be seen in the <code class="docutils literal notranslate"><span class="pre">shaders.cpp</span></code> file (we aren’t really concerned with this but it’s nice to know what’s going on).</p>
+<p>After you have created the shader files the basic structure of your <code class="docutils literal notranslate"><span class="pre">Lab02_Basic_shapes/</span></code> folder should resemble the following.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Lab02_Basic_shapes/
+├── build
+├── external/
+│   ├── glew
+│   └── glfw
+└── source/
+    ├── main.cpp
+    ├── shader.hpp
+    ├── shader.cpp
+    ├── simpleVertexShader.vert
+    └── simpleFragmentShader.frag
+</pre></div>
+</div>
 </section>
 </section>
 <hr class="docutils" />
 <section id="draw-the-triangle">
 <h2><span class="section-number">2.4. </span>Draw the triangle<a class="headerlink" href="#draw-the-triangle" title="Permalink to this heading">#</a></h2>
-<p>Finally, we can now draw the triangle. Any commands to draw objects in our window go inside the do/while loop. After clearing the window, we need to instruct OpenGL to use our shader program so enter the following code.</p>
+<p>Finally, we can now draw the triangle. After clearing the window, we need to instruct OpenGL to use our shader program so enter the following code (this can be anywhere after the shader program has been compiled but before the do/while loop).</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Use the shader program</span>
 <span class="n">glUseProgram</span><span class="p">(</span><span class="n">shaderID</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Now we need to bind the VBO to the VAO to send all of the data to the shaders for OpenGL to interpret.</p>
+<p>Now we need to bind the VBO to the VAO to send all of the data to the shaders for OpenGL to interpret. In the do/while loop add the following code after the window has been cleared.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Send the VBO to the shaders</span>
 <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
 <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span><span class="w"> </span><span class="n">VBO</span><span class="p">);</span>

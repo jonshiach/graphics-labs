@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include <cmath>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -11,6 +12,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/io.hpp>
+
+#include "MyLib.hpp"
 
 int main( void )
 {
@@ -30,7 +33,7 @@ int main( void )
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Open a window and create its OpenGL context
-    GLFWwindow* window = glfwCreateWindow( 1024, 768, "Texture Rectangle", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow( 1024, 768, "Transformations", NULL, NULL);
     if( window == NULL ){
         fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
         getchar();
@@ -55,7 +58,7 @@ int main( void )
     glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
     
     // Compile shader program
-    GLuint shaderID = LoadShaders("textureVertexShader.vert", "textureFragmentShader.frag");
+    GLuint shaderID = LoadShaders("vertexShader.vert", "fragmentShader.frag");
     
     // Create OpenGL textures
     GLuint texture1 = loadBMP_custom("smiley.bmp");
@@ -70,12 +73,12 @@ int main( void )
     
     // Define vertex positions
     static const GLfloat vertices[] = {
-        -0.25f, -0.25f, 0.0f,    // triangle 1
-         0.25f, -0.25f, 0.0f,
-         0.25f,  0.25f, 0.0f,
-        -0.25f, -0.25f, 0.0f,    // triangle 2
-         0.25f,  0.25f, 0.0f,
-        -0.25f,  0.25f, 0.0f
+        -0.2f, -0.2f, 0.0f,    // triangle 1
+         0.2f, -0.2f, 0.0f,
+         0.2f,  0.2f, 0.0f,
+        -0.2f, -0.2f, 0.0f,    // triangle 2
+         0.2f,  0.2f, 0.0f,
+        -0.2f,  0.2f, 0.0f
     };
     
     // Define texture co-ordinates
@@ -101,45 +104,25 @@ int main( void )
     glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(uvCoords), uvCoords, GL_STATIC_DRAW);
     
-    /* Transformatios now done in the render loop
-    // Translation matrix
+    // Use the shader program
+    glUseProgram(shaderID);
+    
+    // Define the translation matrix
     glm::mat4 translate = glm::mat4(1.0f);
-//    translate[3][0] = 0.5f;
-//    translate[3][1] = 0.3f;
-    translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.5f, 0.3, 0.0f));
-    std::cout << "translate = " << glm::transpose(translate) << "\n" << std::cout;
+    translate[3][0] = 0.5f, translate[3][1] = 0.3f;
+   
+    std::cout << "translate = " << glm::transpose(translate) << "\n" <<  std::cout;
+  
+    // Calculate the transformation matrix
+    glm::mat4 transformation = translate;
     
-    // Scaling matrix
-    glm::mat4 scale = glm::mat4(1.0f);
-//    scale[0][0] = 2.0f;
-//    scale[1][1] = 2.0f;
-    scale = glm::scale(glm::mat4(1.0f), glm::vec3(2.0f, 2.0f, 1.0f));
-    std::cout << "\nscale = " << glm::transpose(scale) << "\n" << std::cout;
-    
-    // Rotation matrix
-    glm::mat4 rotate = glm::mat4(1.0f);
-//    float time = glm::radians(45.0f);
-//    rotate[0][0] = glm::cos(time);
-//    rotate[0][1] = glm::sin(time);
-//    rotate[1][0] = -glm::sin(time);
-//    rotate[1][1] = glm::cos(time);
-    rotate = glm::rotate(glm::mat4(1.0f), glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    std::cout << "\nrotate = " << glm::transpose(rotate) << "\n" << std::cout;
-    
-    // Define the transformation matrix and get its uniform location
-    glm::mat4 transformation = translate * rotate * scale;
-    std::cout << "\ntransformation = " << glm::transpose(transformation) << "\n" << std::cout;
-    */
-    
-    // Get uniform location of the transformation matrix
+    // Get the handle for the transformation matrix
     GLuint transformationID = glGetUniformLocation(shaderID, "transformation");
     
+    // Render loop
     do {
         // Clear the window
         glClear(GL_COLOR_BUFFER_BIT);
-
-        // Use the shader program
-        glUseProgram(shaderID);
         
         // Send the VBO to the shaders
         glEnableVertexAttribArray(0);
@@ -158,28 +141,6 @@ int main( void )
         glBindTexture(GL_TEXTURE_2D, texture1);
         glUniform1i(texture1ID, 0);
         
-        // Calculate transformations
-        float time = glfwGetTime();
-//        glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.5f, 0.3f, 0.0f));
-//        glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f, 1.0f, 1.0f));
-//        glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0.0f, 0.0f, 1.0f));
-//        glm::mat4 transformation = rotate * translate * scale;
-        
-        // Exercise 1 - rotate rectangle about circle
-        glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.5f * glm::cos(time), 0.5f * glm::sin(time), 0.0f));
-//        glm::mat4 transformation = translate;
-        
-        // Exercise 2 - rotate rectangle about its centre
-        glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), -2.0f * time, glm::vec3(0.0f, 0.0f, 1.0f));
-//        glm::mat4 transformation = translate * rotate;
-        
-        // Exercise 3 - grow and shrink the rectangle
-        glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f + 0.25f * glm::sin(6.0f * time), 1.0f + 0.25f * glm::sin(6.0f * time), 1.0f));
-        glm::mat4 transformation = translate * rotate * scale;
-        
-        // Send our transformation matrix to the vertex shader
-        glUniformMatrix4fv(transformationID, 1, GL_FALSE, &transformation[0][0]);
-        
         // Send the uv buffer to the shaders
         glEnableVertexAttribArray(1);
         glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
@@ -192,7 +153,10 @@ int main( void )
                               (void*)0     // offset
                               );
         
-        // Draw the triangle
+        // Send our transformation matrix to the vertex shader
+        glUniformMatrix4fv(transformationID, 1, GL_FALSE, &transformation[0][0]);
+        
+        // Draw the triangles
         glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / (sizeof(float) * 3));
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
