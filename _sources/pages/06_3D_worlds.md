@@ -241,7 +241,7 @@ The code above should be pretty self explanatory as we have done similar in the 
 
 ## Projection
 
-The next step is to project the view space onto the screen space. OpenGL uses **Normalized Device Co-ordinates (NDC)** to to simplify the final transformation of the screen space to the display where the screen space is a unit cube where axes co-ordinates range from -1 to 1. Any fragments with co-ordinates outside of this range are ignored or **clipped**.
+The next step is to project the view space onto the screen space. OpenGL uses NDC where the screen space is a unit cube where axes co-ordinates range from -1 to 1. Any fragments with co-ordinates outside of this range are ignored or **clipped**.
 
 ### Orthographic projection
 
@@ -268,7 +268,7 @@ $$ \begin{align*}
     \end{pmatrix}
 \end{align*}. $$
 
-If you are interested how this matrix is derived click on the dropdown link below.
+You don't really need to know how this matrix is derived but if you are interested click on the dropdown link below.
 
 ```{dropdown} Derivation of the orthographic projection matrix
 
@@ -309,13 +309,13 @@ $$ \begin{align*}
 \end{align*} $$
 ```
 
-Lets calculate the orthographic projection matrix using $\textsf{left} = -0.8$, $\textsf{right} = 0.8$, $\textsf{bottom} = -0.8$, $\textsf{top} = 0.8$, $\textsf{near} = 0$, $\textsf{far} = 10$ and send it to the vertex shader.
+Lets calculate the orthographic projection matrix using left = -2, right = 2, bottom = -2, top = 2, near = 0, far = 10 and send it to the vertex shader.
 
 ```cpp
 // Calculate orthographic projection matrix
 float left, right, near, far, top, bottom;
-left = -0.8f, right = 0.8f;
-bottom = -0.8f, top = 0.8f;
+left = -2.0f, right = 2.0f;
+bottom = -2.0f, top = 2.0f;
 near = 0.0f, far = 10.0f;
 
 glm::mat4 projection = glm::mat4(1.0f);
@@ -342,7 +342,7 @@ layout(location = 1) in vec2 textureCoords;
 // Output data
 out vec2 uv;
 
-// Values that stay constant for the whole mesh
+// Uniforms
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
@@ -620,6 +620,10 @@ glm::mat4 projection = glm::perspective(glm::radians(45.0f),    // field of view
 ```
 
 You should see the same output (which is good as it means our own matrices were correct).
+
+## Multiple objects
+
+
 
 ---
 

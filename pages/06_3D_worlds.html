@@ -375,7 +375,8 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#glm-transformations">6.6. glm transformations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">6.7. Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-objects">6.7. Multiple objects</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">6.8. Exercises</a></li>
 </ul>
             </nav>
         </div>
@@ -606,7 +607,7 @@ document.write(`
 </section>
 <section id="projection">
 <h2><span class="section-number">6.5. </span>Projection<a class="headerlink" href="#projection" title="Permalink to this heading">#</a></h2>
-<p>The next step is to project the view space onto the screen space. OpenGL uses <strong>Normalized Device Co-ordinates (NDC)</strong> to to simplify the final transformation of the screen space to the display where the screen space is a unit cube where axes co-ordinates range from -1 to 1. Any fragments with co-ordinates outside of this range are ignored or <strong>clipped</strong>.</p>
+<p>The next step is to project the view space onto the screen space. OpenGL uses NDC where the screen space is a unit cube where axes co-ordinates range from -1 to 1. Any fragments with co-ordinates outside of this range are ignored or <strong>clipped</strong>.</p>
 <section id="orthographic-projection">
 <h3><span class="section-number">6.5.1. </span>Orthographic projection<a class="headerlink" href="#orthographic-projection" title="Permalink to this heading">#</a></h3>
 <p>The simplest type of projection is <strong>orthographic projection</strong> where the co-ordinates in the view space are transformed to the screen space by simple translation and scaling transformations.</p>
@@ -628,7 +629,7 @@ document.write(`
         -\frac{\textsf{right} + \textsf{left}}{\textsf{right} - \textsf{left}} &amp; -\frac{\textsf{top} + \textsf{bottom}}{\textsf{top} - \textsf{bottom}} &amp; \frac{\textsf{near} + \textsf{far}}{\textsf{near} - \textsf{far}} &amp; 1
     \end{pmatrix}
 \end{align*}. \end{split}\]</div>
-<p>If you are interested how this matrix is derived click on the dropdown link below.</p>
+<p>You don’t really need to know how this matrix is derived but if you are interested click on the dropdown link below.</p>
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
 <summary class="sd-summary-title sd-card-header">
 Derivation of the orthographic projection matrix<div class="sd-summary-down docutils">
@@ -670,11 +671,11 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
     \end{pmatrix}
 \end{align*} \end{split}\]</div>
 </div>
-</details><p>Lets calculate the orthographic projection matrix using <span class="math notranslate nohighlight">\(\textsf{left} = -0.8\)</span>, <span class="math notranslate nohighlight">\(\textsf{right} = 0.8\)</span>, <span class="math notranslate nohighlight">\(\textsf{bottom} = -0.8\)</span>, <span class="math notranslate nohighlight">\(\textsf{top} = 0.8\)</span>, <span class="math notranslate nohighlight">\(\textsf{near} = 0\)</span>, <span class="math notranslate nohighlight">\(\textsf{far} = 10\)</span> and send it to the vertex shader.</p>
+</details><p>Lets calculate the orthographic projection matrix using left = -2, right = 2, bottom = -2, top = 2, near = 0, far = 10 and send it to the vertex shader.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate orthographic projection matrix</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="n">near</span><span class="p">,</span><span class="w"> </span><span class="n">far</span><span class="p">,</span><span class="w"> </span><span class="n">top</span><span class="p">,</span><span class="w"> </span><span class="n">bottom</span><span class="p">;</span>
-<span class="n">left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">-0.8f</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.8f</span><span class="p">;</span>
-<span class="n">bottom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">-0.8f</span><span class="p">,</span><span class="w"> </span><span class="n">top</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.8f</span><span class="p">;</span>
+<span class="n">left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">-2.0f</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">;</span>
+<span class="n">bottom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">-2.0f</span><span class="p">,</span><span class="w"> </span><span class="n">top</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">;</span>
 <span class="n">near</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="n">far</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">10.0f</span><span class="p">;</span>
 
 <span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">projection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">);</span>
@@ -699,7 +700,7 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
 <span class="c1">// Output data</span>
 <span class="n">out</span><span class="w"> </span><span class="n">vec2</span><span class="w"> </span><span class="n">uv</span><span class="p">;</span>
 
-<span class="c1">// Values that stay constant for the whole mesh</span>
+<span class="c1">// Uniforms</span>
 <span class="n">uniform</span><span class="w"> </span><span class="n">mat4</span><span class="w"> </span><span class="n">model</span><span class="p">;</span>
 <span class="n">uniform</span><span class="w"> </span><span class="n">mat4</span><span class="w"> </span><span class="n">view</span><span class="p">;</span>
 <span class="n">uniform</span><span class="w"> </span><span class="n">mat4</span><span class="w"> </span><span class="n">projection</span><span class="p">;</span>
@@ -954,9 +955,12 @@ Derivation of the perspective projection matrix<div class="sd-summary-down docut
 </div>
 <p>You should see the same output (which is good as it means our own matrices were correct).</p>
 </section>
+<section id="multiple-objects">
+<h2><span class="section-number">6.7. </span>Multiple objects<a class="headerlink" href="#multiple-objects" title="Permalink to this heading">#</a></h2>
+</section>
 <hr class="docutils" />
 <section id="exercises">
-<h2><span class="section-number">6.7. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.8. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
@@ -1036,7 +1040,8 @@ Derivation of the perspective projection matrix<div class="sd-summary-down docut
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#glm-transformations">6.6. glm transformations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">6.7. Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-objects">6.7. Multiple objects</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">6.8. Exercises</a></li>
 </ul>
   </nav></div>
 
