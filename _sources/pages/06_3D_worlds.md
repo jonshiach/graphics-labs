@@ -2,7 +2,7 @@
 
 # 3D Worlds
 
-In the [previous lab](transformations-section) we looked at the transformations can can be applied to the vertex co-ordinates $(x, y, z, 1)$ but all of our examples were using two objects. In this lab we will take the step into the third spatial dimension and look at 3D worlds.
+In the [previous lab](transformations-section) we looked at the transformations can can be applied to the vertex co-ordinates $(x, y, z, 1)$ but all of our examples were using 2D objects. In this lab we will take the step into the third spatial dimension and look at 3D worlds.
 
 ## Co-ordinate systems
 
@@ -139,15 +139,6 @@ Here we have calculated the individual transformation matrices for translation, 
  GLuint projectionID = glGetUniformLocation(shaderID, "projection");
 ```
 
-Now we can send the `model` matrix to the shader. Add the following code after where you have calculated `model`.
-
-```cpp
-// Send the model matrix to the vertex shader
-glUniformMatrix4fv(modelID, 1, GL_FALSE, &model[0][0]);
-```
-
-We also need to make sure we are using the `model` matrix in the vertex shader. We'll do that down below after we have looked at the view and projection matrices.
-
 ## The view matrix
 
 OpenGL assumes that the camera is always at (0,0,0) and looking down the $z$-axis so we need to transform the co-ordinates to this **view space** ({numref}`view-space-figure`).
@@ -218,7 +209,7 @@ Lets move the camera to look at our cube from the position (1,1,0) looking towar
 ```cpp
 // Calculate view matrix
 glm::vec3 camera = glm::vec3(1.0f, 1.0f, 0.0f);
-glm::vec3 target = cubeCentre;
+glm::vec3 target = glm::vec3(0.0f, 0.0f, -4.0f);
 glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 glm::vec3 cameraForward = glm::normalize(camera - target);
@@ -232,9 +223,6 @@ align[1][0] = cameraRight[1], align[1][1] = cameraUp[1], align[1][2] = cameraFor
 align[2][0] = cameraRight[2], align[2][1] = cameraUp[2], align[2][2] = cameraForward[2];
 
 glm::mat4 view = align * translate;
-
-// Send the view matrix to the vertex shader
-glUniformMatrix4fv(viewID, 1, GL_FALSE, &view[0][0]);
 ```
 
 The code above should be pretty self explanatory as we have done similar in the past.
@@ -325,12 +313,18 @@ projection[2][2] = 2.0f / (near - far);
 projection[3][0] = - (right + left) / (right - left);
 projection[3][1] = - (top + bottom) / (top - bottom);
 projection[3][2] = (near + far) / (near - far);
+```
 
-// Send the projection matrix to the vertex shader
+Now that we have defined the `model`, `view` and `projection` matrices we need to send their uniforms to the shader. Add the following to your code.
+
+```cpp
+// Send the model, view and projection matrices to the shader
+glUniformMatrix4fv(modelID, 1, GL_FALSE, &model[0][0]);
+glUniformMatrix4fv(viewID, 1, GL_FALSE, &view[0][0]);
 glUniformMatrix4fv(projectionID, 1, GL_FALSE, &projection[0][0]);
 ```
 
-Of course we also need to update the vertex shader so that is uses the `model`, `view` and `projection` matrices. Edit `vertexShader.vert` so that it looks like the following.
+Of course we also need to update the vertex shader so that is uses these uniforms. Edit `vertexShader.vert` so that it looks like the following.
 
 ```cpp
 #version 330 core
@@ -365,7 +359,7 @@ Compile and run the program and you should see the following.
 </video>
 </center>
 
-If you are having difficulty getting to this stage take a look at the source code [main.cpp](../code/Lab06_3D_worlds/3D_worlds_without_depth_test.cpp) and vertex shader [vertexShader.vert](../code/Lab06_3D_worlds/vertexShader.vert). 
+If you are having difficulty getting to this stage take a look at the source code [main.cpp](../code/Lab06_3D_worlds/3D_worlds_without_depth_test.cpp) and vertex shader [vertexShader.vert](../code/Lab06_3D_worlds/vertexShader.vert).
 
 ### Depth testing
 
@@ -550,15 +544,15 @@ $$ \begin{align*}
 \end{align*} $$
 ````
 
-Lets apply perspective projection to our cube using a near and far clipping planes at 0.2 and 10 respectively and a field of view angle of  45$^\circ$ clipping plane. Add the following code to your `main.cpp` file (you may want to comment out the code used to calculate the orthogonal projection matrix as we aren't using it).
+Lets apply perspective projection to our cube using a near and far clipping planes at 0.2 and 10 respectively and a field of view angle of  45$^\circ$ clipping plane. Add the following code to your `main.cpp` file (you may want to comment out the code used to calculate the orthogonal projection matrix as we aren't using it now).
 
 ```cpp
 // Calculate perspective projection matrix
 float right, top, near, far, fov, aspect;
-near = 0.2f;
-far = 10.0f;
 fov = glm::radians(45.0f);
 aspect = 1024.0f / 768.0f;
+near = 0.2f;
+far = 100.0f;
 top = near * glm::tan(fov / 2);
 right = aspect * top;
 
@@ -608,24 +602,156 @@ Here we have defined the view matrix and projection matrices ourselves but it sh
 Comment out all the code you've used to calculate the `view` and `projection` matrices and add the following.
 
 ```cpp
-// Calculate the MVP matrix
-glm::mat4 view = glm::lookAt(glm::vec3(1.0f, 1.0f, 0.0f),       // camera
-                             cubeCentre,                        // target
-                             glm::vec3(0.0, 1.0f, 0.0f));       // worldUp
+// Calculate the view matrix
+glm::vec3 camera = glm::vec3(1.0f, 1.0f,  5.0f);
+glm::vec3 target = glm::vec3(0.0f, 0.0f, -4.0f);
+glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
+glm::mat4 view = glm::lookAt(camera, target, worldUp);
 
-glm::mat4 projection = glm::perspective(glm::radians(45.0f),    // field of view
-                                        1024.0f / 768.0f,       // aspect (width / height)
-                                        0.2f,                   // near
-                                        10.0f);                 // far
+// Calculate the projection matrix
+float fov = glm::radians(45.0f);
+float aspect = 1024.0f / 768.0f;
+float near = 0.02f;
+float far = 100.0f;
+glm::mat4 projection = glm::perspective(fov, aspect, near, far);
 ```
 
 You should see the same output (which is good as it means our own matrices were correct).
 
+## A camera library
+
+Our render loop is starting to look a bit messy and it would make sense to write a library to deal with the view and projection operations. Create a header and code file called `camera.hpp` and `camera.cpp` respectively in your `source/` folder. In the header file add the following code
+
+```cpp
+#pragma once
+
+#include <glm/glm.hpp>
+
+glm::mat4 getViewMatrix();
+glm::mat4 getProjectionMatrix();
+void pointCamera(GLFWwindow*);
+```
+
+The `getViewMatrix()` and `getProjectionMatrix()` functions will be used to return the `view` and `projection` matrices and the `pointCamera()` function will be used to perform the calculations. 
+
+In the `camera.cpp` code file add the following code
+
+```cpp
+#include <GLFW/glfw3.h>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
+#include "camera.hpp"
+
+// Declare matrices
+glm::mat4 view, projection;
+
+// Declare view defaults
+glm::vec3 camera = glm::vec3(1.0f, 1.0f, 0.0f);
+glm::vec3 target = glm::vec3(0.0f, 0.0f, -4.0f);
+glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+// Declare projection defaults
+float fov = glm::radians(45.0f);
+float aspect = 1024.0f / 768.0f;
+float near = 0.02f;
+float far = 100.0f;
+
+// Functions
+glm::mat4 getViewMatrix()
+{
+    return view;
+}
+
+glm::mat4 getProjectionMatrix()
+{
+    return projection;
+}
+
+void pointCamera(GLFWwindow* window)
+{
+    // Calculate view matrix
+    view = glm::lookAt(camera, target, worldUp);
+    
+    // Calculate projection matrix
+    projection = glm::perspective(fov, aspect, near, far);
+}
+```
+
+Here all of the parameters used to determine the `view` and `projection` matrices are declared with the values used in the examples above. At the moment the `pointCamera()` function is very simple but in the future we will add code that allows us to control the camera using keyboard and mouse inputs.
+
+Now we've created our library we need to include it and make calls to the library functions. Add `#include "camera.hpp` to the top of the `main.cpp` file and add the following code to the render loop before the uniforms are sent to the shader
+
+```cpp
+// Get the view and projection matrices from the camera library
+pointCamera();
+glm::mat4 view = getViewMatrix();
+glm::mat4 projection = getProjectionMatrix();
+```
+
+Compile and run your code and it should give the same result as before.
+
 ## Multiple objects
 
+The last thing we will do this lab is to add more cubes to our 3D world. We can do this by defining the position of each cube and then, in the render loop, we loop through each cube and calculate that `model` matrix and render it. Add the following code to your program before the do/while loop.
 
+```cpp
+// Cube positions
+glm::vec3 cubePositions[] = {
+    glm::vec3( 0.0f,  0.0f,  0.0f),
+    glm::vec3( 2.0f,  5.0f, -15.0f),
+    glm::vec3(-3.0f, -2.0f, -3.0f),
+    glm::vec3(-4.0f, -2.0f, -12.0f),
+    glm::vec3( 2.0f, -1.0f, -4.0f),
+    glm::vec3(-4.0f,  3.0f, -8.0f),
+    glm::vec3( 3.0f, -2.0f, -3.0f),
+    glm::vec3( 4.0f,  2.0f, -3.0f),
+    glm::vec3( 2.0f,  0.0f, -2.0f),
+    glm::vec3(-1.0f,  1.0f, -2.0f)
+};
+```
+
+Then, in the render loop comment out the code used to calculate the model matrix for the previous examples and add this code.
+
+```cpp
+// Send the view and projection matrices to the shader
+glUniformMatrix4fv(viewID, 1, GL_FALSE, &view[0][0]);
+glUniformMatrix4fv(projectionID, 1, GL_FALSE, &projection[0][0]);
+
+// Loop through cubes and draw each one
+for (int i = 0; i < 10; i++)
+{
+    // Calculate model matrix
+    glm::mat4 translate = glm::translate(glm::mat4(1.0f), cubePositions[i]);
+    glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f, 0.5f, 0.5f));
+    glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), glm::radians(30.0f * i), glm::vec3(1.0f, 1.0f, 0.0f));
+    glm::mat4 model = translate * rotate * scale;
+    
+    // Send model matrix to the shader
+    glUniformMatrix4fv(modelID, 1, GL_FALSE, &model[0][0]);
+    
+    // Draw the triangle
+    glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / (sizeof(float) * 3));
+}
+```
+
+Here we calculate the `translation` matrix for each cube based on the `cubePosition` array and rotate each cube by a different angle about the vector (1, 1, 0). Note that since the camera is in the same position for each cube we send the view and projection uniforms to the shader before we loop through the cubes. 
+
+Change position of the camera has been changed to (0, 0, 5) by editing the `camera.cpp` file, compile and run and you should see the following.
+
+```{figure} ../images/06_multiple_cubes.png
+:width: 500
+```
+
+If you are having difficulty getting to this stage take a look at [main.cpp](../code/Lab06_3D_worlds/main.cpp), [camera.hpp](../code/Lab06_3D_worlds/camera.hpp) and [camera.cpp](../code/Lab06_3D_worlds/camera.cpp).
 
 ---
 
 ## Exercises
 
+1. Experiment with changing the camera position and target to see the effect this has on the 3D world.
+2. Experiment with changing the field of view angle to see the affect this has.
+3. Use orthographic projection for the view to screen space transformation.
+4. Rotate the camera position around the first cube. Hint: $x = r\cos(t)$ and $z = r\sin(t)$ gives the co-ordinates on a circle with radius $r$ and centred at (0,0,0).
+5. Rotate every other cube whilst keeping the remaining cubes stationary.
