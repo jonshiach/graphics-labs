@@ -10,13 +10,19 @@ A vector in is an object with magnitude (length) and direction. A vector is deno
 
 $$ \underline{a} = (a_x, a_y, a_z), $$
 
-where $a_x$, $a_y$ and $a_z$ are the displacement of the vector in the $x$, $y$ and $z$ directions.
+where $a_x$, $a_y$ and $a_z$ are the lengths of the vector in the $x$, $y$ and $z$ directions.
 
-```{figure} ../images/vector.svg
+```{figure} ../images/04_vector.svg
 :height: 250
 ```
 
-## The glm library
+We can use vectors to represent the displacement of one point to another. For example, given two points $A$ and $B$ the displacement from $A$ to $B$ can be thought of as the vector $\underline{a}$ which is calculated by subtracting the co-ordinates of $A$ from the co-ordinates of $B$, i.e., $\underline{a} = B - A$.
+
+```{figure} ../images/04_vector_2.svg
+:width: 200
+```
+
+### The glm library
 
 The glm (<a href="https://github.com/g-truc/glm" target="_blank">OpenGL Mathematics</a>) library is a popular C++ mathematics library designed to provide classes and functions for mathematical operations, specifically tailored for graphics programming using OpenGL. We will be using functions from glm to perform calculations for us. First download and build the project files for this lab.
 
@@ -72,7 +78,7 @@ The **magnitude** of a vector $\underline{a} = (a_x, a_y, a_z)$ is denoted by $|
 
 $$ |\underline{a}| = \sqrt{a_x^2 + a_y^2 + a_z^2}. $$(eq:vector-magnitude)
 
-```{figure} ../images/vector_magnitude.svg
+```{figure} ../images/04_vector_magnitude.svg
 :height: 100
 ```
 
@@ -103,7 +109,7 @@ Vector magnitude
 Calculating the magnitude of a vector is a very common calculation so shouldn't we write a function to do this? Fortunately there is a glm function `glm:length()` to do this for us, edit your program so it looks like the following to use the glm function instead.
 
 ```cpp
-// float lengthU = glm::sqrt(u[0] * u[0] + u[1] * u[1] + u[2] * u[2]);
+// float lengthU = sqrt(u[0] * u[0] + u[1] * u[1] + u[2] * u[2]);
 float lengthU = glm::length(u);
 ```
 
@@ -117,7 +123,7 @@ $$ k \underline{a} = (ka_x, ka_y, ka_z) $$(eq:vector-multiplication)
 
 Multiplying a vector by a positive scalar has the effect of scaling the length of the vector. Multiplying by a negative scalar reverses the direction of the vector.
 
-```{figure} ../images/vector_multiplication.svg
+```{figure} ../images/04_vector_multiplication.svg
 :height: 180
 ```
 
@@ -232,11 +238,11 @@ u + v = [    5.000,    6.000,    6.000]
 u - v = [   -1.000,   -2.000,   -4.000]
 ```
 
-Its important to understand what is happening in a geometrical sense when we add and subtract vectors. Take a look at {numref}`vector-addition-figure`, here the vector $\underline{b}$ has been added to the vector $\underline{a}$ where the tail of $\underline{b}$ is places at the head of $\underline{a}$. The resulting vector $\underline{a} + \underline{b}$ points from the tail of $\underline{a}$ to the head of $\underline{b}$. 
+Its important to understand what is happening in a geometrical sense when we add and subtract vectors. Take a look at {numref}`vector-addition-figure`, here the vector $\underline{b}$ has been added to the vector $\underline{a}$ where the tail of $\underline{b}$ is placed at the head of $\underline{a}$. The resulting vector $\underline{a} + \underline{b}$ points from the tail of $\underline{a}$ to the head of $\underline{b}$. 
 
 With the subtraction of the vector $\underline{b}$ we do similar but instead multiply $\underline{b}$ by -1 thereby reversing its direction.
 
-```{figure} ../images/vector_addition.svg
+```{figure} ../images/04_vector_addition.svg
 :height: 180
 :name: vector-addition-figure
 
@@ -251,13 +257,13 @@ The **dot product** between two vectors $\underline{a} = (a_x, a_y, a_z)$ and $\
 
 $$ \underline{a} \cdot \underline{b} = a_xb_x + a_yb_y + a_zb_z. $$(eq:dot-product)
 
-The dot product is related to the angle between the two vectors by the relationship
+The dot product is related to the angle between the two vectors by
 
 $$ \underline{a} \cdot \underline{b} = |\underline{a}| |\underline{b}| \cos(\theta), $$(eq:dot-product-geometric)
 
 where $\theta$ is the angle between the vectors $\underline{a}$ and $\underline{b}$.
 
-```{figure} ../images/dot_product.svg
+```{figure} ../images/04_dot_product.svg
 :height: 150
 ```
 
@@ -306,7 +312,7 @@ $$ \underline{a} \times \underline{b} = (a_yb_z - a_zb_y, a_zb_x - a_xb_z, a_xb_
 
 The cross product between two vectors produces another vector that is perpendicular to both vectors. This is another incredibly useful result as it allows use to calculate **normal** vectors for polygons which are used in calculating how light is reflected off surfaces.
 
-```{figure} ../images/cross_product.svg
+```{figure} ../images/04_cross_product.svg
 :height: 200
 ```
 
@@ -336,13 +342,11 @@ The glm function for calculating the cross product between two vectors is `glm::
 ```cpp
 // The cross product
 glm::vec3 uCrossV = glm::cross(u, v);
-float uDotUCrossV = glm::dot(u, uCrossV);
-float vDotUCrossV = glm::dot(v, uCrossV);
 
 std::cout << "\nThe cross product\n----------------- " << std::endl;
 std::cout << "u x v = " << uCrossV << std::endl;
-std::cout << "u . (u x v) = " << uDotUCrossV << std::endl;
-std::cout << "v . (u x v) = " << vDotUCrossV << std::endl;
+std::cout << "u . (u x v) = " << glm::dot(u, uCrossV) << std::endl;
+std::cout << "v . (u x v) = " << glm::dot(v, uCrossV) << std::endl;
 ```
 
  Output
@@ -367,7 +371,7 @@ We refer to the size of a matrix by the number of horizontal rows $\times$ the n
 
 The **transpose** of a matrix $A$ is denoted by $A^\mathsf{T}$ and is defined by swapping the rows and columns of $A$.
 
-For example, given the matrix $A$ defined earlier
+For example, given the matrix $A$ defined above
 
 $$ A^\mathsf{T} = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}^\mathsf{T} = \begin{pmatrix} 1 & 3 \\ 2 & 4 \end{pmatrix}. $$
 
@@ -397,7 +401,7 @@ A =
  [    2.000,    4.000]]
 ```
 
-Wait, what? Hang on something isn't right here. Looking at the matrix that was outputted we have 1 and 3 on the top row when we were expecting 1 and 2, so what has gone wrong? To explain we need to look at how arrays are stored in the memory. Memory can be considered as being one long 1D array so when a matrix is stored in the memory we have a choice whether to use **row-major order** where we store the rows of the matrix one after the other or **column-major order** where we store the columns of the matrix on after the other. For example, given the matrix
+Hang on something isn't right here. Looking at the matrix that was outputted we have 1 and 3 on the top row when we were expecting 1 and 2, so what has gone wrong? To explain we need to look at how arrays are stored in the memory. Memory can be considered as being one long 1D array so when a matrix is stored in the memory we have a choice whether to use **row-major order** where we store the rows of the matrix one after the other or **column-major order** where we store the columns of the matrix on after the other. For example, given the matrix
 
 $$ A = \begin{pmatrix} a & b & c \\ d & e & f \\ g & h & i \end{pmatrix},$$
 
@@ -569,7 +573,7 @@ Whilst matrix multiplication is defined for certain matrices there is no way of 
 
 $$ \frac{8}{2} = 4. $$
 
-We could also write this division as the multiplication of \frac{1}{2} and 8, i.e.,
+We could also write this division as the multiplication of $\frac{1}{2}$ and 8, i.e.,
 
 $$ \frac{1}{2} \times 8 = 4. $$
 
@@ -607,12 +611,16 @@ std::cout << "invA * A" << glm::transpose(invA * A) << std::endl;
 
 Output
 
-```text    
-// Inverse matrix
-glm::mat2 invA = glm::inverse(A);
-std::cout << "\nInverse matrix\n--------------" << std::endl;
-std::cout << "invA =" << glm::transpose(invA) << std::endl;
-std::cout << "\ninvA * A" << glm::transpose(invA * A) << std::endl;
+```text
+Inverse matrix
+--------------
+invA =
+[[   -2.000,    1.000]
+ [    1.500,   -0.500]]
+
+invA * A =
+[[    1.000,    0.000]
+ [    0.000,    1.000]]
 ```
 
 Not all square matrices have an inverse. For example, no inverse exists for the matrix

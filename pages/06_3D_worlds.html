@@ -367,7 +367,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-view-matrix">6.4. The view matrix</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection">6.5. Projection</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#orthographic-projection">6.5.1. Orthographic projection</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#depth-testing">6.5.2. Depth testing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#z-buffer">6.5.2. Z buffer</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perspective-projection">6.5.3. Perspective projection</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-fov-angle">6.5.3.1. Changing the fov angle</a></li>
 </ul>
@@ -375,9 +375,10 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#glm-transformations">6.6. glm transformations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-camera-library">6.7. A camera library</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-objects">6.8. Multiple objects</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-objects">6.7. Multiple objects</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-camera-class">6.8. A camera class</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">6.9. Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-code">6.10. Source code</a></li>
 </ul>
             </nav>
         </div>
@@ -398,7 +399,7 @@ document.write(`
 <h3><span class="section-number">6.1.1. </span>Normalised Device Co-ordinates (NDC)<a class="headerlink" href="#normalised-device-co-ordinates-ndc" title="Permalink to this heading">#</a></h3>
 <p>OpenGL uses a co-ordinate system with the <span class="math notranslate nohighlight">\(x\)</span> axis pointing horizontally to the right, the <span class="math notranslate nohighlight">\(y\)</span> axis pointing vertically upwards and the <span class="math notranslate nohighlight">\(z\)</span> axis pointing horizontally towards the viewer. To simplify things when it comes to displaying the 3D world, the axes are limited to a range from -1 to 1 so any object outside of this range will not be shown on the display. This is known as <strong>Normalised Device Co-ordinates (NDC)</strong>.</p>
 <figure class="align-default" id="ndc-figure">
-<a class="reference internal image-reference" href="../_images/06_NDC.svg"><img alt="../_images/06_NDC.svg" src="../_images/06_NDC.svg" width="500" /></a>
+<a class="reference internal image-reference" href="../_images/06_NDC.svg"><img alt="../_images/06_NDC.svg" src="../_images/06_NDC.svg" width="400" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 6.1 </span><span class="caption-text">Normalise Device Co-ordinates (NDC)</span><a class="headerlink" href="#ndc-figure" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -408,9 +409,9 @@ document.write(`
 <h3><span class="section-number">6.1.2. </span>Transforming between co-ordinate systems<a class="headerlink" href="#transforming-between-co-ordinate-systems" title="Permalink to this heading">#</a></h3>
 <p>The steps used in the creation of a 3D world and eventually displaying it on screen requires that we transform through several intermediate co-ordinate systems:</p>
 <ul class="simple">
-<li><p><strong>Object space</strong> - each individual 3D object that will appear in the 3D word are defined in its own space usually with the centre of the object at (0,0,0) to make the transformations easier.</p></li>
-<li><p><strong>World space</strong> - the 3D world is constructed by transforming the individual 3D objects using translation, rotation and scaling transformations. The co-ordinates of the objects is arbitrary and left to the choice of the designed of the 3D world.</p></li>
-<li><p><strong>View space</strong> - the world space is transformed so that the position of the view, i.e., a camera, is at (0,0,0) and the direction the camera is pointing is down the <span class="math notranslate nohighlight">\(z\)</span> axis, i.e., parallel to (0,0,-1).</p></li>
+<li><p><strong>Object space</strong> - each individual 3D object that will appear in the 3D world are defined in its own space usually with the centre of the object at (0,0,0) to make the transformations easier.</p></li>
+<li><p><strong>World space</strong> - the 3D world is constructed by transforming the individual 3D objects using translation, rotation and scaling transformations. The co-ordinates of the objects is arbitrary and left to the choice of the designer of the 3D world.</p></li>
+<li><p><strong>View space</strong> - the world space is transformed so that the position of the viewer, in other words the camera, is at (0,0,0) and the direction the camera is pointing is down the <span class="math notranslate nohighlight">\(z\)</span> axis, i.e., parallel to (0,0,-1).</p></li>
 <li><p><strong>Screen space</strong> - the view space is transformed so that the co-ordinates are in NDC. The volume of the view space that is contained in the screen space is chosen by the user.</p></li>
 </ul>
 <figure class="align-default">
@@ -422,7 +423,7 @@ document.write(`
 <h2><span class="section-number">6.2. </span>3D models<a class="headerlink" href="#d-models" title="Permalink to this heading">#</a></h2>
 <p>One of the simplest 3D objects is a <strong>unit cube</strong> which is a cube centred at (0,0,0) and has side lengths of 2 parallel to the co-ordinate axes (<a class="reference internal" href="#unit-cube-figure"><span class="std std-numref">Fig. 6.2</span></a>) so the co-ordinates of the 8 vertices of the cube are combinations of -1 and 1. Since each side of a cube is modelled by two triangles then to define this cube in our program we have 36 vertices (6 sides each of 2 triangles with 3 vertices).</p>
 <figure class="align-default" id="unit-cube-figure">
-<a class="reference internal image-reference" href="../_images/06_unit_cube.svg"><img alt="../_images/06_unit_cube.svg" src="../_images/06_unit_cube.svg" width="400" /></a>
+<a class="reference internal image-reference" href="../_images/06_unit_cube.svg"><img alt="../_images/06_unit_cube.svg" src="../_images/06_unit_cube.svg" width="700" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 6.2 </span><span class="caption-text">A unit cube.</span><a class="headerlink" href="#unit-cube-figure" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -503,11 +504,12 @@ document.write(`
 <section id="the-model-matrix">
 <h2><span class="section-number">6.3. </span>The model matrix<a class="headerlink" href="#the-model-matrix" title="Permalink to this heading">#</a></h2>
 <p>In <a class="reference internal" href="05_transformations.html#transformations-section"><span class="std std-ref">Lab 5</span></a> we saw that we can combine transformations such as translation, scaling and rotation by multiplying the individual transformation matrices together. The <strong>model matrix</strong> is the matrix that is used to apply transformations to an object.</p>
-<p>Lets compute a model matrix for our cube where it is scaled down by a factor of 0.5 in each co-ordinate direction, and translated backwards down the <span class="math notranslate nohighlight">\(z\)</span>-axis so that its centre is at (0, 0, -4). Add the following code inside the rendering loop before we draw the triangles.</p>
+<p>Lets compute a model matrix for our cube where it is scaled down by a factor of 0.5 in each co-ordinate direction, rotated about the <span class="math notranslate nohighlight">\(y\)</span> axis using the time of the current frame as the rotation angle and translated backwards down the <span class="math notranslate nohighlight">\(z\)</span>-axis so that its centre is at (0, 0, -4). Add the following code inside the rendering loop before we draw the triangles.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate the model matrix</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glfwGetTime</span><span class="p">();</span>
 <span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">translate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">translate</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">),</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-4.0f</span><span class="p">));</span>
 <span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">scale</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">),</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.5f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5f</span><span class="p">));</span>
-<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">rotate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">rotate</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">),</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">));</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">rotate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">rotate</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">),</span><span class="w"> </span><span class="n">time</span><span class="p">,</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">));</span>
 
 <span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">translate</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">rotate</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">scale</span><span class="p">;</span>
 </pre></div>
@@ -525,18 +527,18 @@ document.write(`
 <h2><span class="section-number">6.4. </span>The view matrix<a class="headerlink" href="#the-view-matrix" title="Permalink to this heading">#</a></h2>
 <p>OpenGL assumes that the camera is always at (0,0,0) and looking down the <span class="math notranslate nohighlight">\(z\)</span>-axis so we need to transform the co-ordinates to this <strong>view space</strong> (<a class="reference internal" href="#view-space-figure"><span class="std std-numref">Fig. 6.3</span></a>).</p>
 <figure class="align-default" id="view-space-figure">
-<a class="reference internal image-reference" href="../_images/06_view_space.svg"><img alt="../_images/06_view_space.svg" src="../_images/06_view_space.svg" width="400" /></a>
+<a class="reference internal image-reference" href="../_images/06_view_space.svg"><img alt="../_images/06_view_space.svg" src="../_images/06_view_space.svg" width="350" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 6.3 </span><span class="caption-text">The view space.</span><a class="headerlink" href="#view-space-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>To calculate the world space to view space transformation we require three vectors</p>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(\tt camera\)</span> - the co-ordinates where we are viewing the world space from;</p></li>
+<li><p><span class="math notranslate nohighlight">\(\tt position\)</span> - the co-ordinates of the camera position</p></li>
 <li><p><span class="math notranslate nohighlight">\(\tt target\)</span> - the co-ordinates of the target point where we are pointing the camera;</p></li>
 <li><p><span class="math notranslate nohighlight">\(\tt worldUp\)</span> - a vector pointing straight up in the world space which allows us to orientate the camera, this is usually always (0,1,0).</p></li>
 </ul>
-<p>The <span class="math notranslate nohighlight">\(\tt camera\)</span> and <span class="math notranslate nohighlight">\(\tt target\)</span> vectors are either determined by the user through keyboard, mouse or controller inputs or through some predetermined routine. To determine the view space transformation we first translate the camera position to (0,0,0) using the following translation matrix</p>
+<p>The <span class="math notranslate nohighlight">\(\tt position\)</span> and <span class="math notranslate nohighlight">\(\tt target\)</span> vectors are either determined by the user through keyboard, mouse or controller inputs or through some predetermined routine. To determine the view space transformation we first translate the camera position to (0,0,0) using the following translation matrix</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
     \textsf{translation matrix} =
@@ -544,31 +546,31 @@ document.write(`
         1 &amp; 0 &amp; 0 &amp; 0 \\
         0 &amp; 1 &amp; 0 &amp; 0 \\
         0 &amp; 0 &amp; 1 &amp; 0 \\
-        -\tt camera.x &amp; -\tt camera.y &amp; -\tt camera.z &amp; 1
+        -\tt position.x &amp; -\tt position.y &amp; -\tt position.z &amp; 1
     \end{pmatrix}
 \end{align*}. \end{split}\]</div>
-<p>The next step is to align the world space so that the direction vector is pointing down the <span class="math notranslate nohighlight">\(z\)</span> axis. To do this we use vectors <span class="math notranslate nohighlight">\(\tt cameraRight\)</span>, <span class="math notranslate nohighlight">\(\tt cameraUp\)</span> and <span class="math notranslate nohighlight">\(\tt cameraForward\)</span> which are unit vectors at right-angles to each other the point in directions relative to the camera (<a class="reference internal" href="#view-space-alignment-figure"><span class="std std-numref">Fig. 6.4</span></a>).</p>
+<p>The next step is to align the world space so that the direction vector is pointing down the <span class="math notranslate nohighlight">\(z\)</span> axis. To do this we use vectors <span class="math notranslate nohighlight">\(\tt cameraRight\)</span>, <span class="math notranslate nohighlight">\(\tt cameraUp\)</span> and <span class="math notranslate nohighlight">\(\tt cameraFront\)</span> which are unit vectors at right-angles to each other the point in directions relative to the camera (<a class="reference internal" href="#view-space-alignment-figure"><span class="std std-numref">Fig. 6.4</span></a>).</p>
 <figure class="align-default" id="view-space-alignment-figure">
 <a class="reference internal image-reference" href="../_images/06_view_space_alignment.svg"><img alt="../_images/06_view_space_alignment.svg" src="../_images/06_view_space_alignment.svg" width="500" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 6.4 </span><span class="caption-text">The vectors used in the transformation to the view space.</span><a class="headerlink" href="#view-space-alignment-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>The <span class="math notranslate nohighlight">\(\tt cameraForward\)</span> vector points directly forward of the camera and is calculated using</p>
+<p>The <span class="math notranslate nohighlight">\(\tt cameraFront\)</span> vector points directly forward of the camera and is calculated using</p>
 <div class="math notranslate nohighlight">
-\[ \texttt{cameraForward} = \textsf{normalise}(\tt camera - target).\]</div>
-<p>The <span class="math notranslate nohighlight">\(\tt cameraRight\)</span> vector points to the right of the camera so is at right-angles to both the <span class="math notranslate nohighlight">\(\tt cameraForward\)</span> and <span class="math notranslate nohighlight">\(\tt worldUp\)</span> vectors. We can use the <a class="reference internal" href="04_vectors_and_matrices.html#cross-product-section"><span class="std std-ref">cross product</span></a> between the two vectors to calculate this (note that the order of the vectors is important).</p>
+\[ \texttt{cameraFront} = \textsf{normalise}(\tt target - position).\]</div>
+<p>The <span class="math notranslate nohighlight">\(\tt cameraRight\)</span> vector points to the right of the camera so is at right-angles to both the <span class="math notranslate nohighlight">\(\tt cameraFront\)</span> and <span class="math notranslate nohighlight">\(\tt worldUp\)</span> vectors. We can use the <a class="reference internal" href="04_vectors_and_matrices.html#cross-product-section"><span class="std std-ref">cross product</span></a> between the two vectors to calculate this (note that the order of the vectors is important).</p>
 <div class="math notranslate nohighlight">
-\[ \tt right = \textsf{normalise}(worldUp \times cameraForward) .\]</div>
-<p>The <span class="math notranslate nohighlight">\(\tt up\)</span> vector points in the up direction of the camera and is at right-angles to the <span class="math notranslate nohighlight">\(\tt forward\)</span> and <span class="math notranslate nohighlight">\(\tt right\)</span> vectors we have already calculated. So this can be calculated using (we do not need to normalise this as <span class="math notranslate nohighlight">\(\tt cameraForward\)</span> and <span class="math notranslate nohighlight">\(\tt cameraRight\)</span> are unit vectors)</p>
+\[ \tt cameraRight = \textsf{normalise}(cameraFront \times worldUp) .\]</div>
+<p>The <span class="math notranslate nohighlight">\(\tt cameraUp\)</span> vector points in the up direction of the camera and is at right-angles to the <span class="math notranslate nohighlight">\(\tt cameraFront\)</span> and <span class="math notranslate nohighlight">\(\tt cameraRight\)</span> vectors we have already calculated. So this can be calculated using another cross product.</p>
 <div class="math notranslate nohighlight">
-\[ \tt cameraUp = cameraForward \times cameraRight.\]</div>
-<p>Once these vectors have been calculated the transformation matrix to align the <span class="math notranslate nohighlight">\(\tt direction\)</span> vector so that it points down the <span class="math notranslate nohighlight">\(z\)</span>-axis is</p>
+\[ \tt cameraUp = \textsf{normalise}(cameraRight \times cameraFront).\]</div>
+<p>Once these vectors have been calculated the transformation matrix to align the <span class="math notranslate nohighlight">\(\tt cameraFront\)</span> vector so that it points down the <span class="math notranslate nohighlight">\(z\)</span>-axis is</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\textsf{alignment matrix} = \begin{pmatrix}
-    \tt cameraRight.x &amp; \tt cameraUp.x &amp; \tt cameraForward.x &amp; 0 \\
-    \tt cameraRight.y &amp; \tt cameraUp.y &amp; \tt cameraForward.y &amp; 0 \\
-    \tt cameraRight.z &amp; \tt cameraUp.z &amp; \tt cameraForward.z &amp; 0 \\
+    \tt cameraRight.x &amp; \tt cameraUp.x &amp; \tt -cameraFront.x &amp; 0 \\
+    \tt cameraRight.y &amp; \tt cameraUp.y &amp; \tt -cameraFront.y &amp; 0 \\
+    \tt cameraRight.z &amp; \tt cameraUp.z &amp; \tt -cameraFront.z &amp; 0 \\
     0 &amp; 0 &amp; 0 &amp; 1
 \end{pmatrix}\end{split}\]</div>
 <p>The translation matrix and alignment matrix are multiplied together to form the <strong>view matrix</strong> which transforms the world space co-ordinates to the view space.</p>
@@ -578,19 +580,19 @@ document.write(`
 \end{align*} \]</div>
 <p>Lets move the camera to look at our cube from the position (1,1,0) looking towards the center of the cube. Add the following to the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate view matrix</span>
-<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">camera</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
 <span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-4.0f</span><span class="p">);</span>
 <span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">worldUp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
 
-<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">cameraForward</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span><span class="n">camera</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">target</span><span class="p">);</span>
-<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">cameraRight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">cross</span><span class="p">(</span><span class="n">worldUp</span><span class="p">,</span><span class="w"> </span><span class="n">cameraForward</span><span class="p">));</span>
-<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">cameraUp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">cross</span><span class="p">(</span><span class="n">cameraForward</span><span class="p">,</span><span class="w"> </span><span class="n">cameraRight</span><span class="p">);</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">cameraFront</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span><span class="n">target</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">position</span><span class="p">);</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">cameraRight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">cross</span><span class="p">(</span><span class="n">cameraFront</span><span class="p">,</span><span class="w"> </span><span class="n">worldUp</span><span class="p">));</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">cameraUp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">cross</span><span class="p">(</span><span class="n">cameraRight</span><span class="p">,</span><span class="w"> </span><span class="n">cameraFront</span><span class="p">);</span>
 
 <span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">align</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">);</span>
-<span class="n">translate</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">camera</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">translate</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">camera</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">translate</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">camera</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
-<span class="n">align</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraRight</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">align</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraUp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">align</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraForward</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-<span class="n">align</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraRight</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">align</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraUp</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">align</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraForward</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-<span class="n">align</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraRight</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">align</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraUp</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">align</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraForward</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="n">translate</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">translate</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">translate</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="n">align</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraRight</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">align</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraUp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">align</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">cameraFront</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="n">align</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraRight</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">align</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraUp</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">align</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">cameraFront</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="n">align</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraRight</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">align</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraUp</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">align</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">cameraFront</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
 
 <span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">align</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">translate</span><span class="p">;</span>
 </pre></div>
@@ -664,7 +666,7 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
 \end{align*} \end{split}\]</div>
 </div>
 </details><p>Lets calculate the orthographic projection matrix using left = -2, right = 2, bottom = -2, top = 2, near = 0, far = 10 and send it to the vertex shader.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate orthographic projection matrix</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate projection matrix (orthographic projection)</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="n">near</span><span class="p">,</span><span class="w"> </span><span class="n">far</span><span class="p">,</span><span class="w"> </span><span class="n">top</span><span class="p">,</span><span class="w"> </span><span class="n">bottom</span><span class="p">;</span>
 <span class="n">left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">-2.0f</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">;</span>
 <span class="n">bottom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">-2.0f</span><span class="p">,</span><span class="w"> </span><span class="n">top</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">;</span>
@@ -717,10 +719,10 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
     <source src="../06_orthogonal_cube_no_depth_test.mp4" type="video/mp4">
 </video>
 </center>
-<p>If you are having difficulty getting to this stage take a look at the source code <a class="reference download internal" download="" href="../_downloads/14f5c69b42c69b9aa4e2756380a3289b/3D_worlds_without_depth_test.cpp"><span class="xref download myst">main.cpp</span></a> and vertex shader <a class="reference download internal" download="" href="../_downloads/9d7da34a49ec481d18e120d9b539f349/vertexShader.vert"><span class="xref download myst">vertexShader.vert</span></a>.</p>
+<p>If you are having difficulty getting to this stage take a look at the source code <a class="reference download internal" download="" href="../_downloads/3489e6bf5f324418b7b34a73f424209d/Lab06_no_depth_test.cpp"><span class="xref download myst">main.cpp</span></a> and vertex shader <a class="reference download internal" download="" href="../_downloads/9d7da34a49ec481d18e120d9b539f349/vertexShader.vert"><span class="xref download myst">vertexShader.vert</span></a>.</p>
 </section>
-<section id="depth-testing">
-<h3><span class="section-number">6.5.2. </span>Depth testing<a class="headerlink" href="#depth-testing" title="Permalink to this heading">#</a></h3>
+<section id="z-buffer">
+<h3><span class="section-number">6.5.2. </span>Z buffer<a class="headerlink" href="#z-buffer" title="Permalink to this heading">#</a></h3>
 <p>Our rendering of the cube doesn’t look quite right. What is happening here is that some parts of the sides of the cube that are further away from where we are viewing it (e.g., the bottom side) from have been rendered after the sides that are closer to us (<a class="reference internal" href="#depth-test-1-figure"><span class="std std-numref">Fig. 6.6</span></a>).</p>
 <figure class="align-default" id="depth-test-1-figure">
 <a class="reference internal image-reference" href="../_images/06_depth_test.svg"><img alt="../_images/06_depth_test.svg" src="../_images/06_depth_test.svg" width="300" /></a>
@@ -728,7 +730,7 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
 <p><span class="caption-number">Fig. 6.6 </span><span class="caption-text">Rendering the far triangle after the near triangle.</span><a class="headerlink" href="#depth-test-1-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>To overcome this issue OpenGL uses a <strong>depth test</strong> when computing the fragment shader. When OpenGL creates a frame buffer it also creates another buffer called a <strong>depth buffer</strong> where the <span class="math notranslate nohighlight">\(z\)</span> co-ordinate of each pixel in the frame buffer is stored and initialises all the values to -1 (the furthest possible <span class="math notranslate nohighlight">\(z\)</span> co-ordinate in the screen space). When the fragment shader is called it checks whether the fragment has a <span class="math notranslate nohighlight">\(z\)</span> co-ordinate more than that already stored in the depth buffer and if so it updates the colour of the fragment and stores its <span class="math notranslate nohighlight">\(z\)</span> co-ordinate in the depth-buffer as the current nearest fragment (if the fragment has a <span class="math notranslate nohighlight">\(z\)</span> co-ordinate less than what is already in the depth buffer the fragment shader does nothing). This means once the fragment shader has been called for all fragments of all objects, the pixels contain colours of the objects closest to the camera.</p>
+<p>To overcome this issue OpenGL uses a <strong>depth test</strong> when computing the fragment shader. When OpenGL creates a frame buffer it also creates another buffer called a <strong>depth buffer</strong> (or <strong>z buffer</strong>) where the <span class="math notranslate nohighlight">\(z\)</span> co-ordinate of each pixel in the frame buffer is stored and initialises all the values to -1 (the furthest possible <span class="math notranslate nohighlight">\(z\)</span> co-ordinate in the screen space). When the fragment shader is called it checks whether the fragment has a <span class="math notranslate nohighlight">\(z\)</span> co-ordinate more than that already stored in the depth buffer and if so it updates the colour of the fragment and stores its <span class="math notranslate nohighlight">\(z\)</span> co-ordinate in the depth-buffer as the current nearest fragment (if the fragment has a <span class="math notranslate nohighlight">\(z\)</span> co-ordinate less than what is already in the depth buffer the fragment shader does nothing). This means once the fragment shader has been called for all fragments of all objects, the pixels contain colours of the objects closest to the camera.</p>
 <p>To enable depth testing we used the following function before the rendering loop.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Enable depth test</span>
 <span class="n">glEnable</span><span class="p">(</span><span class="n">GL_DEPTH_TEST</span><span class="p">);</span>
@@ -783,7 +785,7 @@ Derivation of the perspective projection matrix<div class="sd-summary-down docut
 </summary><div class="sd-summary-content sd-card-body docutils">
 <p class="sd-card-text">The mapping of a point in the view space with co-ordinates <span class="math notranslate nohighlight">\((x, y, z)\)</span> onto the near clipping plane to the point <span class="math notranslate nohighlight">\((x', y', -\textsf{near})\)</span> is shown in <a class="reference internal" href="#perspective-mapping-figure"><span class="std std-numref">Fig. 6.8</span></a>.</p>
 <figure class="align-default" id="perspective-mapping-figure">
-<a class="reference internal image-reference" href="../_images/06_perspective_projection_mapping.svg"><img alt="../_images/06_perspective_projection_mapping.svg" src="../_images/06_perspective_projection_mapping.svg" width="400" /></a>
+<a class="reference internal image-reference" href="../_images/06_perspective_projection_mapping.svg"><img alt="../_images/06_perspective_projection_mapping.svg" src="../_images/06_perspective_projection_mapping.svg" width="500" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 6.8 </span><span class="caption-text">Mapping of the point at <span class="math notranslate nohighlight">\((x,y,z)\)</span> onto the near plane using perspective.</span><a class="headerlink" href="#perspective-mapping-figure" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -905,7 +907,7 @@ Derivation of the perspective projection matrix<div class="sd-summary-down docut
 </center>
 <section id="changing-the-fov-angle">
 <h4><span class="section-number">6.5.3.1. </span>Changing the fov angle<a class="headerlink" href="#changing-the-fov-angle" title="Permalink to this heading">#</a></h4>
-<p>The field of view angle determines how much of the view space we can see in the screen space where the larger the angle the more we can see. When we increase the fov angle it appears to the user that our view is zooming out whereas when we decrease the fov it has the effect of zooming in. This effect is shown on our cube object below.</p>
+<p>The field of view angle determines how much of the view space we can see in the screen space where the larger the angle the more we can see. When we increase the fov angle it appears to the user that our view is zooming out whereas when we decrease the fov it has the effect of zooming in (this is used a lot in first person shooter games to model the effect of a pair of binoculars or a sniper scope). This effect is shown on our cube object below.</p>
 <div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
 <div class="sd-row docutils">
 <div class="sd-col sd-d-flex-column docutils">
@@ -954,91 +956,25 @@ Derivation of the perspective projection matrix<div class="sd-summary-down docut
 </div>
 <p>You should see the same output (which is good as it means our own matrices were correct).</p>
 </section>
-<section id="a-camera-library">
-<h2><span class="section-number">6.7. </span>A camera library<a class="headerlink" href="#a-camera-library" title="Permalink to this heading">#</a></h2>
-<p>Our render loop is starting to look a bit messy and it would make sense to write a library to deal with the view and projection operations. Create a header and code file called <code class="docutils literal notranslate"><span class="pre">camera.hpp</span></code> and <code class="docutils literal notranslate"><span class="pre">camera.cpp</span></code> respectively in your <code class="docutils literal notranslate"><span class="pre">source/</span></code> folder. In the header file add the following code</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma once</span>
-
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;glm/glm.hpp&gt;</span>
-
-<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="nf">getViewMatrix</span><span class="p">();</span>
-<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="nf">getProjectionMatrix</span><span class="p">();</span>
-<span class="kt">void</span><span class="w"> </span><span class="nf">pointCamera</span><span class="p">(</span><span class="n">GLFWwindow</span><span class="o">*</span><span class="p">);</span>
-</pre></div>
-</div>
-<p>The <code class="docutils literal notranslate"><span class="pre">getViewMatrix()</span></code> and <code class="docutils literal notranslate"><span class="pre">getProjectionMatrix()</span></code> functions will be used to return the <code class="docutils literal notranslate"><span class="pre">view</span></code> and <code class="docutils literal notranslate"><span class="pre">projection</span></code> matrices and the <code class="docutils literal notranslate"><span class="pre">pointCamera()</span></code> function will be used to perform the calculations.</p>
-<p>In the <code class="docutils literal notranslate"><span class="pre">camera.cpp</span></code> code file add the following code</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;GLFW/glfw3.h&gt;</span>
-
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;glm/glm.hpp&gt;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;glm/gtc/matrix_transform.hpp&gt;</span>
-
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;camera.hpp&quot;</span>
-
-<span class="c1">// Declare matrices</span>
-<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">view</span><span class="p">,</span><span class="w"> </span><span class="n">projection</span><span class="p">;</span>
-
-<span class="c1">// Declare view defaults</span>
-<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">camera</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
-<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-4.0f</span><span class="p">);</span>
-<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">worldUp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
-
-<span class="c1">// Declare projection defaults</span>
-<span class="kt">float</span><span class="w"> </span><span class="n">fov</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">radians</span><span class="p">(</span><span class="mf">45.0f</span><span class="p">);</span>
-<span class="kt">float</span><span class="w"> </span><span class="n">aspect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1024.0f</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">768.0f</span><span class="p">;</span>
-<span class="kt">float</span><span class="w"> </span><span class="n">near</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.02f</span><span class="p">;</span>
-<span class="kt">float</span><span class="w"> </span><span class="n">far</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100.0f</span><span class="p">;</span>
-
-<span class="c1">// Functions</span>
-<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="nf">getViewMatrix</span><span class="p">()</span>
-<span class="p">{</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">view</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="nf">getProjectionMatrix</span><span class="p">()</span>
-<span class="p">{</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">projection</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">pointCamera</span><span class="p">(</span><span class="n">GLFWwindow</span><span class="o">*</span><span class="w"> </span><span class="n">window</span><span class="p">)</span>
-<span class="p">{</span>
-<span class="w">    </span><span class="c1">// Calculate view matrix</span>
-<span class="w">    </span><span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">lookAt</span><span class="p">(</span><span class="n">camera</span><span class="p">,</span><span class="w"> </span><span class="n">target</span><span class="p">,</span><span class="w"> </span><span class="n">worldUp</span><span class="p">);</span>
-<span class="w">    </span>
-<span class="w">    </span><span class="c1">// Calculate projection matrix</span>
-<span class="w">    </span><span class="n">projection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">perspective</span><span class="p">(</span><span class="n">fov</span><span class="p">,</span><span class="w"> </span><span class="n">aspect</span><span class="p">,</span><span class="w"> </span><span class="n">near</span><span class="p">,</span><span class="w"> </span><span class="n">far</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>Here all of the parameters used to determine the <code class="docutils literal notranslate"><span class="pre">view</span></code> and <code class="docutils literal notranslate"><span class="pre">projection</span></code> matrices are declared with the values used in the examples above. At the moment the <code class="docutils literal notranslate"><span class="pre">pointCamera()</span></code> function is very simple but in the future we will add code that allows us to control the camera using keyboard and mouse inputs.</p>
-<p>Now we’ve created our library we need to include it and make calls to the library functions. Add <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&quot;camera.hpp</span></code> to the top of the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file and add the following code to the render loop before the uniforms are sent to the shader</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get the view and projection matrices from the camera library</span>
-<span class="n">pointCamera</span><span class="p">();</span>
-<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getViewMatrix</span><span class="p">();</span>
-<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">projection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getProjectionMatrix</span><span class="p">();</span>
-</pre></div>
-</div>
-<p>Compile and run your code and it should give the same result as before.</p>
-</section>
 <section id="multiple-objects">
-<h2><span class="section-number">6.8. </span>Multiple objects<a class="headerlink" href="#multiple-objects" title="Permalink to this heading">#</a></h2>
-<p>The last thing we will do this lab is to add more cubes to our 3D world. We can do this by defining the position of each cube and then, in the render loop, we loop through each cube and calculate that <code class="docutils literal notranslate"><span class="pre">model</span></code> matrix and render it. Add the following code to your program before the do/while loop.</p>
+<h2><span class="section-number">6.7. </span>Multiple objects<a class="headerlink" href="#multiple-objects" title="Permalink to this heading">#</a></h2>
+<p>Lets add some more cubes to our 3D world. We can do this by defining the position of each cube and then, in the render loop, we loop through each cube and calculate its <code class="docutils literal notranslate"><span class="pre">model</span></code> matrix and render it. Add the following code to your program before the do/while loop.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Cube positions</span>
 <span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">cubePositions</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">0.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">0.0f</span><span class="p">),</span>
-<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">5.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-15.0f</span><span class="p">),</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">5.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-10.0f</span><span class="p">),</span>
 <span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">-3.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-3.0f</span><span class="p">),</span>
-<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">-4.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-12.0f</span><span class="p">),</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">-4.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-8.0f</span><span class="p">),</span>
 <span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-4.0f</span><span class="p">),</span>
 <span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">-4.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">3.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-8.0f</span><span class="p">),</span>
-<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="w"> </span><span class="mf">3.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-3.0f</span><span class="p">),</span>
-<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="w"> </span><span class="mf">4.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-3.0f</span><span class="p">),</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="w"> </span><span class="mf">3.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-5.0f</span><span class="p">),</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="w"> </span><span class="mf">4.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-5.0f</span><span class="p">),</span>
 <span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-2.0f</span><span class="p">),</span>
 <span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">-1.0f</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-2.0f</span><span class="p">)</span>
 <span class="p">};</span>
 </pre></div>
 </div>
-<p>Then, in the render loop comment out the code used to calculate the model matrix for the previous examples and add this code.</p>
+<p>This creates an array of 3-element vectors that constain the co-ordinates of the centre of 10 cubes. In the render loop comment out the code used to calculate the model matrix for the previous examples and add this code.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Send the view and projection matrices to the shader</span>
 <span class="n">glUniformMatrix4fv</span><span class="p">(</span><span class="n">viewID</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">GL_FALSE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">view</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
 <span class="n">glUniformMatrix4fv</span><span class="p">(</span><span class="n">projectionID</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">GL_FALSE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">projection</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
@@ -1060,23 +996,122 @@ Derivation of the perspective projection matrix<div class="sd-summary-down docut
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Here we calculate the <code class="docutils literal notranslate"><span class="pre">translation</span></code> matrix for each cube based on the <code class="docutils literal notranslate"><span class="pre">cubePosition</span></code> array and rotate each cube by a different angle about the vector (1, 1, 0). Note that since the camera is in the same position for each cube we send the view and projection uniforms to the shader before we loop through the cubes.</p>
-<p>Change position of the camera has been changed to (0, 0, 5) by editing the <code class="docutils literal notranslate"><span class="pre">camera.cpp</span></code> file, compile and run and you should see the following.</p>
+<p>Here we calculate the <code class="docutils literal notranslate"><span class="pre">translate</span></code> matrix for each cube based on the <code class="docutils literal notranslate"><span class="pre">cubePosition</span></code> vectors and rotate each cube by a different angle about the vector (1, 1, 0). Note that since the camera is in the same position for each cube we send the view and projection uniforms to the shader before we loop through the cubes.</p>
+<p>Change position of the camera to (0, 0, 5) and the target to (0, 0, 0),  compile and run and you should see the following.</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/06_multiple_cubes.png"><img alt="../_images/06_multiple_cubes.png" src="../_images/06_multiple_cubes.png" style="width: 500px;" /></a>
 </figure>
 <p>If you are having difficulty getting to this stage take a look at <a class="reference download internal" download="" href="../_downloads/ea06658396c88512d03b786226586209/main.cpp"><span class="xref download myst">main.cpp</span></a>, <a class="reference download internal" download="" href="../_downloads/521259cd0107c2281b0be006d8ac93cf/camera.hpp"><span class="xref download myst">camera.hpp</span></a> and <a class="reference download internal" download="" href="../_downloads/d2aaf3806e4fe15e4cb5eb2a9c4e2ba5/camera.cpp"><span class="xref download myst">camera.cpp</span></a>.</p>
+</section>
+<section id="a-camera-class">
+<h2><span class="section-number">6.8. </span>A camera class<a class="headerlink" href="#a-camera-class" title="Permalink to this heading">#</a></h2>
+<p>Our render loop is starting to look a bit messy and it would make sense to write a class to deal with the view and projection operations. Create a header and code file called <code class="docutils literal notranslate"><span class="pre">camera.hpp</span></code> and <code class="docutils literal notranslate"><span class="pre">camera.cpp</span></code> respectively in your <code class="docutils literal notranslate"><span class="pre">source/</span></code> folder. In the header file add the following code</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma once</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;GLFW/glfw3.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;glm/glm.hpp&gt;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Camera</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="c1">// Projection parameters</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">fov</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">radians</span><span class="p">(</span><span class="mf">45.0f</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">aspect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1024.0f</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">768.0f</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">near</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.02f</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">far</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100.0f</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Camera vectors</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">position</span><span class="p">;</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">front</span><span class="p">;</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">right</span><span class="p">;</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">up</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Transformation matrices</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">view</span><span class="p">;</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">projection</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Constructor</span>
+<span class="w">    </span><span class="n">Camera</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">Position</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Methods</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="nf">getViewMatrix</span><span class="p">();</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="nf">getProjectionMatrix</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">calculateMatrices</span><span class="p">();</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">getViewMatrix()</span></code> and <code class="docutils literal notranslate"><span class="pre">getProjectionMatrix()</span></code> functions will be used to return the <code class="docutils literal notranslate"><span class="pre">view</span></code> and <code class="docutils literal notranslate"><span class="pre">projection</span></code> matrices and the <code class="docutils literal notranslate"><span class="pre">calculateMatrices()</span></code> function will be used to calculate these matrices (you can see I like sensible function names).</p>
+<p>In the <code class="docutils literal notranslate"><span class="pre">camera.cpp</span></code> code file add the following code</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;GLFW/glfw3.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;glm/glm.hpp&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;glm/gtc/matrix_transform.hpp&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;camera.hpp&quot;</span>
+
+<span class="n">Camera</span><span class="o">::</span><span class="n">Camera</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">Position</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Position</span><span class="p">;</span>
+<span class="w">    </span><span class="n">front</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">);</span>
+<span class="w">    </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
+<span class="w">    </span><span class="n">up</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">Camera</span><span class="o">::</span><span class="n">getViewMatrix</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">view</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">Camera</span><span class="o">::</span><span class="n">getProjectionMatrix</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">projection</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="n">Camera</span><span class="o">::</span><span class="n">calculateMatrices</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// Calculate view matrix</span>
+<span class="w">    </span><span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">lookAt</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">front</span><span class="p">,</span><span class="w"> </span><span class="n">up</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Calculate projection matrix</span>
+<span class="w">    </span><span class="n">projection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">perspective</span><span class="p">(</span><span class="n">fov</span><span class="p">,</span><span class="w"> </span><span class="n">aspect</span><span class="p">,</span><span class="w"> </span><span class="n">near</span><span class="p">,</span><span class="w"> </span><span class="n">far</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Camera()</span></code> constructor takes in a single input of the camera position and instantiates the <code class="docutils literal notranslate"><span class="pre">position</span></code> attribute. The <code class="docutils literal notranslate"><span class="pre">front</span></code>, <code class="docutils literal notranslate"><span class="pre">right</span></code> and <code class="docutils literal notranslate"><span class="pre">up</span></code> vectors are instantiated with default values.</p>
+<p>Now we’ve created our Camera class we need to include it and make calls to the library functions. Add <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&quot;camera.hpp</span></code> to the top of the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file and create a Camera object before the <code class="docutils literal notranslate"><span class="pre">main()</span></code> declaration.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create camera object</span>
+<span class="n">Camera</span><span class="w"> </span><span class="nf">camera</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">5.0f</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Now all we need to do is replace the code where we calculate the view and projection matrices with the following.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get the view and projection matrices from the camera library</span>
+<span class="n">camera</span><span class="p">.</span><span class="n">calculateMatrices</span><span class="p">();</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">camera</span><span class="p">.</span><span class="n">getViewMatrix</span><span class="p">();</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">projection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">camera</span><span class="p">.</span><span class="n">getProjectionMatrix</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Compile and run your code and it should give the same result as before.</p>
 </section>
 <hr class="docutils" />
 <section id="exercises">
 <h2><span class="section-number">6.9. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p>Experiment with changing the camera position and target to see the effect this has on the 3D world.</p></li>
-<li><p>Experiment with changing the field of view angle to see the affect this has.</p></li>
+<li><p>Experiment with changing the field of view angle to see the effect this has.</p></li>
 <li><p>Use orthographic projection for the view to screen space transformation.</p></li>
 <li><p>Rotate the camera position around the first cube. Hint: <span class="math notranslate nohighlight">\(x = r\cos(t)\)</span> and <span class="math notranslate nohighlight">\(z = r\sin(t)\)</span> gives the co-ordinates on a circle with radius <span class="math notranslate nohighlight">\(r\)</span> and centred at (0,0,0).</p></li>
 <li><p>Rotate every other cube whilst keeping the remaining cubes stationary.</p></li>
 </ol>
+</section>
+<hr class="docutils" />
+<section id="source-code">
+<h2><span class="section-number">6.10. </span>Source code<a class="headerlink" href="#source-code" title="Permalink to this heading">#</a></h2>
+<p>The source code for this lab, including the exercise solutions, can be downloaded using the links below.</p>
+<ul class="simple">
+<li><p><a class="reference download internal" download="" href="../_downloads/3489e6bf5f324418b7b34a73f424209d/Lab06_no_depth_test.cpp"><span class="xref download myst">Lab06_no_depth_test.cpp</span></a> - single cube with orthnographic projection and no depth testing</p></li>
+<li><p><a class="reference download internal" download="" href="../_downloads/ea06658396c88512d03b786226586209/main.cpp"><span class="xref download myst">main.cpp</span></a> - multiple cubes using the Camera class</p></li>
+<li><p><a class="reference download internal" download="" href="../_downloads/521259cd0107c2281b0be006d8ac93cf/camera.hpp"><span class="xref download myst">camera.hpp</span></a></p></li>
+<li><p><a class="reference download internal" download="" href="../_downloads/d2aaf3806e4fe15e4cb5eb2a9c4e2ba5/camera.cpp"><span class="xref download myst">camera.cpp</span></a></p></li>
+<li><p><a class="reference download internal" download="" href="../_downloads/9d7da34a49ec481d18e120d9b539f349/vertexShader.vert"><span class="xref download myst">vertexShader.vert</span></a></p></li>
+</ul>
 </section>
 </section>
 
@@ -1148,7 +1183,7 @@ Derivation of the perspective projection matrix<div class="sd-summary-down docut
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-view-matrix">6.4. The view matrix</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection">6.5. Projection</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#orthographic-projection">6.5.1. Orthographic projection</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#depth-testing">6.5.2. Depth testing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#z-buffer">6.5.2. Z buffer</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perspective-projection">6.5.3. Perspective projection</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-fov-angle">6.5.3.1. Changing the fov angle</a></li>
 </ul>
@@ -1156,9 +1191,10 @@ Derivation of the perspective projection matrix<div class="sd-summary-down docut
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#glm-transformations">6.6. glm transformations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-camera-library">6.7. A camera library</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-objects">6.8. Multiple objects</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-objects">6.7. Multiple objects</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-camera-class">6.8. A camera class</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">6.9. Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-code">6.10. Source code</a></li>
 </ul>
   </nav></div>
 

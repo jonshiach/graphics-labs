@@ -13,6 +13,9 @@
 #include "texture.hpp"
 #include "camera.hpp"
 
+// Create camera object
+Camera camera(glm::vec3(0.0f, 0.0f, 5.0f));
+
 int main( void )
 {
     // Initialise GLFW
@@ -172,13 +175,13 @@ int main( void )
     // Cube positions
     glm::vec3 cubePositions[] = {
         glm::vec3( 0.0f,  0.0f,  0.0f),
-        glm::vec3( 2.0f,  5.0f, -15.0f),
+        glm::vec3( 2.0f,  5.0f, -10.0f),
         glm::vec3(-3.0f, -2.0f, -3.0f),
-        glm::vec3(-4.0f, -2.0f, -12.0f),
+        glm::vec3(-4.0f, -2.0f, -8.0f),
         glm::vec3( 2.0f, -1.0f, -4.0f),
         glm::vec3(-4.0f,  3.0f, -8.0f),
-        glm::vec3( 3.0f, -2.0f, -3.0f),
-        glm::vec3( 4.0f,  2.0f, -3.0f),
+        glm::vec3( 3.0f, -2.0f, -5.0f),
+        glm::vec3( 4.0f,  2.0f, -5.0f),
         glm::vec3( 2.0f,  0.0f, -2.0f),
         glm::vec3(-1.0f,  1.0f, -2.0f)
     };
@@ -207,37 +210,23 @@ int main( void )
         // Send the VBO to the shaders
         glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glVertexAttribPointer(
-                              0,           // attribute
-                              3,           // size
-                              GL_FLOAT,    // type
-                              GL_FALSE,    // normalise
-                              0,           // stride
-                              (void*)0     // offset
-                              );
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
         
         // Send the uv buffer to the shaders
         glEnableVertexAttribArray(1);
         glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
-        glVertexAttribPointer(
-                              1,           // attribute
-                              2,           // size
-                              GL_FLOAT,    // type
-                              GL_FALSE,    // normalise
-                              0,           // stride
-                              (void*)0     // offset
-                              );
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
         
         // Get the view and projection matrices from the camera library
-        pointCamera(window);
-        glm::mat4 view = getViewMatrix();
-        glm::mat4 projection = getProjectionMatrix();
+        camera.calculateMatrices();
+        glm::mat4 view = camera.getViewMatrix();
+        glm::mat4 projection = camera.getProjectionMatrix();
         
         // Send the view and projection matrices to the shader
         glUniformMatrix4fv(viewID, 1, GL_FALSE, &view[0][0]);
         glUniformMatrix4fv(projectionID, 1, GL_FALSE, &projection[0][0]);
         
-        // Loop through cubes and draw each one
+        // Loop through the cubes and draw each one
         for (int i = 0; i < 10; i++)
         {
             // Calculate model matrix
@@ -249,7 +238,7 @@ int main( void )
             // Send model matrix to the shader
             glUniformMatrix4fv(modelID, 1, GL_FALSE, &model[0][0]);
             
-            // Draw the triangle
+            // Draw the triangles
             glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / (sizeof(float) * 3));
         }
         

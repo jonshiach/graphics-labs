@@ -392,7 +392,7 @@ document.write(`
 <p><span class="caption-number">Fig. 3.1 </span><span class="caption-text">Mapping a texture to a polygon.</span><a class="headerlink" href="#id3" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>The texture is a 2D <a href="https://en.wikipedia.org/wiki/Bitmap" target="_blank"><strong>bitmap</strong></a> image where each pixel within the texture, known as a <strong>textel</strong>, is referenced using the <strong>texture coordiantes</strong> given as (u,v) where u and v are in the range 0 to 1, i.e., (0,0) corresponds to the textel in the bottom left corner and (1,1) corresponds to the textel in the top-right corner. When a fragment is created by the shader the corresponding texture co-ordinates are calculated and the sample colour of the textel is used for the fragment. Fortunately we do not need to write a texture mapper functions since these are in OpenGL.</p>
+<p>The texture is a 2D <a href="https://en.wikipedia.org/wiki/Bitmap" target="_blank"><strong>bitmap</strong></a>, usually of an image, where each pixel within the texture, known as a <strong>textel</strong>, is referenced using the <strong>texture coordinates</strong> given as (u,v) where u and v are in the range 0 to 1, i.e., (0,0) corresponds to the textel in the bottom left corner and (1,1) corresponds to the textel in the top-right corner. When a fragment is created by the shader the corresponding texture co-ordinates are calculated and the sample colour of the textel is used for the fragment. Fortunately we do not need to write a texture mapper functions since these are in OpenGL.</p>
 <p>Lets apply a texture map to our triangle from <a class="reference internal" href="02_basic_shapes_in_OpenGL.html#hello-triangle-section"><span class="std std-ref">Lab 2</span></a>. First download and build the project files for this lab.</p>
 <ol class="arabic simple">
 <li><p>Go to <a href="https://github.com/jonshiach/Lab03_Textures" target="_blank">https://github.com/jonshiach/Lab03_Textures</a> and follow the instructions to download and build the project files.</p></li>
@@ -428,7 +428,7 @@ document.write(`
 <section id="uniforms">
 <span id="uniforms-section"></span><h3><span class="section-number">3.1.2. </span>Uniforms<a class="headerlink" href="#uniforms" title="Permalink to this heading">#</a></h3>
 <p>A <a href="https://www.khronos.org/opengl/wiki/Uniform_(GLSL)" target="_blank"><strong>uniform</strong></a> is a global shader that remains constant during the execution of the rendering pass and has the same value for all vertices and fragments. Uniforms provide a way to pass data to the shaders so we will use one for passing the texture information to the fragment shader.</p>
-<p>To declare a uniform for our texture add the following code to your <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file (this can go anywhere before the rendering loop but it makes sense to put these after we have loaded out texture).</p>
+<p>To declare a uniform for our texture add the following code to your <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file (this can go anywhere before we render the object but it makes sense to put these after we have loaded our texture).</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get a handle for the texture sampler uniform</span>
 <span class="n">GLuint</span><span class="w"> </span><span class="n">texture1ID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;texture1Sampler&quot;</span><span class="p">);</span>
 </pre></div>
@@ -458,7 +458,7 @@ document.write(`
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>You may notice some changes from our simple vertex shader. We have a second input <code class="docutils literal notranslate"><span class="pre">vertexUV</span></code> which is a 2-element vector which are the texture coordinates which are passed to the fragment shader as the output <code class="docutils literal notranslate"><span class="pre">uv</span></code> (remember that the <code class="docutils literal notranslate"><span class="pre">gl_Position</span></code> vector is passed to the fragment shader by default).</p>
+<p>You may notice some changes from our <a class="reference internal" href="02_basic_shapes_in_OpenGL.html#vertex-shader-section"><span class="std std-ref">simple vertex shader</span></a>. We have a second input <code class="docutils literal notranslate"><span class="pre">vertexUV</span></code> which is a 2-element vector which are the texture coordinates which are passed to the fragment shader as the output <code class="docutils literal notranslate"><span class="pre">uv</span></code> (remember that the <code class="docutils literal notranslate"><span class="pre">gl_Position</span></code> vector is passed to the fragment shader by default).</p>
 </section>
 <section id="fragment-shader">
 <h3><span class="section-number">3.1.4. </span>Fragment shader<a class="headerlink" href="#fragment-shader" title="Permalink to this heading">#</a></h3>
@@ -510,7 +510,7 @@ document.write(`
 </section>
 <section id="send-the-texture-to-opengl">
 <h3><span class="section-number">3.1.6. </span>Send the texture to OpenGL<a class="headerlink" href="#send-the-texture-to-opengl" title="Permalink to this heading">#</a></h3>
-<p>Now that we have loaded the texture and written our vertex and fragment shaders, the next and final step is to send the texture buffer to OpenGL. This is done in the same way as for the VBO (Vertex Buffer Object) but first we need to bind our texture to OpenGL. After we have instructed the application to use our shader program add the following code.</p>
+<p>Now that we have loaded the texture and written our vertex and fragment shaders, the next and final step is to send the texture buffer to OpenGL. This is done in the same way as for the <a class="reference internal" href="02_basic_shapes_in_OpenGL.html#vbo-section"><span class="std std-ref">VBO (Vertex Buffer Object)</span></a> but first we need to bind our texture to OpenGL. After we have instructed the application to use our shader program add the following code.</p>
 <div class="highlight-cpp notranslate" id="texture-unit-code"><div class="highlight"><pre><span></span><span class="c1">// Bind the texture</span>
 <span class="n">glActiveTexture</span><span class="p">(</span><span class="n">GL_TEXTURE0</span><span class="p">);</span>
 <span class="n">glBindTexture</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span><span class="w"> </span><span class="n">texture1</span><span class="p">);</span>
@@ -672,7 +672,7 @@ document.write(`
 </div>
 </div>
 </div>
-<p>When the fragment is larger then the texture we are up scaling the texture which can result in the block appearance seen in <a class="reference internal" href="#nearest-filtering-figure"><span class="std std-numref">Fig. 3.8</span></a> so <code class="docutils literal notranslate"><span class="pre">GL_LINEAR</span></code> would be the preferred filtering method. Texture filtering can be set for <strong>magnifying</strong> or <strong>minifying</strong> (i.e., when up scaling or down scaling) using <code class="docutils literal notranslate"><span class="pre">GL_TEXTURE_MAG_FILTER</span></code> and <code class="docutils literal notranslate"><span class="pre">GL_TEXTURE_MIN_FILTER</span></code>, for example</p>
+<p>When the fragment is larger then the texture we are up scaling the texture which can result in the blocky appearance seen in <a class="reference internal" href="#nearest-filtering-figure"><span class="std std-numref">Fig. 3.8</span></a> so <code class="docutils literal notranslate"><span class="pre">GL_LINEAR</span></code> would be the preferred filtering method. Texture filtering can be set for <strong>magnifying</strong> or <strong>minifying</strong> (i.e., when up scaling or down scaling) using <code class="docutils literal notranslate"><span class="pre">GL_TEXTURE_MAG_FILTER</span></code> and <code class="docutils literal notranslate"><span class="pre">GL_TEXTURE_MIN_FILTER</span></code>, for example</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">glTexParameteri</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span><span class="w"> </span><span class="n">GL_TEXTURE_MAG_FILTER</span><span class="p">,</span><span class="w"> </span><span class="n">GL_LINEAR</span><span class="p">);</span>
 <span class="n">glTexParameteri</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span><span class="w"> </span><span class="n">GL_TEXTURE_MIN_FILTER</span><span class="p">,</span><span class="w"> </span><span class="n">GL_NEAREST</span><span class="p">);</span><span class="w"> </span>
 </pre></div>
@@ -763,7 +763,7 @@ document.write(`
 <a class="reference internal image-reference" href="../_images/smiley_grid.png"><img alt="../_images/smiley_grid.png" src="../_images/smiley_grid.png" style="width: 500px;" /></a>
 </figure>
 <ol class="arabic simple" start="2">
-<li><p>Modify the fragment shader so that the smiley face looks in the other direction.</p></li>
+<li><p>Modify the fragment shader so that the smiley face looks in the other direction. Hint: the individual elements of a <code class="docutils literal notranslate"><span class="pre">vec3</span></code> vector can be accessed using <code class="docutils literal notranslate"><span class="pre">&lt;vector</span> <span class="pre">name&gt;.x</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;vector</span> <span class="pre">name&gt;.y</span></code> etc.</p></li>
 </ol>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/smiley_reversed.png"><img alt="../_images/smiley_reversed.png" src="../_images/smiley_reversed.png" style="width: 500px;" /></a>

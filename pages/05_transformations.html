@@ -400,7 +400,7 @@ document.write(`
 <p class="admonition-title">Note</p>
 <p>The co-ordinate system used by OpenGL is a <a href="https://en.wikipedia.org/wiki/Right-hand_rule" target="_blank">right-hand</a> 3D co-ordinate system (on your right hand the thumb represents the <span class="math notranslate nohighlight">\(x\)</span>-axis, the index finger the <span class="math notranslate nohighlight">\(y\)</span>-axis and the middle finger the <span class="math notranslate nohighlight">\(z\)</span>-axis) with the <span class="math notranslate nohighlight">\(x\)</span>-axis pointing to the right, the <span class="math notranslate nohighlight">\(y\)</span>-axis point upwards and the <span class="math notranslate nohighlight">\(z\)</span>-axis pointing out of the screen towards the viewer.</p>
 <figure class="align-default" id="id1">
-<a class="reference internal image-reference" href="../_images/05_opengl_axes.svg"><img alt="../_images/05_opengl_axes.svg" height="220" src="../_images/05_opengl_axes.svg" /></a>
+<a class="reference internal image-reference" href="../_images/05_opengl_axes.svg"><img alt="../_images/05_opengl_axes.svg" src="../_images/05_opengl_axes.svg" width="300" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 5.1 </span><span class="caption-text">The OpenGL co-ordinate system.</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -484,10 +484,10 @@ document.write(`
 </div>
 <p>We need a way of passing the <code class="docutils literal notranslate"><span class="pre">translate</span></code> matrix to the shader. Since we are going to be using multiple transformations we will define a <code class="docutils literal notranslate"><span class="pre">transformation</span></code> matrix (for now we set this equal to <code class="docutils literal notranslate"><span class="pre">translate</span></code>) and send it to the vertex shader using a <a class="reference internal" href="03_textures.html#uniforms-section"><span class="std std-ref">uniform</span></a>. Add the following code to your <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file to define <code class="docutils literal notranslate"><span class="pre">transformation</span></code> and get the handle of the uniform.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate the transformation matrix</span>
-<span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">transformation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">translate</span><span class="p">;</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">transformation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">translate</span><span class="p">;</span>
 <span class="w"> </span>
-<span class="w"> </span><span class="c1">// Get the handle for the transformation matrix</span>
-<span class="w"> </span><span class="n">GLuint</span><span class="w"> </span><span class="n">transformationID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;transformation&quot;</span><span class="p">);</span>
+<span class="c1">// Get the handle for the transformation matrix</span>
+<span class="n">GLuint</span><span class="w"> </span><span class="n">transformationID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;transformation&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>We send the uniform to the vertex shader in the rendering loop just before we draw the triangles. Since we have a 4 <span class="math notranslate nohighlight">\(\times\)</span> 4 matrix we need to using the <code class="docutils literal notranslate"><span class="pre">glUniformMatrix4fv()</span></code> function to do this.</p>
@@ -745,7 +745,7 @@ Derivation of the rotation matrices (click to show)<div class="sd-summary-down d
 <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">rotate = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">rotate</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>Note that here we needed to convert 40<span class="math notranslate nohighlight">\(^\circ\)</span> into <a href="https://en.wikipedia.org/wiki/Radian" target="_blank"><strong>radians</strong></a> since OpenGL expects angles to be in radians. We now set the <code class="docutils literal notranslate"><span class="pre">transformation</span></code> matrix equal to our <code class="docutils literal notranslate"><span class="pre">rotate</span></code> matrix</p>
+<p>Note that here we needed to convert 45<span class="math notranslate nohighlight">\(^\circ\)</span> into <a href="https://en.wikipedia.org/wiki/Radian" target="_blank"><strong>radians</strong></a> since OpenGL expects angles to be in radians. We now set the <code class="docutils literal notranslate"><span class="pre">transformation</span></code> matrix equal to our <code class="docutils literal notranslate"><span class="pre">rotate</span></code> matrix</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">transformation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rotate</span><span class="p">;</span>
 </pre></div>
 </div>
@@ -991,7 +991,7 @@ Derivation of the axis-angle rotation matrix (click to show)<div class="sd-summa
 </video>
 </center>
 <ol class="arabic simple" start="3">
-<li><p>Use scaling to scale the rectangle so that it grows and shrinks as it is moving. Hint: the function <span class="math notranslate nohighlight">\(s(t) = 1 + 0.5 \sin(at)\)</span> oscillates between 0.75 and 1.25 as <span class="math notranslate nohighlight">\(t\)</span> increases. Experiment with the speed of which the rectangle grows and shrinks by changing the value of <span class="math notranslate nohighlight">\(a\)</span>.</p></li>
+<li><p>Use scaling to scale the rectangle so that it grows and shrinks as it is moving. Hint: the function <span class="math notranslate nohighlight">\(s(t) = 1 + 0.5 \sin(at)\)</span> oscillates between 0.5 and 1.5 as <span class="math notranslate nohighlight">\(t\)</span> increases. Experiment with the speed of which the rectangle grows and shrinks by changing the value of <span class="math notranslate nohighlight">\(a\)</span>.</p></li>
 </ol>
 <center>
 <video controls muted="true" loop="true" width="500">

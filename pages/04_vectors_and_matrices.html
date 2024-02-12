@@ -358,26 +358,26 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vectors">4.1. Vectors</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-glm-library">4.2. The glm library</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-magnitude">4.2.1. Vector magnitude</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-multiplication-by-a-scalar">4.2.2. Vector multiplication by a scalar</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unit-vectors">4.2.3. Unit vectors</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-addition-and-subtraction">4.2.4. Vector addition and subtraction</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dot-product">4.2.5. Dot product</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-product">4.2.6. Cross product</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vectors">4.1. Vectors</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-glm-library">4.1.1. The glm library</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-magnitude">4.1.2. Vector magnitude</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-multiplication-by-a-scalar">4.1.3. Vector multiplication by a scalar</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unit-vectors">4.1.4. Unit vectors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-addition-and-subtraction">4.1.5. Vector addition and subtraction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dot-product">4.1.6. Dot product</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-product">4.1.7. Cross product</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrices">4.3. Matrices</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-transpose">4.3.1. Matrix transpose</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-matrices-in-glm">4.3.2. Defining matrices in glm</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-multiplication">4.3.3. Matrix multiplication</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-identity-matrix">4.3.4. The identity matrix</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-inverse-matrix">4.3.5. The inverse matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrices">4.2. Matrices</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-transpose">4.2.1. Matrix transpose</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-matrices-in-glm">4.2.2. Defining matrices in glm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-multiplication">4.2.3. Matrix multiplication</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-identity-matrix">4.2.4. The identity matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-inverse-matrix">4.2.5. The inverse matrix</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">4.4. Exercises</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-code">4.5. Source code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">4.3. Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-code">4.4. Source code</a></li>
 </ul>
             </nav>
         </div>
@@ -397,13 +397,16 @@ document.write(`
 <p>A vector in is an object with magnitude (length) and direction. A vector is denoted by an underlined lower case letter, e.g., <span class="math notranslate nohighlight">\(\underline{a}\)</span> (or as a boldface character, e.g., <span class="math notranslate nohighlight">\(\mathbf{a}\)</span>) and represented mathematically by the 3-tuple</p>
 <div class="math notranslate nohighlight">
 \[ \underline{a} = (a_x, a_y, a_z), \]</div>
-<p>where <span class="math notranslate nohighlight">\(a_x\)</span>, <span class="math notranslate nohighlight">\(a_y\)</span> and <span class="math notranslate nohighlight">\(a_z\)</span> are the displacement of the vector in the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> directions.</p>
+<p>where <span class="math notranslate nohighlight">\(a_x\)</span>, <span class="math notranslate nohighlight">\(a_y\)</span> and <span class="math notranslate nohighlight">\(a_z\)</span> are the lengths of the vector in the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> directions.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="../_images/vector.svg"><img alt="../_images/vector.svg" height="250" src="../_images/vector.svg" /></a>
+<a class="reference internal image-reference" href="../_images/04_vector.svg"><img alt="../_images/04_vector.svg" height="250" src="../_images/04_vector.svg" /></a>
 </figure>
-</section>
+<p>We can use vectors to represent the displacement of one point to another. For example, given two points <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> the displacement from <span class="math notranslate nohighlight">\(A\)</span> to <span class="math notranslate nohighlight">\(B\)</span> can be thought of as the vector <span class="math notranslate nohighlight">\(\underline{a}\)</span> which is calculated by subtracting the co-ordinates of <span class="math notranslate nohighlight">\(A\)</span> from the co-ordinates of <span class="math notranslate nohighlight">\(B\)</span>, i.e., <span class="math notranslate nohighlight">\(\underline{a} = B - A\)</span>.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/04_vector_2.svg"><img alt="../_images/04_vector_2.svg" src="../_images/04_vector_2.svg" width="200" /></a>
+</figure>
 <section id="the-glm-library">
-<h2><span class="section-number">4.2. </span>The glm library<a class="headerlink" href="#the-glm-library" title="Permalink to this heading">#</a></h2>
+<h3><span class="section-number">4.1.1. </span>The glm library<a class="headerlink" href="#the-glm-library" title="Permalink to this heading">#</a></h3>
 <p>The glm (<a href="https://github.com/g-truc/glm" target="_blank">OpenGL Mathematics</a>) library is a popular C++ mathematics library designed to provide classes and functions for mathematical operations, specifically tailored for graphics programming using OpenGL. We will be using functions from glm to perform calculations for us. First download and build the project files for this lab.</p>
 <ol class="arabic simple">
 <li><p>Go to <a href="https://github.com/jonshiach/Lab04_Vectors_and_matrices" target="_blank">https://github.com/jonshiach/Lab04_Vectors_and_matrices</a> and follow the instructions to download and build the project files.</p></li>
@@ -446,13 +449,14 @@ u = [    2.000,    2.000,    1.000]
 </pre></div>
 </div>
 <p>Taking a look at the code we see that the <code class="docutils literal notranslate"><span class="pre">glm::vec</span> <span class="pre">u(2.0f,</span> <span class="pre">2.0f,</span> <span class="pre">1.0f)</span></code> command defines the 3-element vector <code class="docutils literal notranslate"><span class="pre">u</span></code> with the values of the elements (2, 2, 1). This vector is then output to the console using the <code class="docutils literal notranslate"><span class="pre">std::cout</span></code> command.</p>
+</section>
 <section id="vector-magnitude">
-<span id="vector-magnitude-section"></span><h3><span class="section-number">4.2.1. </span>Vector magnitude<a class="headerlink" href="#vector-magnitude" title="Permalink to this heading">#</a></h3>
+<span id="vector-magnitude-section"></span><h3><span class="section-number">4.1.2. </span>Vector magnitude<a class="headerlink" href="#vector-magnitude" title="Permalink to this heading">#</a></h3>
 <p>The <strong>magnitude</strong> of a vector <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> is denoted by <span class="math notranslate nohighlight">\(|\underline{a}|\)</span> is the length from the tail of the vector to the head and calculated using</p>
 <div class="math notranslate nohighlight" id="equation-eq-vector-magnitude">
 <span class="eqno">(4.1)<a class="headerlink" href="#equation-eq-vector-magnitude" title="Permalink to this equation">#</a></span>\[ |\underline{a}| = \sqrt{a_x^2 + a_y^2 + a_z^2}. \]</div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="../_images/vector_magnitude.svg"><img alt="../_images/vector_magnitude.svg" height="100" src="../_images/vector_magnitude.svg" /></a>
+<a class="reference internal image-reference" href="../_images/04_vector_magnitude.svg"><img alt="../_images/04_vector_magnitude.svg" height="100" src="../_images/04_vector_magnitude.svg" /></a>
 </figure>
 <p>For example, the magnitude of the vector <span class="math notranslate nohighlight">\(\underline{u} = (2, 2, 1)\)</span> is</p>
 <div class="math notranslate nohighlight">
@@ -473,20 +477,20 @@ u = [    2.000,    2.000,    1.000]
 </pre></div>
 </div>
 <p>Calculating the magnitude of a vector is a very common calculation so shouldn’t we write a function to do this? Fortunately there is a glm function <code class="docutils literal notranslate"><span class="pre">glm:length()</span></code> to do this for us, edit your program so it looks like the following to use the glm function instead.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// float lengthU = glm::sqrt(u[0] * u[0] + u[1] * u[1] + u[2] * u[2]);</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// float lengthU = sqrt(u[0] * u[0] + u[1] * u[1] + u[2] * u[2]);</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">lengthU</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">length</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>That makes things much easier.</p>
 </section>
 <section id="vector-multiplication-by-a-scalar">
-<h3><span class="section-number">4.2.2. </span>Vector multiplication by a scalar<a class="headerlink" href="#vector-multiplication-by-a-scalar" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.1.3. </span>Vector multiplication by a scalar<a class="headerlink" href="#vector-multiplication-by-a-scalar" title="Permalink to this heading">#</a></h3>
 <p>The multiplication of a vector <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> by a scalar (another way of saying a number) <span class="math notranslate nohighlight">\(k\)</span> is calculated using</p>
 <div class="math notranslate nohighlight" id="equation-eq-vector-multiplication">
 <span class="eqno">(4.2)<a class="headerlink" href="#equation-eq-vector-multiplication" title="Permalink to this equation">#</a></span>\[ k \underline{a} = (ka_x, ka_y, ka_z) \]</div>
 <p>Multiplying a vector by a positive scalar has the effect of scaling the length of the vector. Multiplying by a negative scalar reverses the direction of the vector.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="../_images/vector_multiplication.svg"><img alt="../_images/vector_multiplication.svg" height="180" src="../_images/vector_multiplication.svg" /></a>
+<a class="reference internal image-reference" href="../_images/04_vector_multiplication.svg"><img alt="../_images/04_vector_multiplication.svg" height="180" src="../_images/04_vector_multiplication.svg" /></a>
 </figure>
 <p>For example, multiplying the vector <span class="math notranslate nohighlight">\(\underline{u} = (2, 2, 1)\)</span> by the scalar 2 gives</p>
 <div class="math notranslate nohighlight">
@@ -514,7 +518,7 @@ u = [    2.000,    2.000,    1.000]
 </div>
 </section>
 <section id="unit-vectors">
-<h3><span class="section-number">4.2.3. </span>Unit vectors<a class="headerlink" href="#unit-vectors" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.1.4. </span>Unit vectors<a class="headerlink" href="#unit-vectors" title="Permalink to this heading">#</a></h3>
 <p>A unit vector is a vector that has a magnitude of 1. We can find a unit vector that points in the same direction as a non-zero vector <span class="math notranslate nohighlight">\(\underline{a}\)</span>, which is denoted by <span class="math notranslate nohighlight">\(\hat{\underline{a}}\)</span> (pronounced “a-hat”), by dividing by its magnitude, i.e.,</p>
 <div class="math notranslate nohighlight" id="equation-eq-unit-vector">
 <span class="eqno">(4.3)<a class="headerlink" href="#equation-eq-unit-vector" title="Permalink to this equation">#</a></span>\[ \hat{\underline{a}} = \frac{\underline{a}}{|\underline{a}|}. \]</div>
@@ -549,7 +553,7 @@ uHat = [    0.667,    0.667,    0.333]
 </div>
 </section>
 <section id="vector-addition-and-subtraction">
-<h3><span class="section-number">4.2.4. </span>Vector addition and subtraction<a class="headerlink" href="#vector-addition-and-subtraction" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.1.5. </span>Vector addition and subtraction<a class="headerlink" href="#vector-addition-and-subtraction" title="Permalink to this heading">#</a></h3>
 <p>The addition and subtraction of two vectors <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> and <span class="math notranslate nohighlight">\(\underline{b} = (b_x, b_y, b_z)\)</span> is defined by</p>
 <div class="math notranslate nohighlight" id="equation-eq-vector-addition">
 <span class="eqno">(4.4)<a class="headerlink" href="#equation-eq-vector-addition" title="Permalink to this equation">#</a></span>\[ \underline{a} \pm \underline{b} = (a_x \pm b_x, a_y \pm b_y, a_z \pm b_z). \]</div>
@@ -579,26 +583,26 @@ u + v = [    5.000,    6.000,    6.000]
 u - v = [   -1.000,   -2.000,   -4.000]
 </pre></div>
 </div>
-<p>Its important to understand what is happening in a geometrical sense when we add and subtract vectors. Take a look at <a class="reference internal" href="#vector-addition-figure"><span class="std std-numref">Fig. 4.1</span></a>, here the vector <span class="math notranslate nohighlight">\(\underline{b}\)</span> has been added to the vector <span class="math notranslate nohighlight">\(\underline{a}\)</span> where the tail of <span class="math notranslate nohighlight">\(\underline{b}\)</span> is places at the head of <span class="math notranslate nohighlight">\(\underline{a}\)</span>. The resulting vector <span class="math notranslate nohighlight">\(\underline{a} + \underline{b}\)</span> points from the tail of <span class="math notranslate nohighlight">\(\underline{a}\)</span> to the head of <span class="math notranslate nohighlight">\(\underline{b}\)</span>.</p>
+<p>Its important to understand what is happening in a geometrical sense when we add and subtract vectors. Take a look at <a class="reference internal" href="#vector-addition-figure"><span class="std std-numref">Fig. 4.1</span></a>, here the vector <span class="math notranslate nohighlight">\(\underline{b}\)</span> has been added to the vector <span class="math notranslate nohighlight">\(\underline{a}\)</span> where the tail of <span class="math notranslate nohighlight">\(\underline{b}\)</span> is placed at the head of <span class="math notranslate nohighlight">\(\underline{a}\)</span>. The resulting vector <span class="math notranslate nohighlight">\(\underline{a} + \underline{b}\)</span> points from the tail of <span class="math notranslate nohighlight">\(\underline{a}\)</span> to the head of <span class="math notranslate nohighlight">\(\underline{b}\)</span>.</p>
 <p>With the subtraction of the vector <span class="math notranslate nohighlight">\(\underline{b}\)</span> we do similar but instead multiply <span class="math notranslate nohighlight">\(\underline{b}\)</span> by -1 thereby reversing its direction.</p>
 <figure class="align-default" id="vector-addition-figure">
-<a class="reference internal image-reference" href="../_images/vector_addition.svg"><img alt="../_images/vector_addition.svg" height="180" src="../_images/vector_addition.svg" /></a>
+<a class="reference internal image-reference" href="../_images/04_vector_addition.svg"><img alt="../_images/04_vector_addition.svg" height="180" src="../_images/04_vector_addition.svg" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 4.1 </span><span class="caption-text">Vector addition and subtraction.</span><a class="headerlink" href="#vector-addition-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
 <section id="dot-product">
-<span id="dot-product-section"></span><h3><span class="section-number">4.2.5. </span>Dot product<a class="headerlink" href="#dot-product" title="Permalink to this heading">#</a></h3>
+<span id="dot-product-section"></span><h3><span class="section-number">4.1.6. </span>Dot product<a class="headerlink" href="#dot-product" title="Permalink to this heading">#</a></h3>
 <p>The <strong>dot product</strong> between two vectors <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> and <span class="math notranslate nohighlight">\(\underline{b} = (b_x, b_y, b_z)\)</span> is denoted by <span class="math notranslate nohighlight">\(\underline{a} \cdot \underline{b}\)</span> and returns a scalar quantity (a number). The dot product is calculated using</p>
 <div class="math notranslate nohighlight" id="equation-eq-dot-product">
 <span class="eqno">(4.5)<a class="headerlink" href="#equation-eq-dot-product" title="Permalink to this equation">#</a></span>\[ \underline{a} \cdot \underline{b} = a_xb_x + a_yb_y + a_zb_z. \]</div>
-<p>The dot product is related to the angle between the two vectors by the relationship</p>
+<p>The dot product is related to the angle between the two vectors by</p>
 <div class="math notranslate nohighlight" id="equation-eq-dot-product-geometric">
 <span class="eqno">(4.6)<a class="headerlink" href="#equation-eq-dot-product-geometric" title="Permalink to this equation">#</a></span>\[ \underline{a} \cdot \underline{b} = |\underline{a}| |\underline{b}| \cos(\theta), \]</div>
 <p>where <span class="math notranslate nohighlight">\(\theta\)</span> is the angle between the vectors <span class="math notranslate nohighlight">\(\underline{a}\)</span> and <span class="math notranslate nohighlight">\(\underline{b}\)</span>.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="../_images/dot_product.svg"><img alt="../_images/dot_product.svg" height="150" src="../_images/dot_product.svg" /></a>
+<a class="reference internal image-reference" href="../_images/04_dot_product.svg"><img alt="../_images/04_dot_product.svg" height="150" src="../_images/04_dot_product.svg" /></a>
 </figure>
 <p>A useful result for computer graphics is that if <span class="math notranslate nohighlight">\(\theta=90^\circ\)</span> then <span class="math notranslate nohighlight">\(\cos(90^\circ)= 0\)</span> and equation <a class="reference internal" href="#equation-eq-dot-product-geometric">(4.6)</a> becomes</p>
 <div class="math notranslate nohighlight">
@@ -629,13 +633,13 @@ u . v = 19
 <p>The glm function <code class="docutils literal notranslate"><span class="pre">glm::dot(u,</span> <span class="pre">v)</span></code> calculates the dot product of the two vectors <code class="docutils literal notranslate"><span class="pre">u</span></code> and <code class="docutils literal notranslate"><span class="pre">v</span></code>. Use this to calculate <span class="math notranslate nohighlight">\(\underline{u} \cdot \underline{v}\)</span> in your program to see that it gives the same result.</p>
 </section>
 <section id="cross-product">
-<span id="cross-product-section"></span><h3><span class="section-number">4.2.6. </span>Cross product<a class="headerlink" href="#cross-product" title="Permalink to this heading">#</a></h3>
+<span id="cross-product-section"></span><h3><span class="section-number">4.1.7. </span>Cross product<a class="headerlink" href="#cross-product" title="Permalink to this heading">#</a></h3>
 <p>The <strong>cross product</strong> between two vectors <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> and <span class="math notranslate nohighlight">\(\underline{b} = (b_x, b_y, b_z)\)</span> is denoted by <span class="math notranslate nohighlight">\(\underline{a} \times \underline{b}\)</span> and returns a vector. The cross product is calculated using</p>
 <div class="math notranslate nohighlight" id="equation-eq-cross-product">
 <span class="eqno">(4.7)<a class="headerlink" href="#equation-eq-cross-product" title="Permalink to this equation">#</a></span>\[ \underline{a} \times \underline{b} = (a_yb_z - a_zb_y, a_zb_x - a_xb_z, a_xb_y - a_yb_x). \]</div>
 <p>The cross product between two vectors produces another vector that is perpendicular to both vectors. This is another incredibly useful result as it allows use to calculate <strong>normal</strong> vectors for polygons which are used in calculating how light is reflected off surfaces.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="../_images/cross_product.svg"><img alt="../_images/cross_product.svg" height="200" src="../_images/cross_product.svg" /></a>
+<a class="reference internal image-reference" href="../_images/04_cross_product.svg"><img alt="../_images/04_cross_product.svg" height="200" src="../_images/04_cross_product.svg" /></a>
 </figure>
 <p>For example, given the vectors <span class="math notranslate nohighlight">\(\underline{u} = (2,2,1)\)</span> and <span class="math notranslate nohighlight">\(\underline{v} = (3, 4, 5)\)</span> the cross product <span class="math notranslate nohighlight">\(\underline{u} \times \underline{v}\)</span> is</p>
 <div class="math notranslate nohighlight">
@@ -659,13 +663,11 @@ u . v = 19
 <p>The glm function for calculating the cross product between two vectors is <code class="docutils literal notranslate"><span class="pre">glm::cross(a,b)</span></code>. Add the following code to your program.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// The cross product</span>
 <span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">uCrossV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">cross</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">);</span>
-<span class="kt">float</span><span class="w"> </span><span class="n">uDotUCrossV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">dot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">uCrossV</span><span class="p">);</span>
-<span class="kt">float</span><span class="w"> </span><span class="n">vDotUCrossV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">dot</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">uCrossV</span><span class="p">);</span>
 
 <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">The cross product</span><span class="se">\n</span><span class="s">----------------- &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;u x v = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">uCrossV</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;u . (u x v) = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">uDotUCrossV</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;v . (u x v) = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">vDotUCrossV</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;u . (u x v) = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">dot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">uCrossV</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;v . (u x v) = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">dot</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">uCrossV</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>Output</p>
@@ -679,20 +681,20 @@ v . (u x v) = 0
 </section>
 </section>
 <section id="matrices">
-<h2><span class="section-number">4.3. </span>Matrices<a class="headerlink" href="#matrices" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">4.2. </span>Matrices<a class="headerlink" href="#matrices" title="Permalink to this heading">#</a></h2>
 <p>A matrix is a rectangular array of numbers, e.g.,</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} A = \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix}. \end{split}\]</div>
 <p>We refer to the size of a matrix by the number of horizontal rows <span class="math notranslate nohighlight">\(\times\)</span> the number of vertical columns. Here the matrix <span class="math notranslate nohighlight">\(A\)</span> has 2 rows and 2 columns so we call this matrix a <span class="math notranslate nohighlight">\(2 \times 2\)</span> matrix. The individual elements of a matrix are referenced by an <strong>index</strong> which is a pair of numbers, the first of which is the row number and the second is the column number, so <span class="math notranslate nohighlight">\(a_{ij}\)</span> is the element in row <span class="math notranslate nohighlight">\(i\)</span> and column <span class="math notranslate nohighlight">\(j\)</span> of the matrix <span class="math notranslate nohighlight">\(A\)</span>. For example for the matrix <span class="math notranslate nohighlight">\(A\)</span> defined above <span class="math notranslate nohighlight">\(a_{11} = 1\)</span>, <span class="math notranslate nohighlight">\(a_{12} = 2\)</span>, <span class="math notranslate nohighlight">\(a_{21} = 3\)</span> and <span class="math notranslate nohighlight">\(a_{22} = 4\)</span>.</p>
 <section id="matrix-transpose">
-<h3><span class="section-number">4.3.1. </span>Matrix transpose<a class="headerlink" href="#matrix-transpose" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.2.1. </span>Matrix transpose<a class="headerlink" href="#matrix-transpose" title="Permalink to this heading">#</a></h3>
 <p>The <strong>transpose</strong> of a matrix <span class="math notranslate nohighlight">\(A\)</span> is denoted by <span class="math notranslate nohighlight">\(A^\mathsf{T}\)</span> and is defined by swapping the rows and columns of <span class="math notranslate nohighlight">\(A\)</span>.</p>
-<p>For example, given the matrix <span class="math notranslate nohighlight">\(A\)</span> defined earlier</p>
+<p>For example, given the matrix <span class="math notranslate nohighlight">\(A\)</span> defined above</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} A^\mathsf{T} = \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix}^\mathsf{T} = \begin{pmatrix} 1 &amp; 3 \\ 2 &amp; 4 \end{pmatrix}. \end{split}\]</div>
 </section>
 <section id="defining-matrices-in-glm">
-<h3><span class="section-number">4.3.2. </span>Defining matrices in glm<a class="headerlink" href="#defining-matrices-in-glm" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.2.2. </span>Defining matrices in glm<a class="headerlink" href="#defining-matrices-in-glm" title="Permalink to this heading">#</a></h3>
 <p>The glm command for defining a matrix is <code class="docutils literal notranslate"><span class="pre">glm::matn(1.0f)</span></code> where <code class="docutils literal notranslate"><span class="pre">n</span></code> is the number of rows and columns of the matrix, e.g., <code class="docutils literal notranslate"><span class="pre">glm::mat2(1.0f)</span></code> will define a <span class="math notranslate nohighlight">\(2\times 2\)</span> matrix (in fact this defines a <span class="math notranslate nohighlight">\(2\times 2\)</span> <a class="reference internal" href="#identity-matrix-section"><span class="std std-ref">identity matrix</span></a>). Lets define the <span class="math notranslate nohighlight">\(2 \times 2\)</span> matrix <span class="math notranslate nohighlight">\(A\)</span> in our program and output it so add the following to your program.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Defining a matrix</span>
 <span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat2</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">);</span>
@@ -712,7 +714,7 @@ A =
  [    2.000,    4.000]]
 </pre></div>
 </div>
-<p>Wait, what? Hang on something isn’t right here. Looking at the matrix that was outputted we have 1 and 3 on the top row when we were expecting 1 and 2, so what has gone wrong? To explain we need to look at how arrays are stored in the memory. Memory can be considered as being one long 1D array so when a matrix is stored in the memory we have a choice whether to use <strong>row-major order</strong> where we store the rows of the matrix one after the other or <strong>column-major order</strong> where we store the columns of the matrix on after the other. For example, given the matrix</p>
+<p>Hang on something isn’t right here. Looking at the matrix that was outputted we have 1 and 3 on the top row when we were expecting 1 and 2, so what has gone wrong? To explain we need to look at how arrays are stored in the memory. Memory can be considered as being one long 1D array so when a matrix is stored in the memory we have a choice whether to use <strong>row-major order</strong> where we store the rows of the matrix one after the other or <strong>column-major order</strong> where we store the columns of the matrix on after the other. For example, given the matrix</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} A = \begin{pmatrix} a &amp; b &amp; c \\ d &amp; e &amp; f \\ g &amp; h &amp; i \end{pmatrix},\end{split}\]</div>
 <p>then in row-major order the matrix would be stored as</p>
@@ -737,7 +739,7 @@ A =
 </div>
 </section>
 <section id="matrix-multiplication">
-<span id="matrix-multiplication-section"></span><h3><span class="section-number">4.3.3. </span>Matrix multiplication<a class="headerlink" href="#matrix-multiplication" title="Permalink to this heading">#</a></h3>
+<span id="matrix-multiplication-section"></span><h3><span class="section-number">4.2.3. </span>Matrix multiplication<a class="headerlink" href="#matrix-multiplication" title="Permalink to this heading">#</a></h3>
 <p>The addition, subtraction and multiplication by a scalar for matrices is the same as it is for vectors so I’m not going to repeat it here. However, the multiplication of two matrices <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> is defined in a very specific way. If <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are two matrices then the element in row <span class="math notranslate nohighlight">\(i\)</span> and column <span class="math notranslate nohighlight">\(j\)</span> of the matrix <span class="math notranslate nohighlight">\(AB\)</span> is calculated using</p>
 <div class="math notranslate nohighlight" id="equation-eq-matrix-multiplication">
 <span class="eqno">(4.8)<a class="headerlink" href="#equation-eq-matrix-multiplication" title="Permalink to this equation">#</a></span>\[ [AB]_{ij} = \underline{a}_i \cdot \underline{b}_j, \]</div>
@@ -811,7 +813,7 @@ BA =
 </div>
 </section>
 <section id="the-identity-matrix">
-<span id="identity-matrix-section"></span><h3><span class="section-number">4.3.4. </span>The identity matrix<a class="headerlink" href="#the-identity-matrix" title="Permalink to this heading">#</a></h3>
+<span id="identity-matrix-section"></span><h3><span class="section-number">4.2.4. </span>The identity matrix<a class="headerlink" href="#the-identity-matrix" title="Permalink to this heading">#</a></h3>
 <p>The <strong>identity matrix</strong> is a special square matrix (same number of rows and columns) where all the elements are zero apart from the elements on the diagonal line from the top-left element down to the bottom-right element (known as the <strong>main diagonal</strong>). For example the <span class="math notranslate nohighlight">\(4\times 4\)</span> identity matrix is</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} I = \begin{pmatrix}
@@ -855,11 +857,11 @@ I =
 </div>
 </section>
 <section id="the-inverse-matrix">
-<h3><span class="section-number">4.3.5. </span>The inverse matrix<a class="headerlink" href="#the-inverse-matrix" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.2.5. </span>The inverse matrix<a class="headerlink" href="#the-inverse-matrix" title="Permalink to this heading">#</a></h3>
 <p>Whilst matrix multiplication is defined for certain matrices there is no way of dividing a matrix by another. However, for certain square matrices we can calculate an <strong>inverse matrix</strong> that performs a similar function to divide. Consider the division of two numbers, 4 and 2 say. If we wanted to divide 4 by two we could write</p>
 <div class="math notranslate nohighlight">
 \[ \frac{8}{2} = 4. \]</div>
-<p>We could also write this division as the multiplication of \frac{1}{2} and 8, i.e.,</p>
+<p>We could also write this division as the multiplication of <span class="math notranslate nohighlight">\(\frac{1}{2}\)</span> and 8, i.e.,</p>
 <div class="math notranslate nohighlight">
 \[ \frac{1}{2} \times 8 = 4. \]</div>
 <p>Here we have shown that <span class="math notranslate nohighlight">\(\frac{1}{2}\)</span> is the <strong>multiplicative inverse</strong> of 2. A multiplicative inverse of a number <span class="math notranslate nohighlight">\(x\)</span> is denoted as <span class="math notranslate nohighlight">\(x^{-1}\)</span> and satisfies <span class="math notranslate nohighlight">\(x \cdot x^{-1} = 1\)</span>. The inverse of a matrix <span class="math notranslate nohighlight">\(A\)</span> is denoted by <span class="math notranslate nohighlight">\(A^{-1}\)</span> and satisfied <span class="math notranslate nohighlight">\(A^{-1}A = I\)</span> where <span class="math notranslate nohighlight">\(I\)</span> is the identity matrix. For example, the inverse of the matrix</p>
@@ -890,11 +892,15 @@ I =
 </pre></div>
 </div>
 <p>Output</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>// Inverse matrix
-glm::mat2 invA = glm::inverse(A);
-std::cout &lt;&lt; &quot;\nInverse matrix\n--------------&quot; &lt;&lt; std::endl;
-std::cout &lt;&lt; &quot;invA =&quot; &lt;&lt; glm::transpose(invA) &lt;&lt; std::endl;
-std::cout &lt;&lt; &quot;\ninvA * A&quot; &lt;&lt; glm::transpose(invA * A) &lt;&lt; std::endl;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Inverse matrix
+--------------
+invA =
+[[   -2.000,    1.000]
+ [    1.500,   -0.500]]
+
+invA * A =
+[[    1.000,    0.000]
+ [    0.000,    1.000]]
 </pre></div>
 </div>
 <p>Not all square matrices have an inverse. For example, no inverse exists for the matrix</p>
@@ -925,7 +931,7 @@ std::cout &lt;&lt; &quot;\ninvA * A&quot; &lt;&lt; glm::transpose(invA * A) &lt;
 </section>
 </section>
 <section id="exercises">
-<span id="vectors-exercises"></span><h2><span class="section-number">4.4. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
+<span id="vectors-exercises"></span><h2><span class="section-number">4.3. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
 <ol class="arabic">
 <li><p>Three points have the co-ordinates P = (5, 1, 3), Q = (10, 7, 4) and R = (0, 5, -3). Use C++ code to output the following:</p>
 <p>(a) The vector <span class="math notranslate nohighlight">\(\underline{p}\)</span> that points from P to Q;<br>
@@ -966,7 +972,7 @@ std::cout &lt;&lt; &quot;\ninvA * A&quot; &lt;&lt; glm::transpose(invA * A) &lt;
 <p>Refer to the section on <a class="reference internal" href="01_intro_to_cpp.html#oop-section"><span class="std std-ref">Object Orientated Programming</span></a> for a reminder on how to add classes to your program.</p>
 </section>
 <section id="source-code">
-<h2><span class="section-number">4.5. </span>Source code<a class="headerlink" href="#source-code" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">4.4. </span>Source code<a class="headerlink" href="#source-code" title="Permalink to this heading">#</a></h2>
 <p>The source code for this lab, including the exercise solutions, can be downloaded using the links below.</p>
 <ul class="simple">
 <li><p><a class="reference download internal" download="" href="../_downloads/d4638622e76e2478a1e4785c57518280/main.cpp"><span class="xref download myst">main.cpp</span></a></p></li>
@@ -1043,26 +1049,26 @@ std::cout &lt;&lt; &quot;\ninvA * A&quot; &lt;&lt; glm::transpose(invA * A) &lt;
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vectors">4.1. Vectors</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-glm-library">4.2. The glm library</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-magnitude">4.2.1. Vector magnitude</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-multiplication-by-a-scalar">4.2.2. Vector multiplication by a scalar</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unit-vectors">4.2.3. Unit vectors</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-addition-and-subtraction">4.2.4. Vector addition and subtraction</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dot-product">4.2.5. Dot product</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-product">4.2.6. Cross product</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vectors">4.1. Vectors</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-glm-library">4.1.1. The glm library</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-magnitude">4.1.2. Vector magnitude</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-multiplication-by-a-scalar">4.1.3. Vector multiplication by a scalar</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unit-vectors">4.1.4. Unit vectors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-addition-and-subtraction">4.1.5. Vector addition and subtraction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dot-product">4.1.6. Dot product</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-product">4.1.7. Cross product</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrices">4.3. Matrices</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-transpose">4.3.1. Matrix transpose</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-matrices-in-glm">4.3.2. Defining matrices in glm</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-multiplication">4.3.3. Matrix multiplication</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-identity-matrix">4.3.4. The identity matrix</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-inverse-matrix">4.3.5. The inverse matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrices">4.2. Matrices</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-transpose">4.2.1. Matrix transpose</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-matrices-in-glm">4.2.2. Defining matrices in glm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-multiplication">4.2.3. Matrix multiplication</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-identity-matrix">4.2.4. The identity matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-inverse-matrix">4.2.5. The inverse matrix</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">4.4. Exercises</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-code">4.5. Source code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">4.3. Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-code">4.4. Source code</a></li>
 </ul>
   </nav></div>
 

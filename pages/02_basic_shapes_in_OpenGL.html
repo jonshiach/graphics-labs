@@ -437,7 +437,7 @@ document.write(`
 <span class="p">};</span>
 </pre></div>
 </div>
-<p>We now need to define a <a href="https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Buffer_Object" target="_blank"><strong>Vertex Buffer Object (VBO)</strong></a> which is how we transfer the vertex data from the CPU to the GPU.</p>
+<p id="vbo-section">We now need to define a <a href="https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Buffer_Object" target="_blank"><strong>Vertex Buffer Object (VBO)</strong></a> which is how we transfer the vertex data from the CPU to the GPU.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create Vertex Buffer Object (VBO)</span>
 <span class="n">GLuint</span><span class="w"> </span><span class="n">VBO</span><span class="p">;</span>
 <span class="n">glGenBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">VBO</span><span class="p">);</span>

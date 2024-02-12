@@ -1,3 +1,5 @@
+//  Lab04_Vectors_and_matrices
+
 #include <iostream>
 #include <cmath>
 
@@ -126,10 +128,10 @@ int main()
     std::cout << "(a) p = " << p << std::endl;
     std::cout << "(b) p = " << q << std::endl;
     std::cout << "(c) p = " << r << std::endl;
-    std::cout << "(d) |p| = " << glm::length(p) << std::endl;
-    std::cout << "(e) phat = " << q / glm::length(q) << std::endl;
-    std::cout << "(f) p . q = " << glm::dot(p, q) << std::endl;
-    std::cout << "(g) q x r = " << glm::cross(q, r) << std::endl;
+    std::cout << "(d) |p| = " << MyLib::length(p) << std::endl;
+    std::cout << "(e) pHat = " << MyLib::normalise(q) << std::endl;
+    std::cout << "(f) p . q = " << MyLib::dot(p, q) << std::endl;
+    std::cout << "(g) q x r = " << MyLib::cross(q, r) << std::endl;
     
     // Exercise 2
     A = glm::mat2(-1.0, 3.0f, 2.0f, -5.0f);
@@ -141,12 +143,12 @@ int main()
     std::cout << "\n(b) ABC =" << glm::transpose(C * B * A) << std::endl;
     std::cout << "\n(c) CBA =" << glm::transpose(A * B * C) << std::endl;
     std::cout << "\n(d) A^T B =" << glm::transpose(B * glm::transpose(A)) << std::endl;
-    std::cout << "\n(e) inv(A) = " << glm::transpose(glm::inverse(A)) << std::endl;
+    std::cout << "\n(e) inv(A) = " << glm::transpose(MyLib::inverse(A)) << std::endl;
     
     // Exercise 3
     std::cout << "\nExercise 3\n----------" << std::endl;
     std::cout << "1(d) |p| = " << MyLib::length(p) << std::endl;
-    std::cout << "1(e) phat = " << q / MyLib::length(q) << std::endl;
+    std::cout << "1(e) pHat = " << q / MyLib::length(q) << std::endl;
     std::cout << "1(f) p . q = " << MyLib::dot(p, q) << std::endl;
     std::cout << "1(g) q x r = " << MyLib::cross(q, r) << std::endl;
     
