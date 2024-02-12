@@ -228,7 +228,7 @@ Compile and run the program and you should be presented with the more realistic 
 
 ## Texture wrapping
 
-In our examples above, all of the texture co-ordinates have been in the range from (0, 0) to (1, 1). If we specify co-ordinates outside of this range then OpenGL will repeat the texture across the fragment. This is known as **texture wrapping**.
+In our examples above, all of the texture co-ordinates have been in the range from 0 to 1. If we specify co-ordinates outside of this range then OpenGL will repeat the texture across the fragment. This is known as **texture wrapping**.
 
 ```{figure} ../images/texture_repeat.png
 :width: 300

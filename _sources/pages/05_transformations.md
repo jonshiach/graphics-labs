@@ -687,6 +687,8 @@ Compile and run the program and we have something quite different.
 
 4. Create your own class called `MyLib` using header and code files `MyLib.hpp` and `MyLib.cpp` that includes static member functions to calculate the translation, scaling and angle-axis rotation matrices (you may use `glm::mat4()`, `glm::vec3` and the `cmath` library). Replace the glm functions `glm::translate()`, `glm::scale()` and `glm::rotate` with functions from MyLib to answer exercises 1 to 3.
 
+---
+
 ## Source code
 
 The source code for this lab, including the exercise solutions, can be downloaded using the links below.
