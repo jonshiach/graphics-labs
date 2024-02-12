@@ -4,8 +4,12 @@
 
 float MyLib::length(const glm::vec3 v)
 {
-    float length = sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
-    return length;
+    return sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+}
+
+glm::vec3 MyLib::normalise(const glm::vec3 v)
+{
+    return v / length(v);
 }
 
 float MyLib::dot(const glm::vec3 a, glm::vec3 b)
@@ -42,10 +46,10 @@ glm::mat2 MyLib::multiplication(const glm::mat2 A, const glm::mat2 B)
 glm::mat2 MyLib::inverse(const glm::mat2 A)
 {
     glm::mat2 invA;
-    float denom = A[0][0] * A[1][1] - A[0][1] * A[1][0];
-    invA[0][0] = A[1][1] / denom;
-    invA[0][1] = -A[1][0] / denom;
-    invA[1][0] = -A[0][1] / denom;
-    invA[1][1] = A[0][0] / denom;
+    float denominator = A[0][0] * A[1][1] - A[0][1] * A[1][0];
+    invA[0][0] = A[1][1] / denominator;
+    invA[0][1] = -A[1][0] / denominator;
+    invA[1][0] = -A[0][1] / denominator;
+    invA[1][1] = A[0][0] / denominator;
     return invA;
 }

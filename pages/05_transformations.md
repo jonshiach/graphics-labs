@@ -14,7 +14,7 @@ where $(x',y',z')$ are the co-ordinates of the transformed point.
 The co-ordinate system used by OpenGL is a <a href="https://en.wikipedia.org/wiki/Right-hand_rule" target="_blank">right-hand</a> 3D co-ordinate system (on your right hand the thumb represents the $x$-axis, the index finger the $y$-axis and the middle finger the $z$-axis) with the $x$-axis pointing to the right, the $y$-axis point upwards and the $z$-axis pointing out of the screen towards the viewer.
 
 ```{figure} ../images/05_opengl_axes.svg
-:height: 220
+:width: 300
 
 The OpenGL co-ordinate system.
 ```
@@ -114,10 +114,10 @@ We need a way of passing the `translate` matrix to the shader. Since we are goin
 
 ```cpp
 // Calculate the transformation matrix
- glm::mat4 transformation = translate;
+glm::mat4 transformation = translate;
  
- // Get the handle for the transformation matrix
- GLuint transformationID = glGetUniformLocation(shaderID, "transformation");
+// Get the handle for the transformation matrix
+GLuint transformationID = glGetUniformLocation(shaderID, "transformation");
 ```
 
 We send the uniform to the vertex shader in the rendering loop just before we draw the triangles. Since we have a 4 $\times$ 4 matrix we need to using the `glUniformMatrix4fv()` function to do this.
@@ -398,7 +398,7 @@ rotate[1][0] = -sin(angle), rotate[1][1] = cos(angle);
 std::cout << "\nrotate = " << glm::transpose(rotate) << "\n" << std::cout;
 ```
 
-Note that here we needed to convert 40$^\circ$ into <a href="https://en.wikipedia.org/wiki/Radian" target="_blank">**radians**</a> since OpenGL expects angles to be in radians. We now set the `transformation` matrix equal to our `rotate` matrix
+Note that here we needed to convert 45$^\circ$ into <a href="https://en.wikipedia.org/wiki/Radian" target="_blank">**radians**</a> since OpenGL expects angles to be in radians. We now set the `transformation` matrix equal to our `rotate` matrix
 
 ```cpp
 glm::mat4 transformation = rotate;
@@ -677,7 +677,7 @@ Compile and run the program and we have something quite different.
 </video>
 </center>
 
-3. Use scaling to scale the rectangle so that it grows and shrinks as it is moving. Hint: the function $s(t) = 1 + 0.5 \sin(at)$ oscillates between 0.75 and 1.25 as $t$ increases. Experiment with the speed of which the rectangle grows and shrinks by changing the value of $a$. 
+3. Use scaling to scale the rectangle so that it grows and shrinks as it is moving. Hint: the function $s(t) = 1 + 0.5 \sin(at)$ oscillates between 0.5 and 1.5 as $t$ increases. Experiment with the speed of which the rectangle grows and shrinks by changing the value of $a$.
 
 <center>
 <video controls muted="true" loop="true" width="500">

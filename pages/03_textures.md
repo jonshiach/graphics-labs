@@ -10,7 +10,7 @@ Texture mapping is a technique for applying a 2D image known as a **texture** on
 Mapping a texture to a polygon.
 ```
 
-The texture is a 2D <a href="https://en.wikipedia.org/wiki/Bitmap" target="_blank">**bitmap**</a> image where each pixel within the texture, known as a **textel**, is referenced using the **texture coordiantes** given as (u,v) where u and v are in the range 0 to 1, i.e., (0,0) corresponds to the textel in the bottom left corner and (1,1) corresponds to the textel in the top-right corner. When a fragment is created by the shader the corresponding texture co-ordinates are calculated and the sample colour of the textel is used for the fragment. Fortunately we do not need to write a texture mapper functions since these are in OpenGL.
+The texture is a 2D <a href="https://en.wikipedia.org/wiki/Bitmap" target="_blank">**bitmap**</a>, usually of an image, where each pixel within the texture, known as a **textel**, is referenced using the **texture coordinates** given as (u,v) where u and v are in the range 0 to 1, i.e., (0,0) corresponds to the textel in the bottom left corner and (1,1) corresponds to the textel in the top-right corner. When a fragment is created by the shader the corresponding texture co-ordinates are calculated and the sample colour of the textel is used for the fragment. Fortunately we do not need to write a texture mapper functions since these are in OpenGL.
 
 Lets apply a texture map to our triangle from [Lab 2](hello-triangle-section). First download and build the project files for this lab.
 
@@ -51,7 +51,7 @@ The crate texture.
 
 A <a href="https://www.khronos.org/opengl/wiki/Uniform_(GLSL)" target="_blank">**uniform**</a> is a global shader that remains constant during the execution of the rendering pass and has the same value for all vertices and fragments. Uniforms provide a way to pass data to the shaders so we will use one for passing the texture information to the fragment shader.
 
-To declare a uniform for our texture add the following code to your `main.cpp` file (this can go anywhere before the rendering loop but it makes sense to put these after we have loaded out texture).
+To declare a uniform for our texture add the following code to your `main.cpp` file (this can go anywhere before we render the object but it makes sense to put these after we have loaded our texture).
 
 ```cpp
 // Get a handle for the texture sampler uniform
@@ -86,7 +86,7 @@ void main()
 }
 ```
 
-You may notice some changes from our simple vertex shader. We have a second input `vertexUV` which is a 2-element vector which are the texture coordinates which are passed to the fragment shader as the output `uv` (remember that the `gl_Position` vector is passed to the fragment shader by default).
+You may notice some changes from our [simple vertex shader](vertex-shader-section). We have a second input `vertexUV` which is a 2-element vector which are the texture coordinates which are passed to the fragment shader as the output `uv` (remember that the `gl_Position` vector is passed to the fragment shader by default).
 
 ### Fragment shader
 
@@ -145,7 +145,7 @@ So here the bottom-left triangle vertex at (-0.5, -0.5, 0) is mapped to the text
 
 ### Send the texture to OpenGL
 
-Now that we have loaded the texture and written our vertex and fragment shaders, the next and final step is to send the texture buffer to OpenGL. This is done in the same way as for the VBO (Vertex Buffer Object) but first we need to bind our texture to OpenGL. After we have instructed the application to use our shader program add the following code.
+Now that we have loaded the texture and written our vertex and fragment shaders, the next and final step is to send the texture buffer to OpenGL. This is done in the same way as for the [VBO (Vertex Buffer Object)](vbo-section) but first we need to bind our texture to OpenGL. After we have instructed the application to use our shader program add the following code.
 
 (texture-unit-code)=
 ```cpp        
@@ -325,7 +325,7 @@ The effects of these two filtering methods are shown in {numref}`nearest-filteri
 ````
 `````
 
-When the fragment is larger then the texture we are up scaling the texture which can result in the block appearance seen in {numref}`nearest-filtering-figure` so `GL_LINEAR` would be the preferred filtering method. Texture filtering can be set for **magnifying** or **minifying** (i.e., when up scaling or down scaling) using `GL_TEXTURE_MAG_FILTER` and `GL_TEXTURE_MIN_FILTER`, for example
+When the fragment is larger then the texture we are up scaling the texture which can result in the blocky appearance seen in {numref}`nearest-filtering-figure` so `GL_LINEAR` would be the preferred filtering method. Texture filtering can be set for **magnifying** or **minifying** (i.e., when up scaling or down scaling) using `GL_TEXTURE_MAG_FILTER` and `GL_TEXTURE_MIN_FILTER`, for example
 
 ```cpp
 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -424,7 +424,7 @@ Here we have used the `mix()` GLSL function to combine the colour samples from t
 :width: 500
 ```
 
-2. Modify the fragment shader so that the smiley face looks in the other direction.
+2. Modify the fragment shader so that the smiley face looks in the other direction. Hint: the individual elements of a `vec3` vector can be accessed using `<vector name>.x`, `<vector name>.y` etc.
 
 ```{figure} ../images/smiley_reversed.png
 :width: 500

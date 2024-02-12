@@ -51,6 +51,12 @@
 %     \draw [dblarrow,blue] (0.75,1) -- ++(0,2) node [pos=0.5,left] {$a_y$};
 % \end{tikzpicture}
 
+% \begin{tikzpicture}
+%     \node [point,label=below:{$A$}] (a) {};
+%     \node [point,label=below:{$B$}] at ($(a)+(15:3)$) (b) {};
+%     \draw [vector] (a) -- (b) node [pos=0.5,below] {$\vec{a}$};
+% \end{tikzpicture}
+
 % Vector multiplication by a scalar
 % \begin{tikzpicture}
 %     \tikzmath{\a=20;};
@@ -439,6 +445,7 @@
 %     \draw [<->,red,line width=1pt] (pixel) -- (3,\y);
 % \end{tikzpicture}
 
+% Mipmaps
 % \begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
 %     \node [anchor=south west] {\includegraphics[width=4cm,height=4cm]{smiley_checkerboard.png}};
 %     \node [anchor=south west] at (4,2) {\includegraphics[width=2cm,height=2cm]{smiley_checkerboard.png}};
@@ -557,8 +564,8 @@
 
 % View matrix
 % \begin{tikzpicture}
-%     \tikzmath{\x=-20;\y=90;\z=180-\x;\l=1;\w=1;\d=1;\v=210;\vl=1;};
-%     \coordinate (origin) at (7,1.5);
+%     \tikzmath{\x=-20;\y=90;\z=180-\x;\l=1;\w=1;\d=1;\v=200;\vl=1;};
+%     \coordinate (origin) at (8,1);
 %     \node [rotate=\v] at (origin) {\includegraphics[width=1cm]{camera.pdf}};
 %     % \draw [xaxis] (0,0) -- ++(\x:\l) node at (\x:\l+0.2) {$x$};
 %     % \draw [yaxis] (0,0) -- ++(\y:\l) node at (\y:\l+0.2) {$y$};
@@ -567,47 +574,84 @@
 %     \draw [fill=white,opacity=0.75] (2) -- ++(\z:-\d) -- ++(\y:\w) -- ++(\z:\d) -- cycle;
 %     \draw [fill=white,opacity=0.75] (3) -- ++(\z:-\d) -- ++(\x:-\w) -- ++(\z:\d) -- cycle;
 %     \node [point] at (origin) {};
-%     \node [below right,yshift=-0.2cm] at (origin) {\tt camera};
-%     \node [point,label=below:\tt target] at ($(origin)+(\v:2)$) {};
-%     \draw [-triangle 45,red,line width=1pt] (origin) -- ++(70:1.5) node [right] {\tt cameraRight};
+%     \node [point,label=below:\tt target] at ($(origin)+(\v:3)$) {};
+%     \draw [-triangle 45,red,line width=1pt] (origin) -- ++(70:1.25) node [right] {\tt cameraRight};
 %     \draw [-triangle 45,green!80!black,line width=1pt] (origin) -- ++(\v-90:1.5) node [left] {\tt cameraUp};
-%     \draw [-triangle 45,blue,line width=1pt] (origin) -- ++(\v:-1.5) node [right] {\tt cameraForward};
+%     \draw [-triangle 45,blue,line width=1pt] (origin) -- ++(\v:1.5) node [below] {\tt cameraFront};
 %     \draw [-triangle 45,line width=1pt] (origin) -- ++(90:2) node [above] {\tt worldUp};
+%     \node [point,label=below:\tt target] at ($(origin)+(\v:3)$) {};
+%     \node [below right,yshift=-0.2cm] at (origin) {\tt position};
 % \end{tikzpicture}
 
 % Unit cube
-% \begin{tikzpicture}
-%     \tikzmath{\x=-20;\y=90;\z=180-\x;\l=1;\w=3;\d=\w+0.4;\h=\w;};
-%     \coordinate (origin) at (0,0);
-%     \coordinate (0) at ($(origin)+(\x:-0.5*\w)+(\y:-0.5*\h)+(\z:0.5*\d)$);
-%     \coordinate (1) at ($(0)+(\x:\w)$);
-%     \coordinate (2) at ($(1)+(\z:-\d)$);
-%     \coordinate (3) at ($(0)+(\z:-\d)$);
-%     \coordinate (4) at ($(0)+(\y:\h)$);
-%     \coordinate (5) at ($(1)+(\y:\h)$);
-%     \coordinate (6) at ($(2)+(\y:\h)$);
-%     \coordinate (7) at ($(3)+(\y:\h)$);
-%     \node [above right] at (3) {(-1,-1,-1)};
-%     \draw (0) -- (1) -- (2) -- (3) -- (0) 
-%         (0) -- (3) -- (7) -- (4) -- (0) 
-%         (2) -- (3) -- (7) -- (6) -- (2)
-%         (0) -- (2) (2) -- (7) (3) -- (4);
-%     \draw [xaxis] (origin) -- ++(\x:\l) node at ($(origin)+(\x:\l+0.2)$) {$x$};
-%     \draw [yaxis] (origin) -- ++(\y:\l) node at ($(origin)+(\y:\l+0.2)$) {$y$};;
-%     \draw [zaxis] (origin) -- ++(\z:\l) node at ($(origin)+(\z:\l+0.2)$) {$z$};;
-%     \fill [white,opacity=0.5] (0) -- (1) -- (2) -- (6) -- (7) -- (4) -- (0);
-%     \draw (0) -- (1) -- (5) -- (4) -- (0) 
-%         (1) -- (2) -- (6) -- (5) -- (1) 
-%         (4) -- (5) -- (6) -- (7)
-%         (0) -- (5) (2) -- (7) (4) -- (6);
-%     \node at (0) [below left] {(-1,-1,1)};
-%     \node at (1) [below] {(1,-1,1)};
-%     \node at (2) [right] {(1,-1,-1)};
-%     \node at (4) [left] {(-1,1,1)};
-%     \node at (5) [below left] {(1,1,1)};
-%     \node at (6) [right] {(1,1,-1)};
-%     \node at (7) [above] {(-1,1,-1)};
-% \end{tikzpicture}
+\begin{tikzpicture}
+    \tikzmath{\x=-20;\y=90;\z=180-\x;\l=1;\w=3;\d=\w+0.4;\h=\w;};
+    \coordinate (origin) at (0,0);
+    \coordinate (0) at ($(origin)+(\x:-0.5*\w)+(\y:-0.5*\h)+(\z:0.5*\d)$);
+    \coordinate (1) at ($(0)+(\x:\w)$);
+    \coordinate (2) at ($(1)+(\z:-\d)$);
+    \coordinate (3) at ($(0)+(\z:-\d)$);
+    \coordinate (4) at ($(0)+(\y:\h)$);
+    \coordinate (5) at ($(1)+(\y:\h)$);
+    \coordinate (6) at ($(2)+(\y:\h)$);
+    \coordinate (7) at ($(3)+(\y:\h)$);
+    \node [above right] at (3) {(-1,-1,-1)};
+    \draw (0) -- (1) -- (2) -- (3) -- (0) 
+        (0) -- (3) -- (7) -- (4) -- (0) 
+        (2) -- (3) -- (7) -- (6) -- (2)
+        (0) -- (2) (2) -- (7) (3) -- (4);
+    \draw [xaxis] (origin) -- ++(\x:\l) node at ($(origin)+(\x:\l+0.2)$) {$x$};
+    \draw [yaxis] (origin) -- ++(\y:\l) node at ($(origin)+(\y:\l+0.2)$) {$y$};;
+    \draw [zaxis] (origin) -- ++(\z:\l) node at ($(origin)+(\z:\l+0.2)$) {$z$};;
+    \fill [white,opacity=0.5] (0) -- (1) -- (2) -- (6) -- (7) -- (4) -- (0);
+    \draw (0) -- (1) -- (5) -- (4) -- (0) 
+        (1) -- (2) -- (6) -- (5) -- (1) 
+        (4) -- (5) -- (6) -- (7)
+        (0) -- (5) (2) -- (7) (4) -- (6) (1) -- (6);
+    \node at (0) [below left] {(-1,-1,1)};
+    \node at (1) [below] {(1,-1,1)};
+    \node at (2) [right] {(1,-1,-1)};
+    \node at (4) [left] {(-1,1,1)};
+    \node at (5) [below left] {(1,1,1)};
+    \node at (6) [right] {(1,1,-1)};
+    \node at (7) [above] {(-1,1,-1)};
+
+    \tikzmath{\w=2;};
+    \coordinate (0) at ($(0)+(12,0)$);
+    \coordinate (1) at ($(0)+(\w,0)$);
+    \coordinate (2) at ($(1)+(0,\w)$);
+    \coordinate (3) at ($(0)+(0,\w)$);
+    \coordinate (4) at ($(0)+(0,-\w)$);
+    \coordinate (5) at ($(1)+(0,-\w)$);
+    \coordinate (6) at ($(0)+(-\w,0)$);
+    \coordinate (7) at ($(3)+(-\w,0)$);
+    \coordinate (8) at ($(1)+(\w,0)$);
+    \coordinate (9) at ($(2)+(\w,0)$);
+    \coordinate (10) at ($(3)+(0,\w)$);
+    \coordinate (11) at ($(2)+(0,\w)$);
+    \coordinate (12) at ($(11)+(0,\w)$);
+    \coordinate (13) at ($(10)+(0,\w)$);
+    \draw (0) -- (1) -- (2) -- (0) -- (3) -- (2) 
+          (0) -- (4) -- (5) -- (0) (5) -- (1)
+          (3) -- (6) -- (0) (3) -- (7) -- (6)
+          (1) -- (8) -- (9) -- (1) (9) -- (2)
+          (2) -- (10) -- (3) (2) -- (11) -- (10)
+          (11) -- (13) -- (10) (11) -- (12) -- (13);
+    \node [below left] at (0) {\footnotesize (-1,-1,1)};
+    \node [below right] at (1) {\footnotesize (1,-1,1)};
+    \node [above right] at (2) {\footnotesize (1,-1,-1)};
+    \node [above left] at (3) {\footnotesize (-1,-1,-1)};
+    \node [below] at (4) {\footnotesize (-1,1,1)};
+    \node [below] at (5) {\footnotesize (1,1,1)};
+    \node [left] at (6) {\footnotesize (-1,1,1)};
+    \node [left] at (7) {\footnotesize (-1,1,-1)};
+    \node [right] at (8) {\footnotesize (1,1,-1)};
+    \node [right] at (9) {\footnotesize (1,1,1)};
+    \node [left] at (10) {\footnotesize (-1,1,-1)};
+    \node [right] at (11) {\footnotesize (1,1,-1)};
+    \node [above] at (12) {\footnotesize (1,1,1)};
+    \node [above] at (13) {\footnotesize (-1,1,1)};
+\end{tikzpicture}
 
 % Depth test
 % \begin{tikzpicture}
@@ -742,18 +786,18 @@
 % \end{tikzpicture}
 
 % Perspective projection
-\begin{tikzpicture}
-    \draw [zaxis] (8,0) -- (-0.5,0) node [left] {$z$};
-    \draw [xaxis] (0,0) -- ++(0,3) node [above] {$x$};
-    \node at (-1.5,0) {\includegraphics*[width=1cm]{camera.pdf}} ;
-    \draw [dashed] (3, 0) -- (3, 3) node [above] {near plane};
-    \node [point,label=above:{$(x, y, z)$}] (p) at (6, 2) {};
-    \draw (0,0) -- (p);
-    \node [point,label=above left:{$(x',y',-\textsf{near})$}] (q) at (3,1) {};
-    \draw [<->] (0,-0.25) -- (3,-0.25) node [pos=0.5,below] {near};
-    \draw [<->] (0,-0.75) -- (6,-0.75) node [pos=0.5,below] {$-z$};
-    \draw [<->] (3.25, 0) -- ++(0,1) node [pos=0.5,right] {$x'$}; 
-    \draw [<->] (6.25, 0) -- ++(0,2) node [pos=0.5,right] {$x$}; 
-\end{tikzpicture}
+% \begin{tikzpicture}
+%     \draw [zaxis] (8,0) -- (-0.5,0) node [left] {$z$};
+%     \draw [xaxis] (0,0) -- ++(0,3) node [above] {$x$};
+%     \node at (-1.5,0) {\includegraphics*[width=1cm]{camera.pdf}} ;
+%     \draw [dashed] (3, 0) -- (3, 3) node [above] {near plane};
+%     \node [point,label=above:{$(x, y, z)$}] (p) at (6, 2) {};
+%     \draw (0,0) -- (p);
+%     \node [point,label=above left:{$(x',y',-\textsf{near})$}] (q) at (3,1) {};
+%     \draw [<->] (0,-0.25) -- (3,-0.25) node [pos=0.5,below] {near};
+%     \draw [<->] (0,-0.75) -- (6,-0.75) node [pos=0.5,below] {$-z$};
+%     \draw [<->] (3.25, 0) -- ++(0,1) node [pos=0.5,right] {$x'$}; 
+%     \draw [<->] (6.25, 0) -- ++(0,2) node [pos=0.5,right] {$x$}; 
+% \end{tikzpicture}
 
 \end{document}

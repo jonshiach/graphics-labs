@@ -2,7 +2,7 @@
 
 # 3D Worlds
 
-In the [previous lab](transformations-section) we looked at the transformations can can be applied to the vertex co-ordinates $(x, y, z, 1)$ but all of our examples were using two objects. In this lab we will take the step into the third spatial dimension and look at 3D worlds.
+In the [previous lab](transformations-section) we looked at the transformations can can be applied to the vertex co-ordinates $(x, y, z, 1)$ but all of our examples were using 2D objects. In this lab we will take the step into the third spatial dimension and look at 3D worlds.
 
 ## Co-ordinate systems
 
@@ -11,7 +11,7 @@ In the [previous lab](transformations-section) we looked at the transformations 
 OpenGL uses a co-ordinate system with the $x$ axis pointing horizontally to the right, the $y$ axis pointing vertically upwards and the $z$ axis pointing horizontally towards the viewer. To simplify things when it comes to displaying the 3D world, the axes are limited to a range from -1 to 1 so any object outside of this range will not be shown on the display. This is known as **Normalised Device Co-ordinates (NDC)**.
 
 ```{figure} ../images/06_NDC.svg
-:width: 500
+:width: 400
 :name: NDC-figure
 
 Normalise Device Co-ordinates (NDC)
@@ -21,9 +21,9 @@ Normalise Device Co-ordinates (NDC)
 
 The steps used in the creation of a 3D world and eventually displaying it on screen requires that we transform through several intermediate co-ordinate systems:
 
-- **Object space** - each individual 3D object that will appear in the 3D word are defined in its own space usually with the centre of the object at (0,0,0) to make the transformations easier.
-- **World space** - the 3D world is constructed by transforming the individual 3D objects using translation, rotation and scaling transformations. The co-ordinates of the objects is arbitrary and left to the choice of the designed of the 3D world.
-- **View space** - the world space is transformed so that the position of the view, i.e., a camera, is at (0,0,0) and the direction the camera is pointing is down the $z$ axis, i.e., parallel to (0,0,-1).
+- **Object space** - each individual 3D object that will appear in the 3D world are defined in its own space usually with the centre of the object at (0,0,0) to make the transformations easier.
+- **World space** - the 3D world is constructed by transforming the individual 3D objects using translation, rotation and scaling transformations. The co-ordinates of the objects is arbitrary and left to the choice of the designer of the 3D world.
+- **View space** - the world space is transformed so that the position of the viewer, in other words the camera, is at (0,0,0) and the direction the camera is pointing is down the $z$ axis, i.e., parallel to (0,0,-1).
 - **Screen space** - the view space is transformed so that the co-ordinates are in NDC. The volume of the view space that is contained in the screen space is chosen by the user.
 
 ```{figure} ../images/06_mvp.svg
@@ -35,7 +35,7 @@ The steps used in the creation of a 3D world and eventually displaying it on scr
 One of the simplest 3D objects is a **unit cube** which is a cube centred at (0,0,0) and has side lengths of 2 parallel to the co-ordinate axes ({numref}`unit-cube-figure`) so the co-ordinates of the 8 vertices of the cube are combinations of -1 and 1. Since each side of a cube is modelled by two triangles then to define this cube in our program we have 36 vertices (6 sides each of 2 triangles with 3 vertices).
 
 ```{figure} ../images/06_unit_cube.svg
-:width: 400
+:width: 700
 :name: unit-cube-figure
 
 A unit cube.
@@ -118,13 +118,14 @@ If you compile and run this program you will see that the `crate.bmp` texture fi
 
 In [Lab 5](transformations-section) we saw that we can combine transformations such as translation, scaling and rotation by multiplying the individual transformation matrices together. The **model matrix** is the matrix that is used to apply transformations to an object.
 
-Lets compute a model matrix for our cube where it is scaled down by a factor of 0.5 in each co-ordinate direction, and translated backwards down the $z$-axis so that its centre is at (0, 0, -4). Add the following code inside the rendering loop before we draw the triangles.
+Lets compute a model matrix for our cube where it is scaled down by a factor of 0.5 in each co-ordinate direction, rotated about the $y$ axis using the time of the current frame as the rotation angle and translated backwards down the $z$-axis so that its centre is at (0, 0, -4). Add the following code inside the rendering loop before we draw the triangles.
 
 ```cpp
 // Calculate the model matrix
+float time = glfwGetTime();
 glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -4.0f));
 glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f, 0.5f, 0.5f));
-glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), time, glm::vec3(0.0f, 1.0f, 0.0f));
 
 glm::mat4 model = translate * rotate * scale;
 ```
@@ -139,21 +140,12 @@ Here we have calculated the individual transformation matrices for translation, 
  GLuint projectionID = glGetUniformLocation(shaderID, "projection");
 ```
 
-Now we can send the `model` matrix to the shader. Add the following code after where you have calculated `model`.
-
-```cpp
-// Send the model matrix to the vertex shader
-glUniformMatrix4fv(modelID, 1, GL_FALSE, &model[0][0]);
-```
-
-We also need to make sure we are using the `model` matrix in the vertex shader. We'll do that down below after we have looked at the view and projection matrices.
-
 ## The view matrix
 
 OpenGL assumes that the camera is always at (0,0,0) and looking down the $z$-axis so we need to transform the co-ordinates to this **view space** ({numref}`view-space-figure`).
 
 ```{figure} ../images/06_view_space.svg
-:width: 400
+:width: 350
 :name: view-space-figure
 
 The view space.
@@ -161,11 +153,11 @@ The view space.
 
 To calculate the world space to view space transformation we require three vectors
 
-- $\tt camera$ - the co-ordinates where we are viewing the world space from;
+- $\tt position$ - the co-ordinates of the camera position 
 - $\tt target$ - the co-ordinates of the target point where we are pointing the camera;
 - $\tt worldUp$ - a vector pointing straight up in the world space which allows us to orientate the camera, this is usually always (0,1,0).
 
-The $\tt camera$ and $\tt target$ vectors are either determined by the user through keyboard, mouse or controller inputs or through some predetermined routine. To determine the view space transformation we first translate the camera position to (0,0,0) using the following translation matrix
+The $\tt position$ and $\tt target$ vectors are either determined by the user through keyboard, mouse or controller inputs or through some predetermined routine. To determine the view space transformation we first translate the camera position to (0,0,0) using the following translation matrix
 
 $$ \begin{align*}
     \textsf{translation matrix} =
@@ -173,11 +165,11 @@ $$ \begin{align*}
         1 & 0 & 0 & 0 \\
         0 & 1 & 0 & 0 \\
         0 & 0 & 1 & 0 \\
-        -\tt camera.x & -\tt camera.y & -\tt camera.z & 1
+        -\tt position.x & -\tt position.y & -\tt position.z & 1
     \end{pmatrix}
 \end{align*}. $$
 
-The next step is to align the world space so that the direction vector is pointing down the $z$ axis. To do this we use vectors $\tt cameraRight$, $\tt cameraUp$ and $\tt cameraForward$ which are unit vectors at right-angles to each other the point in directions relative to the camera ({numref}`view-space-alignment-figure`).
+The next step is to align the world space so that the direction vector is pointing down the $z$ axis. To do this we use vectors $\tt cameraRight$, $\tt cameraUp$ and $\tt cameraFront$ which are unit vectors at right-angles to each other the point in directions relative to the camera ({numref}`view-space-alignment-figure`).
 
 ```{figure} ../images/06_view_space_alignment.svg
 :width: 500
@@ -186,24 +178,24 @@ The next step is to align the world space so that the direction vector is pointi
 The vectors used in the transformation to the view space.
 ```
 
-The $\tt cameraForward$ vector points directly forward of the camera and is calculated using
+The $\tt cameraFront$ vector points directly forward of the camera and is calculated using
 
-$$ \texttt{cameraForward} = \textsf{normalise}(\tt camera - target).$$
+$$ \texttt{cameraFront} = \textsf{normalise}(\tt target - position).$$
 
-The $\tt cameraRight$ vector points to the right of the camera so is at right-angles to both the $\tt cameraForward$ and $\tt worldUp$ vectors. We can use the [cross product](cross-product-section) between the two vectors to calculate this (note that the order of the vectors is important).
+The $\tt cameraRight$ vector points to the right of the camera so is at right-angles to both the $\tt cameraFront$ and $\tt worldUp$ vectors. We can use the [cross product](cross-product-section) between the two vectors to calculate this (note that the order of the vectors is important).
 
-$$ \tt right = \textsf{normalise}(worldUp \times cameraForward) .$$
+$$ \tt cameraRight = \textsf{normalise}(cameraFront \times worldUp) .$$
 
-The $\tt up$ vector points in the up direction of the camera and is at right-angles to the $\tt forward$ and $\tt right$ vectors we have already calculated. So this can be calculated using (we do not need to normalise this as $\tt cameraForward$ and $\tt cameraRight$ are unit vectors)
+The $\tt cameraUp$ vector points in the up direction of the camera and is at right-angles to the $\tt cameraFront$ and $\tt cameraRight$ vectors we have already calculated. So this can be calculated using another cross product.
 
-$$ \tt cameraUp = cameraForward \times cameraRight.$$
+$$ \tt cameraUp = \textsf{normalise}(cameraRight \times cameraFront).$$
 
-Once these vectors have been calculated the transformation matrix to align the $\tt direction$ vector so that it points down the $z$-axis is
+Once these vectors have been calculated the transformation matrix to align the $\tt cameraFront$ vector so that it points down the $z$-axis is
 
 $$\textsf{alignment matrix} = \begin{pmatrix}
-    \tt cameraRight.x & \tt cameraUp.x & \tt cameraForward.x & 0 \\
-    \tt cameraRight.y & \tt cameraUp.y & \tt cameraForward.y & 0 \\
-    \tt cameraRight.z & \tt cameraUp.z & \tt cameraForward.z & 0 \\
+    \tt cameraRight.x & \tt cameraUp.x & \tt -cameraFront.x & 0 \\
+    \tt cameraRight.y & \tt cameraUp.y & \tt -cameraFront.y & 0 \\
+    \tt cameraRight.z & \tt cameraUp.z & \tt -cameraFront.z & 0 \\
     0 & 0 & 0 & 1
 \end{pmatrix}$$
 
@@ -217,24 +209,21 @@ Lets move the camera to look at our cube from the position (1,1,0) looking towar
 
 ```cpp
 // Calculate view matrix
-glm::vec3 camera = glm::vec3(1.0f, 1.0f, 0.0f);
-glm::vec3 target = cubeCentre;
+glm::vec3 position = glm::vec3(1.0f, 1.0f, 0.0f);
+glm::vec3 target = glm::vec3(0.0f, 0.0f, -4.0f);
 glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
-glm::vec3 cameraForward = glm::normalize(camera - target);
-glm::vec3 cameraRight = glm::normalize(glm::cross(worldUp, cameraForward));
-glm::vec3 cameraUp = glm::cross(cameraForward, cameraRight);
+glm::vec3 cameraFront = glm::normalize(target - position);
+glm::vec3 cameraRight = glm::normalize(glm::cross(cameraFront, worldUp));
+glm::vec3 cameraUp = glm::cross(cameraRight, cameraFront);
 
 glm::mat4 align = glm::mat4(1.0f);
-translate[3][0] = -camera[0], translate[3][1] = -camera[1], translate[3][2] = -camera[2];
-align[0][0] = cameraRight[0], align[0][1] = cameraUp[0], align[0][2] = cameraForward[0];
-align[1][0] = cameraRight[1], align[1][1] = cameraUp[1], align[1][2] = cameraForward[1];
-align[2][0] = cameraRight[2], align[2][1] = cameraUp[2], align[2][2] = cameraForward[2];
+translate[3][0] = -position[0], translate[3][1] = -position[1], translate[3][2] = -position[2];
+align[0][0] = cameraRight[0], align[0][1] = cameraUp[0], align[0][2] = -cameraFront[0];
+align[1][0] = cameraRight[1], align[1][1] = cameraUp[1], align[1][2] = -cameraFront[1];
+align[2][0] = cameraRight[2], align[2][1] = cameraUp[2], align[2][2] = -cameraFront[2];
 
 glm::mat4 view = align * translate;
-
-// Send the view matrix to the vertex shader
-glUniformMatrix4fv(viewID, 1, GL_FALSE, &view[0][0]);
 ```
 
 The code above should be pretty self explanatory as we have done similar in the past.
@@ -312,7 +301,7 @@ $$ \begin{align*}
 Lets calculate the orthographic projection matrix using left = -2, right = 2, bottom = -2, top = 2, near = 0, far = 10 and send it to the vertex shader.
 
 ```cpp
-// Calculate orthographic projection matrix
+// Calculate projection matrix (orthographic projection)
 float left, right, near, far, top, bottom;
 left = -2.0f, right = 2.0f;
 bottom = -2.0f, top = 2.0f;
@@ -325,12 +314,18 @@ projection[2][2] = 2.0f / (near - far);
 projection[3][0] = - (right + left) / (right - left);
 projection[3][1] = - (top + bottom) / (top - bottom);
 projection[3][2] = (near + far) / (near - far);
+```
 
-// Send the projection matrix to the vertex shader
+Now that we have defined the `model`, `view` and `projection` matrices we need to send their uniforms to the shader. Add the following to your code.
+
+```cpp
+// Send the model, view and projection matrices to the shader
+glUniformMatrix4fv(modelID, 1, GL_FALSE, &model[0][0]);
+glUniformMatrix4fv(viewID, 1, GL_FALSE, &view[0][0]);
 glUniformMatrix4fv(projectionID, 1, GL_FALSE, &projection[0][0]);
 ```
 
-Of course we also need to update the vertex shader so that is uses the `model`, `view` and `projection` matrices. Edit `vertexShader.vert` so that it looks like the following.
+Of course we also need to update the vertex shader so that is uses these uniforms. Edit `vertexShader.vert` so that it looks like the following.
 
 ```cpp
 #version 330 core
@@ -365,9 +360,9 @@ Compile and run the program and you should see the following.
 </video>
 </center>
 
-If you are having difficulty getting to this stage take a look at the source code [main.cpp](../code/Lab06_3D_worlds/3D_worlds_without_depth_test.cpp) and vertex shader [vertexShader.vert](../code/Lab06_3D_worlds/vertexShader.vert). 
+If you are having difficulty getting to this stage take a look at the source code [main.cpp](../code/Lab06_3D_worlds/Lab06_no_depth_test.cpp) and vertex shader [vertexShader.vert](../code/Lab06_3D_worlds/vertexShader.vert).
 
-### Depth testing
+### Z buffer
 
 Our rendering of the cube doesn't look quite right. What is happening here is that some parts of the sides of the cube that are further away from where we are viewing it (e.g., the bottom side) from have been rendered after the sides that are closer to us ({numref}`depth-test-1-figure`).
 
@@ -378,7 +373,7 @@ Our rendering of the cube doesn't look quite right. What is happening here is th
 Rendering the far triangle after the near triangle.
 ```
 
-To overcome this issue OpenGL uses a **depth test** when computing the fragment shader. When OpenGL creates a frame buffer it also creates another buffer called a **depth buffer** where the $z$ co-ordinate of each pixel in the frame buffer is stored and initialises all the values to -1 (the furthest possible $z$ co-ordinate in the screen space). When the fragment shader is called it checks whether the fragment has a $z$ co-ordinate more than that already stored in the depth buffer and if so it updates the colour of the fragment and stores its $z$ co-ordinate in the depth-buffer as the current nearest fragment (if the fragment has a $z$ co-ordinate less than what is already in the depth buffer the fragment shader does nothing). This means once the fragment shader has been called for all fragments of all objects, the pixels contain colours of the objects closest to the camera.
+To overcome this issue OpenGL uses a **depth test** when computing the fragment shader. When OpenGL creates a frame buffer it also creates another buffer called a **depth buffer** (or **z buffer**) where the $z$ co-ordinate of each pixel in the frame buffer is stored and initialises all the values to -1 (the furthest possible $z$ co-ordinate in the screen space). When the fragment shader is called it checks whether the fragment has a $z$ co-ordinate more than that already stored in the depth buffer and if so it updates the colour of the fragment and stores its $z$ co-ordinate in the depth-buffer as the current nearest fragment (if the fragment has a $z$ co-ordinate less than what is already in the depth buffer the fragment shader does nothing). This means once the fragment shader has been called for all fragments of all objects, the pixels contain colours of the objects closest to the camera.
 
 To enable depth testing we used the following function before the rendering loop.
 
@@ -440,7 +435,7 @@ where $\textsf{top} = \textsf{near} \cdot \tan(\frac{\textsf{fov}}{2}$) and $\te
 The mapping of a point in the view space with co-ordinates $(x, y, z)$ onto the near clipping plane to the point $(x', y', -\textsf{near})$ is shown in {numref}`perspective-mapping-figure`.
 
 ```{figure} ../images/06_perspective_projection_mapping.svg
-:width: 400
+:width: 500
 :name: perspective-mapping-figure
 
 Mapping of the point at $(x,y,z)$ onto the near plane using perspective.
@@ -550,15 +545,15 @@ $$ \begin{align*}
 \end{align*} $$
 ````
 
-Lets apply perspective projection to our cube using a near and far clipping planes at 0.2 and 10 respectively and a field of view angle of  45$^\circ$ clipping plane. Add the following code to your `main.cpp` file (you may want to comment out the code used to calculate the orthogonal projection matrix as we aren't using it).
+Lets apply perspective projection to our cube using a near and far clipping planes at 0.2 and 10 respectively and a field of view angle of  45$^\circ$ clipping plane. Add the following code to your `main.cpp` file (you may want to comment out the code used to calculate the orthogonal projection matrix as we aren't using it now).
 
 ```cpp
 // Calculate perspective projection matrix
 float right, top, near, far, fov, aspect;
-near = 0.2f;
-far = 10.0f;
 fov = glm::radians(45.0f);
 aspect = 1024.0f / 768.0f;
+near = 0.2f;
+far = 100.0f;
 top = near * glm::tan(fov / 2);
 right = aspect * top;
 
@@ -579,7 +574,7 @@ projection[3][3] = 0.0f;
 
 #### Changing the fov angle
 
-The field of view angle determines how much of the view space we can see in the screen space where the larger the angle the more we can see. When we increase the fov angle it appears to the user that our view is zooming out whereas when we decrease the fov it has the effect of zooming in. This effect is shown on our cube object below.
+The field of view angle determines how much of the view space we can see in the screen space where the larger the angle the more we can see. When we increase the fov angle it appears to the user that our view is zooming out whereas when we decrease the fov it has the effect of zooming in (this is used a lot in first person shooter games to model the effect of a pair of binoculars or a sniper scope). This effect is shown on our cube object below.
 
 `````{grid}
 ````{grid-item}
@@ -608,24 +603,192 @@ Here we have defined the view matrix and projection matrices ourselves but it sh
 Comment out all the code you've used to calculate the `view` and `projection` matrices and add the following.
 
 ```cpp
-// Calculate the MVP matrix
-glm::mat4 view = glm::lookAt(glm::vec3(1.0f, 1.0f, 0.0f),       // camera
-                             cubeCentre,                        // target
-                             glm::vec3(0.0, 1.0f, 0.0f));       // worldUp
+// Calculate the view matrix
+glm::vec3 camera = glm::vec3(1.0f, 1.0f,  5.0f);
+glm::vec3 target = glm::vec3(0.0f, 0.0f, -4.0f);
+glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
+glm::mat4 view = glm::lookAt(camera, target, worldUp);
 
-glm::mat4 projection = glm::perspective(glm::radians(45.0f),    // field of view
-                                        1024.0f / 768.0f,       // aspect (width / height)
-                                        0.2f,                   // near
-                                        10.0f);                 // far
+// Calculate the projection matrix
+float fov = glm::radians(45.0f);
+float aspect = 1024.0f / 768.0f;
+float near = 0.02f;
+float far = 100.0f;
+glm::mat4 projection = glm::perspective(fov, aspect, near, far);
 ```
 
 You should see the same output (which is good as it means our own matrices were correct).
 
 ## Multiple objects
 
+Lets add some more cubes to our 3D world. We can do this by defining the position of each cube and then, in the render loop, we loop through each cube and calculate its `model` matrix and render it. Add the following code to your program before the do/while loop.
 
+```cpp
+// Cube positions
+glm::vec3 cubePositions[] = {
+    glm::vec3( 0.0f,  0.0f,  0.0f),
+    glm::vec3( 2.0f,  5.0f, -10.0f),
+    glm::vec3(-3.0f, -2.0f, -3.0f),
+    glm::vec3(-4.0f, -2.0f, -8.0f),
+    glm::vec3( 2.0f, -1.0f, -4.0f),
+    glm::vec3(-4.0f,  3.0f, -8.0f),
+    glm::vec3( 3.0f, -2.0f, -5.0f),
+    glm::vec3( 4.0f,  2.0f, -5.0f),
+    glm::vec3( 2.0f,  0.0f, -2.0f),
+    glm::vec3(-1.0f,  1.0f, -2.0f)
+};
+```
+
+This creates an array of 3-element vectors that constain the co-ordinates of the centre of 10 cubes. In the render loop comment out the code used to calculate the model matrix for the previous examples and add this code.
+
+```cpp
+// Send the view and projection matrices to the shader
+glUniformMatrix4fv(viewID, 1, GL_FALSE, &view[0][0]);
+glUniformMatrix4fv(projectionID, 1, GL_FALSE, &projection[0][0]);
+
+// Loop through cubes and draw each one
+for (int i = 0; i < 10; i++)
+{
+    // Calculate model matrix
+    glm::mat4 translate = glm::translate(glm::mat4(1.0f), cubePositions[i]);
+    glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f, 0.5f, 0.5f));
+    glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), glm::radians(30.0f * i), glm::vec3(1.0f, 1.0f, 0.0f));
+    glm::mat4 model = translate * rotate * scale;
+    
+    // Send model matrix to the shader
+    glUniformMatrix4fv(modelID, 1, GL_FALSE, &model[0][0]);
+    
+    // Draw the triangle
+    glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / (sizeof(float) * 3));
+}
+```
+
+Here we calculate the `translate` matrix for each cube based on the `cubePosition` vectors and rotate each cube by a different angle about the vector (1, 1, 0). Note that since the camera is in the same position for each cube we send the view and projection uniforms to the shader before we loop through the cubes.
+
+Change position of the camera to (0, 0, 5) and the target to (0, 0, 0),  compile and run and you should see the following.
+
+```{figure} ../images/06_multiple_cubes.png
+:width: 500
+```
+
+If you are having difficulty getting to this stage take a look at [main.cpp](../code/Lab06_3D_worlds/main.cpp), [camera.hpp](../code/Lab06_3D_worlds/camera.hpp) and [camera.cpp](../code/Lab06_3D_worlds/camera.cpp).
+
+## A camera class
+
+Our render loop is starting to look a bit messy and it would make sense to write a class to deal with the view and projection operations. Create a header and code file called `camera.hpp` and `camera.cpp` respectively in your `source/` folder. In the header file add the following code
+
+```cpp
+#pragma once
+
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+
+class Camera
+{
+public:
+    // Projection parameters
+    float fov = glm::radians(45.0f);
+    float aspect = 1024.0f / 768.0f;
+    float near = 0.02f;
+    float far = 100.0f;
+    
+    // Camera vectors
+    glm::vec3 position;
+    glm::vec3 front;
+    glm::vec3 right;
+    glm::vec3 up;
+    
+    // Transformation matrices
+    glm::mat4 view;
+    glm::mat4 projection;
+    
+    // Constructor
+    Camera(const glm::vec3 Position);
+    
+    // Methods
+    glm::mat4 getViewMatrix();
+    glm::mat4 getProjectionMatrix();
+    void calculateMatrices();
+};
+
+```
+
+The `getViewMatrix()` and `getProjectionMatrix()` functions will be used to return the `view` and `projection` matrices and the `calculateMatrices()` function will be used to calculate these matrices (you can see I like sensible function names).
+
+In the `camera.cpp` code file add the following code
+
+```cpp
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include "camera.hpp"
+
+Camera::Camera(const glm::vec3 Position)
+{
+    position = Position;
+    front = glm::vec3(0.0f, 0.0f, -1.0f);
+    right = glm::vec3(1.0f, 0.0f, 0.0f);
+    up = glm::vec3(0.0f, 1.0f, 0.0f);
+}
+
+glm::mat4 Camera::getViewMatrix()
+{
+    return view;
+}
+
+glm::mat4 Camera::getProjectionMatrix()
+{
+    return projection;
+}
+
+void Camera::calculateMatrices()
+{
+    // Calculate view matrix
+    view = glm::lookAt(position, position + front, up);
+    
+    // Calculate projection matrix
+    projection = glm::perspective(fov, aspect, near, far);
+}
+```
+
+The `Camera()` constructor takes in a single input of the camera position and instantiates the `position` attribute. The `front`, `right` and `up` vectors are instantiated with default values.
+
+Now we've created our Camera class we need to include it and make calls to the library functions. Add `#include "camera.hpp` to the top of the `main.cpp` file and create a Camera object before the `main()` declaration.
+
+```cpp
+// Create camera object
+Camera camera(glm::vec3(0.0f, 0.0f, 5.0f));
+```
+
+Now all we need to do is replace the code where we calculate the view and projection matrices with the following.
+
+```cpp
+// Get the view and projection matrices from the camera library
+camera.calculateMatrices();
+glm::mat4 view = camera.getViewMatrix();
+glm::mat4 projection = camera.getProjectionMatrix();
+```
+
+Compile and run your code and it should give the same result as before.
 
 ---
 
 ## Exercises
 
+1. Experiment with changing the camera position and target to see the effect this has on the 3D world.
+2. Experiment with changing the field of view angle to see the effect this has.
+3. Use orthographic projection for the view to screen space transformation.
+4. Rotate the camera position around the first cube. Hint: $x = r\cos(t)$ and $z = r\sin(t)$ gives the co-ordinates on a circle with radius $r$ and centred at (0,0,0).
+5. Rotate every other cube whilst keeping the remaining cubes stationary.
+
+---
+
+## Source code
+
+The source code for this lab, including the exercise solutions, can be downloaded using the links below.
+
+- [Lab06_no_depth_test.cpp](../code/Lab06_3D_worlds/Lab06_no_depth_test.cpp) - single cube with orthnographic projection and no depth testing
+- [main.cpp](../code/Lab06_3D_worlds/main.cpp) - multiple cubes using the Camera class
+- [camera.hpp](../code/Lab06_3D_worlds/camera.hpp)
+- [camera.cpp](../code/Lab06_3D_worlds/camera.cpp)
+- [vertexShader.vert](../code/Lab06_3D_worlds/vertexShader.vert)

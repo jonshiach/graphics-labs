@@ -119,18 +119,6 @@ int main( void )
         // Use the shader program
         glUseProgram(shaderID);
         
-        // Send the VBO to the shaders
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glVertexAttribPointer(
-                              0,           // attribute
-                              3,           // size
-                              GL_FLOAT,    // type
-                              GL_FALSE,    // normalise
-                              0,           // stride
-                              (void*)0     // offset
-                              );
-        
         // Bind the textures
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture1);
@@ -143,6 +131,18 @@ int main( void )
         glActiveTexture(GL_TEXTURE2);
         glBindTexture(GL_TEXTURE_2D, texture3);
         glUniform1i(texture3ID, 2);
+
+        // Send the VBO to the shaders
+        glEnableVertexAttribArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glVertexAttribPointer(
+                              0,           // attribute
+                              3,           // size
+                              GL_FLOAT,    // type
+                              GL_FALSE,    // normalise
+                              0,           // stride
+                              (void*)0     // offset
+                              );
         
         // Send the texture buffer to the shaders
         glEnableVertexAttribArray(1);
@@ -158,6 +158,7 @@ int main( void )
         
         // Draw the triangle
         glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / (sizeof(float) * 3));
+
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
         

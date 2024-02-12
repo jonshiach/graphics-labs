@@ -65,6 +65,7 @@ static const GLfloat vertices[] = {
 };
 ```
 
+(vbo-section)=
 We now need to define a <a href="https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Buffer_Object" target="_blank">**Vertex Buffer Object (VBO)**</a> which is how we transfer the vertex data from the CPU to the GPU.
 
 ```cpp
