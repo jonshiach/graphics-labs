@@ -639,7 +639,7 @@ glm::vec3 cubePositions[] = {
 };
 ```
 
-This creates an array of 3-element vectors that constain the co-ordinates of the centre of 10 cubes. In the render loop comment out the code used to calculate the model matrix for the previous examples and add this code.
+This creates an array of 3-element vectors that contain the co-ordinates of the centre of 10 cubes. In the render loop comment out the code used to calculate the model matrix for the previous examples and add this code.
 
 ```cpp
 // Send the view and projection matrices to the shader

@@ -974,7 +974,7 @@ Derivation of the perspective projection matrix<div class="sd-summary-down docut
 <span class="p">};</span>
 </pre></div>
 </div>
-<p>This creates an array of 3-element vectors that constain the co-ordinates of the centre of 10 cubes. In the render loop comment out the code used to calculate the model matrix for the previous examples and add this code.</p>
+<p>This creates an array of 3-element vectors that contain the co-ordinates of the centre of 10 cubes. In the render loop comment out the code used to calculate the model matrix for the previous examples and add this code.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Send the view and projection matrices to the shader</span>
 <span class="n">glUniformMatrix4fv</span><span class="p">(</span><span class="n">viewID</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">GL_FALSE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">view</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
 <span class="n">glUniformMatrix4fv</span><span class="p">(</span><span class="n">projectionID</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">GL_FALSE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">projection</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
