@@ -30,4 +30,7 @@ void Camera::calculateMatrices()
     
     // Calculate projection matrix
     projection = glm::perspective(fov, aspect, near, far);
+    
+    // Exercise 3 - use orthographic projection
+//    projection = glm::ortho(-5.0f, 5.0f, -5.0f, 5.0f, 0.0f, 100.0f);
 }

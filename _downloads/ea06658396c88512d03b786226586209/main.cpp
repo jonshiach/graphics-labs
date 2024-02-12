@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include <cmath>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -217,6 +218,11 @@ int main( void )
         glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
         
+        // Exercise 4 - rotate camera
+        float time = glfwGetTime();
+        camera.position = glm::vec3(5.0f * cos(time), 0.0f, 5.0f * sin(time));
+        camera.front = cubePositions[0] - camera.position;
+        
         // Get the view and projection matrices from the camera library
         camera.calculateMatrices();
         glm::mat4 view = camera.getViewMatrix();
@@ -233,6 +239,13 @@ int main( void )
             glm::mat4 translate = glm::translate(glm::mat4(1.0f), cubePositions[i]);
             glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f, 0.5f, 0.5f));
             glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), glm::radians(30.0f * i), glm::vec3(1.0f, 1.0f, 0.0f));
+            
+            // Exercise 5 - rotate every other cube
+            if (i % 2 == 1)
+            {
+                rotate = glm::rotate(glm::mat4(1.0f), i * time, glm::vec3(1.0f, 1.0f, 0.0f));
+            }
+            
             glm::mat4 model = translate * rotate * scale;
             
             // Send model matrix to the shader
