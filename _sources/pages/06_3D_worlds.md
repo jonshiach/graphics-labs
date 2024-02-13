@@ -8,7 +8,7 @@ In the [previous lab](transformations-section) we looked at the transformations 
 
 ### Normalised Device Co-ordinates (NDC)
 
-OpenGL uses a co-ordinate system with the $x$ axis pointing horizontally to the right, the $y$ axis pointing vertically upwards and the $z$ axis pointing horizontally towards the viewer. To simplify things when it comes to displaying the 3D world, the axes are limited to a range from -1 to 1 so any object outside of this range will not be shown on the display. This is known as **Normalised Device Co-ordinates (NDC)**.
+OpenGL uses a co-ordinate system with the $x$ axis pointing horizontally to the right, the $y$ axis pointing vertically upwards and the $z$ axis pointing horizontally towards the viewer. To simplify things when it comes to displaying the 3D world, the axes are limited to a range from -1 to 1 so any object outside of this range will not be shown on the display. These are known as **Normalised Device Co-ordinates (NDC)**.
 
 ```{figure} ../images/06_NDC.svg
 :width: 400
@@ -21,7 +21,7 @@ Normalise Device Co-ordinates (NDC)
 
 The steps used in the creation of a 3D world and eventually displaying it on screen requires that we transform through several intermediate co-ordinate systems:
 
-- **Object space** - each individual 3D object that will appear in the 3D world are defined in its own space usually with the centre of the object at (0,0,0) to make the transformations easier.
+- **Object space** - each individual 3D object that will appear in the 3D world is defined in its own space usually with the centre of the object at (0,0,0) to make the transformations easier.
 - **World space** - the 3D world is constructed by transforming the individual 3D objects using translation, rotation and scaling transformations. The co-ordinates of the objects is arbitrary and left to the choice of the designer of the 3D world.
 - **View space** - the world space is transformed so that the position of the viewer, in other words the camera, is at (0,0,0) and the direction the camera is pointing is down the $z$ axis, i.e., parallel to (0,0,-1).
 - **Screen space** - the view space is transformed so that the co-ordinates are in NDC. The volume of the view space that is contained in the screen space is chosen by the user.
@@ -153,11 +153,11 @@ The view space.
 
 To calculate the world space to view space transformation we require three vectors
 
-- $\tt position$ - the co-ordinates of the camera position 
+- $\tt cameraPos$ - the co-ordinates of the camera position 
 - $\tt target$ - the co-ordinates of the target point where we are pointing the camera;
 - $\tt worldUp$ - a vector pointing straight up in the world space which allows us to orientate the camera, this is usually always (0,1,0).
 
-The $\tt position$ and $\tt target$ vectors are either determined by the user through keyboard, mouse or controller inputs or through some predetermined routine. To determine the view space transformation we first translate the camera position to (0,0,0) using the following translation matrix
+The $\tt cameraPos$ and $\tt target$ vectors are either determined by the user through keyboard, mouse or controller inputs or through some predetermined routine. To determine the view space transformation we first translate the camera position to (0,0,0) using the following translation matrix
 
 $$ \begin{align*}
     \textsf{translation matrix} =
@@ -165,7 +165,7 @@ $$ \begin{align*}
         1 & 0 & 0 & 0 \\
         0 & 1 & 0 & 0 \\
         0 & 0 & 1 & 0 \\
-        -\tt position.x & -\tt position.y & -\tt position.z & 1
+        -\tt cameraPos.x & -\tt cameraPos.y & -\tt cameraPos.z & 1
     \end{pmatrix}
 \end{align*}. $$
 
@@ -180,7 +180,7 @@ The vectors used in the transformation to the view space.
 
 The $\tt cameraFront$ vector points directly forward of the camera and is calculated using
 
-$$ \texttt{cameraFront} = \textsf{normalise}(\tt target - position).$$
+$$ \texttt{cameraFront} = \textsf{normalise}(\tt target - cameraPos).$$
 
 The $\tt cameraRight$ vector points to the right of the camera so is at right-angles to both the $\tt cameraFront$ and $\tt worldUp$ vectors. We can use the [cross product](cross-product-section) between the two vectors to calculate this (note that the order of the vectors is important).
 
@@ -209,16 +209,16 @@ Lets move the camera to look at our cube from the position (1,1,0) looking towar
 
 ```cpp
 // Calculate view matrix
-glm::vec3 position = glm::vec3(1.0f, 1.0f, 0.0f);
+glm::vec3 cameraPos = glm::vec3(1.0f, 1.0f, 0.0f);
 glm::vec3 target = glm::vec3(0.0f, 0.0f, -4.0f);
 glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
-glm::vec3 cameraFront = glm::normalize(target - position);
+glm::vec3 cameraFront = glm::normalize(target - cameraPos);
 glm::vec3 cameraRight = glm::normalize(glm::cross(cameraFront, worldUp));
 glm::vec3 cameraUp = glm::cross(cameraRight, cameraFront);
 
 glm::mat4 align = glm::mat4(1.0f);
-translate[3][0] = -position[0], translate[3][1] = -position[1], translate[3][2] = -position[2];
+translate[3][0] = -cameraPos[0], translate[3][1] = -cameraPos[1], translate[3][2] = -cameraPos[2];
 align[0][0] = cameraRight[0], align[0][1] = cameraUp[0], align[0][2] = -cameraFront[0];
 align[1][0] = cameraRight[1], align[1][1] = cameraUp[1], align[1][2] = -cameraFront[1];
 align[2][0] = cameraRight[2], align[2][1] = cameraUp[2], align[2][2] = -cameraFront[2];
@@ -230,7 +230,7 @@ The code above should be pretty self explanatory as we have done similar in the 
 
 ## Projection
 
-The next step is to project the view space onto the screen space. OpenGL uses NDC where the screen space is a unit cube where axes co-ordinates range from -1 to 1. Any fragments with co-ordinates outside of this range are ignored or **clipped**.
+The next step is to project the view space onto the screen space. OpenGL uses NDC where the screen space is a unit cube where axes co-ordinates range from -1 to 1. Any fragments with co-ordinates outside of this range are **clipped** and ignored by the shaders.
 
 ### Orthographic projection
 
@@ -362,7 +362,7 @@ Compile and run the program and you should see the following.
 
 If you are having difficulty getting to this stage take a look at the source code [main.cpp](../code/Lab06_3D_worlds/Lab06_no_depth_test.cpp) and vertex shader [vertexShader.vert](../code/Lab06_3D_worlds/vertexShader.vert).
 
-### Z buffer
+### The z buffer
 
 Our rendering of the cube doesn't look quite right. What is happening here is that some parts of the sides of the cube that are further away from where we are viewing it (e.g., the bottom side) from have been rendered after the sides that are closer to us ({numref}`depth-test-1-figure`).
 
@@ -373,7 +373,7 @@ Our rendering of the cube doesn't look quite right. What is happening here is th
 Rendering the far triangle after the near triangle.
 ```
 
-To overcome this issue OpenGL uses a **depth test** when computing the fragment shader. When OpenGL creates a frame buffer it also creates another buffer called a **depth buffer** (or **z buffer**) where the $z$ co-ordinate of each pixel in the frame buffer is stored and initialises all the values to -1 (the furthest possible $z$ co-ordinate in the screen space). When the fragment shader is called it checks whether the fragment has a $z$ co-ordinate more than that already stored in the depth buffer and if so it updates the colour of the fragment and stores its $z$ co-ordinate in the depth-buffer as the current nearest fragment (if the fragment has a $z$ co-ordinate less than what is already in the depth buffer the fragment shader does nothing). This means once the fragment shader has been called for all fragments of all objects, the pixels contain colours of the objects closest to the camera.
+To overcome this issue OpenGL uses a **depth test** when computing the fragment shader. When OpenGL creates a frame buffer it also creates another buffer called a **z buffer** (or **depth buffer**) where the $z$ co-ordinate of each pixel in the frame buffer is stored and initialises all the values to -1 (the furthest possible $z$ co-ordinate in the screen space). When the fragment shader is called it checks whether the fragment has a $z$ co-ordinate more than that already stored in the depth buffer and if so it updates the colour of the fragment and stores its $z$ co-ordinate in the depth-buffer as the current nearest fragment (if the fragment has a $z$ co-ordinate less than what is already in the depth buffer the fragment shader does nothing). This means once the fragment shader has been called for all fragments of all objects, the pixels contain colours of the objects closest to the camera.
 
 To enable depth testing we used the following function before the rendering loop.
 
@@ -604,10 +604,10 @@ Comment out all the code you've used to calculate the `view` and `projection` ma
 
 ```cpp
 // Calculate the view matrix
-glm::vec3 camera = glm::vec3(1.0f, 1.0f,  5.0f);
+glm::vec3 cameraPos = glm::vec3(1.0f, 1.0f,  5.0f);
 glm::vec3 target = glm::vec3(0.0f, 0.0f, -4.0f);
 glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
-glm::mat4 view = glm::lookAt(camera, target, worldUp);
+glm::mat4 view = glm::lookAt(cameraPos, target, worldUp);
 
 // Calculate the projection matrix
 float fov = glm::radians(45.0f);
