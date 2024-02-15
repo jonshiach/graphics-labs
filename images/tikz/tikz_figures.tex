@@ -643,17 +643,17 @@
 % \begin{tikzpicture}
 %     \tikzmath{\x=-20;\y=90;\z=180-\x;\l=1;\w=1.2;\d=1;\scrwidth=4;\scrheight=3;}
 %     \coordinate (origin) at (0,0);
-%     \node [rotate=-\x] at ($(origin)+(\z:0.2)$) {\includegraphics*[width=1cm]{camera.pdf}};
+%     \node [rotate=-\x] at ($(origin)+(\z:0)$) {\includegraphics*[width=1cm]{camera.pdf}};
 %     \draw [xaxis] (origin) -- ++(\x:\l) node at ($(origin)+(\x:\l+0.2)$) {$x$};
 %     \draw [yaxis] (origin) -- ++(\y:\l) node at ($(origin)+(\y:\l+0.2)$) {$y$};
 %     \draw [zaxis] (origin) -- ++(\z:\l) node at ($(origin)+(\z:\l+0.2)$) {$z$};
-%     \draw [fill=gray!50,opacity=0.75] ($(origin)+(\z:-6)$) coordinate (lb) 
-%     -- ++(\x:\scrwidth) coordinate (rb) 
-%     -- ++(\y:\scrheight) coordinate (rt) 
-%     -- ++(\x:-\scrwidth) coordinate (lt) node [pos=0.5,above,rotate=\x] {far plane} -- cycle;
-%     \draw (lb) -- ++(\z:5) 
-%         (lt) -- ++(\z:5);
-%     \coordinate (1) at ($(origin)+(\z:-5)+(\x:-0.5*\w)+(\y:-0.5*\w)$);
+%     \draw [fill=gray!50,opacity=0.75] ($(origin)+(\x:-0.5*\scrwidth)+(\y:-0.5*\scrheight)+(\z:-8)$) coordinate (lb) 
+%         -- ++(\x:\scrwidth) coordinate (rb) 
+%         -- ++(\y:\scrheight) coordinate (rt) 
+%         -- ++(\x:-\scrwidth) coordinate (lt) -- cycle;
+%     \node [below,rotate=\x] at ($(lt)!0.5!(rt)$) {far plane};
+%     \draw (lb) -- ++(\z:5) (lt) -- ++(\z:5);
+%     \coordinate (1) at ($(origin)+(\z:-5)+(\x:-0.5*\w)+(\y:-0.75*\w)$);
 %     \coordinate (2) at ($(1)+(\x:\w)$);
 %     \coordinate (3) at ($(2)+(\z:-\d)$);
 %     \coordinate (4) at ($(1)+(\z:-\d)$);
@@ -661,28 +661,25 @@
 %     \coordinate (6) at ($(2)+(\y:\w)$);
 %     \coordinate (7) at ($(3)+(\y:\w)$);
 %     \coordinate (8) at ($(4)+(\y:\w)$);
-%     \node (label) at ($(lb)+(1.5,1.5)$) {\footnotesize(left,bottom,far)};
-%     \draw [->,bend left,shorten >= 4pt] (label) to (lb);
+%     \node [left,rotate=\x] at ($(lb)$) {\footnotesize(left,bottom,far)};    \node [right,rotate=\x] at (rb) {\footnotesize (right,bottom,far)};
+%     \node [right,rotate=\x] at (rt) {\footnotesize (right,top,far)};
+%     \node [left,rotate=\x] at (lt) {\footnotesize (left,top,far)};
 %     \draw [fill=blue!10,opacity=0.75] (1) -- (2) -- (3) -- (4) -- (1);
 %     \draw [fill=blue!10,opacity=0.75] (3) -- (4) -- (8) -- (7) -- (3);
 %     \draw [fill=blue!10,opacity=0.75] (1) -- (5) -- (8) -- (4) -- (1);
 %     \draw [fill=blue!10,opacity=0.75] (5) -- (6) -- (7) -- (8) -- (5);
 %     \draw [fill=blue!10,opacity=0.75] (2) -- (3) -- (7) -- (6) -- (2);
 %     \draw [fill=blue!10,opacity=0.75] (1) -- (2) -- (6) -- (5) -- (1);
-%     \draw (rb) -- ++(\z:5) 
-%         (rt) -- ++(\z:5);
-%     \draw [fill=gray!50,opacity=0.75] ($(lb)+(\z:5)$) 
-%         -- ++(\x:\scrwidth) 
-%         -- ++(\y:\scrheight) 
-%         -- ++(\x:-\scrwidth) node [pos=0.5,above,rotate=\x] {near plane} -- cycle;
-%     \node [left] at ($(lb)+(\z:5)$) {\footnotesize (left,bottom,near)};
-%     \node [below] at ($(rb)+(\z:5)$) {\footnotesize (right,bottom,near)};
-%     \node [left] at ($(lt)+(\z:5)$) {\footnotesize (left,top,near)};
-%     \node [right] (label) at ($(rt)+(\z:5)+(280:1.5)$) {\footnotesize (right,top,near)};
-%     \node [right] at (rb) {\footnotesize (right,bottom,far)};
-%     \node [right] at (rt) {\footnotesize (right,bottom,far)};
-%     \node [above] at (lt) {\footnotesize (left,top,far)};
-%     \draw [->,shorten >= 4pt,bend right] (label.north) to ($(rt)+(\z:5)$);
+%     \draw (rb) -- ++(\z:5) (rt) -- ++(\z:5);
+%     \draw [fill=gray!50,opacity=0.75] ($(lb)+(\z:5)$) coordinate (lb)
+%         -- ++(\x:\scrwidth) coordinate (rb)
+%         -- ++(\y:\scrheight) coordinate (rt) 
+%         -- ++(\x:-\scrwidth) coordinate (lt) -- cycle;
+%     \node [below,rotate=\x] at ($(lt)!0.5!(rt)$) {near plane};
+%     \node [left,rotate=\x] at (lb) {\footnotesize (left,bottom,near)};
+%     \node [right,rotate=\x] at (rb) {\footnotesize (right,bottom,near)};
+%     \node [left,rotate=\x] at (lt) {\footnotesize (left,top,near)};
+%     \node [right,rotate=\x] (label) at (rt) {\footnotesize (right,top,near)};
 %     \coordinate (1) at ($(origin)+(\z:-3.5)+(\x:4.5)+(\y:-0.5*\w)$);
 %     \coordinate (2) at ($(1)+(\x:\w)$);
 %     \coordinate (3) at ($(2)+(\z:-\d)$);
@@ -702,79 +699,80 @@
 % \end{tikzpicture}
 
 % perspective projection
-% \begin{tikzpicture}
-%     \tikzmath{\x=-20;\y=90;\z=180-\x;\l=1;\w=1.2;\d=1;\scrwidth=2;\scrheight=1.5;\znear=3;\zfar=10;}
-%     \coordinate (origin) at (0,0);
-%     \node [rotate=-\x] at ($(origin)+(\z:0.5)$) {\includegraphics*[width=1cm]{camera.pdf}};
-%     \draw [xaxis] (origin) -- ++(\x:\l) node at ($(origin)+(\x:\l+0.2)$) {$x$};
-%     \draw [yaxis] (origin) -- ++(\y:\l-0.2) node at ($(origin)+(\y:\l)$) {$y$};
-%     \draw [zaxis] (origin) -- ++(\z:\l+0.5) node at ($(origin)+(\z:\l+0.7)$) {$z$};
+\begin{tikzpicture}
+    \tikzmath{\x=-20;\y=90;\z=180-\x;\l=1;\w=1.2;\d=1;\scrwidth=2;\scrheight=1.5;\znear=3;\zfar=10;}
+    \coordinate (origin) at (0,0);
+    \node [rotate=-\x] at (origin) {\includegraphics*[width=1cm]{camera.pdf}};
+    \draw [xaxis] (origin) -- ++(\x:\l) node at ($(origin)+(\x:\l+0.2)$) {$x$};
+    \draw [yaxis] (origin) -- ++(\y:\l-0.2) node at ($(origin)+(\y:\l)$) {$y$};
+    \draw [zaxis] (origin) -- ++(\z:\l+0.5) node at ($(origin)+(\z:\l+0.7)$) {$z$};
+    \coordinate (lb) at ($(\z:-\znear)+(\x:-0.5*\scrwidth)+(\y:-0.5*\scrheight)$);
+    \coordinate (rb) at ($(lb)+(\x:\scrwidth)$);
+    \coordinate (rt) at ($(rb)+(\y:\scrheight)$);
+    \coordinate (lt) at ($(lb)+(\y:\scrheight)$);
+    \coordinate (farlb) at ($(\z:-\zfar)+(\x:-2*\scrwidth)+(\y:-2*\scrheight)$);
+    \coordinate (farlt) at ($(farlb)+(\y:4.5)$);
+    \coordinate (farrb) at ($(farlb)+(\x:6)$);
+    \coordinate (farrt) at ($(farrb)+(\y:4.5)$);
+    \draw (origin) -- (farlb);
+    \draw [fill=gray!50,opacity=0.75] (lb) -- (rb) -- (rt) -- (lt) -- cycle;
+    \draw [fill=gray!50,opacity=0.75] (farlb) -- (farrb) -- (farrt) -- (farlt) -- cycle;
+    \node [below,rotate=\x] at ($(lt)!0.5!(rt)$) {near plane};
+    \node [below,rotate=\x] at ($(farlt)!0.5!(farrt)$) {far plane};
+    \coordinate (1) at ($(origin)+(\z:-5.25)+(\x:0.5*\w)+(\y:-0.5*\w)$);
+    \coordinate (2) at ($(1)+(\x:\w)$);
+    \coordinate (3) at ($(2)+(\z:-\d)$);
+    \coordinate (4) at ($(1)+(\z:-\d)$);
+    \coordinate (5) at ($(1)+(\y:\w)$);
+    \coordinate (6) at ($(2)+(\y:\w)$);
+    \coordinate (7) at ($(3)+(\y:\w)$);
+    \coordinate (8) at ($(4)+(\y:\w)$);
+    \draw [fill=blue!10,opacity=0.75] (1) -- (2) -- (3) -- (4) -- (1);
+    \draw [fill=blue!10,opacity=0.75] (3) -- (4) -- (8) -- (7) -- (3);
+    \draw [fill=blue!10,opacity=0.75] (1) -- (5) -- (8) -- (4) -- (1);
+    \draw [fill=blue!10,opacity=0.75] (5) -- (6) -- (7) -- (8) -- (5);
+    \draw [fill=blue!10,opacity=0.75] (2) -- (3) -- (7) -- (6) -- (2);
+    \draw [fill=blue!10,opacity=0.75] (1) -- (2) -- (6) -- (5) -- (1);
+    \draw (origin) -- (farlt) (origin) -- (farrb) (origin) -- (farrt);
+    \coordinate (1) at ($(origin)+(\z:-3.5)+(\x:4.5)+(\y:-0.5*\w)$);
+    \coordinate (2) at ($(1)+(\x:\w)$);
+    \coordinate (3) at ($(2)+(\z:-\d)$);
+    \coordinate (4) at ($(1)+(\z:-\d)$);
+    \coordinate (5) at ($(1)+(\y:\w)$);
+    \coordinate (6) at ($(2)+(\y:\w)$);
+    \coordinate (7) at ($(3)+(\y:\w)$);
+    \coordinate (8) at ($(4)+(\y:\w)$);
+    \draw [fill=red!10,opacity=0.75] (1) -- (2) -- (3) -- (4) -- (1);
+    \draw [fill=red!10,opacity=0.75] (3) -- (4) -- (8) -- (7) -- (3);
+    \draw [fill=red!10,opacity=0.75] (1) -- (5) -- (8) -- (4) -- (1);
+    \draw [fill=red!10,opacity=0.75] (5) -- (6) -- (7) -- (8) -- (5);
+    \draw [fill=red!10,opacity=0.75] (2) -- (3) -- (7) -- (6) -- (2);
+    \draw [fill=red!10,opacity=0.75] (1) -- (2) -- (6) -- (5) -- (1);
+    \node [left,rotate=\x] at (lt) {\footnotesize (left,top,near)};
+    \node [right,rotate=\x] at (rt) {\footnotesize (right,top,near)};
+    \node [right,rotate=\x] at (rb) {\footnotesize (right,bottom,near)};
+    \node [left,rotate=\x] at (lb) {\footnotesize (right,bottom,near)};
+    \draw [<->,line width=1pt] (-1:2.5) arc (-1:20:2.5);
+    \node (fov) at (3,-1) {field of view};
+    \draw [->,shorten >= 2pt,bend right] (fov.north) to (5:2.5);
+    \node (label) at ($(3)+(1.25,0)$) {clipped};
+    \draw[->] (label) -- ++(-1,0.2);
+\end{tikzpicture}
 
-%     \coordinate (lb) at ($(\z:-\znear)+(\x:-0.5*\scrwidth)+(\y:-0.5*\scrheight)$);
-%     \coordinate (rb) at ($(lb)+(\x:\scrwidth)$);
-%     \coordinate (rt) at ($(rb)+(\y:\scrheight)$);
-%     \coordinate (lt) at ($(lb)+(\y:\scrheight)$);
-%     \coordinate (farlb) at ($(\z:-\zfar)+(\x:-2*\scrwidth)+(\y:-2*\scrheight)$);
-%     \coordinate (farlt) at ($(farlb)+(\y:4.5)$);
-%     \coordinate (farrb) at ($(farlb)+(\x:6)$);
-%     \coordinate (farrt) at ($(farrb)+(\y:4.5)$);
-%     \draw (origin) -- (farlb);
-%     \draw [fill=gray!50,opacity=0.75] (lb) -- (rb) -- (rt) -- (lt) node [pos=0.5,above,rotate=\x,black] {near plane} -- cycle;
-%     \draw [fill=gray!50,opacity=0.75] (farlb) -- (farrb) -- (farrt) -- (farlt) node [pos=0.5,above,rotate=\x,black] {far plane} -- cycle;
-%     \coordinate (1) at ($(origin)+(\z:-5.25)+(\x:0.5*\w)+(\y:-0.5*\w)$);
-%     \coordinate (2) at ($(1)+(\x:\w)$);
-%     \coordinate (3) at ($(2)+(\z:-\d)$);
-%     \coordinate (4) at ($(1)+(\z:-\d)$);
-%     \coordinate (5) at ($(1)+(\y:\w)$);
-%     \coordinate (6) at ($(2)+(\y:\w)$);
-%     \coordinate (7) at ($(3)+(\y:\w)$);
-%     \coordinate (8) at ($(4)+(\y:\w)$);
-%     \draw [fill=blue!10,opacity=0.75] (1) -- (2) -- (3) -- (4) -- (1);
-%     \draw [fill=blue!10,opacity=0.75] (3) -- (4) -- (8) -- (7) -- (3);
-%     \draw [fill=blue!10,opacity=0.75] (1) -- (5) -- (8) -- (4) -- (1);
-%     \draw [fill=blue!10,opacity=0.75] (5) -- (6) -- (7) -- (8) -- (5);
-%     \draw [fill=blue!10,opacity=0.75] (2) -- (3) -- (7) -- (6) -- (2);
-%     \draw [fill=blue!10,opacity=0.75] (1) -- (2) -- (6) -- (5) -- (1);
-%     \draw (origin) -- (farlt) (origin) -- (farrb) (origin) -- (farrt);
-%     \coordinate (1) at ($(origin)+(\z:-3.5)+(\x:4.5)+(\y:-0.5*\w)$);
-%     \coordinate (2) at ($(1)+(\x:\w)$);
-%     \coordinate (3) at ($(2)+(\z:-\d)$);
-%     \coordinate (4) at ($(1)+(\z:-\d)$);
-%     \coordinate (5) at ($(1)+(\y:\w)$);
-%     \coordinate (6) at ($(2)+(\y:\w)$);
-%     \coordinate (7) at ($(3)+(\y:\w)$);
-%     \coordinate (8) at ($(4)+(\y:\w)$);
-%     \draw [fill=red!10,opacity=0.75] (1) -- (2) -- (3) -- (4) -- (1);
-%     \draw [fill=red!10,opacity=0.75] (3) -- (4) -- (8) -- (7) -- (3);
-%     \draw [fill=red!10,opacity=0.75] (1) -- (5) -- (8) -- (4) -- (1);
-%     \draw [fill=red!10,opacity=0.75] (5) -- (6) -- (7) -- (8) -- (5);
-%     \draw [fill=red!10,opacity=0.75] (2) -- (3) -- (7) -- (6) -- (2);
-%     \draw [fill=red!10,opacity=0.75] (1) -- (2) -- (6) -- (5) -- (1);
-%     \node [left,rotate=\x] at (lt) {\footnotesize (left,top,near)};
-%     \node [right,rotate=\x] at (rt) {\footnotesize (right,top,near)};
-%     \node [right,rotate=\x] at (rb) {\footnotesize (right,bottom,near)};
-%     \node [left,rotate=\x] at (lb) {\footnotesize (right,bottom,near)};
-%     \draw [<->,line width=1pt] (-1:2.5) arc (-1:20:2.5);
-%     \node (fov) at (3,-1) {field of view};
-%     \draw [->,shorten >= 2pt,bend right] (fov.north) to (5:2.5);
-%     \node (label) at ($(3)+(1.25,0)$) {clipped};
-%     \draw[->] (label) -- ++(-1,0.2);
-% \end{tikzpicture}
-
-% Perspective projection
-% \begin{tikzpicture}
-%     \draw [zaxis] (8,0) -- (-0.5,0) node [left] {$z$};
-%     \draw [xaxis] (0,0) -- ++(0,3) node [above] {$x$};
-%     \node at (-1.5,0) {\includegraphics*[width=1cm]{camera.pdf}} ;
-%     \draw [dashed] (3, 0) -- (3, 3) node [above] {near plane};
-%     \node [point,label=above:{$(x, y, z)$}] (p) at (6, 2) {};
-%     \draw (0,0) -- (p);
-%     \node [point,label=above left:{$(x',y',-\textsf{near})$}] (q) at (3,1) {};
-%     \draw [<->] (0,-0.25) -- (3,-0.25) node [pos=0.5,below] {near};
-%     \draw [<->] (0,-0.75) -- (6,-0.75) node [pos=0.5,below] {$-z$};
-%     \draw [<->] (3.25, 0) -- ++(0,1) node [pos=0.5,right] {$x'$}; 
-%     \draw [<->] (6.25, 0) -- ++(0,2) node [pos=0.5,right] {$x$}; 
-% \end{tikzpicture}
+Perspective projection
+\begin{tikzpicture}
+    \draw [zaxis] (8,0) -- (-0.5,0) node [left] {$z$};
+    \draw [xaxis] (0,0) -- ++(0,3) node [above] {$x$};
+    \node at (-1.5,0) {\includegraphics*[width=1cm]{camera.pdf}} ;
+    \draw [dashed] (3, 0) -- (3, 3) node [above] {near plane};
+    \node [point,label=above:{$(x, y, z)$}] (p) at (6, 2) {};
+    \draw (0,0) -- (p);
+    \node [point,label=above left:{$(x',y',-\textsf{near})$}] (q) at (3,1) {};
+    \draw [<->] (0,-0.25) -- (3,-0.25) node [pos=0.5,below] {near};
+    \draw [<->] (0,-0.75) -- (6,-0.75) node [pos=0.5,below] {$-z$};
+    \draw [<->] (3.25, 0) -- ++(0,1) node [pos=0.5,right] {$x'$}; 
+    \draw [<->] (6.25, 0) -- ++(0,2) node [pos=0.5,right] {$x$}; 
+\end{tikzpicture}
 
 % Euler angles
 % \begin{tikzpicture}
