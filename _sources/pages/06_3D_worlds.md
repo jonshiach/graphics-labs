@@ -129,7 +129,9 @@ glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLushort), GL_UNSIGNED_SHO
 
 If you compile and run this program you will see that the `crate.bmp` texture fills the window because our cube vertices are the same as the limits of the NDC.
 
-## The model matrix
+## Model, view and projection matrices
+
+### The model matrix
 
 In [Lab 5](transformations-section) we saw that we can combine transformations such as translation, scaling and rotation by multiplying the individual transformation matrices together. The **model matrix** is the matrix that is used to apply transformations to an object.
 
@@ -148,7 +150,7 @@ glm::mat4 model = translate * rotate * scale;
 Here we have calculated the individual transformation matrices for translation, scaling and rotation and multiply them to give the `model` matrix.
 
 (view-matrix-section)=
-## The view matrix
+### The view matrix
 
 OpenGL assumes that the camera is always at (0,0,0) and looking down the $z$-axis so we need to transform the co-ordinates to this **view space** ({numref}`view-space-figure`).
 
@@ -236,7 +238,7 @@ glm::mat4 view = align * translate;
 
 The code above should be pretty self explanatory as we have done similar in the past.
 
-## Projection
+### Projection
 
 The next step is to project the view space onto the screen space. OpenGL uses NDC where the screen space is a unit cube where axes co-ordinates range from -1 to 1. Any fragments with co-ordinates outside of this range are **clipped** and ignored by the shaders. The simplest type of projection is **orthographic projection** where the co-ordinates in the view space are transformed to the screen space by simple translation and scaling transformations.
 
@@ -320,7 +322,7 @@ projection[3][1] = - (top + bottom) / (top - bottom);
 projection[3][2] = (near + far) / (near - far);
 ```
 
-## The MVP matrix
+### The MVP matrix
 
 Now that we have defined the `model`, `view` and `projection` matrices we need to multiply them together to calculate the MVP matrix and send it to the shader. First we need to get the handle of the uniform that we will use to send the MVP matrix to the vertex shader. We do this in the same way as we did for the textures in [Lab 3](textures-section).
 
@@ -584,7 +586,7 @@ projection[3][3] = 0.0f;
 </video>
 </center>
 
-#### Changing the fov angle
+### Changing the fov angle
 
 The field of view angle determines how much of the view space we can see in the screen space where the larger the angle the more we can see. When we increase the fov angle it appears to the user that our view is zooming out whereas when we decrease the fov it has the effect of zooming in (this is used a lot in first person shooter games to model the effect of a pair of binoculars or a sniper scope). This effect is shown on our cube object below.
 

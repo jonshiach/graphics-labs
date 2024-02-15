@@ -11,7 +11,7 @@ Download and build the project files for this lab.
 
 3. Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).
 
-Compile and run the project and you will see the multiple cube examples we did at the end of the last lab. 
+Compile and run the project and you will see the multiple cube examples we did at the end of the last lab.
 
 ## Using keyboard input to move the camera
 
