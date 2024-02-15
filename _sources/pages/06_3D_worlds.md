@@ -2,11 +2,18 @@
 
 # 3D Worlds
 
-In the [previous lab](transformations-section) we looked at the transformations can can be applied to the vertex co-ordinates $(x, y, z, 1)$ but all of our examples were using 2D objects. In this lab we will take the step into the third spatial dimension and look at 3D worlds.
+In the [Lab 6](transformations-section) we looked at the transformations can can be applied to the vertex co-ordinates $(x, y, z, 1)$ but all of our examples were using 2D objects. In this lab we will take the step into the third spatial dimension and look at 3D worlds.
+
+First download and build the project files for this lab.
+
+1. Go to <a href="https://github.com/jonshiach/Lab06_3D_worlds" target="_blank">https://github.com/jonshiach/Lab06_3D_worlds</a> and follow the instructions to download and build the project files.
+2. Open the project file `Lab06_3D_worlds.sln` (or `Lab06_3D_worlds.xcodeproj` on macOS) set the **Lab06_3D_worlds** project as the startup project.
+    - Visual Studio: right-click on the **Lab06_3D_worlds** project and select **Set as Startup Project**.
+    - Xcode: Click on the target select dropdown (to the right of the name of the project at the top of the window) and select **Lab06_3D_worlds** as the target.
+
+3. Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).
 
 ## Co-ordinate systems
-
-### Normalised Device Co-ordinates (NDC)
 
 OpenGL uses a co-ordinate system with the $x$ axis pointing horizontally to the right, the $y$ axis pointing vertically upwards and the $z$ axis pointing horizontally towards the viewer. To simplify things when it comes to displaying the 3D world, the axes are limited to a range from -1 to 1 so any object outside of this range will not be shown on the display. These are known as **Normalised Device Co-ordinates (NDC)**.
 
@@ -17,8 +24,6 @@ OpenGL uses a co-ordinate system with the $x$ axis pointing horizontally to the 
 Normalise Device Co-ordinates (NDC)
 ```
 
-### Transforming between co-ordinate systems
-
 The steps used in the creation of a 3D world and eventually displaying it on screen requires that we transform through several intermediate co-ordinate systems:
 
 - **Object space** - each individual 3D object that will appear in the 3D world is defined in its own space usually with the centre of the object at (0,0,0) to make the transformations easier.
@@ -28,11 +33,22 @@ The steps used in the creation of a 3D world and eventually displaying it on scr
 
 ```{figure} ../images/06_mvp.svg
 :width: 500
+
+Transformations between different spaces.
 ```
+
+We saw in [Lab 5](transformations-section) that we apply a transformation by multiplying the object co-ordinates by a transformation matrix. Since we are transforming between difference co-ordinate spaces we have 3 main transformation matrices
+
+- the **model** matrix - combined scaling, rotation and translation applied to each individual object
+- the **view** matrix - combined translation and alignment transformations
+- the **projection** matrix - combined projection of the view space and scaling to NDC
+
+The model, view and projection matrices are multiplied together to form a single matrix that applies all of the transformations to go from the object space to the screen space. This matrix is called the **MVP matrix**.
 
 ## 3D models
 
-One of the simplest 3D objects is a **unit cube** which is a cube centred at (0,0,0) and has side lengths of 2 parallel to the co-ordinate axes ({numref}`unit-cube-figure`) so the co-ordinates of the 8 vertices of the cube are combinations of -1 and 1. Since each side of a cube is modelled by two triangles then to define this cube in our program we have 36 vertices (6 sides each of 2 triangles with 3 vertices).
+To demonstrate building a simple 3D world we are going to need a 3D object. 
+One of the simplest 3D objects is a **unit cube** which is a cube centred at (0,0,0) and has side lengths of 2 parallel to the co-ordinate axes ({numref}`unit-cube-figure`) so the co-ordinates of the 8 vertices of the cube are combinations of -1 and 1.
 
 ```{figure} ../images/06_unit_cube.svg
 :width: 700
@@ -41,75 +57,74 @@ One of the simplest 3D objects is a **unit cube** which is a cube centred at (0,
 A unit cube.
 ```
 
-Download and build the project files for this lab.
+You may have noticed from [Lab 3](textures-section) that we used 6 vertices to define a rectangle which only has 4 corners which is obviously inefficient. To improve this can can use **indexing** where co-ordinates that are shared by difference triangles are only declared once and we use an index array that links each vertex to a co-ordinate. 
 
-1. Go to <a href="https://github.com/jonshiach/Lab06_3D_worlds" target="_blank">https://github.com/jonshiach/Lab06_3D_worlds</a> and follow the instructions to download and build the project files.
-2. Open the project file `Lab06_3D_worlds.sln` (or `Lab06_3D_worlds.xcodeproj` on macOS) set the **Lab06_3D_worlds** project as the startup project.
-    - Visual Studio: right-click on the **Lab06_3D_worlds** project and select **Set as Startup Project**.
-    - Xcode: Click on the target select dropdown (to the right of the name of the project at the top of the window) and select **Lab06_3D_worlds** as the target.
+For example, for the front size of the cube we have co-ordinates (-1,-1,1), (1,-1,1), (1,1,1) and (-1,1,1) so the two triangles will be indexed as 0, 1, 2 for the first triangle and 0, 1, 4 for the second. Note that we need to index the triangles so in an **anti-clockwise** order when looking at the front of the triangle so that the [normal vectors](normal-vector-section) are calculated properly.
 
-3. Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).
+```{figure} ../images/06_indexed_rectangle.svg
+:width: 400
+:name: indexed-rectangle-figure
 
-Open up the project and take a look at the `main.cpp` file and you will see that the `vertices` and `uvCoords` arrays have been defined for our unit cube.
+Drawing a rectangle with and without vertex indexing.
+```
+
+Open up the project and take a look at the `main.cpp` file and you will see that the arrays `vertices`, `indices` and `uvCoords` arrays have been defined for our unit cube.
 
 ```cpp
-    // Define vertex positions
-    static const GLfloat vertices[] = {
-        -1.0f, -1.0f,  1.0f,    // front
-         1.0f, -1.0f,  1.0f,
-         1.0f,  1.0f,  1.0f,
-        -1.0f, -1.0f,  1.0f,
-         1.0f,  1.0f,  1.0f,
-        -1.0f,  1.0f,  1.0f,
+// Define vertex co-ordinates
+static const GLfloat vertices[] = {
+    // front
+    -1.0f, -1.0f,  1.0f,    //              + ------ +
+     1.0f, -1.0f,  1.0f,    //             /|       /|
+     1.0f,  1.0f,  1.0f,    //   y        / |      / |
+    -1.0f,  1.0f,  1.0f,    //   |       + ------ +  |
+    // right                //   + - x   |  + ----|- +
+     1.0f, -1.0f,  1.0f,    //  /        | /      | /
+     1.0f, -1.0f, -1.0f,    // z         |/       |/
+     1.0f,  1.0f, -1.0f,    //           + ------ +
+     1.0f,  1.0f,  1.0f,
 
-         1.0f, -1.0f,  1.0f,    // right
-         1.0f, -1.0f, -1.0f,
-         1.0f,  1.0f, -1.0f,
-         1.0f, -1.0f,  1.0f,
-         1.0f,  1.0f, -1.0f,
-         1.0f,  1.0f,  1.0f,
+    // etc.
+};
 
-         1.0f, -1.0f, -1.0f,    // back
-        -1.0f, -1.0f, -1.0f,
-        -1.0f,  1.0f, -1.0f,
-         1.0f, -1.0f, -1.0f,
-        -1.0f,  1.0f, -1.0f,
-         1.0f,  1.0f, -1.0f,
+// Define vertex indices
+GLushort indices[] = {
+    // front
+    0, 1, 2,
+    0, 2, 3,
+    // right (add 4 to the indices of the previous side)
+    4, 5, 6,
+    4, 6, 7,
 
-        -1.0f, -1.0f, -1.0f,    // left
-        -1.0f, -1.0f,  1.0f,
-        -1.0f,  1.0f,  1.0f,
-        -1.0f, -1.0f, -1.0f,
-        -1.0f,  1.0f,  1.0f,
-        -1.0f,  1.0f, -1.0f,
+    // etc.
+};
 
-        -1.0f, -1.0f, -1.0f,    // base
-         1.0f, -1.0f, -1.0f,
-         1.0f, -1.0f,  1.0f,
-        -1.0f, -1.0f, -1.0f,
-         1.0f, -1.0f,  1.0f,
-        -1.0f, -1.0f,  1.0f,
+// Define texture vertices
+static const GLfloat uvCoords[] = {
+    0.0f, 0.0f,     // vertex co-ordinates are the same for each side
+    1.0f, 0.0f,     // of the cube so repeat every four vertices
+    1.0f, 1.0f,
+    0.0f, 1.0f,
 
-        -1.0f,  1.0f,  1.0f,    // top
-         1.0f,  1.0f,  1.0f,
-         1.0f,  1.0f, -1.0f,
-        -1.0f,  1.0f,  1.0f,
-         1.0f,  1.0f, -1.0f,
-        -1.0f,  1.0f, -1.0f
-    };
+    // etc.
+};
+```
 
-    // Define texture co-ordinates
-    static const GLfloat uvCoords[] = {
-        // u    v
-        0.0f, 0.0f,    // base
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-        0.0f, 0.0f,
-        1.0f, 1.0f,
-        0.0f, 1.0f,
-        
-        // ... texture co-ordinates are the same for each side of the cube
-    };
+To create a buffer for the indices we use an **element array buffer** which is created in a similar way to the co-ordinate buffers with the exception that the type of buffer is `GL_ELEMENT_ARRAY_BUFFER` instead of `GL_ARRAY_BUFFER`. 
+
+```cpp
+// Create element buffer
+GLuint elementBuffer;
+glGenBuffers(1, &elementBuffer);
+glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
+glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices[0], GL_STATIC_DRAW);
+```
+
+To draw the triangles we now use `glDrawElements()` which uses element array buffer to index the co-ordinate arrays.
+
+```cpp
+// Draw the triangles
+glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLushort), GL_UNSIGNED_SHORT, (void*)0);
 ```
 
 If you compile and run this program you will see that the `crate.bmp` texture fills the window because our cube vertices are the same as the limits of the NDC.
@@ -118,7 +133,7 @@ If you compile and run this program you will see that the `crate.bmp` texture fi
 
 In [Lab 5](transformations-section) we saw that we can combine transformations such as translation, scaling and rotation by multiplying the individual transformation matrices together. The **model matrix** is the matrix that is used to apply transformations to an object.
 
-Lets compute a model matrix for our cube where it is scaled down by a factor of 0.5 in each co-ordinate direction, rotated about the $y$ axis using the time of the current frame as the rotation angle and translated backwards down the $z$-axis so that its centre is at (0, 0, -4). Add the following code inside the rendering loop before we draw the triangles.
+Lets compute a model matrix for our cube where it is scaled down by a factor of 0.5 in each co-ordinate direction, rotated about the $y$ axis using the time of the current frame as the rotation angle and translated backwards down the $z$-axis so that its centre is at (0, 0, -4). Add the following code inside the rendering loop before we call the `glDrawElements()` function.
 
 ```cpp
 // Calculate the model matrix
@@ -130,16 +145,9 @@ glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), time, glm::vec3(0.0f, 1.0f, 0.0f
 glm::mat4 model = translate * rotate * scale;
 ```
 
-Here we have calculated the individual transformation matrices for translation, scaling and rotation and multiply them to give the `model` matrix. We also need to send the `model` matrix to the vertex shader so that it can apply the transformations so we need to get the handle of the uniform to do this. Since we will also be using a view matrix and a projection matrix it makes sense to get these at the same time. Where the handle for the texture uniform has been defined, add the following code.
+Here we have calculated the individual transformation matrices for translation, scaling and rotation and multiply them to give the `model` matrix.
 
-```cpp
- // Get the handles for the shader uniforms
- GLuint texture1ID = glGetUniformLocation(shaderID, "texture1Sampler");
- GLuint modelID = glGetUniformLocation(shaderID, "model");
- GLuint viewID = glGetUniformLocation(shaderID, "view");
- GLuint projectionID = glGetUniformLocation(shaderID, "projection");
-```
-
+(view-matrix-section)=
 ## The view matrix
 
 OpenGL assumes that the camera is always at (0,0,0) and looking down the $z$-axis so we need to transform the co-ordinates to this **view space** ({numref}`view-space-figure`).
@@ -205,7 +213,7 @@ $$ \begin{align*}
     \textsf{view matrix} &= \textsf{translation matrix} \cdot \textsf{alignment matrix}.
 \end{align*} $$
 
-Lets move the camera to look at our cube from the position (1,1,0) looking towards the center of the cube. Add the following to the `main.cpp` file.
+Lets move the camera to look at our cube from the position (1,1,0) looking towards the center of the cube. Add the following to the `main.cpp` file after we have calculated the `model` matrix.
 
 ```cpp
 // Calculate view matrix
@@ -230,11 +238,7 @@ The code above should be pretty self explanatory as we have done similar in the 
 
 ## Projection
 
-The next step is to project the view space onto the screen space. OpenGL uses NDC where the screen space is a unit cube where axes co-ordinates range from -1 to 1. Any fragments with co-ordinates outside of this range are **clipped** and ignored by the shaders.
-
-### Orthographic projection
-
-The simplest type of projection is **orthographic projection** where the co-ordinates in the view space are transformed to the screen space by simple translation and scaling transformations.
+The next step is to project the view space onto the screen space. OpenGL uses NDC where the screen space is a unit cube where axes co-ordinates range from -1 to 1. Any fragments with co-ordinates outside of this range are **clipped** and ignored by the shaders. The simplest type of projection is **orthographic projection** where the co-ordinates in the view space are transformed to the screen space by simple translation and scaling transformations.
 
 The region of the view space that will form the screen space is defined by a cuboid bounded by a left, right, bottom, top, near and far clipping planes. Any objects outside of the cuboid are clipped and discarded from the rendering ({numref}`orthographic-projection-figure`).
 
@@ -298,7 +302,7 @@ $$ \begin{align*}
 \end{align*} $$
 ```
 
-Lets calculate the orthographic projection matrix using left = -2, right = 2, bottom = -2, top = 2, near = 0, far = 10 and send it to the vertex shader.
+Lets calculate the orthographic projection matrix using left = -2, right = 2, bottom = -2, top = 2, near = 0, far = 10 and send it to the vertex shader. Add the following code after we calculate the `view` matrix.
 
 ```cpp
 // Calculate projection matrix (orthographic projection)
@@ -316,16 +320,25 @@ projection[3][1] = - (top + bottom) / (top - bottom);
 projection[3][2] = (near + far) / (near - far);
 ```
 
-Now that we have defined the `model`, `view` and `projection` matrices we need to send their uniforms to the shader. Add the following to your code.
+## The MVP matrix
+
+Now that we have defined the `model`, `view` and `projection` matrices we need to multiply them together to calculate the MVP matrix and send it to the shader. First we need to get the handle of the uniform that we will use to send the MVP matrix to the vertex shader. We do this in the same way as we did for the textures in [Lab 3](textures-section).
 
 ```cpp
-// Send the model, view and projection matrices to the shader
-glUniformMatrix4fv(modelID, 1, GL_FALSE, &model[0][0]);
-glUniformMatrix4fv(viewID, 1, GL_FALSE, &view[0][0]);
-glUniformMatrix4fv(projectionID, 1, GL_FALSE, &projection[0][0]);
+// Get the handles for the shader uniforms
+GLuint texture1ID = glGetUniformLocation(shaderID, "texture1Sampler");
+GLuint mvpID = glGetUniformLocation(shaderID, "mvp");
 ```
 
-Of course we also need to update the vertex shader so that is uses these uniforms. Edit `vertexShader.vert` so that it looks like the following.
+We can now calculation the MVP matrix and send to the vertex shader
+
+```cpp
+// Calculate the MVP matrix and send it to the shader
+glm::mat4 mvp = projection * view * model;
+glUniformMatrix4fv(mvpID, 1, GL_FALSE, &mvp[0][0]);
+```
+
+Of course we also need to update the vertex shader so that is uses the `mvp` matrix. Edit `vertexShader.vert` so that the `gl_Position` vector is calculated as follows.
 
 ```cpp
 #version 330 core
@@ -338,14 +351,12 @@ layout(location = 1) in vec2 textureCoords;
 out vec2 uv;
 
 // Uniforms
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+uniform mat4 mvp;
 
 void main()
 {
     // Output vertex position
-    gl_Position = projection * view * model * vec4(position, 1.0);
+    gl_Position = mvp * vec4(position, 1.0);
     
     // Output (u,v) co-ordinates
     uv = vec2(textureCoords);
@@ -362,7 +373,7 @@ Compile and run the program and you should see the following.
 
 If you are having difficulty getting to this stage take a look at the source code [main.cpp](../code/Lab06_3D_worlds/Lab06_no_depth_test.cpp) and vertex shader [vertexShader.vert](../code/Lab06_3D_worlds/vertexShader.vert).
 
-### The z buffer
+## The z buffer
 
 Our rendering of the cube doesn't look quite right. What is happening here is that some parts of the sides of the cube that are further away from where we are viewing it (e.g., the bottom side) from have been rendered after the sides that are closer to us ({numref}`depth-test-1-figure`).
 
@@ -385,6 +396,7 @@ glEnable(GL_DEPTH_TEST);
 We also need to reset the depth buffer at the start of each frame, change `glClear(GL_COLOR_BUFFER_BIT);` to the following.
 
 ```cpp
+// Clear the window
 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 ```
 
@@ -396,7 +408,7 @@ Make these changes to your code and you should get a much better result.
 </video>
 </center>
 
-### Perspective projection
+## Perspective projection
 
 The problem with using orthographic projection is that is does not give us any clues to how far an object is from the viewer. We would expect that objects further away from the camera would appear smaller whereas objects closer to the camera would appear larger. 
 
@@ -545,7 +557,7 @@ $$ \begin{align*}
 \end{align*} $$
 ````
 
-Lets apply perspective projection to our cube using a near and far clipping planes at 0.2 and 10 respectively and a field of view angle of  45$^\circ$ clipping plane. Add the following code to your `main.cpp` file (you may want to comment out the code used to calculate the orthogonal projection matrix as we aren't using it now).
+Lets apply perspective projection to our cube using a near and far clipping planes at 0.2 and 10 respectively and a field of view angle of 45$^\circ$. Add the following code to your `main.cpp` file (you may want to comment out the code used to calculate the orthogonal projection matrix as we aren't using it now).
 
 ```cpp
 // Calculate perspective projection matrix
@@ -604,7 +616,7 @@ Comment out all the code you've used to calculate the `view` and `projection` ma
 
 ```cpp
 // Calculate the view matrix
-glm::vec3 cameraPos = glm::vec3(1.0f, 1.0f,  5.0f);
+glm::vec3 cameraPos = glm::vec3(1.0f, 1.0f, 0.0f);
 glm::vec3 target = glm::vec3(0.0f, 0.0f, -4.0f);
 glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 glm::mat4 view = glm::lookAt(cameraPos, target, worldUp);
@@ -642,10 +654,6 @@ glm::vec3 cubePositions[] = {
 This creates an array of 3-element vectors that contain the co-ordinates of the centre of 10 cubes. In the render loop comment out the code used to calculate the model matrix for the previous examples and add this code.
 
 ```cpp
-// Send the view and projection matrices to the shader
-glUniformMatrix4fv(viewID, 1, GL_FALSE, &view[0][0]);
-glUniformMatrix4fv(projectionID, 1, GL_FALSE, &projection[0][0]);
-
 // Loop through cubes and draw each one
 for (int i = 0; i < 10; i++)
 {
@@ -655,15 +663,16 @@ for (int i = 0; i < 10; i++)
     glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), glm::radians(30.0f * i), glm::vec3(1.0f, 1.0f, 0.0f));
     glm::mat4 model = translate * rotate * scale;
     
-    // Send model matrix to the shader
-    glUniformMatrix4fv(modelID, 1, GL_FALSE, &model[0][0]);
+    // Send calculate the MVP matrix and send it to the shader
+    glm::mat4 mvp = projection * view * model;
+    glUniformMatrix4fv(mvpID, 1, GL_FALSE, &mvp[0][0]);
     
     // Draw the triangle
-    glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / (sizeof(float) * 3));
+    glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLushort), GL_UNSIGNED_SHORT, (void*)0);
 }
 ```
 
-Here we calculate the `translate` matrix for each cube based on the `cubePosition` vectors and rotate each cube by a different angle about the vector (1, 1, 0). Note that since the camera is in the same position for each cube we send the view and projection uniforms to the shader before we loop through the cubes.
+Here we loop through each of the elements of the `cubePositions` array. The `translate` and `rotate` matrices for each cube is calculated using the positions of the cube and the rotation vector (1, 1, 0). Note that since the camera is in the same position for each cube we send the view and projection uniforms to the shader before we loop through the cubes.
 
 Change position of the camera to (0, 0, 5) and the target to (0, 0, 0),  compile and run and you should see the following.
 
@@ -697,6 +706,7 @@ public:
     glm::vec3 front;
     glm::vec3 right;
     glm::vec3 up;
+    glm::vec3 worldUp;
     
     // Transformation matrices
     glm::mat4 view;
@@ -710,7 +720,6 @@ public:
     glm::mat4 getProjectionMatrix();
     void calculateMatrices();
 };
-
 ```
 
 The `getViewMatrix()` and `getProjectionMatrix()` functions will be used to return the `view` and `projection` matrices and the `calculateMatrices()` function will be used to calculate these matrices (you can see I like sensible function names).
@@ -729,6 +738,7 @@ Camera::Camera(const glm::vec3 Position)
     front = glm::vec3(0.0f, 0.0f, -1.0f);
     right = glm::vec3(1.0f, 0.0f, 0.0f);
     up = glm::vec3(0.0f, 1.0f, 0.0f);
+    worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 }
 
 glm::mat4 Camera::getViewMatrix()
@@ -751,7 +761,7 @@ void Camera::calculateMatrices()
 }
 ```
 
-The `Camera()` constructor takes in a single input of the camera position and instantiates the `position` attribute. The `front`, `right` and `up` vectors are instantiated with default values.
+The `Camera()` constructor takes in a single input of the camera position and instantiates the `position` attribute. The `front`, `right`, `up` and `worldUp` vectors are instantiated with default values.
 
 Now we've created our Camera class we need to include it and make calls to the library functions. Add `#include "camera.hpp` to the top of the `main.cpp` file and create a Camera object before the `main()` declaration.
 

@@ -259,6 +259,8 @@ scale = glm::scale(glm::mat4(1.0f),               // matrix that scaling is appl
 
 If you compile and run the program you will notice nothing has changed.
 
+(rotation-section)=
+
 ## Rotation
 
 As well as translating and scaling objects, the next most common transformation is the rotation of objects around the three co-ordinate axes $x$, $y$ and $z$. We define the rotation **anti-clockwise** around each of the co-ordinate axes by an angle $\theta$ when looking down the axes ({numref}`3D-rotation-figure`).
