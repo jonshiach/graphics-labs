@@ -5,12 +5,12 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "shader.hpp"
+#include "texture.hpp"
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/io.hpp>
-
-#include "shader.hpp"
-#include "texture.hpp"
 
 int main( void )
 {
@@ -30,9 +30,9 @@ int main( void )
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Open a window and create its OpenGL context
-    GLFWwindow* window = glfwCreateWindow( 1024, 768, "3D Worlds", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow( 1024, 768, "Transformations", NULL, NULL);
     if( window == NULL ){
-        fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
+        fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible.");
         getchar();
         glfwTerminate();
         return -1;
@@ -70,105 +70,98 @@ int main( void )
     GLuint projectionID = glGetUniformLocation(shaderID, "projection");
     
     // Create the Vertex Array Object (VAO)
-    GLuint VAO;
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
+    GLuint vertexArray;
+    glGenVertexArrays(1, &vertexArray);
+    glBindVertexArray(vertexArray);
     
-    // Define vertex positions
+    // Define vertex co-ordinates
     static const GLfloat vertices[] = {
-        -1.0f, -1.0f,  1.0f,    // front
-         1.0f, -1.0f,  1.0f,
+        // front
+        -1.0f, -1.0f,  1.0f,    //              + ------ +
+         1.0f, -1.0f,  1.0f,    //             /|       /|
+         1.0f,  1.0f,  1.0f,    //   y        / |      / |
+        -1.0f,  1.0f,  1.0f,    //   |       + ------ +  |
+        // right                //   + - x   |  + ----|- +
+         1.0f, -1.0f,  1.0f,    //  /        | /      | /
+         1.0f, -1.0f, -1.0f,    // z         |/       |/
+         1.0f,  1.0f, -1.0f,    //           + ------ +
          1.0f,  1.0f,  1.0f,
-        -1.0f, -1.0f,  1.0f,
-         1.0f,  1.0f,  1.0f,
-        -1.0f,  1.0f,  1.0f,
-
-         1.0f, -1.0f,  1.0f,    // right
+        // back
          1.0f, -1.0f, -1.0f,
-         1.0f,  1.0f, -1.0f,
-         1.0f, -1.0f,  1.0f,
-         1.0f,  1.0f, -1.0f,
-         1.0f,  1.0f,  1.0f,
-
-         1.0f, -1.0f, -1.0f,    // back
         -1.0f, -1.0f, -1.0f,
         -1.0f,  1.0f, -1.0f,
-         1.0f, -1.0f, -1.0f,
-        -1.0f,  1.0f, -1.0f,
          1.0f,  1.0f, -1.0f,
-
-        -1.0f, -1.0f, -1.0f,    // left
-        -1.0f, -1.0f,  1.0f,
-        -1.0f,  1.0f,  1.0f,
+        // left
         -1.0f, -1.0f, -1.0f,
+        -1.0f, -1.0f,  1.0f,
         -1.0f,  1.0f,  1.0f,
         -1.0f,  1.0f, -1.0f,
-
-        -1.0f, -1.0f, -1.0f,    // base
+        // bottom
+        -1.0f, -1.0f, -1.0f,
          1.0f, -1.0f, -1.0f,
          1.0f, -1.0f,  1.0f,
-        -1.0f, -1.0f, -1.0f,
-         1.0f, -1.0f,  1.0f,
         -1.0f, -1.0f,  1.0f,
-
-        -1.0f,  1.0f,  1.0f,    // top
+        // top
+        -1.0f,  1.0f,  1.0f,
          1.0f,  1.0f,  1.0f,
          1.0f,  1.0f, -1.0f,
-        -1.0f,  1.0f,  1.0f,
-         1.0f,  1.0f, -1.0f,
-        -1.0f,  1.0f, -1.0f
+        -1.0f,  1.0f, -1.0f,
     };
-
-    // Define texture co-ordinates
+    
+    // Define vertex indices
+    GLushort indices[] = {
+        // front
+        0, 1, 2,
+        0, 2, 3,
+        // right (add 4 to the indicies of the previous side)
+        4, 5, 6,
+        4, 6, 7,
+        // back
+        8, 9, 10,
+        8, 10, 11,
+        // left
+        12, 13, 14,
+        12, 14, 15,
+        // bottom
+        16, 17, 18,
+        16, 18, 19,
+        // top
+        20, 21, 22,
+        20, 22, 23,
+    };
+    
+    // Define texture vertices
     static const GLfloat uvCoords[] = {
-        // u    v
-        0.0f, 0.0f,    // base
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-        0.0f, 0.0f,
+        0.0f, 0.0f,     // vertex co-ordinates are the same for each side
+        1.0f, 0.0f,     // of the cube so repeat every four vertices
         1.0f, 1.0f,
         0.0f, 1.0f,
-        
-        0.0f, 0.0f,    // front
-        1.0f, 0.0f,
-        1.0f, 1.0f,
         0.0f, 0.0f,
+        1.0f, 0.0f,
         1.0f, 1.0f,
         0.0f, 1.0f,
-        
-        0.0f, 0.0f,    // right
-        1.0f, 0.0f,
-        1.0f, 1.0f,
         0.0f, 0.0f,
+        1.0f, 0.0f,
         1.0f, 1.0f,
         0.0f, 1.0f,
-        
-        0.0f, 0.0f,    // back
-        1.0f, 0.0f,
-        1.0f, 1.0f,
         0.0f, 0.0f,
+        1.0f, 0.0f,
         1.0f, 1.0f,
         0.0f, 1.0f,
-        
-        0.0f, 0.0f,    // left
-        1.0f, 0.0f,
-        1.0f, 1.0f,
         0.0f, 0.0f,
+        1.0f, 0.0f,
         1.0f, 1.0f,
         0.0f, 1.0f,
-        
-        0.0f, 0.0f,    // top
+        0.0f, 0.0f,
         1.0f, 0.0f,
         1.0f, 1.0f,
-        0.0f, 0.0f,
-        1.0f, 1.0f,
-        0.0f, 1.0f
+        0.0f, 1.0f,
     };
     
     // Create Vertex Buffer Object
-    GLuint VBO;
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    GLuint vertexBuffer;
+    glGenBuffers(1, &vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     
     // Create uv buffer
@@ -176,6 +169,12 @@ int main( void )
     glGenBuffers(1, &uvBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(uvCoords), uvCoords, GL_STATIC_DRAW);
+    
+    // Create element buffer
+    GLuint elementBuffer;
+    glGenBuffers(1, &elementBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices[0], GL_STATIC_DRAW);
     
     do {
         // Clear the window
@@ -186,16 +185,16 @@ int main( void )
         glBindTexture(GL_TEXTURE_2D, texture1);
         glUniform1i(texture1ID, 0);
         
-        // Send the VBO to the shaders
+        // Send the vertex buffer to the shaders
         glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
         
         // Send the uv buffer to the shaders
         glEnableVertexAttribArray(1);
         glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
-      
+        
         // Calculate the model matrix
         float time = glfwGetTime();
         glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -4.0f));
@@ -205,22 +204,22 @@ int main( void )
         glm::mat4 model = translate * rotate * scale;
         
         // Calculate view matrix
-        glm::vec3 position = glm::vec3(1.0f, 1.0f, 0.0f);
+        glm::vec3 cameraPos = glm::vec3(1.0f, 1.0f, 0.0f);
         glm::vec3 target = glm::vec3(0.0f, 0.0f, -4.0f);
         glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
-        glm::vec3 cameraFront = glm::normalize(target - position);
+        glm::vec3 cameraFront = glm::normalize(target - cameraPos);
         glm::vec3 cameraRight = glm::normalize(glm::cross(cameraFront, worldUp));
         glm::vec3 cameraUp = glm::cross(cameraRight, cameraFront);
 
         glm::mat4 align = glm::mat4(1.0f);
-        translate[3][0] = -position[0], translate[3][1] = -position[1], translate[3][2] = -position[2];
+        translate[3][0] = -cameraPos[0], translate[3][1] = -cameraPos[1], translate[3][2] = -cameraPos[2];
         align[0][0] = cameraRight[0], align[0][1] = cameraUp[0], align[0][2] = -cameraFront[0];
         align[1][0] = cameraRight[1], align[1][1] = cameraUp[1], align[1][2] = -cameraFront[1];
         align[2][0] = cameraRight[2], align[2][1] = cameraUp[2], align[2][2] = -cameraFront[2];
 
         glm::mat4 view = align * translate;
-             
+        
         // Calculate projection matrix (orthographic projection)
         float left, right, near, far, top, bottom;
         left = -2.0f, right = 2.0f;
@@ -234,19 +233,19 @@ int main( void )
         projection[3][0] = - (right + left) / (right - left);
         projection[3][1] = - (top + bottom) / (top - bottom);
         projection[3][2] = (near + far) / (near - far);
-       
+        
         // Send the model, view and projection matrices to the shader
         glUniformMatrix4fv(modelID, 1, GL_FALSE, &model[0][0]);
         glUniformMatrix4fv(viewID, 1, GL_FALSE, &view[0][0]);
         glUniformMatrix4fv(projectionID, 1, GL_FALSE, &projection[0][0]);
         
         // Draw the triangles
-        glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / (sizeof(float) * 3));
+        glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(GLushort), GL_UNSIGNED_SHORT, (void*)0);
         
-        // Disable VAOs
+        // Disable vertex buffer objects
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
-
+        
         // Swap buffers
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -257,9 +256,10 @@ int main( void )
            glfwWindowShouldClose(window) == 0 );
 
     // Cleanup
-    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &vertexBuffer);
     glDeleteBuffers(1, &uvBuffer);
-    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &elementBuffer);
+    glDeleteVertexArrays(1, &vertexArray);
     glDeleteProgram(shaderID);
     
     // Close OpenGL window and terminate GLFW

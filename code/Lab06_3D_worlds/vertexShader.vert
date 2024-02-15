@@ -8,14 +8,12 @@ layout(location = 1) in vec2 textureCoords;
 out vec2 uv;
 
 // Uniforms
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+uniform mat4 mvp;
 
 void main()
 {
-    // Output vertex postion
-    gl_Position = projection * view * model * vec4(position, 1.0);
+    // Output vertex position
+    gl_Position = mvp * vec4(position, 1.0);
     
     // Output (u,v) co-ordinates
     uv = vec2(textureCoords);

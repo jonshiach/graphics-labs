@@ -16,6 +16,7 @@
 \tikzset{xaxis/.style={-stealth',red,line width=1pt}}
 \tikzset{yaxis/.style={-stealth',green!80!black,line width=1pt}}
 \tikzset{zaxis/.style={-stealth',blue,line width=1pt}}
+\renewcommand{\vec}{\underline}
 
 \begin{document}
 
@@ -101,30 +102,6 @@
 % Scaling
 % \begin{tikzpicture}
 %     \tikzmath{\x=0;\y=90;\xl=10;\yl=7;\sx=3;\sy=2;}
-%     \coordinate (p1) at (1, 1);
-%     \coordinate (p2) at (3, 1);
-%     \coordinate (p3) at (2,3);
-%     \coordinate (q1) at (1*\sx, 1*\sy);
-%     \coordinate (q2) at (3*\sx, 1*\sy);
-%     \coordinate (q3) at (2*\sx, 3*\sy);
-%     \draw [-stealth'] (0,0) -- ++(\x:\xl) node at (\x:\xl+0.2) {$x$};
-%     \draw [-stealth'] (0,0) -- ++(\y:\yl) node at (\y:\yl+0.2) {$y$};
-
-%     \draw [blue] (p1) -- (p2) -- (p3) -- cycle;
-%     \draw [red] (q1) -- (q2) -- (q3) -- cycle;
-%     \node [point,blue,label=below:{$(x_0,y_0)$}] at (p1) {};
-%     \node [point,blue,label=below:{$(x_1,y_1)$}] at (p2) {};
-%     \node [point,blue,label=above:{$(x_2,y_2)$}] at (p3) {};
-%     \node [point,red,label=below right:{$(s_xx_0,s_yy_0)$}] (q1) at (q1) {};
-%     \node [point,red,label=below:{$(s_xx_1,s_yy_1)$}] (q2) at (q2) {};
-%     \node [point,red,label=above:{$(s_xx_2,s_yy_2)$}] (q3) at (q3) {};
-%     \draw [-latex',green!50!black,shorten <= 4pt,shorten >= 2pt] (p1) -- (q1);
-%     \draw [-latex',green!50!black,shorten <= 4pt,shorten >= 2pt] (p2) -- (q2);
-%     \draw [-latex',green!50!black,shorten <= 4pt,shorten >= 2pt] (p3) -- (q3);
-% \end{tikzpicture}
-
-% \begin{tikzpicture}
-%     \tikzmath{\x=0;\y=90;\xl=10;\yl=7;\sx=3;\sy=2;}
 %     \coordinate (p1) at (-1, -0.67);
 %     \coordinate (p2) at (1, -0.67);
 %     \coordinate (p3) at (0, 1.33);
@@ -142,30 +119,6 @@
 %     \node [point,red,label=below:{$(s_xx_0,s_yy_0)$}] (q1) at (q1) {};
 %     \node [point,red,label=below:{$(s_xx_1,s_yy_1)$}] (q2) at (q2) {};
 %     \node [point,red,label=above right:{$(s_xx_2,s_yy_2)$}] (q3) at (q3) {};
-%     \draw [-latex',green!50!black,shorten <= 4pt,shorten >= 2pt] (p1) -- (q1);
-%     \draw [-latex',green!50!black,shorten <= 4pt,shorten >= 2pt] (p2) -- (q2);
-%     \draw [-latex',green!50!black,shorten <= 4pt,shorten >= 2pt] (p3) -- (q3);
-% \end{tikzpicture}
-
-% \begin{tikzpicture}
-%     \tikzmath{\x=0;\y=90;\xl=7;\yl=5;\sx=3;\sy=2;}
-%     \coordinate (p1) at (1, 1);
-%     \coordinate (p2) at (3, 1);
-%     \coordinate (p3) at (2,3);
-%     \coordinate (q1) at (-1,0.33);
-%     \coordinate (q2) at (5, 0.33);
-%     \coordinate (q3) at (2, 4.33);
-%     \draw [-stealth'] (\x:-3) -- (\x:\xl) node at (\x:\xl+0.2) {$x$};
-%     \draw [-stealth'] (\y:-1) -- (\y:\yl) node at (\y:\yl+0.2) {$y$};
-
-%     \draw [blue] (p1) -- (p2) -- (p3) -- cycle;
-%     \draw [red] (q1) -- (q2) -- (q3) -- cycle;
-%     \node [point,blue,label=below:{$(1,1)$}] at (p1) {};
-%     \node [point,blue,label=below:{$(3,1)$}] at (p2) {};
-%     \node [point,blue,label=above:{$(2,3)$}] at (p3) {};
-%     \node [point,red,label=left:{$(-1,0.33)$}] (q1) at (q1) {};
-%     \node [point,red,label=right:{$(5,0.33)$}] (q2) at (q2) {};
-%     \node [point,red,label=above:{$(2,4.33)$}] (q3) at (q3) {};
 %     \draw [-latex',green!50!black,shorten <= 4pt,shorten >= 2pt] (p1) -- (q1);
 %     \draw [-latex',green!50!black,shorten <= 4pt,shorten >= 2pt] (p2) -- (q2);
 %     \draw [-latex',green!50!black,shorten <= 4pt,shorten >= 2pt] (p3) -- (q3);
@@ -566,92 +519,115 @@
 % \begin{tikzpicture}
 %     \tikzmath{\x=-20;\y=90;\z=180-\x;\l=1;\w=1;\d=1;\v=200;\vl=1;};
 %     \coordinate (origin) at (8,1);
-%     \node [rotate=\v] at (origin) {\includegraphics[width=1cm]{camera.pdf}};
-%     % \draw [xaxis] (0,0) -- ++(\x:\l) node at (\x:\l+0.2) {$x$};
-%     % \draw [yaxis] (0,0) -- ++(\y:\l) node at (\y:\l+0.2) {$y$};
-%     % \draw [zaxis] (0,0) -- ++(\z:\l) node at (\z:\l+0.2) {$z$};
+%     \node [rotate=\v] at (origin) {\includegraphics[width=0.8cm]{camera.pdf}};
 %     \draw [fill=white,opacity=0.75] (2,-1) coordinate (1) -- ++(\x:\w) coordinate (2) -- ++(\y:\w) coordinate (3) -- ++(\x:-\w) coordinate (4) -- cycle;
 %     \draw [fill=white,opacity=0.75] (2) -- ++(\z:-\d) -- ++(\y:\w) -- ++(\z:\d) -- cycle;
 %     \draw [fill=white,opacity=0.75] (3) -- ++(\z:-\d) -- ++(\x:-\w) -- ++(\z:\d) -- cycle;
-%     \node [point] at (origin) {};
 %     \node [point,label=below:\tt target] at ($(origin)+(\v:3)$) {};
 %     \draw [-triangle 45,red,line width=1pt] (origin) -- ++(70:1.25) node [right] {\tt cameraRight};
 %     \draw [-triangle 45,green!80!black,line width=1pt] (origin) -- ++(\v-90:1.5) node [left] {\tt cameraUp};
 %     \draw [-triangle 45,blue,line width=1pt] (origin) -- ++(\v:1.5) node [below] {\tt cameraFront};
 %     \draw [-triangle 45,line width=1pt] (origin) -- ++(90:2) node [above] {\tt worldUp};
 %     \node [point,label=below:\tt target] at ($(origin)+(\v:3)$) {};
-%     \node [below right,yshift=-0.2cm] at (origin) {\tt position};
+%     \node [point,label=below right:\tt cameraPos] at (origin) {};
+%     % \node [below right,yshift=-0.2cm] at (origin) {\tt cameraPos};
 % \end{tikzpicture}
 
 % Unit cube
-\begin{tikzpicture}
-    \tikzmath{\x=-20;\y=90;\z=180-\x;\l=1;\w=3;\d=\w+0.4;\h=\w;};
-    \coordinate (origin) at (0,0);
-    \coordinate (0) at ($(origin)+(\x:-0.5*\w)+(\y:-0.5*\h)+(\z:0.5*\d)$);
-    \coordinate (1) at ($(0)+(\x:\w)$);
-    \coordinate (2) at ($(1)+(\z:-\d)$);
-    \coordinate (3) at ($(0)+(\z:-\d)$);
-    \coordinate (4) at ($(0)+(\y:\h)$);
-    \coordinate (5) at ($(1)+(\y:\h)$);
-    \coordinate (6) at ($(2)+(\y:\h)$);
-    \coordinate (7) at ($(3)+(\y:\h)$);
-    \node [above right] at (3) {(-1,-1,-1)};
-    \draw (0) -- (1) -- (2) -- (3) -- (0) 
-        (0) -- (3) -- (7) -- (4) -- (0) 
-        (2) -- (3) -- (7) -- (6) -- (2)
-        (0) -- (2) (2) -- (7) (3) -- (4);
-    \draw [xaxis] (origin) -- ++(\x:\l) node at ($(origin)+(\x:\l+0.2)$) {$x$};
-    \draw [yaxis] (origin) -- ++(\y:\l) node at ($(origin)+(\y:\l+0.2)$) {$y$};;
-    \draw [zaxis] (origin) -- ++(\z:\l) node at ($(origin)+(\z:\l+0.2)$) {$z$};;
-    \fill [white,opacity=0.5] (0) -- (1) -- (2) -- (6) -- (7) -- (4) -- (0);
-    \draw (0) -- (1) -- (5) -- (4) -- (0) 
-        (1) -- (2) -- (6) -- (5) -- (1) 
-        (4) -- (5) -- (6) -- (7)
-        (0) -- (5) (2) -- (7) (4) -- (6) (1) -- (6);
-    \node at (0) [below left] {(-1,-1,1)};
-    \node at (1) [below] {(1,-1,1)};
-    \node at (2) [right] {(1,-1,-1)};
-    \node at (4) [left] {(-1,1,1)};
-    \node at (5) [below left] {(1,1,1)};
-    \node at (6) [right] {(1,1,-1)};
-    \node at (7) [above] {(-1,1,-1)};
+% \begin{tikzpicture}
+%     \tikzmath{\x=-20;\y=90;\z=180-\x;\l=1;\w=3;\d=\w+0.4;\h=\w;};
+%     \coordinate (origin) at (0,0);
+%     \coordinate (0) at ($(origin)+(\x:-0.5*\w)+(\y:-0.5*\h)+(\z:0.5*\d)$);
+%     \coordinate (1) at ($(0)+(\x:\w)$);
+%     \coordinate (2) at ($(1)+(\z:-\d)$);
+%     \coordinate (3) at ($(0)+(\z:-\d)$);
+%     \coordinate (4) at ($(0)+(\y:\h)$);
+%     \coordinate (5) at ($(1)+(\y:\h)$);
+%     \coordinate (6) at ($(2)+(\y:\h)$);
+%     \coordinate (7) at ($(3)+(\y:\h)$);
+%     \node [above right] at (3) {(-1,-1,-1)};
+%     \draw (0) -- (1) -- (2) -- (3) -- (0)
+%         (0) -- (4) -- (7) -- (3)
+%         (2) -- (6) -- (7)
+%         (1) -- (3) (2) -- (7) (3) -- (4);
+%     \draw [xaxis] (origin) -- ++(\x:\l) node at ($(origin)+(\x:\l+0.2)$) {$x$};
+%     \draw [yaxis] (origin) -- ++(\y:\l) node at ($(origin)+(\y:\l+0.2)$) {$y$};;
+%     \draw [zaxis] (origin) -- ++(\z:\l) node at ($(origin)+(\z:\l+0.2)$) {$z$};;
+%     \fill [white,opacity=0.5] (0) -- (1) -- (2) -- (6) -- (7) -- (4) -- (0);
+%     \draw (1) -- (5) -- (4) (5) -- (6)
+%         (0) -- (5) (1) -- (6) (4) -- (6);
+%     \node at (0) [below left] {(-1,-1,1)};
+%     \node at (1) [below] {(1,-1,1)};
+%     \node at (2) [right] {(1,-1,-1)};
+%     \node at (4) [left] {(-1,1,1)};
+%     \node at (5) [below left] {(1,1,1)};
+%     \node at (6) [right] {(1,1,-1)};
+%     \node at (7) [above] {(-1,1,-1)};
 
-    \tikzmath{\w=2;};
-    \coordinate (0) at ($(0)+(12,0)$);
-    \coordinate (1) at ($(0)+(\w,0)$);
-    \coordinate (2) at ($(1)+(0,\w)$);
-    \coordinate (3) at ($(0)+(0,\w)$);
-    \coordinate (4) at ($(0)+(0,-\w)$);
-    \coordinate (5) at ($(1)+(0,-\w)$);
-    \coordinate (6) at ($(0)+(-\w,0)$);
-    \coordinate (7) at ($(3)+(-\w,0)$);
-    \coordinate (8) at ($(1)+(\w,0)$);
-    \coordinate (9) at ($(2)+(\w,0)$);
-    \coordinate (10) at ($(3)+(0,\w)$);
-    \coordinate (11) at ($(2)+(0,\w)$);
-    \coordinate (12) at ($(11)+(0,\w)$);
-    \coordinate (13) at ($(10)+(0,\w)$);
-    \draw (0) -- (1) -- (2) -- (0) -- (3) -- (2) 
-          (0) -- (4) -- (5) -- (0) (5) -- (1)
-          (3) -- (6) -- (0) (3) -- (7) -- (6)
-          (1) -- (8) -- (9) -- (1) (9) -- (2)
-          (2) -- (10) -- (3) (2) -- (11) -- (10)
-          (11) -- (13) -- (10) (11) -- (12) -- (13);
-    \node [below left] at (0) {\footnotesize (-1,-1,1)};
-    \node [below right] at (1) {\footnotesize (1,-1,1)};
-    \node [above right] at (2) {\footnotesize (1,-1,-1)};
-    \node [above left] at (3) {\footnotesize (-1,-1,-1)};
-    \node [below] at (4) {\footnotesize (-1,1,1)};
-    \node [below] at (5) {\footnotesize (1,1,1)};
-    \node [left] at (6) {\footnotesize (-1,1,1)};
-    \node [left] at (7) {\footnotesize (-1,1,-1)};
-    \node [right] at (8) {\footnotesize (1,1,-1)};
-    \node [right] at (9) {\footnotesize (1,1,1)};
-    \node [left] at (10) {\footnotesize (-1,1,-1)};
-    \node [right] at (11) {\footnotesize (1,1,-1)};
-    \node [above] at (12) {\footnotesize (1,1,1)};
-    \node [above] at (13) {\footnotesize (-1,1,1)};
-\end{tikzpicture}
+%     \tikzmath{\w=2;};
+%     \coordinate (0) at ($(0)+(12,0)$);
+%     \coordinate (1) at ($(0)+(\w,0)$);
+%     \coordinate (2) at ($(1)+(0,\w)$);
+%     \coordinate (3) at ($(0)+(0,\w)$);
+%     \coordinate (4) at ($(0)+(0,-\w)$);
+%     \coordinate (5) at ($(1)+(0,-\w)$);
+%     \coordinate (6) at ($(0)+(-\w,0)$);
+%     \coordinate (7) at ($(3)+(-\w,0)$);
+%     \coordinate (8) at ($(1)+(\w,0)$);
+%     \coordinate (9) at ($(2)+(\w,0)$);
+%     \coordinate (10) at ($(3)+(0,\w)$);
+%     \coordinate (11) at ($(2)+(0,\w)$);
+%     \coordinate (12) at ($(11)+(0,\w)$);
+%     \coordinate (13) at ($(10)+(0,\w)$);
+%     \draw (6) -- (8) -- (9) -- (7) -- (6)
+%         (4) -- (5) -- (12) -- (13) -- (4)
+%         (10) -- (11)
+%         (1) -- (3) (2) -- (10) (10) -- (12) (1) -- (9) (6) -- (3) (0) -- (5);
+%     \node [below left] at (0) {\footnotesize (-1,-1,1)};
+%     \node [below right] at (1) {\footnotesize (1,-1,1)};
+%     \node [above right] at (2) {\footnotesize (1,-1,-1)};
+%     \node [above left] at (3) {\footnotesize (-1,-1,-1)};
+%     \node [below] at (4) {\footnotesize (-1,1,1)};
+%     \node [below] at (5) {\footnotesize (1,1,1)};
+%     \node [left] at (6) {\footnotesize (-1,1,1)};
+%     \node [left] at (7) {\footnotesize (-1,1,-1)};
+%     \node [right] at (8) {\footnotesize (1,1,-1)};
+%     \node [right] at (9) {\footnotesize (1,1,1)};
+%     \node [left] at (10) {\footnotesize (-1,1,-1)};
+%     \node [right] at (11) {\footnotesize (1,1,-1)};
+%     \node [above] at (12) {\footnotesize (1,1,1)};
+%     \node [above] at (13) {\footnotesize (-1,1,1)};
+% \end{tikzpicture}
+
+% Indexing
+% \begin{tikzpicture}
+%     \tikzmath{\w=3;\h=3;}
+%     \coordinate (0) at (0,0);
+%     \coordinate (1) at ($(0)+(\w,0)$);
+%     \coordinate (2) at ($(1)+(0,\h)$);
+%     \coordinate (3) at ($(2)+(-\w,0)$);
+%     \coordinate (4) at ($(0)+(2+\w,0)$);
+%     \coordinate (5) at ($(4)+(\w,0)$);
+%     \coordinate (6) at ($(5)+(0,\h)$);
+%     \coordinate (7) at ($(6)+(-\w,0)$);
+%     \draw (0) -- (1) -- (2) -- (3) -- (0) -- (2);
+%     \draw (4) -- (5) -- (6) -- (7) -- (4) -- (6);
+%     \node [below] at (0) {\tt v0};
+%     \node [below right] at (1) {\tt v1};
+%     \node [right] at (2) {\tt v2};
+%     \node [left] at (0) {\tt v3};
+%     \node [above] at (2) {\tt v4};
+%     \node [above left] at (3) {\tt v5};
+%     \node [below] at (4) {\tt v0};
+%     \node [below right] at (5) {\tt v1};
+%     \node [right] at (6) {\tt v2};
+%     \node [left] at (4) {\tt v0};
+%     \node [above] at (6) {\tt v2};
+%     \node [above left] at (7) {\tt v3};
+%     \node at ($(0)+(0.5*\w,-1)$) {without indexing};
+%     \node at ($(4)+(0.5*\w,-1)$) {with indexing};
+%     \draw [->] ($(0)+(0.67*\w,0.33*\h)+(180:0.5)$) arc (180:450:0.5); 
+% \end{tikzpicture}
 
 % Depth test
 % \begin{tikzpicture}
@@ -729,10 +705,10 @@
 % \begin{tikzpicture}
 %     \tikzmath{\x=-20;\y=90;\z=180-\x;\l=1;\w=1.2;\d=1;\scrwidth=2;\scrheight=1.5;\znear=3;\zfar=10;}
 %     \coordinate (origin) at (0,0);
-%     \node [rotate=-\x] at ($(origin)+(\z:0.2)$) {\includegraphics*[width=1cm]{camera.pdf}};
+%     \node [rotate=-\x] at ($(origin)+(\z:0.5)$) {\includegraphics*[width=1cm]{camera.pdf}};
 %     \draw [xaxis] (origin) -- ++(\x:\l) node at ($(origin)+(\x:\l+0.2)$) {$x$};
-%     \draw [yaxis] (origin) -- ++(\y:\l) node at ($(origin)+(\y:\l+0.2)$) {$y$};
-%     \draw [zaxis] (origin) -- ++(\z:\l) node at ($(origin)+(\z:\l+0.2)$) {$z$};
+%     \draw [yaxis] (origin) -- ++(\y:\l-0.2) node at ($(origin)+(\y:\l)$) {$y$};
+%     \draw [zaxis] (origin) -- ++(\z:\l+0.5) node at ($(origin)+(\z:\l+0.7)$) {$z$};
 
 %     \coordinate (lb) at ($(\z:-\znear)+(\x:-0.5*\scrwidth)+(\y:-0.5*\scrheight)$);
 %     \coordinate (rb) at ($(lb)+(\x:\scrwidth)$);
@@ -743,9 +719,9 @@
 %     \coordinate (farrb) at ($(farlb)+(\x:6)$);
 %     \coordinate (farrt) at ($(farrb)+(\y:4.5)$);
 %     \draw (origin) -- (farlb);
-%     \draw [fill=gray!50,opacity=0.75] (lb) -- (rb) -- (rt) -- (lt) node [pos=0.5,above,rotate=\x] {near plane} -- cycle;
-%     \draw [fill=gray!50,opacity=0.75] (farlb) -- (farrb) -- (farrt) -- (farlt) node [pos=0.5,above,rotate=\x] {far plane} -- cycle;
-%     \coordinate (1) at ($(origin)+(\z:-5)+(\x:-0.5*\w)+(\y:-0.5*\w)$);
+%     \draw [fill=gray!50,opacity=0.75] (lb) -- (rb) -- (rt) -- (lt) node [pos=0.5,above,rotate=\x,black] {near plane} -- cycle;
+%     \draw [fill=gray!50,opacity=0.75] (farlb) -- (farrb) -- (farrt) -- (farlt) node [pos=0.5,above,rotate=\x,black] {far plane} -- cycle;
+%     \coordinate (1) at ($(origin)+(\z:-5.25)+(\x:0.5*\w)+(\y:-0.5*\w)$);
 %     \coordinate (2) at ($(1)+(\x:\w)$);
 %     \coordinate (3) at ($(2)+(\z:-\d)$);
 %     \coordinate (4) at ($(1)+(\z:-\d)$);
@@ -774,13 +750,13 @@
 %     \draw [fill=red!10,opacity=0.75] (5) -- (6) -- (7) -- (8) -- (5);
 %     \draw [fill=red!10,opacity=0.75] (2) -- (3) -- (7) -- (6) -- (2);
 %     \draw [fill=red!10,opacity=0.75] (1) -- (2) -- (6) -- (5) -- (1);
-%     \node [above left] at (lt) {\footnotesize (left,top,near)};
-%     \node [right] at (rt) {\footnotesize (right,top,near)};
-%     \node [below right] at (rb) {\footnotesize (right,bottom,near)};
-%     \node [left] at (lb) {\footnotesize (right,bottom,near)};
-%     \draw [<->,line width=1pt] (-1:2) arc (-1:20:2);
+%     \node [left,rotate=\x] at (lt) {\footnotesize (left,top,near)};
+%     \node [right,rotate=\x] at (rt) {\footnotesize (right,top,near)};
+%     \node [right,rotate=\x] at (rb) {\footnotesize (right,bottom,near)};
+%     \node [left,rotate=\x] at (lb) {\footnotesize (right,bottom,near)};
+%     \draw [<->,line width=1pt] (-1:2.5) arc (-1:20:2.5);
 %     \node (fov) at (3,-1) {field of view};
-%     \draw [->,shorten >= 2pt,bend right] (fov.north) to (10:2);
+%     \draw [->,shorten >= 2pt,bend right] (fov.north) to (5:2.5);
 %     \node (label) at ($(3)+(1.25,0)$) {clipped};
 %     \draw[->] (label) -- ++(-1,0.2);
 % \end{tikzpicture}
@@ -799,5 +775,76 @@
 %     \draw [<->] (3.25, 0) -- ++(0,1) node [pos=0.5,right] {$x'$}; 
 %     \draw [<->] (6.25, 0) -- ++(0,2) node [pos=0.5,right] {$x$}; 
 % \end{tikzpicture}
+
+% Euler angles
+% \begin{tikzpicture}
+%     \tikzmath{\p=0;\r=240;\y=90;}
+%     \coordinate (O) at (0,0);
+%     \node at (O) {\includegraphics[width=2cm]{camera.pdf}};
+%     \draw [-triangle 45,green!80!black,line width=1pt] ($(O)+(\p:1)$) -- ++(\p:2.5) node [right,black] {\tt forward};
+%     \draw [-triangle 45,blue,line width=1pt] ($(O)+(\y:0.5)$) -- ++(\y:2) node [above,black] {\tt up};
+%     \draw [-triangle 45,red,line width=1pt] ($(O)+(\r:0.25)$) -- ++(\r:2) node at (\r:2.5) [black] {\tt right};
+%     \draw[line width=1pt,<-,rotate around={\p:(\p,2.5)}] (\p:2.5) [partial ellipse=20:340:0.25cm and 0.5cm] node [above,pos=0.25] {roll};
+%     \draw[black,line width=1pt,->,rotate around={90:(\r:1.25)}] (\r:1.25) [partial ellipse=0:300:0.4cm and 0.4cm] node [right,pos=0.75] {pitch};
+%     \draw[line width=1pt,->,rotate around={\y+180:(\y:1.5)}] (\y:1.5) [partial ellipse=340:20:0.25cm and 0.5cm] node [right,pos=0.75] {yaw};
+% \end{tikzpicture}
+
+% Normal vector
+% \begin{tikzpicture}
+%     \coordinate (0) at (0,0);
+%     \coordinate (1) at ($(0)+(-20:3)$);
+%     \coordinate (2) at ($(1)+(70:3)$);
+%     \coordinate (c) at ($(0)+(5:2)$);
+%     \draw (0) node [left] {$\tt v0$} -- (1) node [below] {$\tt v1$} -- (2) node [right] {$\tt v2$} -- cycle;
+%     \draw [-triangle 45,line width=1pt] (c) -- ++(120:2) node [above] {$\tt normal$};
+%     \draw ($(c)+(120:0.2)$) -- ++(40:0.2) -- ++(300:0.2);
+% \end{tikzpicture}
+
+% Backface culling
+% \begin{tikzpicture}
+%     \node {\includegraphics[width=1.5cm]{camera.pdf}};
+%     \coordinate (0) at (3,0);
+%     \coordinate (1) at ($(0)+(45:2)$);
+%     \coordinate (2) at ($(1)+(315:2)$);
+%     \coordinate (3) at ($(2)+(225:2)$);
+%     \draw [line width=1pt] (3) -- (0) -- (1);
+%     \draw [gray!50, dashed, line width=1pt] (1) -- (2) -- (3);
+%     \draw [-triangle 45] ($(0)!0.5!(1)$) -- ++(135:1);
+%     \draw [-triangle 45] ($(1)!0.5!(2)$) -- ++(45:1);
+%     \draw [-triangle 45] ($(2)!0.5!(3)$) -- ++(315:1);
+%     \draw [-triangle 45] ($(3)!0.5!(0)$) -- ++(225:1);
+% \end{tikzpicture}
+
+% \begin{tikzpicture}
+%     \node (camera) {\includegraphics[width=1.5cm]{camera.pdf}};
+%     \node at (0,-0.75) {\tt cameraPosition};
+%     \coordinate (0) at (3,-1);
+%     \coordinate (1) at ($(0)+(2,2)$);
+%     \draw [line width=1pt,blue] (0) -- (1);
+%     \draw [-triangle 45] ($(0)!0.5!(1)$) -- ++(135:1) node [left] {\tt normal};
+%     \draw [-triangle 45] (camera) -- ++(0:6) node [below] {\tt viewVector};
+%     \draw (4.5,0) arc (0:135:0.5);
+%     \node (angle) at (4.5,1.5) {\tt angle};
+%     \draw [->] (angle) -- (4.25,0.5);
+% \end{tikzpicture}
+
+% Spherical to Cartesian 
+% \begin{tikzpicture}
+%     \draw [xaxis] (-2,0) -- (2,0) node at (2.2,0) {$x$};
+%     \draw [zaxis] (0,2.5) -- (0,-1) node at (0,-1.2) {$z$};
+%     \draw [-triangle 45,line width=1pt] (0,0) -- (0, 2) node [right] {\tt front};
+%     \draw [-triangle 45,line width=1pt] (0,0) -- (45:2) node [right] {\tt newFront};
+%     \draw [->,shorten >= 2pt,shorten <= 2pt] (0,1) arc (90:45:1);
+%     \node at (67.5:1.25) {\tt yaw};
+% \end{tikzpicture}
+
+\begin{tikzpicture}
+    \draw [zaxis] (2.5,0) -- (-1,0) node at (-1.2,0) {$z$};
+    \draw [yaxis] (0,-1) -- (0,2) node at (0,2.2) {$y$};
+    \draw [-triangle 45,line width=1pt] (0,0) -- (2, 0) node [below] {\tt front};
+    \draw [-triangle 45,line width=1pt] (0,0) -- (45:2) node [above] {\tt newFront};
+    \draw [->,shorten >= 2pt,shorten <= 2pt] (1,0) arc (0:45:1);
+    \node [anchor=south west] at (22.5:1) {\tt pitch};
+\end{tikzpicture}
 
 \end{document}
