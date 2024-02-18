@@ -143,8 +143,8 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/logo.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/logo.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
 </a></div>
@@ -359,8 +359,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#co-ordinate-systems">6.1. Co-ordinate systems</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-models">6.2. 3D models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-models">6.1. 3D models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#co-ordinate-systems">6.2. Co-ordinate systems</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-view-and-projection-matrices">6.3. Model, view and projection matrices</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-matrix">6.3.1. The model matrix</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-view-matrix">6.3.2. The view matrix</a></li>
@@ -403,44 +403,14 @@ document.write(`
 </li>
 <li><p>Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).</p></li>
 </ol>
-<section id="co-ordinate-systems">
-<h2><span class="section-number">6.1. </span>Co-ordinate systems<a class="headerlink" href="#co-ordinate-systems" title="Permalink to this heading">#</a></h2>
-<p>OpenGL uses a co-ordinate system with the <span class="math notranslate nohighlight">\(x\)</span> axis pointing horizontally to the right, the <span class="math notranslate nohighlight">\(y\)</span> axis pointing vertically upwards and the <span class="math notranslate nohighlight">\(z\)</span> axis pointing horizontally towards the viewer. To simplify things when it comes to displaying the 3D world, the axes are limited to a range from -1 to 1 so any object outside of this range will not be shown on the display. These are known as <strong>Normalised Device Co-ordinates (NDC)</strong>.</p>
-<figure class="align-default" id="ndc-figure">
-<a class="reference internal image-reference" href="../_images/06_NDC.svg"><img alt="../_images/06_NDC.svg" src="../_images/06_NDC.svg" width="400" /></a>
-<figcaption>
-<p><span class="caption-number">Fig. 6.1 </span><span class="caption-text">Normalise Device Co-ordinates (NDC)</span><a class="headerlink" href="#ndc-figure" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
-<p>The steps used in the creation of a 3D world and eventually displaying it on screen requires that we transform through several intermediate co-ordinate systems:</p>
-<ul class="simple">
-<li><p><strong>Object space</strong> - each individual 3D object that will appear in the 3D world is defined in its own space usually with the centre of the object at (0,0,0) to make the transformations easier.</p></li>
-<li><p><strong>World space</strong> - the 3D world is constructed by transforming the individual 3D objects using translation, rotation and scaling transformations. The co-ordinates of the objects is arbitrary and left to the choice of the designer of the 3D world.</p></li>
-<li><p><strong>View space</strong> - the world space is transformed so that the position of the viewer, in other words the camera, is at (0,0,0) and the direction the camera is pointing is down the <span class="math notranslate nohighlight">\(z\)</span> axis, i.e., parallel to (0,0,-1).</p></li>
-<li><p><strong>Screen space</strong> - the view space is transformed so that the co-ordinates are in NDC. The volume of the view space that is contained in the screen space is chosen by the user.</p></li>
-</ul>
-<figure class="align-default" id="id1">
-<a class="reference internal image-reference" href="../_images/06_mvp.svg"><img alt="../_images/06_mvp.svg" src="../_images/06_mvp.svg" width="500" /></a>
-<figcaption>
-<p><span class="caption-number">Fig. 6.2 </span><span class="caption-text">Transformations between different spaces.</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
-<p>We saw in <a class="reference internal" href="05_transformations.html#transformations-section"><span class="std std-ref">Lab 5</span></a> that we apply a transformation by multiplying the object co-ordinates by a transformation matrix. Since we are transforming between difference co-ordinate spaces we have 3 main transformation matrices</p>
-<ul class="simple">
-<li><p>the <strong>model</strong> matrix - combined scaling, rotation and translation applied to each individual object</p></li>
-<li><p>the <strong>view</strong> matrix - combined translation and alignment transformations</p></li>
-<li><p>the <strong>projection</strong> matrix - combined projection of the view space and scaling to NDC</p></li>
-</ul>
-<p>The model, view and projection matrices are multiplied together to form a single matrix that applies all of the transformations to go from the object space to the screen space. This matrix is called the <strong>MVP matrix</strong>.</p>
-</section>
 <section id="d-models">
-<h2><span class="section-number">6.2. </span>3D models<a class="headerlink" href="#d-models" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.1. </span>3D models<a class="headerlink" href="#d-models" title="Permalink to this heading">#</a></h2>
 <p>To demonstrate building a simple 3D world we are going to need a 3D object.
-One of the simplest 3D objects is a <strong>unit cube</strong> which is a cube centred at (0,0,0) and has side lengths of 2 parallel to the co-ordinate axes (<a class="reference internal" href="#unit-cube-figure"><span class="std std-numref">Fig. 6.3</span></a>) so the co-ordinates of the 8 vertices of the cube are combinations of -1 and 1.</p>
+One of the simplest 3D objects is a <strong>unit cube</strong> which is a cube centred at (0,0,0) and has side lengths of 2 parallel to the co-ordinate axes (<a class="reference internal" href="#unit-cube-figure"><span class="std std-numref">Fig. 6.1</span></a>) so the co-ordinates of the 8 vertices of the cube are combinations of -1 and 1.</p>
 <figure class="align-default" id="unit-cube-figure">
 <a class="reference internal image-reference" href="../_images/06_unit_cube.svg"><img alt="../_images/06_unit_cube.svg" src="../_images/06_unit_cube.svg" width="700" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 6.3 </span><span class="caption-text">A unit cube.</span><a class="headerlink" href="#unit-cube-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 6.1 </span><span class="caption-text">A unit cube.</span><a class="headerlink" href="#unit-cube-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>You may have noticed from <a class="reference internal" href="03_textures.html#textures-section"><span class="std std-ref">Lab 3</span></a> that we used 6 vertices to define a rectangle which only has 4 corners which is obviously inefficient. To improve this can can use <strong>indexing</strong> where co-ordinates that are shared by difference triangles are only declared once and we use an index array that links each vertex to a co-ordinate.</p>
@@ -448,7 +418,7 @@ One of the simplest 3D objects is a <strong>unit cube</strong> which is a cube c
 <figure class="align-default" id="indexed-rectangle-figure">
 <a class="reference internal image-reference" href="../_images/06_indexed_rectangle.svg"><img alt="../_images/06_indexed_rectangle.svg" src="../_images/06_indexed_rectangle.svg" width="400" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 6.4 </span><span class="caption-text">Drawing a rectangle with and without vertex indexing.</span><a class="headerlink" href="#indexed-rectangle-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 6.2 </span><span class="caption-text">Drawing a rectangle with and without vertex indexing.</span><a class="headerlink" href="#indexed-rectangle-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Open up the project and take a look at the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file and you will see that the arrays <code class="docutils literal notranslate"><span class="pre">vertices</span></code>, <code class="docutils literal notranslate"><span class="pre">indices</span></code> and <code class="docutils literal notranslate"><span class="pre">uvCoords</span></code> arrays have been defined for our unit cube.</p>
@@ -504,10 +474,40 @@ One of the simplest 3D objects is a <strong>unit cube</strong> which is a cube c
 <span class="n">glDrawElements</span><span class="p">(</span><span class="n">GL_TRIANGLES</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">GLushort</span><span class="p">),</span><span class="w"> </span><span class="n">GL_UNSIGNED_SHORT</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="mi">0</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>If you compile and run this program you will see that the <code class="docutils literal notranslate"><span class="pre">crate.bmp</span></code> texture fills the window because our cube vertices are the same as the limits of the NDC.</p>
+<p>If you compile and run this program you will see that the <code class="docutils literal notranslate"><span class="pre">crate.bmp</span></code> texture fills the window.</p>
+</section>
+<section id="co-ordinate-systems">
+<h2><span class="section-number">6.2. </span>Co-ordinate systems<a class="headerlink" href="#co-ordinate-systems" title="Permalink to this heading">#</a></h2>
+<p>OpenGL uses a co-ordinate system with the <span class="math notranslate nohighlight">\(x\)</span> axis pointing horizontally to the right, the <span class="math notranslate nohighlight">\(y\)</span> axis pointing vertically upwards and the <span class="math notranslate nohighlight">\(z\)</span> axis pointing horizontally towards the viewer. To simplify things when it comes to displaying the 3D world, the axes are limited to a range from -1 to 1 so any object outside of this range will not be shown on the display. These are known as <strong>Normalised Device Co-ordinates (NDC)</strong>.</p>
+<figure class="align-default" id="ndc-figure">
+<a class="reference internal image-reference" href="../_images/06_NDC.svg"><img alt="../_images/06_NDC.svg" src="../_images/06_NDC.svg" width="400" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 6.3 </span><span class="caption-text">Normalise Device Co-ordinates (NDC)</span><a class="headerlink" href="#ndc-figure" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The steps used in the creation of a 3D world and eventually displaying it on screen requires that we transform through several intermediate co-ordinate systems:</p>
+<ul class="simple">
+<li><p><strong>Object space</strong> - each individual 3D object that will appear in the 3D world is defined in its own space usually with the centre of the object at (0,0,0) to make the transformations easier.</p></li>
+<li><p><strong>World space</strong> - the 3D world is constructed by transforming the individual 3D objects using translation, rotation and scaling transformations. The co-ordinates of the objects is arbitrary and left to the choice of the designer of the 3D world.</p></li>
+<li><p><strong>View space</strong> - the world space is transformed so that the position of the viewer, in other words the camera, is at (0,0,0) and the direction the camera is pointing is down the <span class="math notranslate nohighlight">\(z\)</span> axis, i.e., parallel to (0,0,-1).</p></li>
+<li><p><strong>Screen space</strong> - the view space is transformed so that the co-ordinates are in NDC. The volume of the view space that is contained in the screen space is chosen by the user.</p></li>
+</ul>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/06_mvp.svg"><img alt="../_images/06_mvp.svg" src="../_images/06_mvp.svg" width="500" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 6.4 </span><span class="caption-text">Transformations between different spaces.</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 </section>
 <section id="model-view-and-projection-matrices">
 <h2><span class="section-number">6.3. </span>Model, view and projection matrices<a class="headerlink" href="#model-view-and-projection-matrices" title="Permalink to this heading">#</a></h2>
+<p>We saw in <a class="reference internal" href="05_transformations.html#transformations-section"><span class="std std-ref">Lab 5</span></a> that we apply a transformation by multiplying the object co-ordinates by a transformation matrix. Since we are transforming between difference co-ordinate spaces we have 3 main transformation matrices</p>
+<ul class="simple">
+<li><p>the <strong>model</strong> matrix - combined scaling, rotation and translation applied to each individual object</p></li>
+<li><p>the <strong>view</strong> matrix - combined translation and alignment transformations</p></li>
+<li><p>the <strong>projection</strong> matrix - combined projection of the view space and scaling to NDC</p></li>
+</ul>
+<p>The model, view and projection matrices are multiplied together to form a single matrix that applies all of the transformations to go from the object space to the screen space. This matrix is called the <strong>MVP matrix</strong>.</p>
 <section id="the-model-matrix">
 <h3><span class="section-number">6.3.1. </span>The model matrix<a class="headerlink" href="#the-model-matrix" title="Permalink to this heading">#</a></h3>
 <p>In <a class="reference internal" href="05_transformations.html#transformations-section"><span class="std std-ref">Lab 5</span></a> we saw that we can combine transformations such as translation, scaling and rotation by multiplying the individual transformation matrices together. The <strong>model matrix</strong> is the matrix that is used to apply transformations to an object.</p>
@@ -586,7 +586,7 @@ One of the simplest 3D objects is a <strong>unit cube</strong> which is a cube c
 
 <span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">cameraFront</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span><span class="n">target</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">cameraPos</span><span class="p">);</span>
 <span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">cameraRight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">cross</span><span class="p">(</span><span class="n">cameraFront</span><span class="p">,</span><span class="w"> </span><span class="n">worldUp</span><span class="p">));</span>
-<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">cameraUp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">cross</span><span class="p">(</span><span class="n">cameraRight</span><span class="p">,</span><span class="w"> </span><span class="n">cameraFront</span><span class="p">);</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">cameraUp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">cross</span><span class="p">(</span><span class="n">cameraRight</span><span class="p">,</span><span class="w"> </span><span class="n">cameraFront</span><span class="p">));</span>
 
 <span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">align</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">);</span>
 <span class="n">translate</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">cameraPos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">translate</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">cameraPos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">translate</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">cameraPos</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
@@ -1185,8 +1185,8 @@ Derivation of the perspective projection matrix<div class="sd-summary-down docut
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#co-ordinate-systems">6.1. Co-ordinate systems</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-models">6.2. 3D models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-models">6.1. 3D models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#co-ordinate-systems">6.2. Co-ordinate systems</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-view-and-projection-matrices">6.3. Model, view and projection matrices</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-matrix">6.3.1. The model matrix</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-view-matrix">6.3.2. The view matrix</a></li>

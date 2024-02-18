@@ -624,7 +624,7 @@ It may appear that our application is displaying a static image of the textured 
 
 If we calculate the transformation matrices inside the render loop we can move the rectangle around the window. A useful function to help us is `glfwGetTime()` from the GLFW library which returns the time in seconds since the GLFW window was created. If we have a time value that is always increasing we can use this to animate our rectangle.
 
-Comment out all of the code used to calculate the transformation matrices we have entered so far this lab but leave the line where we get the location of the `transformation` uniform.
+Comment out all of the code used to calculate the transformation matrices we have entered so far this lab but leave the line where we get the location of the transformation uniform.
 
 Inside the render loop just before we send the `transformation` matrix to the shader add the following code.
 

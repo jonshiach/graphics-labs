@@ -6,7 +6,7 @@ Computer graphics relies heavily on mathematics of vectors and matrices. In this
 
 ## Vectors
 
-A vector in is an object with magnitude (length) and direction. A vector is denoted by an underlined lower case letter, e.g., $\underline{a}$ (or as a boldface character, e.g., $\mathbf{a}$) and represented mathematically by the 3-tuple
+A vector in is an object with magnitude (length) and direction. A vector is denoted by an underlined lower case letter, e.g., $\underline{a}$ (alternate notation includes representing vectors using a boldface character, e.g., $\mathbf{a}$, or an over arrow e.g., $\vec{a}$) and represented mathematically by the 3-tuple
 
 $$ \underline{a} = (a_x, a_y, a_z), $$
 
@@ -16,7 +16,7 @@ where $a_x$, $a_y$ and $a_z$ are the lengths of the vector in the $x$, $y$ and $
 :height: 250
 ```
 
-We can use vectors to represent the displacement of one point to another. For example, given two points $A$ and $B$ the displacement from $A$ to $B$ can be thought of as the vector $\underline{a}$ which is calculated by subtracting the co-ordinates of $A$ from the co-ordinates of $B$, i.e., $\underline{a} = B - A$.
+We can use vectors to represent the displacement of one point to another. For example, given two points $A$ and $B$ the displacement from $A$ to $B$ can be thought of as the vector $\underline{a} = B - A$.
 
 ```{figure} ../images/04_vector_2.svg
 :width: 200
@@ -50,7 +50,7 @@ int main()
     std::cout << "Lab 4 Vectors and Matrices\n--------------------------\n" << std::endl;
     
     // Defining a vector
-    glm::vec3 u(2.0f, 2.0f, 1.0f);
+    glm::vec3 u = glm::vec3(2.0f, 2.0f, 1.0f);
     
     std::cout << "Defining a vector\n-----------------" << std::endl;
     std::cout << "u = " << u << std::endl;
@@ -68,7 +68,7 @@ Defining a vector
 u = [    2.000,    2.000,    1.000]
 ```
 
-Taking a look at the code we see that the `glm::vec u(2.0f, 2.0f, 1.0f)` command defines the 3-element vector `u` with the values of the elements (2, 2, 1). This vector is then output to the console using the `std::cout` command.
+Taking a look at the code we see that the `glm::vec3 u = glm::vec3(2.0f, 2.0f, 1.0f);` command defines the 3-element vector `u` with the values of the elements (2, 2, 1). This vector is then output to the console using the `std::cout` command.
 
 (vector-magnitude-section)=
 
@@ -179,11 +179,10 @@ Add the following to your program
 ```cpp
 // Unit vectors
 glm::vec3 uHat = u / lengthU;
-float lengthUHat = glm::length(uHat);
 
 std::cout << "\nUnit vectors\n------------" << std::endl;
 std::cout << "uHat = " << uHat << std::endl;
-std::cout << "|uHat| = " << lengthUHat << std::endl;
+std::cout << "|uHat| = " << glm::length(uHat) << std::endl;
 ```
 
 Output
@@ -630,7 +629,9 @@ $$ C = \begin{pmatrix} 1 & 2 \\ 3 & 6 \end{pmatrix}.$$
 Lets try to use glm to calculate the inverse of $C$.
 
 ```cpp
-glm::mat2 C = glm::mat2(1, 2, 3, 6);
+glm::mat2 C = glm::mat2(1.0f);
+C[0][0] = 1, C[0][1] = 2;
+C[1][0] = 3, C[1][1] = 6;
 glm::mat2 invC = glm::inverse(C);
 std::cout << "\nC =" <<glm::transpose(C) << std::endl;
 std::cout << "\ninvC =" <<glm::transpose(invC) << std::endl;
@@ -691,11 +692,12 @@ $$ \begin{align*}
 3. Create your own C++ class called MyLib using header and code files **MyLib.hpp** and **MyLib.cpp** respectively and define methods for calculating the following:
 
     (a) the length of a vector (equation {eq}`eq:vector-magnitude`);<br>
-    (b) the dot product of two vectors (equation {eq}`eq:dot-product`);<br>
-    (c) the cross product of two vectors (equation {eq}`eq:cross-product`);<br>
-    (d) the transpose of a $2 \times 2$ matrix; <br>
-    (e) the multiplication of two $2\times 2$ matrices (equation {eq}`eq:matrix-multiplication`);<br>
-    (f) the calculation of the inverse of a $2\times 2$ matrix. The inverse of the matrix $A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$ is
+    (b) normalising a vector (equation{eq}`eq:unit-vector`);<br>
+    (c) the dot product of two vectors (equation {eq}`eq:dot-product`);<br>
+    (d) the cross product of two vectors (equation {eq}`eq:cross-product`);<br>
+    (e) the transpose of a $2 \times 2$ matrix; <br>
+    (f) the multiplication of two $2\times 2$ matrices (equation {eq}`eq:matrix-multiplication`);<br>
+    (g) the calculation of the inverse of a $2\times 2$ matrix. The inverse of the matrix $A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$ is
 
  $$A^{-1} = \dfrac{1}{ad - bc} \begin{pmatrix} d & -b \\ -c & a \end{pmatrix}.$$
 
