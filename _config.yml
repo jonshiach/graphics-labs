@@ -6,7 +6,7 @@
 title: Computer Graphics Labs
 author: Dr Jon Shiach
 copyright: "2024"
-logo: images/logo.png
+logo: images/logo.svg
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
@@ -39,4 +39,4 @@ exclude_patterns: [/*.cpp]
 sphinx:
   config:
     html_extra_path: ['./videos']
-    mathjax_path: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+    # mathjax_path: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js

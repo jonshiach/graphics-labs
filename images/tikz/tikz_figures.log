@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.2.3)  15 FEB 2024 19:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.8.30)  18 FEB 2024 12:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/Users/jon/Library/CloudStorage/Dropbox/Work/2023_2024/Graphics/graphics-labs/images/tikz/tikz_figures
-(/Users/jon/Library/CloudStorage/Dropbox/Work/2023_2024/Graphics/graphics-labs/images/tikz/tikz_figures.tex
+**/Users/55093290/Dropbox/Work/2023_2024/Graphics/graphics-labs/images/tikz/tikz_figures
+(/Users/55093290/Dropbox/Work/2023_2024/Graphics/graphics-labs/images/tikz/tikz_figures.tex
 LaTeX2e <2022-11-01> patch level 1
 L3 programming layer <2023-02-22> (/usr/local/texlive/2023/texmf-dist/tex/latex/standalone/standalone.cls
 Document Class: standalone 2022/10/10 v1.3b Class to compile TeX sub-files standalone
@@ -455,37 +455,22 @@ Package grfext Info: Graphics extension search list:
 (grfext)             \AppendGraphicsExtensions on input line 504.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
-))
-<camera.pdf, id=4, 81.8227pt x 53.36938pt>
-File: camera.pdf Graphic file (type pdf)
-<use camera.pdf>
-Package pdftex.def Info: camera.pdf  used on input line 705.
-(pdftex.def)             Requested size: 28.45274pt x 18.55821pt.
- [1
+)) [1
 
-{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc} <./camera.pdf>]
-File: camera.pdf Graphic file (type pdf)
-<use camera.pdf>
-Package pdftex.def Info: camera.pdf  used on input line 766.
-(pdftex.def)             Requested size: 28.45274pt x 18.55821pt.
- [2] [3]
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 842.
- (/usr/local/texlive/2023/texmf-dist/tex/latex/base/t1cmtt.fd
-File: t1cmtt.fd 2022/07/10 v2.5l Standard LaTeX font definitions
-) [4] (./tikz_figures.aux) ) 
+{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}] (./tikz_figures.aux) ) 
 Here is how much of TeX's memory you used:
- 17895 strings out of 476025
- 395811 string characters out of 5790018
- 1862388 words of memory out of 5000000
- 38011 multiletter control sequences out of 15000+600000
- 516092 words of font info for 39 fonts, out of 8000000 for 9000
+ 17502 strings out of 476025
+ 388382 string characters out of 5790017
+ 1851388 words of memory out of 5000000
+ 37623 multiletter control sequences out of 15000+600000
+ 514580 words of font info for 35 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 117i,8n,118p,483b,714s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb>
-Output written on tikz_figures.pdf (4 pages, 76663 bytes).
+ 117i,7n,118p,467b,659s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfsx1728.pfb>
+Output written on tikz_figures.pdf (1 page, 8144 bytes).
 PDF statistics:
- 62 PDF objects out of 1000 (max. 8388607)
- 38 compressed objects within 1 object stream
+ 17 PDF objects out of 1000 (max. 8388607)
+ 11 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 30 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -6,7 +6,7 @@ Computer graphics relies heavily on mathematics of vectors and matrices. In this
 
 ## Vectors
 
-A vector in is an object with magnitude (length) and direction. A vector is denoted by an underlined lower case letter, e.g., $\underline{a}$ (or as a boldface character, e.g., $\mathbf{a}$) and represented mathematically by the 3-tuple
+A vector in is an object with magnitude (length) and direction. A vector is denoted by an underlined lower case letter, e.g., $\underline{a}$ (alternate notation includes representing vectors using a boldface character, e.g., $\mathbf{a}$, or an over arrow e.g., $\vec{a}$) and represented mathematically by the 3-tuple
 
 $$ \underline{a} = (a_x, a_y, a_z), $$
 
@@ -16,7 +16,7 @@ where $a_x$, $a_y$ and $a_z$ are the lengths of the vector in the $x$, $y$ and $
 :height: 250
 ```
 
-We can use vectors to represent the displacement of one point to another. For example, given two points $A$ and $B$ the displacement from $A$ to $B$ can be thought of as the vector $\underline{a}$ which is calculated by subtracting the co-ordinates of $A$ from the co-ordinates of $B$, i.e., $\underline{a} = B - A$.
+We can use vectors to represent the displacement of one point to another. For example, given two points $A$ and $B$ the displacement from $A$ to $B$ can be thought of as the vector $\underline{a} = B - A$.
 
 ```{figure} ../images/04_vector_2.svg
 :width: 200
@@ -50,7 +50,7 @@ int main()
     std::cout << "Lab 4 Vectors and Matrices\n--------------------------\n" << std::endl;
     
     // Defining a vector
-    glm::vec3 u(2.0f, 2.0f, 1.0f);
+    glm::vec3 u = glm::vec3(2.0f, 2.0f, 1.0f);
     
     std::cout << "Defining a vector\n-----------------" << std::endl;
     std::cout << "u = " << u << std::endl;
@@ -68,7 +68,7 @@ Defining a vector
 u = [    2.000,    2.000,    1.000]
 ```
 
-Taking a look at the code we see that the `glm::vec u(2.0f, 2.0f, 1.0f)` command defines the 3-element vector `u` with the values of the elements (2, 2, 1). This vector is then output to the console using the `std::cout` command.
+Taking a look at the code we see that the `glm::vec3 u = glm::vec3(2.0f, 2.0f, 1.0f);` command defines the 3-element vector `u` with the values of the elements (2, 2, 1). This vector is then output to the console using the `std::cout` command.
 
 (vector-magnitude-section)=
 
@@ -179,11 +179,10 @@ Add the following to your program
 ```cpp
 // Unit vectors
 glm::vec3 uHat = u / lengthU;
-float lengthUHat = glm::length(uHat);
 
 std::cout << "\nUnit vectors\n------------" << std::endl;
 std::cout << "uHat = " << uHat << std::endl;
-std::cout << "|uHat| = " << lengthUHat << std::endl;
+std::cout << "|uHat| = " << glm::length(uHat) << std::endl;
 ```
 
 Output

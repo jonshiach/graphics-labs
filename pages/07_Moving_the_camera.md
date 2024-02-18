@@ -1,3 +1,5 @@
+(moving-the-camera-section)=
+
 # Moving the camera
 
 In [Lab 6](3D-worlds-section) we saw how we use transformations to build a 3D world, align the world to the camera position and project the view space onto the screen space. We also created a Camera class that performs these calculations, the next step is to modify the Camera class to by able to move and direct the camera around the 3D world.
@@ -140,7 +142,7 @@ Here we declare two doubles `xPos` and `yPos` and use the function `glfwGetCurso
 
 ### Pitch and yaw
 
-The values of `xPos` and `yPos` are between -1 and 1 and the inputs to the `glm::lookAt()` function require the camera `front` vector so we need a way of converting from the position of the cursor to a vector. To do this we first calculate the yaw and pitch angles. Consider {numref}`roll-pitch-yaw-figure` which shows $\tt foward$, $\tt right$ and $\tt up$ camera vectors.
+The values of `xPos` and `yPos` the number of pixels across and down respectively, i.e., when `xPos = 0` and `yPos = 0` is the pixel in the top left hand corner of the window. The inputs to the `glm::lookAt()` function require the camera `front` vector so we need a way of converting from the position of the cursor to a vector. To do this we first calculate the yaw and pitch angles. Consider {numref}`roll-pitch-yaw-figure` which shows $\tt foward$, $\tt right$ and $\tt up$ camera vectors.
 
 ```{figure} /images/07_euler_angles.svg
 :width: 350
@@ -154,11 +156,11 @@ If the user moves the mouse up or down on the window then we want the camera to 
 ```cpp
 // Camera angles
 float pi = 3.1415927f;
-float pitch = 0.0f;
+float pitch = pi;
 float yaw = pi;
 ```
 
-`pitch` is initialised to 0 so the camera is level, `yaw` is intiailised to $\pi$ which is equivalent to 180$^\circ$ since we want to look down the $z$ axis (a $\tt yaw$ angle of 0$^\circ$ would mean look up the $z$ axis). We want these angles to update for each frame so in the `calculateMatrices()` Camera class method add the following code after `xPos` and `yPos` have been determined.
+Both `pitch` and `yaw` are initialised to $\pi$ (which is the equivalent to 180$^\circ$) since the camera is looking down the $z$-axis. We want these angles to update for each frame so in the `calculateMatrices()` Camera class method add the following code after `xPos` and `yPos` have been determined.
 
 ```cpp
 // Update yaw and pitch angles
