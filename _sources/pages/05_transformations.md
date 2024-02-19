@@ -618,6 +618,8 @@ After compiling and running the program you should see the following.
 :width: 500
 ```
 
+(animating-objects-section)= 
+
 ## Animating objects
 
 It may appear that our application is displaying a static image of the textured rectangle but what is actually happing is that the window is constantly being updated with new frame buffers as and when they have been calculated. We can animate our rectangle by applying the transformations within the render loop. We are going to rotate and translate the rectangle so that it appears to be rotating about its centre.

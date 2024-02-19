@@ -17,7 +17,7 @@ Compile and run the project and you will see the multiple cube examples we did a
 
 ## Using keyboard input to move the camera
 
-The first thing we are going to do is to get keyboard input from the user and use it to move the camera. If you take a look at `main.cpp` we have used the function `glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE)` which captures keyboard inputs for the `window` object and the do/while render loop checks for whether the escape key has been pressed to terminate the application. We are going to do similar for other keys. 
+The first thing we are going to do is to get keyboard input from the user and use it to move the camera. If you take a look at `main.cpp` we have used the function `glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE)` which captures keyboard inputs for the `window` object and the do/while render loop checks for whether the escape key has been pressed to terminate the application. We are going to do similar for other keys.
 
 We are going to modify the `calculateMatrices()` method from the Camera class so that it can take inputs from the keyboard. To do this edit the `camera.hpp` file so that the method declaration looks like the following
 
@@ -32,7 +32,7 @@ and of course don't forget make a similar change the method in the `Camera.cpp` 
 camera.calculateMatrices(window);
 ```
 
-Now that the `calculateMatrices()` method can take in keyboard inputs we need to capture the key presses and make appropriate changes to the `position` attribute. In the `Camera.cpp` file, add the following code before the `view` is calculated.
+Now that the `calculateMatrices()` method can take in keyboard inputs we need to capture the key presses and make appropriate changes to the `position` attribute. In the `Camera.cpp` file, add the following code before the `view` matrix is calculated.
 
 ```cpp
 // Keyboard inputs
@@ -73,7 +73,7 @@ So it works but the camera movement is too quick meaning that the controls are t
 float speed = 5.0f;
 ```
 
-Here we have specified that we want our camera to move at a speed of 5 units per second. Speed is distance divided time so we also need to know how much time has elapsed between the rendering of each frame. This is easily done using the `glfwGetTime()` function we have used to animate objects. In the `main.cpp` before the `main()` function add the following declarations
+Here we have specified that we want our camera to move at a speed of 5 units per second. Speed is distance divided time so we also need to know how much time has elapsed between the rendering of each frame. This is easily done using the `glfwGetTime()` function we have used to [animate objects](animating-objects-section). In the `main.cpp` before the `main()` function add the following declarations
 
 ```cpp
 // Timers
@@ -99,7 +99,7 @@ We need to pass `deltaTime` to the `calculateMatrices()` Camera class method so 
 calculateMatrices(GLFWwindow* window, float deltaTime)
 ```
 
-Also don't forget to change the method call in `main.cpp`. We can now apply the `speed` attribute to the movement calculates, for example
+Also don't forget to change the method call in `main.cpp`. We can now apply the `speed` attribute to the movement calculations, for example
 
 ```cpp
 if (glfwGetKey(window, GLFW_KEY_W))
@@ -138,11 +138,11 @@ glfwGetCursorPos(window, &xPos, &yPos);
 glfwSetCursorPos(window, 1024/2, 768/2);
 ```
 
-Here we declare two doubles `xPos` and `yPos` and use the function `glfwGetCursorPos()` to get the cursor position before resetting it back to the centre of the window using `glfwGetCursorPos()` (if we didn't do this the cursor could go outside of the window and we would be able to use it anymore).
+Here we declare two doubles (a floating point number that uses 8 bytes instead of 4 used by the float type) `xPos` and `yPos` and use the function `glfwGetCursorPos()` to get the cursor position before resetting it back to the centre of the window using `glfwSetCursorPos()` (if we didn't do this the cursor could go outside of the window and we would be able to use it anymore).
 
 ### Pitch and yaw
 
-The values of `xPos` and `yPos` the number of pixels across and down respectively, i.e., when `xPos = 0` and `yPos = 0` is the pixel in the top left hand corner of the window. The inputs to the `glm::lookAt()` function require the camera `front` vector so we need a way of converting from the position of the cursor to a vector. To do this we first calculate the yaw and pitch angles. Consider {numref}`roll-pitch-yaw-figure` which shows $\tt foward$, $\tt right$ and $\tt up$ camera vectors.
+The values of `xPos` and `yPos` are the number of pixels across and up the window from the bottom-left hand corner pixel respectively. The inputs to the `glm::lookAt()` function require the camera `front` vector so we need a way of converting from the position of the cursor to a vector. To do this we first calculate the yaw and pitch angles. Consider {numref}`roll-pitch-yaw-figure` which shows $\tt foward$, $\tt right$ and $\tt up$ camera vectors.
 
 ```{figure} /images/07_euler_angles.svg
 :width: 350
@@ -180,7 +180,7 @@ You don't necessarily need to know where these come from but if you are curious 
 
 ````{dropdown} Calculating the front vector from the yaw and pitch angles
 
-First consider the left-to-right movement, i.e., the $\tt yaw$ angle, in {numref}`yaw-figure`. This is rotation **clockwise** about the $y$ axis
+First consider the left-to-right movement, since we use `xPos - 1024/2` to calculate the $\tt yaw$ angle, if we move the cursor to the right then the $\tt yaw$ angle increases and we want to rotate **clockwise** about the $y$-axis ({numref}`yaw-figure`). 
 
 ```{figure} /images/yaw.svg
 :name: yaw-figure
@@ -200,7 +200,7 @@ $$ \begin{align*}
   \end{pmatrix}
 \end{align*} $$
 
-Similarly, up-to-down movement, i.e., the $\tt pitch$ angle, is **anti-clockwise** rotation about the $x$-axis
+Similarly, if we move the cursor up then $\tt pitch$ angle increases and we want to rotate **anti-clockwise** about the $x$-axis ({numref}`pitch-figure`).
 
 ```{figure} /images/pitch.svg
 :name: pitch-figure
@@ -225,21 +225,21 @@ Applying these rotations to the $\tt front$ vector (0,0,-1)
 $$ \begin{align*}
   \tt newFront &= (0, 0, -1)
   \begin{pmatrix}
-    \cos(\tt yaw) & 0 & \sin(\tt yaw) \\
-    0 & 1 & 0 \\
-    -\sin(\tt yaw) & 0 & \cos(\tt yaw)
-  \end{pmatrix}
-  \begin{pmatrix}
     1 & 0 & 0 \\
     0 & \cos(\tt pitch) & \sin(\tt pitch) \\
     0 & -\sin(\tt pitch) & \cos(\tt pitch)
-  \end{pmatrix} \\
+  \end{pmatrix} 
+  \begin{pmatrix}
+    \cos(\tt yaw) & 0 & \sin(\tt yaw) \\
+    0 & 1 & 0 \\
+    -\sin(\tt yaw) & 0 & \cos(\tt yaw)
+  \end{pmatrix}\\
   &=
   (0, 0, -1)
   \begin{pmatrix}
     \cos(\tt yaw) & 0 & 0 \sin(\tt yaw) \\
     -\sin(\tt yaw)\sin(\tt pitch) & \cos(\tt pitch) & \cos(\tt yaw)\sin(\tt pitch) \\
-    -\sin(\tt yaw)\cos(\tt pitch)  & -sin(\tt pitch) & \cos(\tt yaw)\cos(\tt pitch)
+    -\sin(\tt yaw)\cos(\tt pitch)  & -\sin(\tt pitch) & \cos(\tt yaw)\cos(\tt pitch)
   \end{pmatrix} \\
   &= (\sin(\tt yaw)\cos(\tt pitch), sin(\tt pitch), -\cos(\tt yaw)\cos(\tt pitch))
 \end{align*} $$

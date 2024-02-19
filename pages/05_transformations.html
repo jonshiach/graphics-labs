@@ -942,7 +942,7 @@ Derivation of the axis-angle rotation matrix (click to show)<div class="sd-summa
 </section>
 </section>
 <section id="animating-objects">
-<h2><span class="section-number">5.5. </span>Animating objects<a class="headerlink" href="#animating-objects" title="Permalink to this heading">#</a></h2>
+<span id="animating-objects-section"></span><h2><span class="section-number">5.5. </span>Animating objects<a class="headerlink" href="#animating-objects" title="Permalink to this heading">#</a></h2>
 <p>It may appear that our application is displaying a static image of the textured rectangle but what is actually happing is that the window is constantly being updated with new frame buffers as and when they have been calculated. We can animate our rectangle by applying the transformations within the render loop. We are going to rotate and translate the rectangle so that it appears to be rotating about its centre.</p>
 <p>If we calculate the transformation matrices inside the render loop we can move the rectangle around the window. A useful function to help us is <code class="docutils literal notranslate"><span class="pre">glfwGetTime()</span></code> from the GLFW library which returns the time in seconds since the GLFW window was created. If we have a time value that is always increasing we can use this to animate our rectangle.</p>
 <p>Comment out all of the code used to calculate the transformation matrices we have entered so far this lab but leave the line where we get the location of the transformation uniform.</p>

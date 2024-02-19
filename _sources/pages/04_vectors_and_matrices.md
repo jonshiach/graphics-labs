@@ -309,7 +309,7 @@ The **cross product** between two vectors $\underline{a} = (a_x, a_y, a_z)$ and 
 
 $$ \underline{a} \times \underline{b} = (a_yb_z - a_zb_y, a_zb_x - a_xb_z, a_xb_y - a_yb_x). $$(eq:cross-product)
 
-The cross product between two vectors produces another vector that is perpendicular to both vectors. This is another incredibly useful result as it allows use to calculate **normal** vectors for polygons which are used in calculating how light is reflected off surfaces.
+The cross product between two vectors produces another vector that is perpendicular to both vectors. This is another incredibly useful result as it allows use to calculate [**normal vectors**](normal-vector-section) for polygons which are used in calculating how light is reflected off surfaces.
 
 ```{figure} ../images/04_cross_product.svg
 :height: 200
@@ -488,7 +488,9 @@ Check our examples above by adding the following code to your program.
 
 ```cpp
 // Matrix multiplication
-glm::mat2 B = glm::mat2(5.0f, 6.0f, 7.0f, 8.0f);
+glm::mat2 B = glm::mat2(1.0f);
+B[0][0] = 5, B[0][1] = 6;
+B[1][0] = 7, B[1][1] = 8;
 glm::mat2 AB = B * A;   // note the ordering!
 glm::mat2 BA = A * B;
 

@@ -407,7 +407,7 @@ document.write(`
 <span class="n">camera</span><span class="p">.</span><span class="n">calculateMatrices</span><span class="p">(</span><span class="n">window</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Now that the <code class="docutils literal notranslate"><span class="pre">calculateMatrices()</span></code> method can take in keyboard inputs we need to capture the key presses and make appropriate changes to the <code class="docutils literal notranslate"><span class="pre">position</span></code> attribute. In the <code class="docutils literal notranslate"><span class="pre">Camera.cpp</span></code> file, add the following code before the <code class="docutils literal notranslate"><span class="pre">view</span></code> is calculated.</p>
+<p>Now that the <code class="docutils literal notranslate"><span class="pre">calculateMatrices()</span></code> method can take in keyboard inputs we need to capture the key presses and make appropriate changes to the <code class="docutils literal notranslate"><span class="pre">position</span></code> attribute. In the <code class="docutils literal notranslate"><span class="pre">Camera.cpp</span></code> file, add the following code before the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix is calculated.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Keyboard inputs</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">glfwGetKey</span><span class="p">(</span><span class="n">window</span><span class="p">,</span><span class="w"> </span><span class="n">GLFW_KEY_W</span><span class="p">))</span>
 <span class="p">{</span>
@@ -441,7 +441,7 @@ document.write(`
 <span class="kt">float</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5.0f</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>Here we have specified that we want our camera to move at a speed of 5 units per second. Speed is distance divided time so we also need to know how much time has elapsed between the rendering of each frame. This is easily done using the <code class="docutils literal notranslate"><span class="pre">glfwGetTime()</span></code> function we have used to animate objects. In the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> before the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function add the following declarations</p>
+<p>Here we have specified that we want our camera to move at a speed of 5 units per second. Speed is distance divided time so we also need to know how much time has elapsed between the rendering of each frame. This is easily done using the <code class="docutils literal notranslate"><span class="pre">glfwGetTime()</span></code> function we have used to <a class="reference internal" href="05_transformations.html#animating-objects-section"><span class="std std-ref">animate objects</span></a>. In the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> before the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function add the following declarations</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Timers</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">currentFrame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">lastFrame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span>
@@ -460,7 +460,7 @@ document.write(`
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">calculateMatrices</span><span class="p">(</span><span class="n">GLFWwindow</span><span class="o">*</span><span class="w"> </span><span class="n">window</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">deltaTime</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Also don’t forget to change the method call in <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code>. We can now apply the <code class="docutils literal notranslate"><span class="pre">speed</span></code> attribute to the movement calculates, for example</p>
+<p>Also don’t forget to change the method call in <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code>. We can now apply the <code class="docutils literal notranslate"><span class="pre">speed</span></code> attribute to the movement calculations, for example</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">glfwGetKey</span><span class="p">(</span><span class="n">window</span><span class="p">,</span><span class="w"> </span><span class="n">GLFW_KEY_W</span><span class="p">))</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="n">position</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">front</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">deltaTime</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">speed</span><span class="p">;</span>
@@ -492,10 +492,10 @@ document.write(`
 <span class="n">glfwSetCursorPos</span><span class="p">(</span><span class="n">window</span><span class="p">,</span><span class="w"> </span><span class="mi">1024</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">768</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Here we declare two doubles <code class="docutils literal notranslate"><span class="pre">xPos</span></code> and <code class="docutils literal notranslate"><span class="pre">yPos</span></code> and use the function <code class="docutils literal notranslate"><span class="pre">glfwGetCursorPos()</span></code> to get the cursor position before resetting it back to the centre of the window using <code class="docutils literal notranslate"><span class="pre">glfwGetCursorPos()</span></code> (if we didn’t do this the cursor could go outside of the window and we would be able to use it anymore).</p>
+<p>Here we declare two doubles (a floating point number that uses 8 bytes instead of 4 used by the float type) <code class="docutils literal notranslate"><span class="pre">xPos</span></code> and <code class="docutils literal notranslate"><span class="pre">yPos</span></code> and use the function <code class="docutils literal notranslate"><span class="pre">glfwGetCursorPos()</span></code> to get the cursor position before resetting it back to the centre of the window using <code class="docutils literal notranslate"><span class="pre">glfwSetCursorPos()</span></code> (if we didn’t do this the cursor could go outside of the window and we would be able to use it anymore).</p>
 <section id="pitch-and-yaw">
 <h3><span class="section-number">7.2.1. </span>Pitch and yaw<a class="headerlink" href="#pitch-and-yaw" title="Permalink to this heading">#</a></h3>
-<p>The values of <code class="docutils literal notranslate"><span class="pre">xPos</span></code> and <code class="docutils literal notranslate"><span class="pre">yPos</span></code> the number of pixels across and down respectively, i.e., when <code class="docutils literal notranslate"><span class="pre">xPos</span> <span class="pre">=</span> <span class="pre">0</span></code> and <code class="docutils literal notranslate"><span class="pre">yPos</span> <span class="pre">=</span> <span class="pre">0</span></code> is the pixel in the top left hand corner of the window. The inputs to the <code class="docutils literal notranslate"><span class="pre">glm::lookAt()</span></code> function require the camera <code class="docutils literal notranslate"><span class="pre">front</span></code> vector so we need a way of converting from the position of the cursor to a vector. To do this we first calculate the yaw and pitch angles. Consider <a class="reference internal" href="#roll-pitch-yaw-figure"><span class="std std-numref">Fig. 7.1</span></a> which shows <span class="math notranslate nohighlight">\(\tt foward\)</span>, <span class="math notranslate nohighlight">\(\tt right\)</span> and <span class="math notranslate nohighlight">\(\tt up\)</span> camera vectors.</p>
+<p>The values of <code class="docutils literal notranslate"><span class="pre">xPos</span></code> and <code class="docutils literal notranslate"><span class="pre">yPos</span></code> are the number of pixels across and up the window from the bottom-left hand corner pixel respectively. The inputs to the <code class="docutils literal notranslate"><span class="pre">glm::lookAt()</span></code> function require the camera <code class="docutils literal notranslate"><span class="pre">front</span></code> vector so we need a way of converting from the position of the cursor to a vector. To do this we first calculate the yaw and pitch angles. Consider <a class="reference internal" href="#roll-pitch-yaw-figure"><span class="std std-numref">Fig. 7.1</span></a> which shows <span class="math notranslate nohighlight">\(\tt foward\)</span>, <span class="math notranslate nohighlight">\(\tt right\)</span> and <span class="math notranslate nohighlight">\(\tt up\)</span> camera vectors.</p>
 <figure class="align-default" id="roll-pitch-yaw-figure">
 <a class="reference internal image-reference" href="../_images/07_euler_angles.svg"><img alt="../_images/07_euler_angles.svg" src="../_images/07_euler_angles.svg" width="350" /></a>
 <figcaption>
@@ -530,7 +530,7 @@ Calculating the front vector from the yaw and pitch angles<div class="sd-summary
 <div class="sd-summary-up docutils">
 <svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
 </summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">First consider the left-to-right movement, i.e., the <span class="math notranslate nohighlight">\(\tt yaw\)</span> angle, in <a class="reference internal" href="#yaw-figure"><span class="std std-numref">Fig. 7.2</span></a>. This is rotation <strong>clockwise</strong> about the <span class="math notranslate nohighlight">\(y\)</span> axis</p>
+<p class="sd-card-text">First consider the left-to-right movement, since we use <code class="docutils literal notranslate"><span class="pre">xPos</span> <span class="pre">-</span> <span class="pre">1024/2</span></code> to calculate the <span class="math notranslate nohighlight">\(\tt yaw\)</span> angle, if we move the cursor to the right then the <span class="math notranslate nohighlight">\(\tt yaw\)</span> angle increases and we want to rotate <strong>clockwise</strong> about the <span class="math notranslate nohighlight">\(y\)</span>-axis (<a class="reference internal" href="#yaw-figure"><span class="std std-numref">Fig. 7.2</span></a>).</p>
 <figure class="align-default" id="yaw-figure">
 <a class="reference internal image-reference" href="../_images/yaw.svg"><img alt="../_images/yaw.svg" src="../_images/yaw.svg" width="250" /></a>
 <figcaption>
@@ -547,7 +547,7 @@ Calculating the front vector from the yaw and pitch angles<div class="sd-summary
     -\sin(\tt yaw) &amp; 0 &amp; \cos(\tt yaw)
   \end{pmatrix}
 \end{align*} \end{split}\]</div>
-<p class="sd-card-text">Similarly, up-to-down movement, i.e., the <span class="math notranslate nohighlight">\(\tt pitch\)</span> angle, is <strong>anti-clockwise</strong> rotation about the <span class="math notranslate nohighlight">\(x\)</span>-axis</p>
+<p class="sd-card-text">Similarly, if we move the cursor up then <span class="math notranslate nohighlight">\(\tt pitch\)</span> angle increases and we want to rotate <strong>anti-clockwise</strong> about the <span class="math notranslate nohighlight">\(x\)</span>-axis (<a class="reference internal" href="#pitch-figure"><span class="std std-numref">Fig. 7.3</span></a>).</p>
 <figure class="align-default" id="pitch-figure">
 <a class="reference internal image-reference" href="../_images/pitch.svg"><img alt="../_images/pitch.svg" src="../_images/pitch.svg" width="200" /></a>
 <figcaption>
@@ -569,21 +569,21 @@ Calculating the front vector from the yaw and pitch angles<div class="sd-summary
 \[\begin{split} \begin{align*}
   \tt newFront &amp;= (0, 0, -1)
   \begin{pmatrix}
-    \cos(\tt yaw) &amp; 0 &amp; \sin(\tt yaw) \\
-    0 &amp; 1 &amp; 0 \\
-    -\sin(\tt yaw) &amp; 0 &amp; \cos(\tt yaw)
-  \end{pmatrix}
-  \begin{pmatrix}
     1 &amp; 0 &amp; 0 \\
     0 &amp; \cos(\tt pitch) &amp; \sin(\tt pitch) \\
     0 &amp; -\sin(\tt pitch) &amp; \cos(\tt pitch)
-  \end{pmatrix} \\
+  \end{pmatrix} 
+  \begin{pmatrix}
+    \cos(\tt yaw) &amp; 0 &amp; \sin(\tt yaw) \\
+    0 &amp; 1 &amp; 0 \\
+    -\sin(\tt yaw) &amp; 0 &amp; \cos(\tt yaw)
+  \end{pmatrix}\\
   &amp;=
   (0, 0, -1)
   \begin{pmatrix}
     \cos(\tt yaw) &amp; 0 &amp; 0 \sin(\tt yaw) \\
     -\sin(\tt yaw)\sin(\tt pitch) &amp; \cos(\tt pitch) &amp; \cos(\tt yaw)\sin(\tt pitch) \\
-    -\sin(\tt yaw)\cos(\tt pitch)  &amp; -sin(\tt pitch) &amp; \cos(\tt yaw)\cos(\tt pitch)
+    -\sin(\tt yaw)\cos(\tt pitch)  &amp; -\sin(\tt pitch) &amp; \cos(\tt yaw)\cos(\tt pitch)
   \end{pmatrix} \\
   &amp;= (\sin(\tt yaw)\cos(\tt pitch), sin(\tt pitch), -\cos(\tt yaw)\cos(\tt pitch))
 \end{align*} \end{split}\]</div>
