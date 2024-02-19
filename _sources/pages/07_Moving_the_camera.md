@@ -13,19 +13,19 @@ Download and build the project files for this lab.
 
 3. Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).
 
-Compile and run the project and you will see the multiple cube examples we did at the end of the last lab.
+Compile and run the project and you will see the multiple cube example we had at the end of the last lab.
 
 ## Using keyboard input to move the camera
 
 The first thing we are going to do is to get keyboard input from the user and use it to move the camera. If you take a look at `main.cpp` we have used the function `glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE)` which captures keyboard inputs for the `window` object and the do/while render loop checks for whether the escape key has been pressed to terminate the application. We are going to do similar for other keys.
 
-We are going to modify the `calculateMatrices()` method from the Camera class so that it can take inputs from the keyboard. To do this edit the `camera.hpp` file so that the method declaration looks like the following
+We are going to modify the `calculateMatrices()` method from the Camera class so that it can take inputs from the keyboard. To do this edit the `camera.hpp` file so that the method declaration takes in an input of a GLFW window object.
 
 ```cpp
 void calculateMatrices(GLFWwindow* window);
 ```
 
-and of course don't forget make a similar change the method in the `Camera.cpp` file. If you attempt to compile the program a compiler error will be thrown up because we also need to pass the `window` object into the method, so in the `main.cpp` file make this change
+Of course don't forget make a similar change the method in the `Camera.cpp` file. If you attempt to compile the program a compiler error will be thrown up because we also need to pass the `window` object into the method, so in the `main.cpp` file make this change
 
 ```cpp
 // Get the view and projection matrices from the camera library
@@ -66,7 +66,7 @@ Compile and run the program and you should be able to move the camera around the
 
 ### Camera movement speed
 
-So it works but the camera movement is too quick meaning that the controls are too sensitive. To overcome this issue we can multiply the camera direction vector by number which we can choose to adjust the speed of the camera. Edit `camera.hpp` to add a `speed` attribute to the Camera class
+So it works but the camera movement is too quick resulting in controls are too sensitive. To overcome this issue we can multiply the camera direction vector by number which we can choose to adjust the speed of the camera. Edit `camera.hpp` to add a `speed` attribute to the Camera class
 
 ```cpp
 // Speed attributes
@@ -108,7 +108,7 @@ if (glfwGetKey(window, GLFW_KEY_W))
 }
 ```
 
-The result of making these changes is shown below.
+The result of making these changes means that the camera now moves at 5 units per second (since $\tt front$ and $\tt right$ are [unit vectors](unit-vectors-section)) is shown below.
 
 <center>
 <video controls muted="true" loop="true" width="500">
@@ -118,7 +118,7 @@ The result of making these changes is shown below.
 
 ## Using the mouse to point the camera
 
-We can now move the camera position using keyboard inputs but we can't yet change the direction of camera. To do this we can use the mouse, first we need to tell GLFW to capture the mouse inputs so add the following code after where we told it to capture the keyboard inputs in the `main.cpp` file.
+We can now move the camera position using keyboard inputs but we can't yet change the direction of camera, to do this we can use the mouse. First we need to tell GLFW to capture the mouse inputs so add the following code after where we told it to capture the keyboard inputs in the `main.cpp` file.
 
 ```cpp
 // Tell GLFW to capture our mouse
@@ -171,12 +171,10 @@ pitch += float(yPos - 768/2);
 The $\tt yaw$ and $\tt pitch$ angles increase when the cursor is moved to the right and above the window centre respectively. We now have $\tt yaw$ and $\tt pitch$ angles and need to convert to camera vectors. Using spherical to Cartesian conversion the $\tt front$ vector is
 
 $$ \begin{align*}
-  \tt front.x &= \sin(\tt yaw) \cos(\tt pitch), \\
-  \tt front.y &= \sin(\tt pitch), \\
-  \tt front.z &= -\cos(\tt yaw) \cos(\tt pitch).
+  \tt front &= \textsf{normalise}(\sin(\tt yaw) \cos(\tt pitch), \sin(\tt pitch), -\cos(\tt yaw) \cos(\tt pitch)).
 \end{align*} $$
 
-You don't necessarily need to know where these come from but if you are curious click on the dropdown below.
+You don't necessarily need to know where this comes from but if you are curious click on the dropdown below.
 
 ````{dropdown} Calculating the front vector from the yaw and pitch angles
 
@@ -250,11 +248,11 @@ which gives the updated $\tt front$ vector from the $\tt yaw$ and $\tt pitch$ an
 The $\tt right$ and $\tt up$ camera vectors are calculated in a similar was to how we calculated the `view` matrix in [Lab 6](view-matrix-section), i.e.,
 
 $$ \begin{align*}
-  \tt right &= \tt front \times worldUp, \\
-  \tt up &= \tt right \times front.
+  \tt right &= \textsf{normalise}(\tt front \times worldUp), \\
+  \tt up &= \textsf{normalise}(\tt right \times front).
 \end{align*} $$
 
-We also need to normalise the $\tt front$, $\tt right$ and $\tt up$ camera vectors so the camera movement is consistent in any direction. Add the following code to the `camera.cpp` file after we have updated the $\tt yaw$ and $\tt pitch$ angles.
+Add the following code to the `camera.cpp` file after we have updated the $\tt yaw$ and $\tt pitch$ angles.
 
 ```cpp
 // Update camera vectors
@@ -346,7 +344,7 @@ Compile and run your program and use the keyboard and mouse to put the camera in
 ## Exercises
 
 1. Change the `calculateMatrices()` Camera class method so that the camera position always has a $y$ co-ordinate of 0, i.e., like a first person shooter game where the player cannot fly around the world.
-2. Add the ability for the user to perform a jump by pressing the space bar. The jump should last for 1 second and the camera should follow a smooth arc. Hint: the function $y = a\sin(\pi t)$ produces values of $y=0$ when $t=0$ or $t = 1$ and $y = 1$ when $t = 0.5$.
+2. Add the ability for the user to perform a jump by pressing the space bar. The jump should last for 1 second and the camera should follow a smooth arc. Hint: the function $y = a\sin(\pi t)$ produces values of $y=0$ when $t=0$ or $t = 1$ and $y = a$ when $t = 0.5$.
 3. Write your own class called `MyLib` with static member functions for each of the functions you have used from the glm library (e.g., `lookAt()`) and make use of them to calculate the `model`, `view` and `projection` matrices (you may make use of `glm::mat4` and `glm::vec3` types).
 
 ---

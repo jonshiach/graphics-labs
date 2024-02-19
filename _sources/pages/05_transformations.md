@@ -296,16 +296,16 @@ Rotating the vector $\underline{u}$ anti-clockwise by angle $\theta$ to the vect
 Consider {numref}`rotation-figure` where the vector $\underline{u}$ is rotated by angle $\theta$ to the vector $\underline{v}$. To get this rotation we first consider the rotation of the vector $\underline{t}$, which has the same length as $\underline{u}$ and points along the $x$-axis, by angle $\phi$ to get to $\underline{u}$. If we form a right-angled triangle (the blue one) then we know the length of the hypotenuse, $|\underline{u}|$, and the angle so we can calculate the lengths of the adjacent and opposite sides using trigonometry. Remember our trig ratios (SOH-CAH-TOA)
 
 $$ \begin{align*}
-    \sin(\phi) &= \frac{opposite}{hypotenuse}, &
-    \cos(\phi) &= \frac{adjacent}{hypotenuse}, &
-    \tan(\phi) &= \frac{adjacent}{opposite},
+    \sin(\phi) &= \frac{\textsf{opposite}}{\textsf{hypotenuse}}, &
+    \cos(\phi) &= \frac{\textsf{adjacent}}{\textsf{hypotenuse}}, &
+    \tan(\phi) &= \frac{\textsf{adjacent}}{\textsf{opposite}},
 \end{align*} $$
 
 so the length of the adjacent and opposite sides of the blue triangle is
 
 $$ \begin{align*}
-    adjacent &= hypotenuse \cdot \cos(\phi), \\
-    opposite &= hypotenuse \cdot \sin(\phi).
+    \textsf{adjacent} &= \textsf{hypotenuse} \cdot \cos(\phi), \\
+    \textsf{opposite} &= \textsf{hypotenuse} \cdot \sin(\phi).
 \end{align*} $$
 
 Now $u_x$ and $u_y$ are the lengths of the adjacent and opposite sides respectively and $|\underline{u}|$ is the length of the hypotenuse then we have
@@ -467,7 +467,7 @@ The rotation about the vector $\underline{v} = (v_x, v_y, v_z)$ by angle $\theta
 The rotation around the $x$-axis is achieved by forming a right-angled triangle in the $yz$-plane where the the angle of rotation $\theta$ has an adjacent side of length $v_z$, an opposite side of length $v_y$ and a hypotenuse of length $\sqrt{v_y^2 + v_z^2}$ ({numref}`axis-angle-rotation1-figure`). 
 
 ```{figure} ../images/05_axis_angle_rotation_2.svg
-:height: 250
+:height: 220
 :name: axis-angle-rotation1-figure
 
 Rotate $\underline{v}$ around the $x$-axis

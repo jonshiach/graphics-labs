@@ -391,7 +391,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="d-worlds">
 <span id="d-worlds-section"></span><h1><span class="section-number">6. </span>3D Worlds<a class="headerlink" href="#d-worlds" title="Permalink to this heading">#</a></h1>
-<p>In the <a class="reference internal" href="05_transformations.html#transformations-section"><span class="std std-ref">Lab 6</span></a> we looked at the transformations can can be applied to the vertex co-ordinates <span class="math notranslate nohighlight">\((x, y, z, 1)\)</span> but all of our examples were using 2D objects. In this lab we will take the step into the third spatial dimension and look at 3D worlds.</p>
+<p>In <a class="reference internal" href="05_transformations.html#transformations-section"><span class="std std-ref">Lab 5</span></a> we looked at the transformations can can be applied to the vertex co-ordinates <span class="math notranslate nohighlight">\((x, y, z, 1)\)</span> but all of our examples were using 2D objects. In this lab we will take the step into the third spatial dimension and look at 3D worlds.</p>
 <p>First download and build the project files for this lab.</p>
 <ol class="arabic simple">
 <li><p>Go to <a href="https://github.com/jonshiach/Lab06_3D_worlds" target="_blank">https://github.com/jonshiach/Lab06_3D_worlds</a> and follow the instructions to download and build the project files.</p></li>
@@ -406,7 +406,7 @@ document.write(`
 <section id="d-models">
 <h2><span class="section-number">6.1. </span>3D models<a class="headerlink" href="#d-models" title="Permalink to this heading">#</a></h2>
 <p>To demonstrate building a simple 3D world we are going to need a 3D object.
-One of the simplest 3D objects is a <strong>unit cube</strong> which is a cube centred at (0,0,0) and has side lengths of 2 parallel to the co-ordinate axes (<a class="reference internal" href="#unit-cube-figure"><span class="std std-numref">Fig. 6.1</span></a>) so the co-ordinates of the 8 vertices of the cube are combinations of -1 and 1.</p>
+One of the simplest 3D objects is a <strong>unit cube</strong> which is a cube centred at (0,0,0) and has side lengths of 2 parallel to the co-ordinate axes (<a class="reference internal" href="#unit-cube-figure"><span class="std std-numref">Fig. 6.1</span></a>) so the co-ordinates of the 8 corners of the cube are combinations of -1 and 1.</p>
 <figure class="align-default" id="unit-cube-figure">
 <a class="reference internal image-reference" href="../_images/06_unit_cube.svg"><img alt="../_images/06_unit_cube.svg" src="../_images/06_unit_cube.svg" width="700" /></a>
 <figcaption>
@@ -414,7 +414,7 @@ One of the simplest 3D objects is a <strong>unit cube</strong> which is a cube c
 </figcaption>
 </figure>
 <p>You may have noticed from <a class="reference internal" href="03_textures.html#textures-section"><span class="std std-ref">Lab 3</span></a> that we used 6 vertices to define a rectangle which only has 4 corners which is obviously inefficient. To improve this can can use <strong>indexing</strong> where co-ordinates that are shared by difference triangles are only declared once and we use an index array that links each vertex to a co-ordinate.</p>
-<p>For example, for the front size of the cube we have co-ordinates (-1,-1,1), (1,-1,1), (1,1,1) and (-1,1,1) so the two triangles will be indexed as 0, 1, 2 for the first triangle and 0, 1, 4 for the second. Note that we need to index the triangles so in an <strong>anti-clockwise</strong> order when looking at the front of the triangle so that the <a class="reference internal" href="07_Moving_the_camera.html#normal-vector-section"><span class="std std-ref">normal vectors</span></a> are calculated properly.</p>
+<p>For example, for the front size of the cube we have co-ordinates (-1,-1,1), (1,-1,1), (1,1,1) and (-1,1,1) so the vertices of the two triangles can be indexed using 0, 1, 2 for the first triangle and 0, 1, 4 for the second. Note that we need to index the triangles so in an <strong>anti-clockwise</strong> order when looking at the front of the triangle so that the <a class="reference internal" href="07_Moving_the_camera.html#normal-vector-section"><span class="std std-ref">normal vectors</span></a> are calculated properly.</p>
 <figure class="align-default" id="indexed-rectangle-figure">
 <a class="reference internal image-reference" href="../_images/06_indexed_rectangle.svg"><img alt="../_images/06_indexed_rectangle.svg" src="../_images/06_indexed_rectangle.svg" width="400" /></a>
 <figcaption>
@@ -535,7 +535,7 @@ One of the simplest 3D objects is a <strong>unit cube</strong> which is a cube c
 <p>To calculate the world space to view space transformation we require three vectors</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(\tt cameraPos\)</span> - the co-ordinates of the camera position</p></li>
-<li><p><span class="math notranslate nohighlight">\(\tt target\)</span> - the co-ordinates of the target point where we are pointing the camera;</p></li>
+<li><p><span class="math notranslate nohighlight">\(\tt target\)</span> - the co-ordinates of the target point which the camera is looking at;</p></li>
 <li><p><span class="math notranslate nohighlight">\(\tt worldUp\)</span> - a vector pointing straight up in the world space which allows us to orientate the camera, this is usually always (0,1,0).</p></li>
 </ul>
 <p>The <span class="math notranslate nohighlight">\(\tt cameraPos\)</span> and <span class="math notranslate nohighlight">\(\tt target\)</span> vectors are either determined by the user through keyboard, mouse or controller inputs or through some predetermined routine. To determine the view space transformation we first translate the camera position to (0,0,0) using the following translation matrix</p>
@@ -1079,7 +1079,7 @@ Derivation of the perspective projection matrix<div class="sd-summary-down docut
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">Camera()</span></code> constructor takes in a single input of the camera position and instantiates the <code class="docutils literal notranslate"><span class="pre">position</span></code> attribute. The <code class="docutils literal notranslate"><span class="pre">front</span></code>, <code class="docutils literal notranslate"><span class="pre">right</span></code>, <code class="docutils literal notranslate"><span class="pre">up</span></code> and <code class="docutils literal notranslate"><span class="pre">worldUp</span></code> vectors are instantiated with default values.</p>
-<p>Now we’ve created our Camera class we need to include it and make calls to the library functions. Add <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&quot;camera.hpp</span></code> to the top of the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file and create a Camera object before the <code class="docutils literal notranslate"><span class="pre">main()</span></code> declaration.</p>
+<p>Now we’ve created our Camera class we need to include it and make calls to the library functions. Add <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&quot;camera.hpp&quot;</span></code> to the top of the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file and create a Camera object before the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function declaration.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create camera object</span>
 <span class="n">Camera</span><span class="w"> </span><span class="nf">camera</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">5.0f</span><span class="p">));</span>
 </pre></div>

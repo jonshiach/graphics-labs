@@ -2,7 +2,7 @@
 
 # 3D Worlds
 
-In the [Lab 6](transformations-section) we looked at the transformations can can be applied to the vertex co-ordinates $(x, y, z, 1)$ but all of our examples were using 2D objects. In this lab we will take the step into the third spatial dimension and look at 3D worlds.
+In [Lab 5](transformations-section) we looked at the transformations can can be applied to the vertex co-ordinates $(x, y, z, 1)$ but all of our examples were using 2D objects. In this lab we will take the step into the third spatial dimension and look at 3D worlds.
 
 First download and build the project files for this lab.
 
@@ -16,7 +16,7 @@ First download and build the project files for this lab.
 ## 3D models
 
 To demonstrate building a simple 3D world we are going to need a 3D object. 
-One of the simplest 3D objects is a **unit cube** which is a cube centred at (0,0,0) and has side lengths of 2 parallel to the co-ordinate axes ({numref}`unit-cube-figure`) so the co-ordinates of the 8 vertices of the cube are combinations of -1 and 1.
+One of the simplest 3D objects is a **unit cube** which is a cube centred at (0,0,0) and has side lengths of 2 parallel to the co-ordinate axes ({numref}`unit-cube-figure`) so the co-ordinates of the 8 corners of the cube are combinations of -1 and 1.
 
 ```{figure} ../images/06_unit_cube.svg
 :width: 700
@@ -27,7 +27,7 @@ A unit cube.
 
 You may have noticed from [Lab 3](textures-section) that we used 6 vertices to define a rectangle which only has 4 corners which is obviously inefficient. To improve this can can use **indexing** where co-ordinates that are shared by difference triangles are only declared once and we use an index array that links each vertex to a co-ordinate.
 
-For example, for the front size of the cube we have co-ordinates (-1,-1,1), (1,-1,1), (1,1,1) and (-1,1,1) so the two triangles will be indexed as 0, 1, 2 for the first triangle and 0, 1, 4 for the second. Note that we need to index the triangles so in an **anti-clockwise** order when looking at the front of the triangle so that the [normal vectors](normal-vector-section) are calculated properly.
+For example, for the front size of the cube we have co-ordinates (-1,-1,1), (1,-1,1), (1,1,1) and (-1,1,1) so the vertices of the two triangles can be indexed using 0, 1, 2 for the first triangle and 0, 1, 4 for the second. Note that we need to index the triangles so in an **anti-clockwise** order when looking at the front of the triangle so that the [normal vectors](normal-vector-section) are calculated properly.
 
 ```{figure} ../images/06_indexed_rectangle.svg
 :width: 400
@@ -165,7 +165,7 @@ The view space.
 To calculate the world space to view space transformation we require three vectors
 
 - $\tt cameraPos$ - the co-ordinates of the camera position
-- $\tt target$ - the co-ordinates of the target point where we are pointing the camera;
+- $\tt target$ - the co-ordinates of the target point which the camera is looking at;
 - $\tt worldUp$ - a vector pointing straight up in the world space which allows us to orientate the camera, this is usually always (0,1,0).
 
 The $\tt cameraPos$ and $\tt target$ vectors are either determined by the user through keyboard, mouse or controller inputs or through some predetermined routine. To determine the view space transformation we first translate the camera position to (0,0,0) using the following translation matrix
@@ -766,7 +766,7 @@ void Camera::calculateMatrices()
 
 The `Camera()` constructor takes in a single input of the camera position and instantiates the `position` attribute. The `front`, `right`, `up` and `worldUp` vectors are instantiated with default values.
 
-Now we've created our Camera class we need to include it and make calls to the library functions. Add `#include "camera.hpp` to the top of the `main.cpp` file and create a Camera object before the `main()` declaration.
+Now we've created our Camera class we need to include it and make calls to the library functions. Add `#include "camera.hpp"` to the top of the `main.cpp` file and create a Camera object before the `main()` function declaration.
 
 ```cpp
 // Create camera object

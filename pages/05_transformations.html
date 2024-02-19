@@ -656,15 +656,15 @@ Derivation of the rotation matrices (click to show)<div class="sd-summary-down d
 <p class="sd-card-text">Consider <a class="reference internal" href="#rotation-figure"><span class="std std-numref">Fig. 5.5</span></a> where the vector <span class="math notranslate nohighlight">\(\underline{u}\)</span> is rotated by angle <span class="math notranslate nohighlight">\(\theta\)</span> to the vector <span class="math notranslate nohighlight">\(\underline{v}\)</span>. To get this rotation we first consider the rotation of the vector <span class="math notranslate nohighlight">\(\underline{t}\)</span>, which has the same length as <span class="math notranslate nohighlight">\(\underline{u}\)</span> and points along the <span class="math notranslate nohighlight">\(x\)</span>-axis, by angle <span class="math notranslate nohighlight">\(\phi\)</span> to get to <span class="math notranslate nohighlight">\(\underline{u}\)</span>. If we form a right-angled triangle (the blue one) then we know the length of the hypotenuse, <span class="math notranslate nohighlight">\(|\underline{u}|\)</span>, and the angle so we can calculate the lengths of the adjacent and opposite sides using trigonometry. Remember our trig ratios (SOH-CAH-TOA)</p>
 <div class="math notranslate nohighlight">
 \[ \begin{align*}
-    \sin(\phi) &amp;= \frac{opposite}{hypotenuse}, &amp;
-    \cos(\phi) &amp;= \frac{adjacent}{hypotenuse}, &amp;
-    \tan(\phi) &amp;= \frac{adjacent}{opposite},
+    \sin(\phi) &amp;= \frac{\textsf{opposite}}{\textsf{hypotenuse}}, &amp;
+    \cos(\phi) &amp;= \frac{\textsf{adjacent}}{\textsf{hypotenuse}}, &amp;
+    \tan(\phi) &amp;= \frac{\textsf{adjacent}}{\textsf{opposite}},
 \end{align*} \]</div>
 <p class="sd-card-text">so the length of the adjacent and opposite sides of the blue triangle is</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
-    adjacent &amp;= hypotenuse \cdot \cos(\phi), \\
-    opposite &amp;= hypotenuse \cdot \sin(\phi).
+    \textsf{adjacent} &amp;= \textsf{hypotenuse} \cdot \cos(\phi), \\
+    \textsf{opposite} &amp;= \textsf{hypotenuse} \cdot \sin(\phi).
 \end{align*} \end{split}\]</div>
 <p class="sd-card-text">Now <span class="math notranslate nohighlight">\(u_x\)</span> and <span class="math notranslate nohighlight">\(u_y\)</span> are the lengths of the adjacent and opposite sides respectively and <span class="math notranslate nohighlight">\(|\underline{u}|\)</span> is the length of the hypotenuse then we have</p>
 <div class="math notranslate nohighlight">
@@ -809,7 +809,7 @@ Derivation of the axis-angle rotation matrix (click to show)<div class="sd-summa
 </ol>
 <p class="sd-card-text">The rotation around the <span class="math notranslate nohighlight">\(x\)</span>-axis is achieved by forming a right-angled triangle in the <span class="math notranslate nohighlight">\(yz\)</span>-plane where the the angle of rotation <span class="math notranslate nohighlight">\(\theta\)</span> has an adjacent side of length <span class="math notranslate nohighlight">\(v_z\)</span>, an opposite side of length <span class="math notranslate nohighlight">\(v_y\)</span> and a hypotenuse of length <span class="math notranslate nohighlight">\(\sqrt{v_y^2 + v_z^2}\)</span> (<a class="reference internal" href="#axis-angle-rotation1-figure"><span class="std std-numref">Fig. 5.7</span></a>).</p>
 <figure class="align-default" id="axis-angle-rotation1-figure">
-<a class="reference internal image-reference" href="../_images/05_axis_angle_rotation_2.svg"><img alt="../_images/05_axis_angle_rotation_2.svg" height="250" src="../_images/05_axis_angle_rotation_2.svg" /></a>
+<a class="reference internal image-reference" href="../_images/05_axis_angle_rotation_2.svg"><img alt="../_images/05_axis_angle_rotation_2.svg" height="220" src="../_images/05_axis_angle_rotation_2.svg" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 5.7 </span><span class="caption-text">Rotate <span class="math notranslate nohighlight">\(\underline{v}\)</span> around the <span class="math notranslate nohighlight">\(x\)</span>-axis</span><a class="headerlink" href="#axis-angle-rotation1-figure" title="Permalink to this image">#</a></p>
 </figcaption>

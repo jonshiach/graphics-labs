@@ -158,6 +158,8 @@ Multiplication by a scalar
 |2u| = 6
 ```
 
+(unit-vectors-section)= 
+
 ### Unit vectors
 
 A unit vector is a vector that has a magnitude of 1. We can find a unit vector that points in the same direction as a non-zero vector $\underline{a}$, which is denoted by $\hat{\underline{a}}$ (pronounced "a-hat"), by dividing by its magnitude, i.e.,

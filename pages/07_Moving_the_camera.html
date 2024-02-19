@@ -394,15 +394,15 @@ document.write(`
 </li>
 <li><p>Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).</p></li>
 </ol>
-<p>Compile and run the project and you will see the multiple cube examples we did at the end of the last lab.</p>
+<p>Compile and run the project and you will see the multiple cube example we had at the end of the last lab.</p>
 <section id="using-keyboard-input-to-move-the-camera">
 <h2><span class="section-number">7.1. </span>Using keyboard input to move the camera<a class="headerlink" href="#using-keyboard-input-to-move-the-camera" title="Permalink to this heading">#</a></h2>
 <p>The first thing we are going to do is to get keyboard input from the user and use it to move the camera. If you take a look at <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> we have used the function <code class="docutils literal notranslate"><span class="pre">glfwSetInputMode(window,</span> <span class="pre">GLFW_STICKY_KEYS,</span> <span class="pre">GL_TRUE)</span></code> which captures keyboard inputs for the <code class="docutils literal notranslate"><span class="pre">window</span></code> object and the do/while render loop checks for whether the escape key has been pressed to terminate the application. We are going to do similar for other keys.</p>
-<p>We are going to modify the <code class="docutils literal notranslate"><span class="pre">calculateMatrices()</span></code> method from the Camera class so that it can take inputs from the keyboard. To do this edit the <code class="docutils literal notranslate"><span class="pre">camera.hpp</span></code> file so that the method declaration looks like the following</p>
+<p>We are going to modify the <code class="docutils literal notranslate"><span class="pre">calculateMatrices()</span></code> method from the Camera class so that it can take inputs from the keyboard. To do this edit the <code class="docutils literal notranslate"><span class="pre">camera.hpp</span></code> file so that the method declaration takes in an input of a GLFW window object.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">calculateMatrices</span><span class="p">(</span><span class="n">GLFWwindow</span><span class="o">*</span><span class="w"> </span><span class="n">window</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>and of course don’t forget make a similar change the method in the <code class="docutils literal notranslate"><span class="pre">Camera.cpp</span></code> file. If you attempt to compile the program a compiler error will be thrown up because we also need to pass the <code class="docutils literal notranslate"><span class="pre">window</span></code> object into the method, so in the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file make this change</p>
+<p>Of course don’t forget make a similar change the method in the <code class="docutils literal notranslate"><span class="pre">Camera.cpp</span></code> file. If you attempt to compile the program a compiler error will be thrown up because we also need to pass the <code class="docutils literal notranslate"><span class="pre">window</span></code> object into the method, so in the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file make this change</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get the view and projection matrices from the camera library</span>
 <span class="n">camera</span><span class="p">.</span><span class="n">calculateMatrices</span><span class="p">(</span><span class="n">window</span><span class="p">);</span>
 </pre></div>
@@ -436,7 +436,7 @@ document.write(`
 </center>
 <section id="camera-movement-speed">
 <h3><span class="section-number">7.1.1. </span>Camera movement speed<a class="headerlink" href="#camera-movement-speed" title="Permalink to this heading">#</a></h3>
-<p>So it works but the camera movement is too quick meaning that the controls are too sensitive. To overcome this issue we can multiply the camera direction vector by number which we can choose to adjust the speed of the camera. Edit <code class="docutils literal notranslate"><span class="pre">camera.hpp</span></code> to add a <code class="docutils literal notranslate"><span class="pre">speed</span></code> attribute to the Camera class</p>
+<p>So it works but the camera movement is too quick resulting in controls are too sensitive. To overcome this issue we can multiply the camera direction vector by number which we can choose to adjust the speed of the camera. Edit <code class="docutils literal notranslate"><span class="pre">camera.hpp</span></code> to add a <code class="docutils literal notranslate"><span class="pre">speed</span></code> attribute to the Camera class</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Speed attributes</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5.0f</span><span class="p">;</span>
 </pre></div>
@@ -467,7 +467,7 @@ document.write(`
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>The result of making these changes is shown below.</p>
+<p>The result of making these changes means that the camera now moves at 5 units per second (since <span class="math notranslate nohighlight">\(\tt front\)</span> and <span class="math notranslate nohighlight">\(\tt right\)</span> are <a class="reference internal" href="04_vectors_and_matrices.html#unit-vectors-section"><span class="std std-ref">unit vectors</span></a>) is shown below.</p>
 <center>
 <video controls muted="true" loop="true" width="500">
     <source src="../07_keyboard_2.mp4" type="video/mp4">
@@ -477,7 +477,7 @@ document.write(`
 </section>
 <section id="using-the-mouse-to-point-the-camera">
 <h2><span class="section-number">7.2. </span>Using the mouse to point the camera<a class="headerlink" href="#using-the-mouse-to-point-the-camera" title="Permalink to this heading">#</a></h2>
-<p>We can now move the camera position using keyboard inputs but we can’t yet change the direction of camera. To do this we can use the mouse, first we need to tell GLFW to capture the mouse inputs so add the following code after where we told it to capture the keyboard inputs in the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file.</p>
+<p>We can now move the camera position using keyboard inputs but we can’t yet change the direction of camera, to do this we can use the mouse. First we need to tell GLFW to capture the mouse inputs so add the following code after where we told it to capture the keyboard inputs in the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Tell GLFW to capture our mouse</span>
 <span class="n">glfwSetInputMode</span><span class="p">(</span><span class="n">window</span><span class="p">,</span><span class="w"> </span><span class="n">GLFW_CURSOR</span><span class="p">,</span><span class="w"> </span><span class="n">GLFW_CURSOR_DISABLED</span><span class="p">);</span>
 <span class="n">glfwPollEvents</span><span class="p">();</span>
@@ -517,12 +517,10 @@ document.write(`
 </div>
 <p>The <span class="math notranslate nohighlight">\(\tt yaw\)</span> and <span class="math notranslate nohighlight">\(\tt pitch\)</span> angles increase when the cursor is moved to the right and above the window centre respectively. We now have <span class="math notranslate nohighlight">\(\tt yaw\)</span> and <span class="math notranslate nohighlight">\(\tt pitch\)</span> angles and need to convert to camera vectors. Using spherical to Cartesian conversion the <span class="math notranslate nohighlight">\(\tt front\)</span> vector is</p>
 <div class="math notranslate nohighlight">
-\[\begin{split} \begin{align*}
-  \tt front.x &amp;= \sin(\tt yaw) \cos(\tt pitch), \\
-  \tt front.y &amp;= \sin(\tt pitch), \\
-  \tt front.z &amp;= -\cos(\tt yaw) \cos(\tt pitch).
-\end{align*} \end{split}\]</div>
-<p>You don’t necessarily need to know where these come from but if you are curious click on the dropdown below.</p>
+\[ \begin{align*}
+  \tt front &amp;= \textsf{normalise}(\sin(\tt yaw) \cos(\tt pitch), \sin(\tt pitch), -\cos(\tt yaw) \cos(\tt pitch)).
+\end{align*} \]</div>
+<p>You don’t necessarily need to know where this comes from but if you are curious click on the dropdown below.</p>
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
 <summary class="sd-summary-title sd-card-header">
 Calculating the front vector from the yaw and pitch angles<div class="sd-summary-down docutils">
@@ -592,10 +590,10 @@ Calculating the front vector from the yaw and pitch angles<div class="sd-summary
 </details><p>The <span class="math notranslate nohighlight">\(\tt right\)</span> and <span class="math notranslate nohighlight">\(\tt up\)</span> camera vectors are calculated in a similar was to how we calculated the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix in <a class="reference internal" href="06_3D_worlds.html#view-matrix-section"><span class="std std-ref">Lab 6</span></a>, i.e.,</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
-  \tt right &amp;= \tt front \times worldUp, \\
-  \tt up &amp;= \tt right \times front.
+  \tt right &amp;= \textsf{normalise}(\tt front \times worldUp), \\
+  \tt up &amp;= \textsf{normalise}(\tt right \times front).
 \end{align*} \end{split}\]</div>
-<p>We also need to normalise the <span class="math notranslate nohighlight">\(\tt front\)</span>, <span class="math notranslate nohighlight">\(\tt right\)</span> and <span class="math notranslate nohighlight">\(\tt up\)</span> camera vectors so the camera movement is consistent in any direction. Add the following code to the <code class="docutils literal notranslate"><span class="pre">camera.cpp</span></code> file after we have updated the <span class="math notranslate nohighlight">\(\tt yaw\)</span> and <span class="math notranslate nohighlight">\(\tt pitch\)</span> angles.</p>
+<p>Add the following code to the <code class="docutils literal notranslate"><span class="pre">camera.cpp</span></code> file after we have updated the <span class="math notranslate nohighlight">\(\tt yaw\)</span> and <span class="math notranslate nohighlight">\(\tt pitch\)</span> angles.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Update camera vectors</span>
 <span class="n">front</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="n">cos</span><span class="p">(</span><span class="n">pitch</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sin</span><span class="p">(</span><span class="n">yaw</span><span class="p">)</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">sin</span><span class="p">(</span><span class="n">pitch</span><span class="p">),</span><span class="w"> </span><span class="o">-</span><span class="n">cos</span><span class="p">(</span><span class="n">yaw</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cos</span><span class="p">(</span><span class="n">pitch</span><span class="p">)));</span>
 <span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">cross</span><span class="p">(</span><span class="n">front</span><span class="p">,</span><span class="w"> </span><span class="n">worldUp</span><span class="p">));</span>
@@ -667,7 +665,7 @@ Calculating the front vector from the yaw and pitch angles<div class="sd-summary
 <h2><span class="section-number">7.4. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p>Change the <code class="docutils literal notranslate"><span class="pre">calculateMatrices()</span></code> Camera class method so that the camera position always has a <span class="math notranslate nohighlight">\(y\)</span> co-ordinate of 0, i.e., like a first person shooter game where the player cannot fly around the world.</p></li>
-<li><p>Add the ability for the user to perform a jump by pressing the space bar. The jump should last for 1 second and the camera should follow a smooth arc. Hint: the function <span class="math notranslate nohighlight">\(y = a\sin(\pi t)\)</span> produces values of <span class="math notranslate nohighlight">\(y=0\)</span> when <span class="math notranslate nohighlight">\(t=0\)</span> or <span class="math notranslate nohighlight">\(t = 1\)</span> and <span class="math notranslate nohighlight">\(y = 1\)</span> when <span class="math notranslate nohighlight">\(t = 0.5\)</span>.</p></li>
+<li><p>Add the ability for the user to perform a jump by pressing the space bar. The jump should last for 1 second and the camera should follow a smooth arc. Hint: the function <span class="math notranslate nohighlight">\(y = a\sin(\pi t)\)</span> produces values of <span class="math notranslate nohighlight">\(y=0\)</span> when <span class="math notranslate nohighlight">\(t=0\)</span> or <span class="math notranslate nohighlight">\(t = 1\)</span> and <span class="math notranslate nohighlight">\(y = a\)</span> when <span class="math notranslate nohighlight">\(t = 0.5\)</span>.</p></li>
 <li><p>Write your own class called <code class="docutils literal notranslate"><span class="pre">MyLib</span></code> with static member functions for each of the functions you have used from the glm library (e.g., <code class="docutils literal notranslate"><span class="pre">lookAt()</span></code>) and make use of them to calculate the <code class="docutils literal notranslate"><span class="pre">model</span></code>, <code class="docutils literal notranslate"><span class="pre">view</span></code> and <code class="docutils literal notranslate"><span class="pre">projection</span></code> matrices (you may make use of <code class="docutils literal notranslate"><span class="pre">glm::mat4</span></code> and <code class="docutils literal notranslate"><span class="pre">glm::vec3</span></code> types).</p></li>
 </ol>
 </section>
