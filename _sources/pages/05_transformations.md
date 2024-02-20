@@ -38,7 +38,7 @@ A problem we have is that no transformation matrix exists for applying translati
 $$(x, y, z) \cdot T = (x + t_x, y + t_y, z + t_z).$$
 
 (homogeneous-coordinates-section)=
-Don't worry, all is not lost. We can use a trick where we use <a href="https://en.wikipedia.org/wiki/Homogeneous_coordinates" target="_blank">**homogeneous**</a> co-ordinates instead. Homogeneous co-ordinates add another value, $w$ say, to the co-ordinates (known as Cartesian co-ordinates) such that when the $x$, $y$ and $z$ values are divided by $w$ we get the Cartesian co-ordinates.
+Don't worry, all is not lost. We can use a trick where we use <a href="https://en.wikipedia.org/wiki/Homogeneous_coordinates" target="_blank">**homogeneous**</a> co-ordinates instead. Homogeneous co-ordinates add another value, $w$ say, to the $(x, y, z)$ co-ordinates (these are known as Cartesian co-ordinates) such that when the $x$, $y$ and $z$ values are divided by $w$ we get the Cartesian co-ordinates.
 
 $$\underbrace{(x, y, z, w)}_{\textsf{homogeneous}} \equiv \underbrace{\left( \frac{x}{w}, \frac{y}{w}, \frac{z}{w} \right)}_{\textsf{Cartesian}}.$$
 

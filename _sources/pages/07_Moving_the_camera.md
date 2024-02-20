@@ -356,7 +356,7 @@ The source code for this lab, including the exercise solutions, can be downloade
 - [main.cpp](../code/Lab07_Moving_the_camera/main.cpp)
 - [camera.hpp](../code/Lab07_Moving_the_camera/camera.hpp)
 - [camera.cpp](../code/Lab07_Moving_the_camera/camera.cpp)
-- [camera_exercises.hpp](../code/Lab07_Moving_the_camera/camera.hpp) (solution to exercise 1 and 2)
-- [camera_exercises.cpp](../code/Lab07_Moving_the_camera/camera.cpp)
+- [camera_exercises.hpp](../code/Lab07_Moving_the_camera/camera_exercises.hpp) (solution to exercise 1 and 2)
+- [camera_exercises.cpp](../code/Lab07_Moving_the_camera/camera_exercises.cpp)
 
 Note the solution to exercise 3 has been omitted since it is a requirement for the higher mark band on the coursework assignment.

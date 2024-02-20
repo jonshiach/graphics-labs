@@ -295,7 +295,8 @@ $$ \begin{align*}
 Combining the translation and scaling matrices gives the orthographic projection matrix
 
 $$ \begin{align*}
-    \textsf{orthographic projection matrix} = 
+    \textsf{orthographic projection matrix} &=  \textsf{translation matrix} \cdot \textsf{scaling matrix}\\
+    &=
     \begin{pmatrix}
         \frac{2}{\textsf{right} - \textsf{left}} & 0 & 0 & 0 \\
         0 & \frac{2}{\textsf{top} - \textsf{bottom}} & 0 & 0 \\

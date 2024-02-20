@@ -653,7 +653,8 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
 <p class="sd-card-text">Combining the translation and scaling matrices gives the orthographic projection matrix</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
-    \textsf{orthographic projection matrix} = 
+    \textsf{orthographic projection matrix} &amp;=  \textsf{translation matrix} \cdot \textsf{scaling matrix}\\
+    &amp;=
     \begin{pmatrix}
         \frac{2}{\textsf{right} - \textsf{left}} &amp; 0 &amp; 0 &amp; 0 \\
         0 &amp; \frac{2}{\textsf{top} - \textsf{bottom}} &amp; 0 &amp; 0 \\
