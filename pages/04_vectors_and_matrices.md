@@ -158,6 +158,8 @@ Multiplication by a scalar
 |2u| = 6
 ```
 
+(unit-vectors-section)= 
+
 ### Unit vectors
 
 A unit vector is a vector that has a magnitude of 1. We can find a unit vector that points in the same direction as a non-zero vector $\underline{a}$, which is denoted by $\hat{\underline{a}}$ (pronounced "a-hat"), by dividing by its magnitude, i.e.,
@@ -309,7 +311,7 @@ The **cross product** between two vectors $\underline{a} = (a_x, a_y, a_z)$ and 
 
 $$ \underline{a} \times \underline{b} = (a_yb_z - a_zb_y, a_zb_x - a_xb_z, a_xb_y - a_yb_x). $$(eq:cross-product)
 
-The cross product between two vectors produces another vector that is perpendicular to both vectors. This is another incredibly useful result as it allows use to calculate **normal** vectors for polygons which are used in calculating how light is reflected off surfaces.
+The cross product between two vectors produces another vector that is perpendicular to both vectors. This is another incredibly useful result as it allows use to calculate [**normal vectors**](normal-vector-section) for polygons which are used in calculating how light is reflected off surfaces.
 
 ```{figure} ../images/04_cross_product.svg
 :height: 200
@@ -488,7 +490,9 @@ Check our examples above by adding the following code to your program.
 
 ```cpp
 // Matrix multiplication
-glm::mat2 B = glm::mat2(5.0f, 6.0f, 7.0f, 8.0f);
+glm::mat2 B = glm::mat2(1.0f);
+B[0][0] = 5, B[0][1] = 6;
+B[1][0] = 7, B[1][1] = 8;
 glm::mat2 AB = B * A;   // note the ordering!
 glm::mat2 BA = A * B;
 
@@ -629,7 +633,9 @@ $$ C = \begin{pmatrix} 1 & 2 \\ 3 & 6 \end{pmatrix}.$$
 Lets try to use glm to calculate the inverse of $C$.
 
 ```cpp
-glm::mat2 C = glm::mat2(1, 2, 3, 6);
+glm::mat2 C = glm::mat2(1.0f);
+C[0][0] = 1, C[0][1] = 2;
+C[1][0] = 3, C[1][1] = 6;
 glm::mat2 invC = glm::inverse(C);
 std::cout << "\nC =" <<glm::transpose(C) << std::endl;
 std::cout << "\ninvC =" <<glm::transpose(invC) << std::endl;
@@ -690,11 +696,12 @@ $$ \begin{align*}
 3. Create your own C++ class called MyLib using header and code files **MyLib.hpp** and **MyLib.cpp** respectively and define methods for calculating the following:
 
     (a) the length of a vector (equation {eq}`eq:vector-magnitude`);<br>
-    (b) the dot product of two vectors (equation {eq}`eq:dot-product`);<br>
-    (c) the cross product of two vectors (equation {eq}`eq:cross-product`);<br>
-    (d) the transpose of a $2 \times 2$ matrix; <br>
-    (e) the multiplication of two $2\times 2$ matrices (equation {eq}`eq:matrix-multiplication`);<br>
-    (f) the calculation of the inverse of a $2\times 2$ matrix. The inverse of the matrix $A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$ is
+    (b) normalising a vector (equation{eq}`eq:unit-vector`);<br>
+    (c) the dot product of two vectors (equation {eq}`eq:dot-product`);<br>
+    (d) the cross product of two vectors (equation {eq}`eq:cross-product`);<br>
+    (e) the transpose of a $2 \times 2$ matrix; <br>
+    (f) the multiplication of two $2\times 2$ matrices (equation {eq}`eq:matrix-multiplication`);<br>
+    (g) the calculation of the inverse of a $2\times 2$ matrix. The inverse of the matrix $A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$ is
 
  $$A^{-1} = \dfrac{1}{ad - bc} \begin{pmatrix} d & -b \\ -c & a \end{pmatrix}.$$
 

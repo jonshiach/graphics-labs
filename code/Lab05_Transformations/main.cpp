@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
-#include <cmath>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -93,9 +92,9 @@ int main( void )
     };
     
     // Create Vertex Buffer Object
-    GLuint VBO;
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    GLuint vertexBuffer;
+    glGenBuffers(1, &vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     
     // Create uv buffer
@@ -107,14 +106,37 @@ int main( void )
     // Use the shader program
     glUseProgram(shaderID);
     
+    /*
     // Define the translation matrix
     glm::mat4 translate = glm::mat4(1.0f);
-    translate[3][0] = 0.5f, translate[3][1] = 0.3f;
-   
-    std::cout << "translate = " << glm::transpose(translate) << "\n" <<  std::cout;
-  
+     translate[3][0] = 0.5f, translate[3][1] = 0.3f;
+    translate = glm::translate(glm::mat4(1.0f),                 // matrix to apply translation to
+                               glm::vec3(0.5f, 0.3f, 0.0f));    // translation vector (tx, ty, tz)
+    
+    std::cout << "translate = " << glm::transpose(translate) << "\n" << std::cout;
+    
+    // Define the scaling matrix
+    glm::mat4 scale = glm::mat4(1.0f);
+    scale[0][0] = 2.0f, scale[1][1] = 1.5f;
+    scale = glm::scale(glm::mat4(1.0f),               // matrix that scaling is applied to
+                       glm::vec3(2.0f, 1.5f, 1.0f));  // scaling factors (sx, sy, sz)
+    
+    std::cout << "\nscale = " << glm::transpose(scale) << "\n" << std::cout;
+    
+    // Define rotation matrix
+    glm::mat4 rotate = glm::mat4(1.0f);
+    float angle = glm::radians(45.0f);
+    rotate[0][0] = cos(angle),  rotate[0][1] = sin(angle);
+    rotate[1][0] = -sin(angle), rotate[1][1] = cos(angle);
+    rotate = glm::rotate(glm::mat4(1.0f),               // matrix that rotation is applied to
+                         glm::radians(45.0f),           // rotation angle
+                         glm::vec3(0.0f, 0.0f, 1.0f));  // vector to rotate around
+    
+    std::cout << "\nrotate = " << glm::transpose(rotate) << "\n" << std::cout;
+    
     // Calculate the transformation matrix
-    glm::mat4 transformation = translate;
+    glm::mat4 transformation = translate * rotate * scale;
+    */
     
     // Get the handle for the transformation matrix
     GLuint transformationID = glGetUniformLocation(shaderID, "transformation");
@@ -124,34 +146,42 @@ int main( void )
         // Clear the window
         glClear(GL_COLOR_BUFFER_BIT);
         
-        // Send the VBO to the shaders
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glVertexAttribPointer(
-                              0,           // attribute
-                              3,           // size
-                              GL_FLOAT,    // type
-                              GL_FALSE,    // normalise
-                              0,           // stride
-                              (void*)0     // offset
-                              );
-        
         // Bind the textures
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture1);
         glUniform1i(texture1ID, 0);
         
+        // Send the vertex buffer to the shaders
+        glEnableVertexAttribArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+        
         // Send the uv buffer to the shaders
         glEnableVertexAttribArray(1);
         glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
-        glVertexAttribPointer(
-                              1,           // attribute
-                              2,           // size
-                              GL_FLOAT,    // type
-                              GL_FALSE,    // normalise
-                              0,           // stride
-                              (void*)0     // offset
-                              );
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+        
+        /*
+        // Calculate the transformation matrix
+        float time = glfwGetTime();
+        glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.5f, 0.3f, 0.0f));
+        glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(2.0f, 1.5f, 1.0f));
+        glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), time, glm::vec3(0.0f, 0.0f, 1.0f));
+        glm::mat4 transformation = rotate * translate * scale;
+        */
+        
+        // Exercise 1
+        float time = glfwGetTime();
+        glm::mat4 translate = MyLib::translate(glm::mat4(1.0f), glm::vec3(0.5f * cos(time), 0.5f * sin(time), 0.0f));
+        
+        // Exercise 2
+        glm::mat4 rotate = MyLib::rotate(glm::mat4(1.0f), -2 * time, glm::vec3(0.0f, 0.0f, 1.0f));
+        
+        // Exercise 3
+        glm::mat4 scale = MyLib::scale(glm::mat4(1.0f), glm::vec3(1.0f + 0.5f * sin(5 * time), 1.0f + 0.5f * sin(5 * time), 1.0f));
+        
+        // Calculate transformation matrix
+        glm::mat4 transformation = translate * rotate * scale;
         
         // Send our transformation matrix to the vertex shader
         glUniformMatrix4fv(transformationID, 1, GL_FALSE, &transformation[0][0]);
@@ -171,7 +201,7 @@ int main( void )
            glfwWindowShouldClose(window) == 0 );
 
     // Cleanup
-    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &vertexBuffer);
     glDeleteBuffers(1, &uvBuffer);
     glDeleteVertexArrays(1, &VAO);
     glDeleteProgram(shaderID);

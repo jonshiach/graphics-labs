@@ -11,7 +11,7 @@ $$ (x',y',z') = (x, y, z) \cdot A. $$
 where $(x',y',z')$ are the co-ordinates of the transformed point.
 
 ````{note}
-The co-ordinate system used by OpenGL is a <a href="https://en.wikipedia.org/wiki/Right-hand_rule" target="_blank">right-hand</a> 3D co-ordinate system (on your right hand the thumb represents the $x$-axis, the index finger the $y$-axis and the middle finger the $z$-axis) with the $x$-axis pointing to the right, the $y$-axis point upwards and the $z$-axis pointing out of the screen towards the viewer.
+The co-ordinate system used by OpenGL is a <a href="https://en.wikipedia.org/wiki/Right-hand_rule" target="_blank">right-hand</a> 3D co-ordinate system (on your right hand the thumb represents the $x$-axis, the index finger the $y$-axis and the middle finger the $z$-axis) with the $x$-axis pointing to the right, the $y$-axis point upwards and the $z$-axis pointing out of the screen towards the user.
 
 ```{figure} ../images/05_opengl_axes.svg
 :width: 300
@@ -38,7 +38,7 @@ A problem we have is that no transformation matrix exists for applying translati
 $$(x, y, z) \cdot T = (x + t_x, y + t_y, z + t_z).$$
 
 (homogeneous-coordinates-section)=
-Don't worry, all is not lost. We can use a trick where we use <a href="https://en.wikipedia.org/wiki/Homogeneous_coordinates" target="_blank">**homogeneous**</a> co-ordinates instead. Homogeneous co-ordinates add another value, $w$ say, to the co-ordinates (known as Cartesian co-ordinates) such that when the $x$, $y$ and $z$ values are divided by $w$ we get the Cartesian co-ordinates.
+Don't worry, all is not lost. We can use a trick where we use <a href="https://en.wikipedia.org/wiki/Homogeneous_coordinates" target="_blank">**homogeneous**</a> co-ordinates instead. Homogeneous co-ordinates add another value, $w$ say, to the $(x, y, z)$ co-ordinates (these are known as Cartesian co-ordinates) such that when the $x$, $y$ and $z$ values are divided by $w$ we get the Cartesian co-ordinates.
 
 $$\underbrace{(x, y, z, w)}_{\textsf{homogeneous}} \equiv \underbrace{\left( \frac{x}{w}, \frac{y}{w}, \frac{z}{w} \right)}_{\textsf{Cartesian}}.$$
 
@@ -296,16 +296,16 @@ Rotating the vector $\underline{u}$ anti-clockwise by angle $\theta$ to the vect
 Consider {numref}`rotation-figure` where the vector $\underline{u}$ is rotated by angle $\theta$ to the vector $\underline{v}$. To get this rotation we first consider the rotation of the vector $\underline{t}$, which has the same length as $\underline{u}$ and points along the $x$-axis, by angle $\phi$ to get to $\underline{u}$. If we form a right-angled triangle (the blue one) then we know the length of the hypotenuse, $|\underline{u}|$, and the angle so we can calculate the lengths of the adjacent and opposite sides using trigonometry. Remember our trig ratios (SOH-CAH-TOA)
 
 $$ \begin{align*}
-    \sin(\phi) &= \frac{opposite}{hypotenuse}, &
-    \cos(\phi) &= \frac{adjacent}{hypotenuse}, &
-    \tan(\phi) &= \frac{adjacent}{opposite},
+    \sin(\phi) &= \frac{\textsf{opposite}}{\textsf{hypotenuse}}, &
+    \cos(\phi) &= \frac{\textsf{adjacent}}{\textsf{hypotenuse}}, &
+    \tan(\phi) &= \frac{\textsf{adjacent}}{\textsf{opposite}},
 \end{align*} $$
 
 so the length of the adjacent and opposite sides of the blue triangle is
 
 $$ \begin{align*}
-    adjacent &= hypotenuse \cdot \cos(\phi), \\
-    opposite &= hypotenuse \cdot \sin(\phi).
+    \textsf{adjacent} &= \textsf{hypotenuse} \cdot \cos(\phi), \\
+    \textsf{opposite} &= \textsf{hypotenuse} \cdot \sin(\phi).
 \end{align*} $$
 
 Now $u_x$ and $u_y$ are the lengths of the adjacent and opposite sides respectively and $|\underline{u}|$ is the length of the hypotenuse then we have
@@ -467,7 +467,7 @@ The rotation about the vector $\underline{v} = (v_x, v_y, v_z)$ by angle $\theta
 The rotation around the $x$-axis is achieved by forming a right-angled triangle in the $yz$-plane where the the angle of rotation $\theta$ has an adjacent side of length $v_z$, an opposite side of length $v_y$ and a hypotenuse of length $\sqrt{v_y^2 + v_z^2}$ ({numref}`axis-angle-rotation1-figure`). 
 
 ```{figure} ../images/05_axis_angle_rotation_2.svg
-:height: 250
+:height: 220
 :name: axis-angle-rotation1-figure
 
 Rotate $\underline{v}$ around the $x$-axis
@@ -618,13 +618,15 @@ After compiling and running the program you should see the following.
 :width: 500
 ```
 
+(animating-objects-section)= 
+
 ## Animating objects
 
 It may appear that our application is displaying a static image of the textured rectangle but what is actually happing is that the window is constantly being updated with new frame buffers as and when they have been calculated. We can animate our rectangle by applying the transformations within the render loop. We are going to rotate and translate the rectangle so that it appears to be rotating about its centre.
 
 If we calculate the transformation matrices inside the render loop we can move the rectangle around the window. A useful function to help us is `glfwGetTime()` from the GLFW library which returns the time in seconds since the GLFW window was created. If we have a time value that is always increasing we can use this to animate our rectangle.
 
-Comment out all of the code used to calculate the transformation matrices we have entered so far this lab but leave the line where we get the location of the `transformation` uniform.
+Comment out all of the code used to calculate the transformation matrices we have entered so far this lab but leave the line where we get the location of the transformation uniform.
 
 Inside the render loop just before we send the `transformation` matrix to the shader add the following code.
 

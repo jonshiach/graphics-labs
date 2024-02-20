@@ -2,7 +2,7 @@
 
 # 3D Worlds
 
-In the [Lab 6](transformations-section) we looked at the transformations can can be applied to the vertex co-ordinates $(x, y, z, 1)$ but all of our examples were using 2D objects. In this lab we will take the step into the third spatial dimension and look at 3D worlds.
+In [Lab 5](transformations-section) we looked at the transformations can can be applied to the vertex co-ordinates $(x, y, z, 1)$ but all of our examples were using 2D objects. In this lab we will take the step into the third spatial dimension and look at 3D worlds.
 
 First download and build the project files for this lab.
 
@@ -13,42 +13,10 @@ First download and build the project files for this lab.
 
 3. Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).
 
-## Co-ordinate systems
-
-OpenGL uses a co-ordinate system with the $x$ axis pointing horizontally to the right, the $y$ axis pointing vertically upwards and the $z$ axis pointing horizontally towards the viewer. To simplify things when it comes to displaying the 3D world, the axes are limited to a range from -1 to 1 so any object outside of this range will not be shown on the display. These are known as **Normalised Device Co-ordinates (NDC)**.
-
-```{figure} ../images/06_NDC.svg
-:width: 400
-:name: NDC-figure
-
-Normalise Device Co-ordinates (NDC)
-```
-
-The steps used in the creation of a 3D world and eventually displaying it on screen requires that we transform through several intermediate co-ordinate systems:
-
-- **Object space** - each individual 3D object that will appear in the 3D world is defined in its own space usually with the centre of the object at (0,0,0) to make the transformations easier.
-- **World space** - the 3D world is constructed by transforming the individual 3D objects using translation, rotation and scaling transformations. The co-ordinates of the objects is arbitrary and left to the choice of the designer of the 3D world.
-- **View space** - the world space is transformed so that the position of the viewer, in other words the camera, is at (0,0,0) and the direction the camera is pointing is down the $z$ axis, i.e., parallel to (0,0,-1).
-- **Screen space** - the view space is transformed so that the co-ordinates are in NDC. The volume of the view space that is contained in the screen space is chosen by the user.
-
-```{figure} ../images/06_mvp.svg
-:width: 500
-
-Transformations between different spaces.
-```
-
-We saw in [Lab 5](transformations-section) that we apply a transformation by multiplying the object co-ordinates by a transformation matrix. Since we are transforming between difference co-ordinate spaces we have 3 main transformation matrices
-
-- the **model** matrix - combined scaling, rotation and translation applied to each individual object
-- the **view** matrix - combined translation and alignment transformations
-- the **projection** matrix - combined projection of the view space and scaling to NDC
-
-The model, view and projection matrices are multiplied together to form a single matrix that applies all of the transformations to go from the object space to the screen space. This matrix is called the **MVP matrix**.
-
 ## 3D models
 
 To demonstrate building a simple 3D world we are going to need a 3D object. 
-One of the simplest 3D objects is a **unit cube** which is a cube centred at (0,0,0) and has side lengths of 2 parallel to the co-ordinate axes ({numref}`unit-cube-figure`) so the co-ordinates of the 8 vertices of the cube are combinations of -1 and 1.
+One of the simplest 3D objects is a **unit cube** which is a cube centred at (0,0,0) and has side lengths of 2 parallel to the co-ordinate axes ({numref}`unit-cube-figure`) so the co-ordinates of the 8 corners of the cube are combinations of -1 and 1.
 
 ```{figure} ../images/06_unit_cube.svg
 :width: 700
@@ -57,9 +25,9 @@ One of the simplest 3D objects is a **unit cube** which is a cube centred at (0,
 A unit cube.
 ```
 
-You may have noticed from [Lab 3](textures-section) that we used 6 vertices to define a rectangle which only has 4 corners which is obviously inefficient. To improve this can can use **indexing** where co-ordinates that are shared by difference triangles are only declared once and we use an index array that links each vertex to a co-ordinate. 
+You may have noticed from [Lab 3](textures-section) that we used 6 vertices to define a rectangle which only has 4 corners which is obviously inefficient. To improve this can can use **indexing** where co-ordinates that are shared by difference triangles are only declared once and we use an index array that links each vertex to a co-ordinate.
 
-For example, for the front size of the cube we have co-ordinates (-1,-1,1), (1,-1,1), (1,1,1) and (-1,1,1) so the two triangles will be indexed as 0, 1, 2 for the first triangle and 0, 1, 4 for the second. Note that we need to index the triangles so in an **anti-clockwise** order when looking at the front of the triangle so that the [normal vectors](normal-vector-section) are calculated properly.
+For example, for the front size of the cube we have co-ordinates (-1,-1,1), (1,-1,1), (1,1,1) and (-1,1,1) so the vertices of the two triangles can be indexed using 0, 1, 2 for the first triangle and 0, 1, 4 for the second. Note that we need to index the triangles so in an **anti-clockwise** order when looking at the front of the triangle so that the [normal vectors](normal-vector-section) are calculated properly.
 
 ```{figure} ../images/06_indexed_rectangle.svg
 :width: 400
@@ -127,9 +95,41 @@ To draw the triangles we now use `glDrawElements()` which uses element array buf
 glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLushort), GL_UNSIGNED_SHORT, (void*)0);
 ```
 
-If you compile and run this program you will see that the `crate.bmp` texture fills the window because our cube vertices are the same as the limits of the NDC.
+If you compile and run this program you will see that the `crate.bmp` texture fills the window.
+
+## Co-ordinate systems
+
+OpenGL uses a co-ordinate system with the $x$ axis pointing horizontally to the right, the $y$ axis pointing vertically upwards and the $z$ axis pointing horizontally towards the viewer. To simplify things when it comes to displaying the 3D world, the axes are limited to a range from -1 to 1 so any object outside of this range will not be shown on the display. These are known as **Normalised Device Co-ordinates (NDC)**.
+
+```{figure} ../images/06_NDC.svg
+:width: 400
+:name: NDC-figure
+
+Normalise Device Co-ordinates (NDC)
+```
+
+The steps used in the creation of a 3D world and eventually displaying it on screen requires that we transform through several intermediate co-ordinate systems:
+
+- **Object space** - each individual 3D object that will appear in the 3D world is defined in its own space usually with the centre of the object at (0,0,0) to make the transformations easier.
+- **World space** - the 3D world is constructed by transforming the individual 3D objects using translation, rotation and scaling transformations. The co-ordinates of the objects is arbitrary and left to the choice of the designer of the 3D world.
+- **View space** - the world space is transformed so that the position of the viewer, in other words the camera, is at (0,0,0) and the direction the camera is pointing is down the $z$ axis, i.e., parallel to (0,0,-1).
+- **Screen space** - the view space is transformed so that the co-ordinates are in NDC. The volume of the view space that is contained in the screen space is chosen by the user.
+
+```{figure} ../images/06_mvp.svg
+:width: 500
+
+Transformations between different spaces.
+```
 
 ## Model, view and projection matrices
+
+We saw in [Lab 5](transformations-section) that we apply a transformation by multiplying the object co-ordinates by a transformation matrix. Since we are transforming between difference co-ordinate spaces we have 3 main transformation matrices
+
+- the **model** matrix - combined scaling, rotation and translation applied to each individual object
+- the **view** matrix - combined translation and alignment transformations
+- the **projection** matrix - combined projection of the view space and scaling to NDC
+
+The model, view and projection matrices are multiplied together to form a single matrix that applies all of the transformations to go from the object space to the screen space. This matrix is called the **MVP matrix**.
 
 ### The model matrix
 
@@ -150,6 +150,7 @@ glm::mat4 model = translate * rotate * scale;
 Here we have calculated the individual transformation matrices for translation, scaling and rotation and multiply them to give the `model` matrix.
 
 (view-matrix-section)=
+
 ### The view matrix
 
 OpenGL assumes that the camera is always at (0,0,0) and looking down the $z$-axis so we need to transform the co-ordinates to this **view space** ({numref}`view-space-figure`).
@@ -163,8 +164,8 @@ The view space.
 
 To calculate the world space to view space transformation we require three vectors
 
-- $\tt cameraPos$ - the co-ordinates of the camera position 
-- $\tt target$ - the co-ordinates of the target point where we are pointing the camera;
+- $\tt cameraPos$ - the co-ordinates of the camera position
+- $\tt target$ - the co-ordinates of the target point which the camera is looking at;
 - $\tt worldUp$ - a vector pointing straight up in the world space which allows us to orientate the camera, this is usually always (0,1,0).
 
 The $\tt cameraPos$ and $\tt target$ vectors are either determined by the user through keyboard, mouse or controller inputs or through some predetermined routine. To determine the view space transformation we first translate the camera position to (0,0,0) using the following translation matrix
@@ -225,7 +226,7 @@ glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 glm::vec3 cameraFront = glm::normalize(target - cameraPos);
 glm::vec3 cameraRight = glm::normalize(glm::cross(cameraFront, worldUp));
-glm::vec3 cameraUp = glm::cross(cameraRight, cameraFront);
+glm::vec3 cameraUp = glm::normalize(glm::cross(cameraRight, cameraFront));
 
 glm::mat4 align = glm::mat4(1.0f);
 translate[3][0] = -cameraPos[0], translate[3][1] = -cameraPos[1], translate[3][2] = -cameraPos[2];
@@ -294,7 +295,8 @@ $$ \begin{align*}
 Combining the translation and scaling matrices gives the orthographic projection matrix
 
 $$ \begin{align*}
-    \textsf{orthographic projection matrix} = 
+    \textsf{orthographic projection matrix} &=  \textsf{translation matrix} \cdot \textsf{scaling matrix}\\
+    &=
     \begin{pmatrix}
         \frac{2}{\textsf{right} - \textsf{left}} & 0 & 0 & 0 \\
         0 & \frac{2}{\textsf{top} - \textsf{bottom}} & 0 & 0 \\
@@ -765,7 +767,7 @@ void Camera::calculateMatrices()
 
 The `Camera()` constructor takes in a single input of the camera position and instantiates the `position` attribute. The `front`, `right`, `up` and `worldUp` vectors are instantiated with default values.
 
-Now we've created our Camera class we need to include it and make calls to the library functions. Add `#include "camera.hpp` to the top of the `main.cpp` file and create a Camera object before the `main()` declaration.
+Now we've created our Camera class we need to include it and make calls to the library functions. Add `#include "camera.hpp"` to the top of the `main.cpp` file and create a Camera object before the `main()` function declaration.
 
 ```cpp
 // Create camera object
