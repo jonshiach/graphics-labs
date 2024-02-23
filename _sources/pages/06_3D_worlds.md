@@ -25,74 +25,38 @@ One of the simplest 3D objects is a **unit cube** which is a cube centred at (0,
 A unit cube.
 ```
 
-You may have noticed from [Lab 3](textures-section) that we used 6 vertices to define a rectangle which only has 4 corners which is obviously inefficient. To improve this can can use **indexing** where co-ordinates that are shared by difference triangles are only declared once and we use an index array that links each vertex to a co-ordinate.
-
-For example, for the front size of the cube we have co-ordinates (-1,-1,1), (1,-1,1), (1,1,1) and (-1,1,1) so the vertices of the two triangles can be indexed using 0, 1, 2 for the first triangle and 0, 1, 4 for the second. Note that we need to index the triangles so in an **anti-clockwise** order when looking at the front of the triangle so that the [normal vectors](normal-vector-section) are calculated properly.
-
-```{figure} ../images/06_indexed_rectangle.svg
-:width: 400
-:name: indexed-rectangle-figure
-
-Drawing a rectangle with and without vertex indexing.
-```
-
-Open up the project and take a look at the `main.cpp` file and you will see that the arrays `vertices`, `indices` and `uvCoords` arrays have been defined for our unit cube.
+Open up the project and take a look at the `main.cpp` file and you will see that the arrays `vertices` and `uvCoords` arrays have been defined for our unit cube.
 
 ```cpp
 // Define vertex co-ordinates
 static const GLfloat vertices[] = {
-    // front
-    -1.0f, -1.0f,  1.0f,    //              + ------ +
-     1.0f, -1.0f,  1.0f,    //             /|       /|
-     1.0f,  1.0f,  1.0f,    //   y        / |      / |
-    -1.0f,  1.0f,  1.0f,    //   |       + ------ +  |
-    // right                //   + - x   |  + ----|- +
-     1.0f, -1.0f,  1.0f,    //  /        | /      | /
-     1.0f, -1.0f, -1.0f,    // z         |/       |/
-     1.0f,  1.0f, -1.0f,    //           + ------ +
-     1.0f,  1.0f,  1.0f,
-
-    // etc.
-};
-
-// Define vertex indices
-GLushort indices[] = {
-    // front
-    0, 1, 2,
-    0, 2, 3,
-    // right (add 4 to the indices of the previous side)
-    4, 5, 6,
-    4, 6, 7,
-
+   // front
+   -1.0f, -1.0f,  1.0f,    //              + ------ +
+    1.0f, -1.0f,  1.0f,    //             /|       /|
+    1.0f,  1.0f,  1.0f,    //   y        / |      / |
+   -1.0f, -1.0f,  1.0f,    //   |       + ------ +  |
+    1.0f,  1.0f,  1.0f,    //   + - x   |  + ----|- +
+   -1.0f,  1.0f,  1.0f,    //  /        | /      | /
+   // right                // z         |/       |/
+    1.0f, -1.0f,  1.0f,    //           + ------ +
+    1.0f, -1.0f, -1.0f,
+    1.0f,  1.0f, -1.0f,
+    1.0f, -1.0f,  1.0f,
+    1.0f,  1.0f, -1.0f,
+    1.0f,  1.0f,  1.0f,
     // etc.
 };
 
 // Define texture vertices
 static const GLfloat uvCoords[] = {
-    0.0f, 0.0f,     // vertex co-ordinates are the same for each side
-    1.0f, 0.0f,     // of the cube so repeat every four vertices
-    1.0f, 1.0f,
-    0.0f, 1.0f,
-
-    // etc.
+   0.0f, 0.0f,     // vertex co-ordinates are the same for each side
+   1.0f, 0.0f,     // of the cube so repeat every six vertices
+   1.0f, 1.0f,
+   0.0f, 0.0f,
+   1.0f, 1.0f,
+   0.0f, 1.0f,
+   // etc.
 };
-```
-
-To create a buffer for the indices we use an **element array buffer** which is created in a similar way to the co-ordinate buffers with the exception that the type of buffer is `GL_ELEMENT_ARRAY_BUFFER` instead of `GL_ARRAY_BUFFER`. 
-
-```cpp
-// Create element buffer
-GLuint elementBuffer;
-glGenBuffers(1, &elementBuffer);
-glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
-glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices[0], GL_STATIC_DRAW);
-```
-
-To draw the triangles we now use `glDrawElements()` which uses element array buffer to index the co-ordinate arrays.
-
-```cpp
-// Draw the triangles
-glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLushort), GL_UNSIGNED_SHORT, (void*)0);
 ```
 
 If you compile and run this program you will see that the `crate.bmp` texture fills the window.
@@ -707,9 +671,7 @@ public:
     
     // Camera vectors
     glm::vec3 position;
-    glm::vec3 front;
-    glm::vec3 right;
-    glm::vec3 up;
+    glm::vec3 target;
     glm::vec3 worldUp;
     
     // Transformation matrices
@@ -739,9 +701,7 @@ In the `camera.cpp` code file add the following code
 Camera::Camera(const glm::vec3 Position)
 {
     position = Position;
-    front = glm::vec3(0.0f, 0.0f, -1.0f);
-    right = glm::vec3(1.0f, 0.0f, 0.0f);
-    up = glm::vec3(0.0f, 1.0f, 0.0f);
+    target = glm::vec3(0.0f, 0.0f, 0.0f);
     worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 }
 
@@ -758,14 +718,14 @@ glm::mat4 Camera::getProjectionMatrix()
 void Camera::calculateMatrices()
 {
     // Calculate view matrix
-    view = glm::lookAt(position, position + front, up);
+    view = glm::lookAt(position, target, worldUp);
     
     // Calculate projection matrix
     projection = glm::perspective(fov, aspect, near, far);
 }
 ```
 
-The `Camera()` constructor takes in a single input of the camera position and instantiates the `position` attribute. The `front`, `right`, `up` and `worldUp` vectors are instantiated with default values.
+The `Camera()` constructor takes in a single input of the camera position and instantiates the `position` attribute with this position. The `target` and `worldUp` vectors are instantiated with default values.
 
 Now we've created our Camera class we need to include it and make calls to the library functions. Add `#include "camera.hpp"` to the top of the `main.cpp` file and create a Camera object before the `main()` function declaration.
 
@@ -801,7 +761,7 @@ Compile and run your code and it should give the same result as before.
 
 The source code for this lab, including the exercise solutions, can be downloaded using the links below.
 
-- [Lab06_no_depth_test.cpp](../code/Lab06_3D_worlds/Lab06_no_depth_test.cpp) - single cube with orthnographic projection and no depth testing
+- [Lab06_no_depth_test.cpp](../code/Lab06_3D_worlds/Lab06_no_depth_test.cpp) - single cube with orthographic projection and no depth testing
 - [main.cpp](../code/Lab06_3D_worlds/main.cpp) - multiple cubes using the Camera class
 - [camera.hpp](../code/Lab06_3D_worlds/camera.hpp)
 - [camera.cpp](../code/Lab06_3D_worlds/camera.cpp)

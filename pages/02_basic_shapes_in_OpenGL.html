@@ -440,13 +440,13 @@ document.write(`
 </div>
 <p id="vbo-section">We now need to define a <a href="https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Buffer_Object" target="_blank"><strong>Vertex Buffer Object (VBO)</strong></a> which is how we transfer the vertex data from the CPU to the GPU.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create Vertex Buffer Object (VBO)</span>
-<span class="n">GLuint</span><span class="w"> </span><span class="n">VBO</span><span class="p">;</span>
-<span class="n">glGenBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">VBO</span><span class="p">);</span>
-<span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span><span class="w"> </span><span class="n">VBO</span><span class="p">);</span>
+<span class="n">GLuint</span><span class="w"> </span><span class="n">vertexBuffer</span><span class="p">;</span>
+<span class="n">glGenBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">vertexBuffer</span><span class="p">);</span>
+<span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span><span class="w"> </span><span class="n">vertexBuffer</span><span class="p">);</span>
 <span class="n">glBufferData</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">vertices</span><span class="p">),</span><span class="w"> </span><span class="n">vertices</span><span class="p">,</span><span class="w"> </span><span class="n">GL_STATIC_DRAW</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Here, after creating and binding the VBO we copy across the co-ordinates stored in the <code class="docutils literal notranslate"><span class="pre">vertices</span></code> array to the VBO using the <code class="docutils literal notranslate"><span class="pre">glBufferData()</span></code> function.</p>
+<p>Here, after creating and binding the vertex buffer we copy across the co-ordinates stored in the <code class="docutils literal notranslate"><span class="pre">vertices</span></code> array to the vertex buffer using the <code class="docutils literal notranslate"><span class="pre">glBufferData()</span></code> function.</p>
 </section>
 <hr class="docutils" />
 <section id="write-and-compile-the-shader">
@@ -529,10 +529,10 @@ document.write(`
 <span class="n">glUseProgram</span><span class="p">(</span><span class="n">shaderID</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Now we need to bind the VBO to the VAO to send all of the data to the shaders for OpenGL to interpret. In the do/while loop add the following code after the window has been cleared.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Send the VBO to the shaders</span>
+<p>Now we need to bind the vertex buffer to the VAO to send all of the data to the shaders for OpenGL to interpret. In the do/while loop add the following code after the window has been cleared.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Send the vertex buffer to the shaders</span>
 <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-<span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span><span class="w"> </span><span class="n">VBO</span><span class="p">);</span>
+<span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span><span class="w"> </span><span class="n">vertexBuffer</span><span class="p">);</span>
 <span class="n">glVertexAttribPointer</span><span class="p">(</span>
 <span class="w">                      </span><span class="mi">0</span><span class="p">,</span><span class="w">           </span><span class="c1">// attribute</span>
 <span class="w">                      </span><span class="mi">3</span><span class="p">,</span><span class="w">           </span><span class="c1">// size</span>
@@ -546,7 +546,7 @@ document.write(`
 <p>The three functions we’ve used here are:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">glEnableVertexAttribArray()</span></code> enables a generic vertex array so we can pass our triangle data to OpenGL;</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">glBindBuffer()</span></code> binds our VBO to OpenGL;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">glBindBuffer()</span></code> binds our vertex buffer to OpenGL;</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">glVertexAttribPointer()</span></code> tells OpenGL how to interpret the data we are sending it. The input arguments are explained below.</p></li>
 </ul>
 <table class="table">
@@ -585,7 +585,7 @@ document.write(`
 <p>The <code class="docutils literal notranslate"><span class="pre">glDrawArrays()</span></code> command tells OpenGL that we wish to draw triangles, the <code class="docutils literal notranslate"><span class="pre">0</span></code> specifies that the first vertex starts at the 0 index in the buffer and the <code class="docutils literal notranslate"><span class="pre">3</span></code> specifies the number of vertices we want to draw. Since we no longer need the vertex attribute array, we disable it using <code class="docutils literal notranslate"><span class="pre">glDisableVertexAttribArray()</span></code>.</p>
 <p>Don’t get too excited just yet. As good programmers we should clean up after ourselves and not leave bits of data lying around. After the close of the do/while loop we de-allocate the vertex and buffer objects as well as deleting the shader program.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Cleanup</span>
-<span class="n">glDeleteBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">VBO</span><span class="p">);</span>
+<span class="n">glDeleteBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">vertexBuffer</span><span class="p">);</span>
 <span class="n">glDeleteVertexArrays</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">VAO</span><span class="p">);</span>
 <span class="n">glDeleteProgram</span><span class="p">(</span><span class="n">shaderID</span><span class="p">);</span>
 </pre></div>
@@ -614,7 +614,7 @@ document.write(`
 </pre></div>
 </div>
 <p>Here we have assigned the colour red to the first (bottom-left) vertex, green to the second (bottom-right) vertex and blue to the third (top) vertex.</p>
-<p>Like the VBO, we need to create and bind a buffer for the colours.</p>
+<p>Like the vertex buffer, we need to create and bind a buffer for the colours.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create colour buffer</span>
 <span class="n">GLuint</span><span class="w"> </span><span class="n">colourBuffer</span><span class="p">;</span>
 <span class="n">glGenBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">colourBuffer</span><span class="p">);</span>
