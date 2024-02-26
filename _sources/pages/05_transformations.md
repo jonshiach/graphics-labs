@@ -368,7 +368,7 @@ The rotation matrices for the rotation around the $x$ and $y$ axes are derived u
 ````
 
 ```{note}
-You may find some sources present the rotation matrices in a slightly different way where the negative sign for the $\sin(\theta)$ is swapped (see <a href="https://en.wikipedia.org/wiki/Rotation_matrix" target="_blank">Wikipedia</a> for an example). This is because these assume that the vertices are multiplied by the transformation matrix on the left, e.g., $(x', y', z', 1)^\mathsf{T} = T\cdot (x, y, z, 1)^\mathsf{T}$. With OpenGL we multiply by the transformation matrix on the right, e.g., $(x', y', y', 1) = (x, y, z, 1) \cdot T$ (although of course in our code this would be `T * [x, y, z, 1]` since OpenGL uses column-major order - this can get quite confusing!). 
+You may find some sources present the rotation matrices in a slightly different way where the negative sign for $\sin(\theta)$ is swapped (see <a href="https://en.wikipedia.org/wiki/Rotation_matrix" target="_blank">Wikipedia</a> for an example). This is because these assume that the vertices are multiplied by the transformation matrix on the left, e.g., $(x', y', z', 1)^\mathsf{T} = T\cdot (x, y, z, 1)^\mathsf{T}$. With OpenGL we multiply by the transformation matrix on the right, e.g., $(x', y', y', 1) = (x, y, z, 1) \cdot T$ (although of course in our code this would be `T * [x, y, z, 1]` since OpenGL uses column-major order - this can get quite confusing!). 
 ```
 
 ### Rotation in OpenGL
