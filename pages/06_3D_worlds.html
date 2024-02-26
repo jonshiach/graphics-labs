@@ -509,6 +509,12 @@ One of the simplest 3D objects is a <strong>unit cube</strong> which is a cube c
 <li><p><span class="math notranslate nohighlight">\(\tt target\)</span> - the co-ordinates of the target point which the camera is looking at;</p></li>
 <li><p><span class="math notranslate nohighlight">\(\tt worldUp\)</span> - a vector pointing straight up in the world space which allows us to orientate the camera, this is usually always (0,1,0).</p></li>
 </ul>
+<figure class="align-default" id="view-space-alignment-figure">
+<a class="reference internal image-reference" href="../_images/06_view_space_alignment.svg"><img alt="../_images/06_view_space_alignment.svg" src="../_images/06_view_space_alignment.svg" width="500" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 6.5 </span><span class="caption-text">The vectors used in the transformation to the view space.</span><a class="headerlink" href="#view-space-alignment-figure" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>The <span class="math notranslate nohighlight">\(\tt cameraPos\)</span> and <span class="math notranslate nohighlight">\(\tt target\)</span> vectors are either determined by the user through keyboard, mouse or controller inputs or through some predetermined routine. To determine the view space transformation we first translate the camera position to (0,0,0) using the following translation matrix</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
@@ -521,12 +527,6 @@ One of the simplest 3D objects is a <strong>unit cube</strong> which is a cube c
     \end{pmatrix}
 \end{align*}. \end{split}\]</div>
 <p>The next step is to align the world space so that the direction vector is pointing down the <span class="math notranslate nohighlight">\(z\)</span> axis. To do this we use vectors <span class="math notranslate nohighlight">\(\tt cameraRight\)</span>, <span class="math notranslate nohighlight">\(\tt cameraUp\)</span> and <span class="math notranslate nohighlight">\(\tt cameraFront\)</span> which are unit vectors at right-angles to each other the point in directions relative to the camera (<a class="reference internal" href="#view-space-alignment-figure"><span class="std std-numref">Fig. 6.5</span></a>).</p>
-<figure class="align-default" id="view-space-alignment-figure">
-<a class="reference internal image-reference" href="../_images/06_view_space_alignment.svg"><img alt="../_images/06_view_space_alignment.svg" src="../_images/06_view_space_alignment.svg" width="500" /></a>
-<figcaption>
-<p><span class="caption-number">Fig. 6.5 </span><span class="caption-text">The vectors used in the transformation to the view space.</span><a class="headerlink" href="#view-space-alignment-figure" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
 <p>The <span class="math notranslate nohighlight">\(\tt cameraFront\)</span> vector points directly forward of the camera and is calculated using</p>
 <div class="math notranslate nohighlight">
 \[ \texttt{cameraFront} = \textsf{normalise}(\tt target - cameraPos).\]</div>
@@ -634,7 +634,7 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
     \end{pmatrix}
 \end{align*} \end{split}\]</div>
 </div>
-</details><p>Lets calculate the orthographic projection matrix using left = -2, right = 2, bottom = -2, top = 2, near = 0, far = 10 and send it to the vertex shader. Add the following code after we calculate the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix.</p>
+</details><p>Lets calculate the orthographic projection matrix using left = -2, right = 2, bottom = -2, top = 2, near = 0, far = 10. Add the following code after we calculate the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate projection matrix (orthographic projection)</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="n">near</span><span class="p">,</span><span class="w"> </span><span class="n">far</span><span class="p">,</span><span class="w"> </span><span class="n">top</span><span class="p">,</span><span class="w"> </span><span class="n">bottom</span><span class="p">;</span>
 <span class="n">left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">-2.0f</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">;</span>

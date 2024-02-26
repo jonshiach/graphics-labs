@@ -132,6 +132,13 @@ To calculate the world space to view space transformation we require three vecto
 - $\tt target$ - the co-ordinates of the target point which the camera is looking at;
 - $\tt worldUp$ - a vector pointing straight up in the world space which allows us to orientate the camera, this is usually always (0,1,0).
 
+```{figure} ../images/06_view_space_alignment.svg
+:width: 500
+:name: view-space-alignment-figure
+
+The vectors used in the transformation to the view space.
+```
+
 The $\tt cameraPos$ and $\tt target$ vectors are either determined by the user through keyboard, mouse or controller inputs or through some predetermined routine. To determine the view space transformation we first translate the camera position to (0,0,0) using the following translation matrix
 
 $$ \begin{align*}
@@ -145,13 +152,6 @@ $$ \begin{align*}
 \end{align*}. $$
 
 The next step is to align the world space so that the direction vector is pointing down the $z$ axis. To do this we use vectors $\tt cameraRight$, $\tt cameraUp$ and $\tt cameraFront$ which are unit vectors at right-angles to each other the point in directions relative to the camera ({numref}`view-space-alignment-figure`).
-
-```{figure} ../images/06_view_space_alignment.svg
-:width: 500
-:name: view-space-alignment-figure
-
-The vectors used in the transformation to the view space.
-```
 
 The $\tt cameraFront$ vector points directly forward of the camera and is calculated using
 
@@ -270,7 +270,7 @@ $$ \begin{align*}
 \end{align*} $$
 ```
 
-Lets calculate the orthographic projection matrix using left = -2, right = 2, bottom = -2, top = 2, near = 0, far = 10 and send it to the vertex shader. Add the following code after we calculate the `view` matrix.
+Lets calculate the orthographic projection matrix using left = -2, right = 2, bottom = -2, top = 2, near = 0, far = 10. Add the following code after we calculate the `view` matrix.
 
 ```cpp
 // Calculate projection matrix (orthographic projection)

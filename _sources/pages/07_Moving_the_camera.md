@@ -311,16 +311,16 @@ A surface is said to be back facing it its normal vector is pointing away from t
 Back face culling removes surfaces with vectors pointing away from the camera.
 ```
 
-But how do we know if a surface is front facing? Consider {numref}`front-facing-figure` which shows a front facing surface.
+But how do we know if a surface is front facing? Consider {numref}`back-facing-figure` which shows a back facing surface.
 
-```{figure} /images/07_front_facing.svg
+```{figure} /images/07_back_facing.svg
 :width: 400
-:name: front-facing-figure
+:name: back-facing-figure
 
-A front facing surface.
+A back facing surface.
 ```
 
-The $\tt angle$ between the $\tt normal$ vector and the $\tt\text{viewVector}$, which is a vector from the camera to the surface, is greater than 90$^\circ$. If the surface was back facing then $\tt angle$ would be less than 90$^\circ$. Recall that the [dot product](dot-product-section) is related to the angle between two vectors, i.e., 
+The $\tt angle$ between the $\tt normal$ vector and the $\tt\text{viewVector}$, which is a vector from the camera to the surface, is less than 90$^\circ$. Recall that the [dot product](dot-product-section) is related to the angle between two vectors, i.e.,
 
 $$ \tt normal \cdot \text{viewVector} = | normal | | \text{viewVector} | \cos(angle). $$
 
