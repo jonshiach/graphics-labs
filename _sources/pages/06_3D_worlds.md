@@ -421,7 +421,7 @@ The mapping of a point in the view space with co-ordinates $(x, y, z)$ onto the 
 Mapping of the point at $(x,y,z)$ onto the near plane using perspective.
 ```
 
-The ratio of $x$ to $-z$ distances is the same as the ratio of $x'$ to $\textsf{near}$ distances (and similar for $y'$) so
+The ratio of $x$ to $-z$ distance is the same as the ratio of $x'$ to $\textsf{near}$ distance (and similar for $y'$) so
 
 $$ \begin{align*}
     \frac{x}{-z} &= \frac{x'}{\textsf{near}} &\implies
