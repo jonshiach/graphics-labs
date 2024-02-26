@@ -636,7 +636,7 @@ for (int i = 0; i < 10; i++)
     glUniformMatrix4fv(mvpID, 1, GL_FALSE, &mvp[0][0]);
     
     // Draw the triangle
-    glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLushort), GL_UNSIGNED_SHORT, (void*)0);
+    glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / (sizeof(float) * 3));
 }
 ```
 
