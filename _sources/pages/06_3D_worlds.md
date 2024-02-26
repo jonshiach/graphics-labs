@@ -15,8 +15,7 @@ First download and build the project files for this lab.
 
 ## 3D models
 
-To demonstrate building a simple 3D world we are going to need a 3D object. 
-One of the simplest 3D objects is a **unit cube** which is a cube centred at (0,0,0) and has side lengths of 2 parallel to the co-ordinate axes ({numref}`unit-cube-figure`) so the co-ordinates of the 8 corners of the cube are combinations of -1 and 1.
+To demonstrate building a simple 3D world we are going to need a 3D object. One of the simplest 3D objects is a **unit cube** which is a cube centred at (0,0,0) and has side lengths of 2 parallel to the co-ordinate axes ({numref}`unit-cube-figure`) so the co-ordinates of the 8 corners of the cube are combinations of -1 and 1.
 
 ```{figure} ../images/06_unit_cube.svg
 :width: 700

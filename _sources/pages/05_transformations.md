@@ -97,7 +97,7 @@ Add the following code to the `main.cpp` file before the do/while loop.
 glm::mat4 translate = glm::mat4(1.0f);
 translate[3][0] = 0.5f, translate[3][1] = 0.3f;
 
-std::cout << "translate = " << glm::transpose(translate) << "\n" << std::cout;
+std::cout << "translate = " << glm::transpose(translate) << "\n" << std::endl;
 ```
 
 The output command is there to check we have defined the translation matrix correctly. You should see the following in the output terminal (the window hasn't changed, we'll do that in a minute).
