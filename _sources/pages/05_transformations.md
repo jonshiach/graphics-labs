@@ -308,7 +308,7 @@ $$ \begin{align*}
     \textsf{opposite} &= \textsf{hypotenuse} \cdot \sin(\phi).
 \end{align*} $$
 
-Now $u_x$ and $u_y$ are the lengths of the adjacent and opposite sides respectively and $|\underline{u}|$ is the length of the hypotenuse then we have
+Now $u_x$ and $u_y$ are the lengths of the adjacent and opposite sides respectively and $|\underline{u}|$ is the length of the hypotenuse so we have
 
 $$ \begin{align*}
     u_x &= |\underline{u}| \cos(\phi), \\
