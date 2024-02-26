@@ -761,7 +761,7 @@ Compile and run your code and it should give the same result as before.
 
 The source code for this lab, including the exercise solutions, can be downloaded using the links below.
 
-- [Lab06_no_depth_test.cpp](../code/Lab06_3D_worlds/Lab06_no_depth_test.cpp) - single cube with orthographic projection and no depth testing
+- [main_no_depth_test.cpp](../code/Lab06_3D_worlds/main_no_depth_test.cpp) - single cube with orthographic projection and no depth testing
 - [main.cpp](../code/Lab06_3D_worlds/main.cpp) - multiple cubes using the Camera class
 - [camera.hpp](../code/Lab06_3D_worlds/camera.hpp)
 - [camera.cpp](../code/Lab06_3D_worlds/camera.cpp)
