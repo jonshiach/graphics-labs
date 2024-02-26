@@ -339,7 +339,7 @@ Compile and run the program and you should see the following.
 </video>
 </center>
 
-If you are having difficulty getting to this stage take a look at the source code [main.cpp](../code/Lab06_3D_worlds/Lab06_no_depth_test.cpp) and vertex shader [vertexShader.vert](../code/Lab06_3D_worlds/vertexShader.vert).
+If you are having difficulty getting to this stage take a look at the source code [main.cpp](../code/Lab06_3D_worlds/main_no_depth_test.cpp) and vertex shader [vertexShader.vert](../code/Lab06_3D_worlds/vertexShader.vert).
 
 ## The z buffer
 
@@ -767,4 +767,4 @@ The source code for this lab, including the exercise solutions, can be downloade
 - [camera.cpp](../code/Lab06_3D_worlds/camera.cpp)
 - [vertexShader.vert](../code/Lab06_3D_worlds/vertexShader.vert)
 - [main_exercise_solutions.cpp](../code/Lab06_3D_worlds/main_exercise_solutions.cpp)
-- [camera.cpp](../code/Lab06_3D_worlds/camera_exercise_solutions.cpp)
+- [camera_exercise_solutions.cpp](../code/Lab06_3D_worlds/camera_exercise_solutions.cpp)
