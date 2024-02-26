@@ -298,7 +298,7 @@ Consider {numref}`rotation-figure` where the vector $\underline{u}$ is rotated b
 $$ \begin{align*}
     \sin(\phi) &= \frac{\textsf{opposite}}{\textsf{hypotenuse}}, &
     \cos(\phi) &= \frac{\textsf{adjacent}}{\textsf{hypotenuse}}, &
-    \tan(\phi) &= \frac{\textsf{adjacent}}{\textsf{opposite}},
+    \tan(\phi) &= \frac{\textsf{opposite}}{\textsf{adjacent}},
 \end{align*} $$
 
 so the length of the adjacent and opposite sides of the blue triangle is
