@@ -766,3 +766,5 @@ The source code for this lab, including the exercise solutions, can be downloade
 - [camera.hpp](../code/Lab06_3D_worlds/camera.hpp)
 - [camera.cpp](../code/Lab06_3D_worlds/camera.cpp)
 - [vertexShader.vert](../code/Lab06_3D_worlds/vertexShader.vert)
+- [main_exercise_solutions.cpp](../code/Lab06_3D_worlds/main_exercise_solutions.cpp)
+- [camera.cpp](../code/Lab06_3D_worlds/camera_exercise_solutions.cpp)
