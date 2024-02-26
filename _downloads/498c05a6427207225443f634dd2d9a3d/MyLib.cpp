@@ -26,7 +26,7 @@ glm::mat4 MyLib::translate(const glm::mat4 matrix, const glm::vec3 vector)
     return translate * matrix;
 }
 
-glm::mat4 MyLib::scale(const glm::mat4 matrix, const glm::vec3 s)
+glm::mat4 MyLib::scale(const glm::mat4 matrix, const glm::vec3 vector)
 {
     glm::mat4 scale = glm::mat4(1.0f);
     scale[0][0] = vector[0];
