@@ -120,7 +120,7 @@ glm::mat4 transformation = translate;
 GLuint transformationID = glGetUniformLocation(shaderID, "transformation");
 ```
 
-We send the uniform to the vertex shader in the rendering loop just before we draw the triangles. Since we have a 4 $\times$ 4 matrix we need to using the `glUniformMatrix4fv()` function to do this.
+We send the uniform to the vertex shader **in the rendering loop** just before we draw the triangles with the `glDrawArrays()` function. Since we have a 4 $\times$ 4 matrix we need to using the `glUniformMatrix4fv()` function to do this.
 
 ```cpp
 // Send our transformation matrix to the vertex shader
