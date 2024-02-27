@@ -302,7 +302,7 @@ Since in computer graphics are surfaces are triangles, we can easily calculate a
 
 $$ \tt normal = (v1 - v0) \times (v2 - v1). $$
 
-A surface is said to be back facing it its normal vector is pointing away from the camera position. If we only render the front facing surfaces then, assuming the surfaces are opaque, we should notice any difference and we have halved the number of surfaces the shader has to deal with ({numref}`backface-culling-figure`). 
+A surface is said to be back facing it its normal vector is pointing away from the camera position. If we only render the front facing surfaces then, assuming the surfaces are opaque, we should not notice any difference and we have halved the number of surfaces the shader has to deal with ({numref}`backface-culling-figure`). 
 
 ```{figure} /images/07_backface_culling.svg
 :width: 300
