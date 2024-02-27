@@ -618,7 +618,7 @@ glm::vec3 cubePositions[] = {
 };
 ```
 
-This creates an array of 3-element vectors that contain the co-ordinates of the centre of 10 cubes. In the **render loop** comment out the code used to calculate the `mvp` matrix for the previous examples and add this code.
+This creates an array of 3-element vectors that contain the co-ordinates of the centre of 10 cubes. In the **render loop** comment out the code used to calculate the `mvp` matrix and the `glDrawArrays()` function for the previous examples and add this code.
 
 ```cpp
 // Loop through cubes and draw each one

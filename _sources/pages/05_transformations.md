@@ -628,7 +628,7 @@ If we calculate the transformation matrices inside the render loop we can move t
 
 Comment out all of the code used to calculate the transformation matrices we have entered so far this lab but leave the line where we get the location of the transformation uniform.
 
-Inside the render loop just before we send the `transformation` matrix to the shader add the following code.
+Inside the **render loop** just before we send the `transformation` matrix to the shader add the following code.
 
  ```cpp
 // Calculate transformations
