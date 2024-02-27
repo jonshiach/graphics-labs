@@ -98,7 +98,7 @@ The model, view and projection matrices are multiplied together to form a single
 
 In [Lab 5](transformations-section) we saw that we can combine transformations such as translation, scaling and rotation by multiplying the individual transformation matrices together. The **model matrix** is the matrix that is used to apply transformations to an object.
 
-Lets compute a model matrix for our cube where it is scaled down by a factor of 0.5 in each co-ordinate direction, rotated about the $y$ axis using the time of the current frame as the rotation angle and translated backwards down the $z$-axis so that its centre is at (0, 0, -4). Add the following code inside the rendering loop before we call the `glDrawElements()` function.
+Lets compute a model matrix for our cube where it is scaled down by a factor of 0.5 in each co-ordinate direction, rotated about the $y$ axis using the time of the current frame as the rotation angle and translated backwards down the $z$-axis so that its centre is at (0, 0, -4). Add the following code **inside the rendering loop** before we call the `glDrawArrays()` function.
 
 ```cpp
 // Calculate the model matrix
@@ -269,7 +269,7 @@ $$ \begin{align*}
 \end{align*} $$
 ```
 
-Lets calculate the orthographic projection matrix using left = -2, right = 2, bottom = -2, top = 2, near = 0, far = 10. Add the following code after we calculate the `view` matrix.
+Lets calculate the orthographic projection matrix using left = -2, right = 2, bottom = -2, top = 2, near = 0, far = 10. Add the following code after we have calculated the `view` matrix.
 
 ```cpp
 // Calculate projection matrix (orthographic projection)
@@ -297,7 +297,7 @@ GLuint texture1ID = glGetUniformLocation(shaderID, "texture1Sampler");
 GLuint mvpID = glGetUniformLocation(shaderID, "mvp");
 ```
 
-We can now calculation the MVP matrix and send to the vertex shader
+We can now calculation the MVP matrix and send to the vertex shader. Add the following code after we have calculated the `model`, `view` and `projection` matrices.
 
 ```cpp
 // Calculate the MVP matrix and send it to the shader
@@ -360,7 +360,7 @@ To enable depth testing we used the following function before the rendering loop
 glEnable(GL_DEPTH_TEST);
 ```
 
-We also need to reset the depth buffer at the start of each frame, change `glClear(GL_COLOR_BUFFER_BIT);` to the following.
+We also need to clear the depth buffer at the start of each frame, change `glClear(GL_COLOR_BUFFER_BIT);` to the following.
 
 ```cpp
 // Clear the window
@@ -575,7 +575,7 @@ $\textsf{fov} = 90^\circ$
 
 Here we have defined the view matrix and projection matrices ourselves but it shouldn't surprise you that there are glm functions that do this for us. These are:
 
-- `glm::lookAt(camera, target, worldUp)` - calculates the view matrix
+- `glm::lookAt(cameraPos, target, worldUp)` - calculates the view matrix
 - `glm::ortho(left, right, bottom, top, near, far)` - calculates the orthographic projection matrix
 - `glm::perspective(fov, aspect, near, far)` - calculates the perspective projection matrix
 
@@ -618,7 +618,7 @@ glm::vec3 cubePositions[] = {
 };
 ```
 
-This creates an array of 3-element vectors that contain the co-ordinates of the centre of 10 cubes. In the render loop comment out the code used to calculate the model matrix for the previous examples and add this code.
+This creates an array of 3-element vectors that contain the co-ordinates of the centre of 10 cubes. In the **render loop** comment out the code used to calculate the `mvp` matrix for the previous examples and add this code.
 
 ```cpp
 // Loop through cubes and draw each one

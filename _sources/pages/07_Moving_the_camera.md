@@ -311,7 +311,7 @@ A surface is said to be back facing it its normal vector is pointing away from t
 Back face culling removes surfaces with vectors pointing away from the camera.
 ```
 
-But how do we know if a surface is front facing? Consider {numref}`back-facing-figure` which shows a back facing surface.
+But how do we know if a surface is back facing? Consider {numref}`back-facing-figure` which shows a back facing surface.
 
 ```{figure} /images/07_back_facing.svg
 :width: 400

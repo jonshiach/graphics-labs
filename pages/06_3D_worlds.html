@@ -481,7 +481,7 @@ document.write(`
 <section id="the-model-matrix">
 <h3><span class="section-number">6.3.1. </span>The model matrix<a class="headerlink" href="#the-model-matrix" title="Permalink to this heading">#</a></h3>
 <p>In <a class="reference internal" href="05_transformations.html#transformations-section"><span class="std std-ref">Lab 5</span></a> we saw that we can combine transformations such as translation, scaling and rotation by multiplying the individual transformation matrices together. The <strong>model matrix</strong> is the matrix that is used to apply transformations to an object.</p>
-<p>Lets compute a model matrix for our cube where it is scaled down by a factor of 0.5 in each co-ordinate direction, rotated about the <span class="math notranslate nohighlight">\(y\)</span> axis using the time of the current frame as the rotation angle and translated backwards down the <span class="math notranslate nohighlight">\(z\)</span>-axis so that its centre is at (0, 0, -4). Add the following code inside the rendering loop before we call the <code class="docutils literal notranslate"><span class="pre">glDrawElements()</span></code> function.</p>
+<p>Lets compute a model matrix for our cube where it is scaled down by a factor of 0.5 in each co-ordinate direction, rotated about the <span class="math notranslate nohighlight">\(y\)</span> axis using the time of the current frame as the rotation angle and translated backwards down the <span class="math notranslate nohighlight">\(z\)</span>-axis so that its centre is at (0, 0, -4). Add the following code <strong>inside the rendering loop</strong> before we call the <code class="docutils literal notranslate"><span class="pre">glDrawArrays()</span></code> function.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate the model matrix</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glfwGetTime</span><span class="p">();</span>
 <span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">translate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">translate</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">),</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-4.0f</span><span class="p">));</span>
@@ -633,7 +633,7 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
     \end{pmatrix}
 \end{align*} \end{split}\]</div>
 </div>
-</details><p>Lets calculate the orthographic projection matrix using left = -2, right = 2, bottom = -2, top = 2, near = 0, far = 10. Add the following code after we calculate the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix.</p>
+</details><p>Lets calculate the orthographic projection matrix using left = -2, right = 2, bottom = -2, top = 2, near = 0, far = 10. Add the following code after we have calculated the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate projection matrix (orthographic projection)</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="n">near</span><span class="p">,</span><span class="w"> </span><span class="n">far</span><span class="p">,</span><span class="w"> </span><span class="n">top</span><span class="p">,</span><span class="w"> </span><span class="n">bottom</span><span class="p">;</span>
 <span class="n">left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">-2.0f</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">;</span>
@@ -658,7 +658,7 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
 <span class="n">GLuint</span><span class="w"> </span><span class="n">mvpID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;mvp&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>We can now calculation the MVP matrix and send to the vertex shader</p>
+<p>We can now calculation the MVP matrix and send to the vertex shader. Add the following code after we have calculated the <code class="docutils literal notranslate"><span class="pre">model</span></code>, <code class="docutils literal notranslate"><span class="pre">view</span></code> and <code class="docutils literal notranslate"><span class="pre">projection</span></code> matrices.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate the MVP matrix and send it to the shader</span>
 <span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">mvp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">projection</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">model</span><span class="p">;</span>
 <span class="n">glUniformMatrix4fv</span><span class="p">(</span><span class="n">mvpID</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">GL_FALSE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mvp</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
@@ -711,7 +711,7 @@ Derivation of the orthographic projection matrix<div class="sd-summary-down docu
 <span class="n">glEnable</span><span class="p">(</span><span class="n">GL_DEPTH_TEST</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>We also need to reset the depth buffer at the start of each frame, change <code class="docutils literal notranslate"><span class="pre">glClear(GL_COLOR_BUFFER_BIT);</span></code> to the following.</p>
+<p>We also need to clear the depth buffer at the start of each frame, change <code class="docutils literal notranslate"><span class="pre">glClear(GL_COLOR_BUFFER_BIT);</span></code> to the following.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Clear the window</span>
 <span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">GL_DEPTH_BUFFER_BIT</span><span class="p">);</span>
 </pre></div>
@@ -910,7 +910,7 @@ Derivation of the perspective projection matrix<div class="sd-summary-down docut
 <h2><span class="section-number">6.6. </span>glm transformations<a class="headerlink" href="#glm-transformations" title="Permalink to this heading">#</a></h2>
 <p>Here we have defined the view matrix and projection matrices ourselves but it shouldn’t surprise you that there are glm functions that do this for us. These are:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">glm::lookAt(camera,</span> <span class="pre">target,</span> <span class="pre">worldUp)</span></code> - calculates the view matrix</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">glm::lookAt(cameraPos,</span> <span class="pre">target,</span> <span class="pre">worldUp)</span></code> - calculates the view matrix</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">glm::ortho(left,</span> <span class="pre">right,</span> <span class="pre">bottom,</span> <span class="pre">top,</span> <span class="pre">near,</span> <span class="pre">far)</span></code> - calculates the orthographic projection matrix</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">glm::perspective(fov,</span> <span class="pre">aspect,</span> <span class="pre">near,</span> <span class="pre">far)</span></code> - calculates the perspective projection matrix</p></li>
 </ul>
@@ -949,7 +949,7 @@ Derivation of the perspective projection matrix<div class="sd-summary-down docut
 <span class="p">};</span>
 </pre></div>
 </div>
-<p>This creates an array of 3-element vectors that contain the co-ordinates of the centre of 10 cubes. In the render loop comment out the code used to calculate the model matrix for the previous examples and add this code.</p>
+<p>This creates an array of 3-element vectors that contain the co-ordinates of the centre of 10 cubes. In the <strong>render loop</strong> comment out the code used to calculate the <code class="docutils literal notranslate"><span class="pre">mvp</span></code> matrix for the previous examples and add this code.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Loop through cubes and draw each one</span>
 <span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
 <span class="p">{</span>
