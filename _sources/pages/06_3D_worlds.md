@@ -193,7 +193,7 @@ glm::vec3 cameraUp = glm::normalize(glm::cross(cameraRight, cameraFront));
 
 glm::mat4 align = glm::mat4(1.0f);
 
-for (int i = 0; i < 3; i++)
+for (unsigned int i = 0; i < 3; i++)
 {
     translate[3][i] = -cameraPos[i];
     align[i][0] = cameraRight[i];

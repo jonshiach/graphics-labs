@@ -227,7 +227,7 @@ Define the scaling matrix using the code below.
 glm::mat4 scale = glm::mat4(1.0f);
 scale[0][0] = 2.0f, scale[1][1] = 1.5f;
 
-std::cout << "\nscale = " << glm::transpose(scale) << "\n" << std::cout;
+std::cout << "\nscale = " << glm::transpose(scale) << "\n" << std::endl;
 ```
 
 Also, set the `transformation` matrix equal to the `scale` matrix.
@@ -397,7 +397,7 @@ float angle = glm::radians(45.0f);
 rotate[0][0] = cos(angle),  rotate[0][1] = sin(angle);
 rotate[1][0] = -sin(angle), rotate[1][1] = cos(angle);
 
-std::cout << "\nrotate = " << glm::transpose(rotate) << "\n" << std::cout;
+std::cout << "\nrotate = " << glm::transpose(rotate) << "\n" << std::endl;
 ```
 
 Note that here we needed to convert 45$^\circ$ into <a href="https://en.wikipedia.org/wiki/Radian" target="_blank">**radians**</a> since OpenGL expects angles to be in radians. We now set the `transformation` matrix equal to our `rotate` matrix
