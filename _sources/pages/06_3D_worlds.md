@@ -128,8 +128,8 @@ The view space.
 To calculate the world space to view space transformation we require three vectors
 
 - $\tt cameraPos$ - the co-ordinates of the camera position
-- $\tt target$ - the co-ordinates of the target point which the camera is looking at;
-- $\tt worldUp$ - a vector pointing straight up in the world space which allows us to orientate the camera, this is usually always (0,1,0).
+- $\tt target$ - the co-ordinates of the target point that the camera is looking towards
+- $\tt worldUp$ - a vector pointing straight up in the world space which allows us to orientate the camera, this is usually always (0,1,0)
 
 ```{figure} ../images/06_view_space_alignment.svg
 :width: 500
