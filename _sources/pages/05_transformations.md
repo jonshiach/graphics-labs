@@ -66,7 +66,7 @@ $$ T = \begin{pmatrix}
 
 ### Translation in OpenGL
 
-Now we now the mathematical theory behind applying a transformation lets apply it to OpenGL. First download and build the project files for this lab.
+Now we know the mathematical theory behind applying a transformation lets apply it to OpenGL. First download and build the project files for this lab.
 
 1. Go to <a href="https://github.com/jonshiach/Lab05_Transformations" target="_blank">https://github.com/jonshiach/Lab05_Transformations</a> and follow the instructions to download and build the project files.
 2. Open the project file `Lab05_Transformations.sln` (or `Lab05_Transformations.xcodeproj` on macOS) set the **Lab05_Transformations** project as the startup project.
