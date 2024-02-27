@@ -171,7 +171,7 @@ $$\textsf{alignment matrix} = \begin{pmatrix}
     \tt cameraRight.y & \tt cameraUp.y & \tt -cameraFront.y & 0 \\
     \tt cameraRight.z & \tt cameraUp.z & \tt -cameraFront.z & 0 \\
     0 & 0 & 0 & 1
-\end{pmatrix}$$
+\end{pmatrix}.$$
 
 The translation matrix and alignment matrix are multiplied together to form the **view matrix** which transforms the world space co-ordinates to the view space.
 
@@ -192,15 +192,17 @@ glm::vec3 cameraRight = glm::normalize(glm::cross(cameraFront, worldUp));
 glm::vec3 cameraUp = glm::normalize(glm::cross(cameraRight, cameraFront));
 
 glm::mat4 align = glm::mat4(1.0f);
-translate[3][0] = -cameraPos[0], translate[3][1] = -cameraPos[1], translate[3][2] = -cameraPos[2];
-align[0][0] = cameraRight[0], align[0][1] = cameraUp[0], align[0][2] = -cameraFront[0];
-align[1][0] = cameraRight[1], align[1][1] = cameraUp[1], align[1][2] = -cameraFront[1];
-align[2][0] = cameraRight[2], align[2][1] = cameraUp[2], align[2][2] = -cameraFront[2];
+
+for (int i = 0; i < 3; i++)
+{
+    translate[3][i] = -cameraPos[i];
+    align[i][0] = cameraRight[i];
+    align[i][1] = cameraUp[i];
+    align[i][2] = -cameraFront[i];
+}
 
 glm::mat4 view = align * translate;
 ```
-
-The code above should be pretty self explanatory as we have done similar in the past.
 
 ### Projection
 
