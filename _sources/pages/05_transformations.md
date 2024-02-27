@@ -665,7 +665,7 @@ Compile and run the program and we have something quite different.
 
 ## Exercises
 
-1. Use translation to produce an animation of the original rectangle rotating around a circle of radius 0.5 centered at the centre of the window. Hint: the co-ordinates of points on a circle centered at (0,0) with radius $r$ can be calculated using $x = r \cos(t)$ and $y = r  \sin(t)$ where $t$ is some number.
+1. Use translation to produce an animation of the original rectangle rotating around a circle of radius 0.5 centered at the centre of the window. Hint: the co-ordinates of points on a circle centered at (0,0) can be calculated using $x = {\tt radius} \cdot \cos({\tt time})$ and $y = {\tt radius} \cdot \sin({\tt time})$ where $t$ is some number.
 
 <center>
 <video controls muted="true" loop="true" width="500">
@@ -681,7 +681,7 @@ Compile and run the program and we have something quite different.
 </video>
 </center>
 
-3. Use scaling to scale the rectangle so that it grows and shrinks as it is moving. Hint: the function $s(t) = 1 + 0.5 \sin(at)$ oscillates between 0.5 and 1.5 as $t$ increases. Experiment with the speed of which the rectangle grows and shrinks by changing the value of $a$.
+1. Use scaling to scale the rectangle so that it grows and shrinks as it is moving. Hint: the function $s = 1 + 0.5 \sin(a \cdot {\tt time})$ oscillates between 0.5 and 1.5 as time increases. Experiment with the speed of which the rectangle grows and shrinks by changing the value of $a$.
 
 <center>
 <video controls muted="true" loop="true" width="500">
