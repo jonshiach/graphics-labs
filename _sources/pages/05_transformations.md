@@ -75,7 +75,7 @@ Now we know the mathematical theory behind applying a transformation lets apply 
 
 3. Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).
 
-If all has gone to plan you should be presented with our smiley texture from Lab03 applied to a rectangle.
+If all has gone to plan you should be presented with our smiley texture from [Lab 3](textures-section) applied to a rectangle.
 
 ```{figure} ../images/05_texture.png
 :width: 500
