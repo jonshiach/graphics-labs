@@ -308,7 +308,7 @@ glUniformMatrix4fv(viewID, 1, GL_FALSE, &view[0][0]);
 glUniformMatrix4fv(projectionID, 1, GL_FALSE, &projection[0][0]);
 ```
 
-Of course we also need to update the vertex shader so that is uses the `mvp` matrix. Edit `vertexShader.vert` so that the `gl_Position` vector is calculated as follows.
+Of course we also need to update the vertex shader so that is uses the `model`, `view` and `projection` matrices. Edit `vertexShader.vert` so that the `gl_Position` vector is calculated as follows.
 
 ```cpp
 #version 330 core
@@ -347,7 +347,7 @@ If you are having difficulty getting to this stage take a look at the source cod
 
 ## The z buffer
 
-Our rendering of the cube doesn't look quite right. What is happening here is that some parts of the sides of the cube that are further away from where we are viewing it (e.g., the bottom side) from have been rendered after the sides that are closer to us ({numref}`depth-test-1-figure`).
+Our rendering of the cube doesn't look quite right. What is happening here is that some parts of the sides of the cube that are further away from where we are viewing it (e.g., the bottom side) have been rendered after the sides that are closer to us ({numref}`depth-test-1-figure`).
 
 ```{figure} ../images/06_depth_test.svg
 :width: 300
@@ -623,7 +623,7 @@ glm::vec3 cubePositions[] = {
 };
 ```
 
-This creates an array of 3-element vectors that contain the co-ordinates of the centre of 10 cubes. In the **render loop** comment out the code used to calculate the `mvp` matrix and the `glDrawArrays()` function for the previous examples and add this code.
+This creates an array of 3-element vectors that contain the co-ordinates of the centre of 10 cubes. In the **render loop** comment out the code used to calculate the `model` matrix and the `glDrawArrays()` function for the previous examples and add this code.
 
 ```cpp
 // Loop through cubes and draw each one
