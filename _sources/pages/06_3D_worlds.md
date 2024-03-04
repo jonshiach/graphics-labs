@@ -757,7 +757,7 @@ Compile and run your code and it should give the same result as before.
 1. Experiment with changing the camera position and target to see the effect this has on the 3D world.
 2. Experiment with changing the field of view angle to see the effect this has.
 3. Use orthographic projection for the view to screen space transformation.
-4. Rotate the camera position around the first cube. Hint: $x = r\cos(t)$ and $z = r\sin(t)$ gives the co-ordinates on a circle with radius $r$ and centred at (0,0,0).
+4. Rotate the camera position around the first cube. Hint: $x = \tt radius \cos(\tt time)$ and $z = \tt radius \sin(\tt time)$ gives the co-ordinates on a circle centred at (0,0,0).
 5. Rotate every other cube whilst keeping the remaining cubes stationary.
 
 ---
