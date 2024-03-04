@@ -92,8 +92,6 @@ We saw in [Lab 5](transformations-section) that we apply a transformation by mul
 - the **view** matrix - combined translation and alignment transformations
 - the **projection** matrix - combined projection of the view space and scaling to NDC
 
-The model, view and projection matrices are multiplied together to form a single matrix that applies all of the transformations to go from the object space to the screen space. This matrix is called the **MVP matrix**.
-
 ### The model matrix
 
 In [Lab 5](transformations-section) we saw that we can combine transformations such as translation, scaling and rotation by multiplying the individual transformation matrices together. The **model matrix** is the matrix that is used to apply transformations to an object.
@@ -289,22 +287,25 @@ projection[3][1] = - (top + bottom) / (top - bottom);
 projection[3][2] = (near + far) / (near - far);
 ```
 
-### The MVP matrix
+### Applying the model, view and projection matrices
 
-Now that we have defined the `model`, `view` and `projection` matrices we need to multiply them together to calculate the MVP matrix and send it to the shader. First we need to get the handle of the uniform that we will use to send the MVP matrix to the vertex shader. We do this in the same way as we did for the textures in [Lab 3](textures-section).
+Now that we have defined the `model`, `view` and `projection` matrices we need send it to the shader and apply the transformations. First we need to get the handle of the uniforms for each of the matrices, we do this in the same way as we did for the textures in [Lab 3](textures-section).
 
 ```cpp
 // Get the handles for the shader uniforms
 GLuint texture1ID = glGetUniformLocation(shaderID, "texture1Sampler");
-GLuint mvpID = glGetUniformLocation(shaderID, "mvp");
+GLuint modelID = glGetUniformLocation(shaderID, "model");
+GLuint viewID = glGetUniformLocation(shaderID, "view");
+GLuint projectionID = glGetUniformLocation(shaderID, "projection");
 ```
 
-We can now calculation the MVP matrix and send to the vertex shader. Add the following code after we have calculated the `model`, `view` and `projection` matrices.
+We can now send the matrices to the vertex shader, add the following code after we have calculated the `model`, `view` and `projection` matrices.
 
 ```cpp
-// Calculate the MVP matrix and send it to the shader
-glm::mat4 mvp = projection * view * model;
-glUniformMatrix4fv(mvpID, 1, GL_FALSE, &mvp[0][0]);
+// Send the model view and projection matrices to the shader
+glUniformMatrix4fv(modelID, 1, GL_FALSE, &model[0][0]);
+glUniformMatrix4fv(viewID, 1, GL_FALSE, &view[0][0]);
+glUniformMatrix4fv(projectionID, 1, GL_FALSE, &projection[0][0]);
 ```
 
 Of course we also need to update the vertex shader so that is uses the `mvp` matrix. Edit `vertexShader.vert` so that the `gl_Position` vector is calculated as follows.
@@ -320,12 +321,14 @@ layout(location = 1) in vec2 textureCoords;
 out vec2 uv;
 
 // Uniforms
-uniform mat4 mvp;
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 
 void main()
 {
-    // Output vertex position
-    gl_Position = mvp * vec4(position, 1.0);
+    // Output vertex postion
+    gl_Position = projection * view * model * vec4(position, 1.0);
     
     // Output (u,v) co-ordinates
     uv = vec2(textureCoords);
@@ -632,9 +635,10 @@ for (int i = 0; i < 10; i++)
     glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), glm::radians(30.0f * i), glm::vec3(1.0f, 1.0f, 0.0f));
     glm::mat4 model = translate * rotate * scale;
     
-    // Send calculate the MVP matrix and send it to the shader
-    glm::mat4 mvp = projection * view * model;
-    glUniformMatrix4fv(mvpID, 1, GL_FALSE, &mvp[0][0]);
+    // Send the model view and projection matrices to the shader
+    glUniformMatrix4fv(modelID, 1, GL_FALSE, &model[0][0]);
+    glUniformMatrix4fv(viewID, 1, GL_FALSE, &view[0][0]);
+    glUniformMatrix4fv(projectionID, 1, GL_FALSE, &projection[0][0]);
     
     // Draw the triangle
     glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / (sizeof(float) * 3));

@@ -70,7 +70,9 @@ int main( void )
     
     // Get the handles for the shader uniforms
     GLuint texture1ID = glGetUniformLocation(shaderID, "texture1Sampler");
-    GLuint mvpID = glGetUniformLocation(shaderID, "mvp");
+    GLuint modelID = glGetUniformLocation(shaderID, "model");
+    GLuint viewID = glGetUniformLocation(shaderID, "view");
+    GLuint projectionID = glGetUniformLocation(shaderID, "projection");
     
     // Create the Vertex Array Object (VAO)
     GLuint vertexArray;
@@ -236,9 +238,10 @@ int main( void )
             
             glm::mat4 model = translate * rotate * scale;
             
-            // Send calculate the MVP matrix and send it to the shader
-            glm::mat4 mvp = projection * view * model;
-            glUniformMatrix4fv(mvpID, 1, GL_FALSE, &mvp[0][0]);
+            // Send the model view and projection matrices to the shader
+            glUniformMatrix4fv(modelID, 1, GL_FALSE, &model[0][0]);
+            glUniformMatrix4fv(viewID, 1, GL_FALSE, &view[0][0]);
+            glUniformMatrix4fv(projectionID, 1, GL_FALSE, &projection[0][0]);
             
             // Draw the triangle
             glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / (sizeof(float) * 3));

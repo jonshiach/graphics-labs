@@ -32,7 +32,29 @@ Of course don't forget make a similar change the method in the `Camera.cpp` file
 camera.calculateMatrices(window);
 ```
 
-Now that the `calculateMatrices()` method can take in keyboard inputs we need to capture the key presses and make appropriate changes to the `position` attribute. In the `Camera.cpp` file, add the following code before the `view` matrix is calculated.
+Now that the `calculateMatrices()` method can take in keyboard inputs we need to capture the key presses and make appropriate changes to the `position` attribute. Define three Camera class vectors `front`, `right` and `up` in the `camera.hpp` file
+
+```cpp
+ glm::vec3 front;
+ glm::vec3 right;
+ glm::vec3 up;
+ ```
+
+and instantiate them in the class constructor in `camera.cpp`.
+
+```cpp
+front = glm::vec3(0.0f, 0.0f, -1.0f);
+right = glm::vec3(1.0f, 0.0f, 0.0f);
+up = glm::vec3(0.0f, 1.0f, 0.0f);
+```
+
+Here we have defined the defaults so the camera is pointing down the $z$-axis. To move the camera we simply need to add these vectors to the `position` vector, for example to move the camera forward and back we add or subtract the `front` vector.
+
+```{figure} ../images/07_camera_movement.svg
+:width: 500
+```
+
+No we can add the following code to the Camera class constructor before the `view` matrix is calculated.
 
 ```cpp
 // Keyboard inputs
@@ -142,7 +164,7 @@ Here we declare two doubles (a floating point number that uses 8 bytes instead o
 
 ### Pitch and yaw
 
-The values of `xPos` and `yPos` are the number of pixels across and up the window from the bottom-left hand corner pixel respectively. The inputs to the `glm::lookAt()` function require the camera `front` vector so we need a way of converting from the position of the cursor to a vector. To do this we first calculate the yaw and pitch angles. Consider {numref}`roll-pitch-yaw-figure` which shows $\tt foward$, $\tt right$ and $\tt up$ camera vectors.
+The values of `xPos` and `yPos` are the number of pixels across and up the window from the bottom-left hand corner pixel respectively. The inputs to the `glm::lookAt()` function require the camera `front` vector so we need a way of converting from the position of the cursor to a vector. To do this we first calculate the yaw and pitch angles. Consider {numref}`roll-pitch-yaw-figure` which shows $\tt front$, $\tt right$ and $\tt up$ camera vectors.
 
 ```{figure} /images/07_euler_angles.svg
 :width: 350
@@ -249,8 +271,12 @@ The $\tt right$ and $\tt up$ camera vectors are calculated in a similar was to h
 
 $$ \begin{align*}
   \tt right &= \textsf{normalise}(\tt front \times worldUp), \\
-  \tt up &= \textsf{normalise}(\tt right \times front).
+  \tt up &= \textsf{normalise}(\tt right \times front),
 \end{align*} $$
+
+and the $\tt target$ vector is
+
+$$ \tt target = position + front. $$
 
 Add the following code to the `camera.cpp` file after we have updated the $\tt yaw$ and $\tt pitch$ angles.
 
@@ -259,6 +285,7 @@ Add the following code to the `camera.cpp` file after we have updated the $\tt y
 front = glm::normalize(glm::vec3(cos(pitch) * sin(yaw) , sin(pitch), -cos(yaw) * cos(pitch)));
 right = glm::normalize(glm::cross(front, worldUp));
 up = glm::normalize(glm::cross(right, front));
+target = position + front;
 ```
 
 If you compile and run your program you may notice that the mouse controls are far too sensitive and we need to slow down the speed of rotation. To do this add an attribute to the Camera class in `camera.hpp` called `mouseSpeed` and initialise it to some small number (you may need to experiment with this value).
@@ -344,7 +371,7 @@ Compile and run your program and use the keyboard and mouse to put the camera in
 ## Exercises
 
 1. Change the `calculateMatrices()` Camera class method so that the camera position always has a $y$ co-ordinate of 0, i.e., like a first person shooter game where the player cannot fly around the world.
-2. Add the ability for the user to perform a jump by pressing the space bar. The jump should last for 1 second and the camera should follow a smooth arc. Hint: the function $y = a\sin(\pi t)$ produces values of $y=0$ when $t=0$ or $t = 1$ and $y = a$ when $t = 0.5$.
+2. Add the ability for the user to perform a jump by pressing the space bar. The jump should last for 1 second and the camera should follow a smooth arc. Hint: the function $y = \tt height \cdot \sin(\pi \cdot \tt time)$ produces values of $y=0$ when $\tt time = 0$ or $\tt time = 1$ and $y = \tt height$ when $t = 0.5$.
 3. Write your own class called `MyLib` with static member functions for each of the functions you have used from the glm library (e.g., `lookAt()`) and make use of them to calculate the `model`, `view` and `projection` matrices (you may make use of `glm::mat4` and `glm::vec3` types).
 
 ---

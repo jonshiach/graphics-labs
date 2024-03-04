@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include <cmath>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -69,7 +70,9 @@ int main( void )
     
     // Get the handles for the shader uniforms
     GLuint texture1ID = glGetUniformLocation(shaderID, "texture1Sampler");
-    GLuint mvpID = glGetUniformLocation(shaderID, "mvp");
+    GLuint modelID = glGetUniformLocation(shaderID, "model");
+    GLuint viewID = glGetUniformLocation(shaderID, "view");
+    GLuint projectionID = glGetUniformLocation(shaderID, "projection");
     
     // Create the Vertex Array Object (VAO)
     GLuint vertexArray;
@@ -82,80 +85,82 @@ int main( void )
         -1.0f, -1.0f,  1.0f,    //              + ------ +
          1.0f, -1.0f,  1.0f,    //             /|       /|
          1.0f,  1.0f,  1.0f,    //   y        / |      / |
-        -1.0f,  1.0f,  1.0f,    //   |       + ------ +  |
-        // right                //   + - x   |  + ----|- +
-         1.0f, -1.0f,  1.0f,    //  /        | /      | /
-         1.0f, -1.0f, -1.0f,    // z         |/       |/
-         1.0f,  1.0f, -1.0f,    //           + ------ +
+        -1.0f, -1.0f,  1.0f,    //   |       + ------ +  |
+         1.0f,  1.0f,  1.0f,    //   + - x   |  + ----|- +
+        -1.0f,  1.0f,  1.0f,    //  /        | /      | /
+        // right                // z         |/       |/
+         1.0f, -1.0f,  1.0f,    //           + ------ +
+         1.0f, -1.0f, -1.0f,
+         1.0f,  1.0f, -1.0f,
+         1.0f, -1.0f,  1.0f,
+         1.0f,  1.0f, -1.0f,
          1.0f,  1.0f,  1.0f,
         // back
          1.0f, -1.0f, -1.0f,
         -1.0f, -1.0f, -1.0f,
         -1.0f,  1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,
          1.0f,  1.0f, -1.0f,
         // left
         -1.0f, -1.0f, -1.0f,
         -1.0f, -1.0f,  1.0f,
+        -1.0f,  1.0f,  1.0f,
+        -1.0f, -1.0f, -1.0f,
         -1.0f,  1.0f,  1.0f,
         -1.0f,  1.0f, -1.0f,
         // bottom
         -1.0f, -1.0f, -1.0f,
          1.0f, -1.0f, -1.0f,
          1.0f, -1.0f,  1.0f,
+        -1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f,  1.0f,
         -1.0f, -1.0f,  1.0f,
         // top
         -1.0f,  1.0f,  1.0f,
          1.0f,  1.0f,  1.0f,
          1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f, -1.0f,
         -1.0f,  1.0f, -1.0f,
-    };
-    
-    // Define vertex indices
-    GLushort indices[] = {
-        // front
-        0, 1, 2,
-        0, 2, 3,
-        // right (add 4 to the indicies of the previous side)
-        4, 5, 6,
-        4, 6, 7,
-        // back
-        8, 9, 10,
-        8, 10, 11,
-        // left
-        12, 13, 14,
-        12, 14, 15,
-        // bottom
-        16, 17, 18,
-        16, 18, 19,
-        // top
-        20, 21, 22,
-        20, 22, 23,
     };
     
     // Define texture vertices
     static const GLfloat uvCoords[] = {
         0.0f, 0.0f,     // vertex co-ordinates are the same for each side
-        1.0f, 0.0f,     // of the cube so repeat every four vertices
+        1.0f, 0.0f,     // of the cube so repeat every six vertices
+        1.0f, 1.0f,
+        0.0f, 0.0f,
         1.0f, 1.0f,
         0.0f, 1.0f,
-        0.0f, 0.0f,
+        0.0f, 0.0f,     // right
         1.0f, 0.0f,
         1.0f, 1.0f,
-        0.0f, 1.0f,
         0.0f, 0.0f,
-        1.0f, 0.0f,
         1.0f, 1.0f,
         0.0f, 1.0f,
-        0.0f, 0.0f,
+        0.0f, 0.0f,     // back
         1.0f, 0.0f,
         1.0f, 1.0f,
-        0.0f, 1.0f,
         0.0f, 0.0f,
-        1.0f, 0.0f,
         1.0f, 1.0f,
         0.0f, 1.0f,
-        0.0f, 0.0f,
+        0.0f, 0.0f,     // left
         1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f,
+        0.0f, 0.0f,     // bottom
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f,
+        0.0f, 0.0f,     // top
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 0.0f,
         1.0f, 1.0f,
         0.0f, 1.0f,
     };
@@ -171,12 +176,6 @@ int main( void )
     glGenBuffers(1, &uvBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(uvCoords), uvCoords, GL_STATIC_DRAW);
-    
-    // Create element buffer
-    GLuint elementBuffer;
-    glGenBuffers(1, &elementBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices[0], GL_STATIC_DRAW);
     
     // Enable depth test
     glEnable(GL_DEPTH_TEST);
@@ -225,15 +224,16 @@ int main( void )
             // Calculate model matrix
             glm::mat4 translate = glm::translate(glm::mat4(1.0f), cubePositions[i]);
             glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f, 0.5f, 0.5f));
-            glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), glm::radians(30.0f * i), glm::vec3(1.0f, 1.0f, 0.0f));
+            glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), float(30 * i), glm::vec3(1.0f, 1.0f, 0.0f));
             glm::mat4 model = translate * rotate * scale;
             
-            // Send calculate the MVP matrix and send it to the shader
-            glm::mat4 mvp = projection * view * model;
-            glUniformMatrix4fv(mvpID, 1, GL_FALSE, &mvp[0][0]);
+            // Send the model view and projection matrices to the shader
+            glUniformMatrix4fv(modelID, 1, GL_FALSE, &model[0][0]);
+            glUniformMatrix4fv(viewID, 1, GL_FALSE, &view[0][0]);
+            glUniformMatrix4fv(projectionID, 1, GL_FALSE, &projection[0][0]);
             
             // Draw the triangle
-            glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLushort), GL_UNSIGNED_SHORT, (void*)0);
+            glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / (sizeof(float) * 3));
         }
         
         // Disable vertex buffer objects
@@ -252,7 +252,6 @@ int main( void )
     // Cleanup
     glDeleteBuffers(1, &vertexBuffer);
     glDeleteBuffers(1, &uvBuffer);
-    glDeleteBuffers(1, &elementBuffer);
     glDeleteVertexArrays(1, &vertexArray);
     glDeleteProgram(shaderID);
     
