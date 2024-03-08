@@ -66,6 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/07_Moving_the_camera';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="8. Lighting" href="08_Lighting.html" />
     <link rel="prev" title="6. 3D Worlds" href="06_3D_worlds.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -165,6 +166,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="05_transformations.html">5. Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="06_3D_worlds.html">6. 3D Worlds</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">7. Moving the camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_Lighting.html">8. Lighting</a></li>
 </ul>
 
     </div>
@@ -459,17 +461,17 @@ document.write(`
 </div>
 <p>Here we have specified that we want our camera to move at a speed of 5 units per second. Speed is distance divided time so we also need to know how much time has elapsed between the rendering of each frame. This is easily done using the <code class="docutils literal notranslate"><span class="pre">glfwGetTime()</span></code> function we have used to <a class="reference internal" href="05_transformations.html#animating-objects-section"><span class="std std-ref">animate objects</span></a>. In the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> before the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function add the following declarations</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Timers</span>
-<span class="kt">float</span><span class="w"> </span><span class="n">currentFrame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span>
-<span class="kt">float</span><span class="w"> </span><span class="n">lastFrame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">currentTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">lastTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">deltaTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>Here we have declared the variables <code class="docutils literal notranslate"><span class="pre">currentFrame</span></code> and <code class="docutils literal notranslate"><span class="pre">lastFrame</span></code> which will be used to record the times that the current and previous frames are rendered and <code class="docutils literal notranslate"><span class="pre">deltaTime</span></code> which is difference between these two.</p>
+<p>Here we have declared the variables <code class="docutils literal notranslate"><span class="pre">currentTime</span></code> and <code class="docutils literal notranslate"><span class="pre">lastTime</span></code> which will be used to record the times that the current and previous frames are rendered and <code class="docutils literal notranslate"><span class="pre">deltaTime</span></code> which is difference between these two.</p>
 <p>At the beginning of the render loop at the following code to update these timers.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Update timers</span>
-<span class="n">currentFrame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glfwGetTime</span><span class="p">();</span>
-<span class="n">deltaTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentFrame</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastFrame</span><span class="p">;</span>
-<span class="n">lastFrame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentFrame</span><span class="p">;</span>
+<span class="n">currentTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glfwGetTime</span><span class="p">();</span>
+<span class="n">deltaTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentTime</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastTime</span><span class="p">;</span>
+<span class="n">lastTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentTime</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>We need to pass <code class="docutils literal notranslate"><span class="pre">deltaTime</span></code> to the <code class="docutils literal notranslate"><span class="pre">calculateMatrices()</span></code> Camera class method so change the <code class="docutils literal notranslate"><span class="pre">camera.hpp</span></code> and <code class="docutils literal notranslate"><span class="pre">camera.cpp</span></code> files so that the method declaration look like the following.</p>
@@ -743,6 +745,15 @@ Calculating the front vector from the yaw and pitch angles<div class="sd-summary
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title"><span class="section-number">6. </span>3D Worlds</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="08_Lighting.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">8. </span>Lighting</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div></div>
   

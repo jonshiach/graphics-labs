@@ -99,20 +99,20 @@ Here we have specified that we want our camera to move at a speed of 5 units per
 
 ```cpp
 // Timers
-float currentFrame = 0.0f;
-float lastFrame = 0.0f;
+float currentTime = 0.0f;
+float lastTime = 0.0f;
 float deltaTime = 0.0f;
 ```
 
-Here we have declared the variables `currentFrame` and `lastFrame` which will be used to record the times that the current and previous frames are rendered and `deltaTime` which is difference between these two.
+Here we have declared the variables `currentTime` and `lastTime` which will be used to record the times that the current and previous frames are rendered and `deltaTime` which is difference between these two.
 
 At the beginning of the render loop at the following code to update these timers.
 
 ```cpp
 // Update timers
-currentFrame = glfwGetTime();
-deltaTime = currentFrame - lastFrame;
-lastFrame = currentFrame;
+currentTime = glfwGetTime();
+deltaTime = currentTime - lastTime;
+lastTime = currentTime;
 ```
 
 We need to pass `deltaTime` to the `calculateMatrices()` Camera class method so change the `camera.hpp` and `camera.cpp` files so that the method declaration look like the following.
