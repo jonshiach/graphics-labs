@@ -305,7 +305,7 @@ Ambient and diffuse reflection: $k_a = 0.2$, $k_d = 0.7$.
 
 ### Specular reflection
 
-Specular reflection is the reflection of light off of smooth surfaces. Light rays hitting a smooth surface are scattered in a specific direction given by the reflection vector ({numref}`specular-figure`). The amount of specular reflection seen by the view is determined by the angle between the $\tt reflection$ vector and the $\tt eye$ vector which we called $\alpha$. The smaller the value of $\alpha$ the more of the reflected light the viewer will see.
+Specular reflection is the reflection of light off of smooth surfaces. Light rays hitting a smooth surface are scattered in a specific direction given by the reflection vector ({numref}`specular-figure`). The amount of specular reflection seen by the viewer is determined by the angle between the $\tt reflection$ vector and the $\tt eye$ vector which we called $\alpha$. The smaller the value of $\alpha$ the more of the reflected light the viewer will see.
 
 ```{figure} ../images/08_specular.svg
 :width: 400
