@@ -114,6 +114,8 @@ To create an .obj file we can use the popular open source application <a href="h
 3. Make sure **Include Normals**, **Include UVs** and **Triangular Faces** are selected.
 4. Navigate to your chosen folder (here I used `Lab08_Lighting/objects/`) and give it an appropriate name.
 
+---
+
 ## Phong's lighting model
 
 Phong's lighting model is a local illumination model that simulates the interaction of light falling on surfaces. The colour and brightness of a point on a surface is based on three components
