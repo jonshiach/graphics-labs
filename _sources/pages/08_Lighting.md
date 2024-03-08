@@ -213,7 +213,7 @@ $k_a=0.8$
 
 ### Diffuse reflection
 
-When a light ray hits a surface it is reflected in a direction such that the angle between the reflected ray and the surface normal is the same as the angle between the light ray and the surface normal (known as the angle of incidence). When multiple light rays hit a rough surface they are scatters in all directions since the surface normals across the surface vary, this is diffuse reflection.
+When a light ray hits a surface it is reflected in a direction such that the angle between the reflected ray and the surface normal is the same as the angle between the light ray and the surface normal (known as the angle of incidence). When multiple light rays hit a rough surface they are scattered in all directions since the surface normals across the surface vary, this is diffuse reflection.
 
 To model diffuse reflection we assume that light is reflected equally in all directions ({numref}`diffuse-figure`).
 
@@ -294,7 +294,7 @@ Finally add the diffuse reflection to the ambient reflection to calculate the fr
 colour = ambient + diffuse;
 ```
 
-The result of applying ambient and diffuse reflection is shown in {numref}`teapout-diffuse-figure`.
+The result of applying ambient and diffuse reflection is shown in {numref}`teapot-diffuse-figure`.
 
 ```{figure} ../images/08_teapot_diffuse.png
 :width: 500
