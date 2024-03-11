@@ -66,17 +66,18 @@ static const GLfloat vertices[] = {
 ```
 
 (vbo-section)=
+
 We now need to define a <a href="https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Buffer_Object" target="_blank">**Vertex Buffer Object (VBO)**</a> which is how we transfer the vertex data from the CPU to the GPU.
 
 ```cpp
 // Create Vertex Buffer Object (VBO)
-GLuint VBO;
-glGenBuffers(1, &VBO);
-glBindBuffer(GL_ARRAY_BUFFER, VBO);
+GLuint vertexBuffer;
+glGenBuffers(1, &vertexBuffer);
+glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 ```
 
-Here, after creating and binding the VBO we copy across the co-ordinates stored in the `vertices` array to the VBO using the `glBufferData()` function.
+Here, after creating and binding the vertex buffer we copy across the co-ordinates stored in the `vertices` array to the vertex buffer using the `glBufferData()` function.
 
 ---
 
@@ -179,12 +180,12 @@ Finally, we can now draw the triangle. After clearing the window, we need to ins
 glUseProgram(shaderID);
 ```
 
-Now we need to bind the VBO to the VAO to send all of the data to the shaders for OpenGL to interpret. In the do/while loop add the following code after the window has been cleared.
+Now we need to bind the vertex buffer to the VAO to send all of the data to the shaders for OpenGL to interpret. In the do/while loop add the following code after the window has been cleared.
 
 ```cpp
-// Send the VBO to the shaders
+// Send the vertex buffer to the shaders
 glEnableVertexAttribArray(0);
-glBindBuffer(GL_ARRAY_BUFFER, VBO);
+glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 glVertexAttribPointer(
                       0,           // attribute
                       3,           // size
@@ -198,7 +199,7 @@ glVertexAttribPointer(
 The three functions we've used here are:
 
  - `glEnableVertexAttribArray()` enables a generic vertex array so we can pass our triangle data to OpenGL;
- - `glBindBuffer()` binds our VBO to OpenGL;
+ - `glBindBuffer()` binds our vertex buffer to OpenGL;
  - `glVertexAttribPointer()` tells OpenGL how to interpret the data we are sending it. The input arguments are explained below.
 
 | Argument | Explanation |
@@ -224,7 +225,7 @@ Don't get too excited just yet. As good programmers we should clean up after our
 
 ```cpp
 // Cleanup
-glDeleteBuffers(1, &VBO);
+glDeleteBuffers(1, &vertexBuffer);
 glDeleteVertexArrays(1, &VAO);
 glDeleteProgram(shaderID);
 ```
@@ -259,7 +260,7 @@ static const GLfloat colours[] = {
 
 Here we have assigned the colour red to the first (bottom-left) vertex, green to the second (bottom-right) vertex and blue to the third (top) vertex.
 
-Like the VBO, we need to create and bind a buffer for the colours.
+Like the vertex buffer, we need to create and bind a buffer for the colours.
 
 ```cpp
 // Create colour buffer

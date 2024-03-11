@@ -15,8 +15,7 @@ First download and build the project files for this lab.
 
 ## 3D models
 
-To demonstrate building a simple 3D world we are going to need a 3D object. 
-One of the simplest 3D objects is a **unit cube** which is a cube centred at (0,0,0) and has side lengths of 2 parallel to the co-ordinate axes ({numref}`unit-cube-figure`) so the co-ordinates of the 8 corners of the cube are combinations of -1 and 1.
+To demonstrate building a simple 3D world we are going to need a 3D object. One of the simplest 3D objects is a **unit cube** which is a cube centred at (0,0,0) and has side lengths of 2 parallel to the co-ordinate axes ({numref}`unit-cube-figure`) so the co-ordinates of the 8 corners of the cube are combinations of -1 and 1.
 
 ```{figure} ../images/06_unit_cube.svg
 :width: 700
@@ -25,74 +24,38 @@ One of the simplest 3D objects is a **unit cube** which is a cube centred at (0,
 A unit cube.
 ```
 
-You may have noticed from [Lab 3](textures-section) that we used 6 vertices to define a rectangle which only has 4 corners which is obviously inefficient. To improve this can can use **indexing** where co-ordinates that are shared by difference triangles are only declared once and we use an index array that links each vertex to a co-ordinate.
-
-For example, for the front size of the cube we have co-ordinates (-1,-1,1), (1,-1,1), (1,1,1) and (-1,1,1) so the vertices of the two triangles can be indexed using 0, 1, 2 for the first triangle and 0, 1, 4 for the second. Note that we need to index the triangles so in an **anti-clockwise** order when looking at the front of the triangle so that the [normal vectors](normal-vector-section) are calculated properly.
-
-```{figure} ../images/06_indexed_rectangle.svg
-:width: 400
-:name: indexed-rectangle-figure
-
-Drawing a rectangle with and without vertex indexing.
-```
-
-Open up the project and take a look at the `main.cpp` file and you will see that the arrays `vertices`, `indices` and `uvCoords` arrays have been defined for our unit cube.
+Open up the project and take a look at the `main.cpp` file and you will see that the arrays `vertices` and `uvCoords` arrays have been defined for our unit cube.
 
 ```cpp
 // Define vertex co-ordinates
 static const GLfloat vertices[] = {
-    // front
-    -1.0f, -1.0f,  1.0f,    //              + ------ +
-     1.0f, -1.0f,  1.0f,    //             /|       /|
-     1.0f,  1.0f,  1.0f,    //   y        / |      / |
-    -1.0f,  1.0f,  1.0f,    //   |       + ------ +  |
-    // right                //   + - x   |  + ----|- +
-     1.0f, -1.0f,  1.0f,    //  /        | /      | /
-     1.0f, -1.0f, -1.0f,    // z         |/       |/
-     1.0f,  1.0f, -1.0f,    //           + ------ +
-     1.0f,  1.0f,  1.0f,
-
-    // etc.
-};
-
-// Define vertex indices
-GLushort indices[] = {
-    // front
-    0, 1, 2,
-    0, 2, 3,
-    // right (add 4 to the indices of the previous side)
-    4, 5, 6,
-    4, 6, 7,
-
+   // front
+   -1.0f, -1.0f,  1.0f,    //              + ------ +
+    1.0f, -1.0f,  1.0f,    //             /|       /|
+    1.0f,  1.0f,  1.0f,    //   y        / |      / |
+   -1.0f, -1.0f,  1.0f,    //   |       + ------ +  |
+    1.0f,  1.0f,  1.0f,    //   + - x   |  + ----|- +
+   -1.0f,  1.0f,  1.0f,    //  /        | /      | /
+   // right                // z         |/       |/
+    1.0f, -1.0f,  1.0f,    //           + ------ +
+    1.0f, -1.0f, -1.0f,
+    1.0f,  1.0f, -1.0f,
+    1.0f, -1.0f,  1.0f,
+    1.0f,  1.0f, -1.0f,
+    1.0f,  1.0f,  1.0f,
     // etc.
 };
 
 // Define texture vertices
 static const GLfloat uvCoords[] = {
-    0.0f, 0.0f,     // vertex co-ordinates are the same for each side
-    1.0f, 0.0f,     // of the cube so repeat every four vertices
-    1.0f, 1.0f,
-    0.0f, 1.0f,
-
-    // etc.
+   0.0f, 0.0f,     // vertex co-ordinates are the same for each side
+   1.0f, 0.0f,     // of the cube so repeat every six vertices
+   1.0f, 1.0f,
+   0.0f, 0.0f,
+   1.0f, 1.0f,
+   0.0f, 1.0f,
+   // etc.
 };
-```
-
-To create a buffer for the indices we use an **element array buffer** which is created in a similar way to the co-ordinate buffers with the exception that the type of buffer is `GL_ELEMENT_ARRAY_BUFFER` instead of `GL_ARRAY_BUFFER`. 
-
-```cpp
-// Create element buffer
-GLuint elementBuffer;
-glGenBuffers(1, &elementBuffer);
-glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
-glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices[0], GL_STATIC_DRAW);
-```
-
-To draw the triangles we now use `glDrawElements()` which uses element array buffer to index the co-ordinate arrays.
-
-```cpp
-// Draw the triangles
-glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLushort), GL_UNSIGNED_SHORT, (void*)0);
 ```
 
 If you compile and run this program you will see that the `crate.bmp` texture fills the window.
@@ -129,13 +92,11 @@ We saw in [Lab 5](transformations-section) that we apply a transformation by mul
 - the **view** matrix - combined translation and alignment transformations
 - the **projection** matrix - combined projection of the view space and scaling to NDC
 
-The model, view and projection matrices are multiplied together to form a single matrix that applies all of the transformations to go from the object space to the screen space. This matrix is called the **MVP matrix**.
-
 ### The model matrix
 
 In [Lab 5](transformations-section) we saw that we can combine transformations such as translation, scaling and rotation by multiplying the individual transformation matrices together. The **model matrix** is the matrix that is used to apply transformations to an object.
 
-Lets compute a model matrix for our cube where it is scaled down by a factor of 0.5 in each co-ordinate direction, rotated about the $y$ axis using the time of the current frame as the rotation angle and translated backwards down the $z$-axis so that its centre is at (0, 0, -4). Add the following code inside the rendering loop before we call the `glDrawElements()` function.
+Lets compute a model matrix for our cube where it is scaled down by a factor of 0.5 in each co-ordinate direction, rotated about the $y$ axis using the time of the current frame as the rotation angle and translated backwards down the $z$-axis so that its centre is at (0, 0, -4). Add the following code **inside the rendering loop** before we call the `glDrawArrays()` function.
 
 ```cpp
 // Calculate the model matrix
@@ -165,8 +126,15 @@ The view space.
 To calculate the world space to view space transformation we require three vectors
 
 - $\tt cameraPos$ - the co-ordinates of the camera position
-- $\tt target$ - the co-ordinates of the target point which the camera is looking at;
-- $\tt worldUp$ - a vector pointing straight up in the world space which allows us to orientate the camera, this is usually always (0,1,0).
+- $\tt target$ - the co-ordinates of the target point that the camera is looking towards
+- $\tt worldUp$ - a vector pointing straight up in the world space which allows us to orientate the camera, this is usually always (0,1,0)
+
+```{figure} ../images/06_view_space_alignment.svg
+:width: 500
+:name: view-space-alignment-figure
+
+The vectors used in the transformation to the view space.
+```
 
 The $\tt cameraPos$ and $\tt target$ vectors are either determined by the user through keyboard, mouse or controller inputs or through some predetermined routine. To determine the view space transformation we first translate the camera position to (0,0,0) using the following translation matrix
 
@@ -181,13 +149,6 @@ $$ \begin{align*}
 \end{align*}. $$
 
 The next step is to align the world space so that the direction vector is pointing down the $z$ axis. To do this we use vectors $\tt cameraRight$, $\tt cameraUp$ and $\tt cameraFront$ which are unit vectors at right-angles to each other the point in directions relative to the camera ({numref}`view-space-alignment-figure`).
-
-```{figure} ../images/06_view_space_alignment.svg
-:width: 500
-:name: view-space-alignment-figure
-
-The vectors used in the transformation to the view space.
-```
 
 The $\tt cameraFront$ vector points directly forward of the camera and is calculated using
 
@@ -208,7 +169,7 @@ $$\textsf{alignment matrix} = \begin{pmatrix}
     \tt cameraRight.y & \tt cameraUp.y & \tt -cameraFront.y & 0 \\
     \tt cameraRight.z & \tt cameraUp.z & \tt -cameraFront.z & 0 \\
     0 & 0 & 0 & 1
-\end{pmatrix}$$
+\end{pmatrix}.$$
 
 The translation matrix and alignment matrix are multiplied together to form the **view matrix** which transforms the world space co-ordinates to the view space.
 
@@ -229,15 +190,17 @@ glm::vec3 cameraRight = glm::normalize(glm::cross(cameraFront, worldUp));
 glm::vec3 cameraUp = glm::normalize(glm::cross(cameraRight, cameraFront));
 
 glm::mat4 align = glm::mat4(1.0f);
-translate[3][0] = -cameraPos[0], translate[3][1] = -cameraPos[1], translate[3][2] = -cameraPos[2];
-align[0][0] = cameraRight[0], align[0][1] = cameraUp[0], align[0][2] = -cameraFront[0];
-align[1][0] = cameraRight[1], align[1][1] = cameraUp[1], align[1][2] = -cameraFront[1];
-align[2][0] = cameraRight[2], align[2][1] = cameraUp[2], align[2][2] = -cameraFront[2];
+
+for (unsigned int i = 0; i < 3; i++)
+{
+    translate[3][i] = -cameraPos[i];
+    align[i][0] = cameraRight[i];
+    align[i][1] = cameraUp[i];
+    align[i][2] = -cameraFront[i];
+}
 
 glm::mat4 view = align * translate;
 ```
-
-The code above should be pretty self explanatory as we have done similar in the past.
 
 ### Projection
 
@@ -306,7 +269,7 @@ $$ \begin{align*}
 \end{align*} $$
 ```
 
-Lets calculate the orthographic projection matrix using left = -2, right = 2, bottom = -2, top = 2, near = 0, far = 10 and send it to the vertex shader. Add the following code after we calculate the `view` matrix.
+Lets calculate the orthographic projection matrix using left = -2, right = 2, bottom = -2, top = 2, near = 0, far = 10. Add the following code after we have calculated the `view` matrix.
 
 ```cpp
 // Calculate projection matrix (orthographic projection)
@@ -324,25 +287,28 @@ projection[3][1] = - (top + bottom) / (top - bottom);
 projection[3][2] = (near + far) / (near - far);
 ```
 
-### The MVP matrix
+### Applying the model, view and projection matrices
 
-Now that we have defined the `model`, `view` and `projection` matrices we need to multiply them together to calculate the MVP matrix and send it to the shader. First we need to get the handle of the uniform that we will use to send the MVP matrix to the vertex shader. We do this in the same way as we did for the textures in [Lab 3](textures-section).
+Now that we have defined the `model`, `view` and `projection` matrices we need send it to the shader and apply the transformations. First we need to get the handle of the uniforms for each of the matrices, we do this in the same way as we did for the textures in [Lab 3](textures-section).
 
 ```cpp
 // Get the handles for the shader uniforms
 GLuint texture1ID = glGetUniformLocation(shaderID, "texture1Sampler");
-GLuint mvpID = glGetUniformLocation(shaderID, "mvp");
+GLuint modelID = glGetUniformLocation(shaderID, "model");
+GLuint viewID = glGetUniformLocation(shaderID, "view");
+GLuint projectionID = glGetUniformLocation(shaderID, "projection");
 ```
 
-We can now calculation the MVP matrix and send to the vertex shader
+We can now send the matrices to the vertex shader, add the following code after we have calculated the `model`, `view` and `projection` matrices.
 
 ```cpp
-// Calculate the MVP matrix and send it to the shader
-glm::mat4 mvp = projection * view * model;
-glUniformMatrix4fv(mvpID, 1, GL_FALSE, &mvp[0][0]);
+// Send the model view and projection matrices to the shader
+glUniformMatrix4fv(modelID, 1, GL_FALSE, &model[0][0]);
+glUniformMatrix4fv(viewID, 1, GL_FALSE, &view[0][0]);
+glUniformMatrix4fv(projectionID, 1, GL_FALSE, &projection[0][0]);
 ```
 
-Of course we also need to update the vertex shader so that is uses the `mvp` matrix. Edit `vertexShader.vert` so that the `gl_Position` vector is calculated as follows.
+Of course we also need to update the vertex shader so that is uses the `model`, `view` and `projection` matrices. Edit `vertexShader.vert` so that the `gl_Position` vector is calculated as follows.
 
 ```cpp
 #version 330 core
@@ -355,12 +321,14 @@ layout(location = 1) in vec2 textureCoords;
 out vec2 uv;
 
 // Uniforms
-uniform mat4 mvp;
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 
 void main()
 {
-    // Output vertex position
-    gl_Position = mvp * vec4(position, 1.0);
+    // Output vertex postion
+    gl_Position = projection * view * model * vec4(position, 1.0);
     
     // Output (u,v) co-ordinates
     uv = vec2(textureCoords);
@@ -375,11 +343,11 @@ Compile and run the program and you should see the following.
 </video>
 </center>
 
-If you are having difficulty getting to this stage take a look at the source code [main.cpp](../code/Lab06_3D_worlds/Lab06_no_depth_test.cpp) and vertex shader [vertexShader.vert](../code/Lab06_3D_worlds/vertexShader.vert).
+If you are having difficulty getting to this stage take a look at the source code [main.cpp](../code/Lab06_3D_worlds/main_no_depth_test.cpp) and vertex shader [vertexShader.vert](../code/Lab06_3D_worlds/vertexShader.vert).
 
 ## The z buffer
 
-Our rendering of the cube doesn't look quite right. What is happening here is that some parts of the sides of the cube that are further away from where we are viewing it (e.g., the bottom side) from have been rendered after the sides that are closer to us ({numref}`depth-test-1-figure`).
+Our rendering of the cube doesn't look quite right. What is happening here is that some parts of the sides of the cube that are further away from where we are viewing it (e.g., the bottom side) have been rendered after the sides that are closer to us ({numref}`depth-test-1-figure`).
 
 ```{figure} ../images/06_depth_test.svg
 :width: 300
@@ -397,7 +365,7 @@ To enable depth testing we used the following function before the rendering loop
 glEnable(GL_DEPTH_TEST);
 ```
 
-We also need to reset the depth buffer at the start of each frame, change `glClear(GL_COLOR_BUFFER_BIT);` to the following.
+We also need to clear the depth buffer at the start of each frame, change `glClear(GL_COLOR_BUFFER_BIT);` to the following.
 
 ```cpp
 // Clear the window
@@ -457,7 +425,7 @@ The mapping of a point in the view space with co-ordinates $(x, y, z)$ onto the 
 Mapping of the point at $(x,y,z)$ onto the near plane using perspective.
 ```
 
-The ratio of $x$ to $-z$ distances is the same as the ratio of $x'$ to $\textsf{near}$ distances (and similar for $y'$) so
+The ratio of $x$ to $-z$ distance is the same as the ratio of $x'$ to $\textsf{near}$ distance (and similar for $y'$) so
 
 $$ \begin{align*}
     \frac{x}{-z} &= \frac{x'}{\textsf{near}} &\implies
@@ -612,7 +580,7 @@ $\textsf{fov} = 90^\circ$
 
 Here we have defined the view matrix and projection matrices ourselves but it shouldn't surprise you that there are glm functions that do this for us. These are:
 
-- `glm::lookAt(camera, target, worldUp)` - calculates the view matrix
+- `glm::lookAt(cameraPos, target, worldUp)` - calculates the view matrix
 - `glm::ortho(left, right, bottom, top, near, far)` - calculates the orthographic projection matrix
 - `glm::perspective(fov, aspect, near, far)` - calculates the perspective projection matrix
 
@@ -655,7 +623,7 @@ glm::vec3 cubePositions[] = {
 };
 ```
 
-This creates an array of 3-element vectors that contain the co-ordinates of the centre of 10 cubes. In the render loop comment out the code used to calculate the model matrix for the previous examples and add this code.
+This creates an array of 3-element vectors that contain the co-ordinates of the centre of 10 cubes. In the **render loop** comment out the code used to calculate the `model` matrix and the `glDrawArrays()` function for the previous examples and add this code.
 
 ```cpp
 // Loop through cubes and draw each one
@@ -667,12 +635,13 @@ for (int i = 0; i < 10; i++)
     glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), glm::radians(30.0f * i), glm::vec3(1.0f, 1.0f, 0.0f));
     glm::mat4 model = translate * rotate * scale;
     
-    // Send calculate the MVP matrix and send it to the shader
-    glm::mat4 mvp = projection * view * model;
-    glUniformMatrix4fv(mvpID, 1, GL_FALSE, &mvp[0][0]);
+    // Send the model view and projection matrices to the shader
+    glUniformMatrix4fv(modelID, 1, GL_FALSE, &model[0][0]);
+    glUniformMatrix4fv(viewID, 1, GL_FALSE, &view[0][0]);
+    glUniformMatrix4fv(projectionID, 1, GL_FALSE, &projection[0][0]);
     
     // Draw the triangle
-    glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLushort), GL_UNSIGNED_SHORT, (void*)0);
+    glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / (sizeof(float) * 3));
 }
 ```
 
@@ -707,9 +676,7 @@ public:
     
     // Camera vectors
     glm::vec3 position;
-    glm::vec3 front;
-    glm::vec3 right;
-    glm::vec3 up;
+    glm::vec3 target;
     glm::vec3 worldUp;
     
     // Transformation matrices
@@ -739,9 +706,7 @@ In the `camera.cpp` code file add the following code
 Camera::Camera(const glm::vec3 Position)
 {
     position = Position;
-    front = glm::vec3(0.0f, 0.0f, -1.0f);
-    right = glm::vec3(1.0f, 0.0f, 0.0f);
-    up = glm::vec3(0.0f, 1.0f, 0.0f);
+    target = glm::vec3(0.0f, 0.0f, 0.0f);
     worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 }
 
@@ -758,14 +723,14 @@ glm::mat4 Camera::getProjectionMatrix()
 void Camera::calculateMatrices()
 {
     // Calculate view matrix
-    view = glm::lookAt(position, position + front, up);
+    view = glm::lookAt(position, target, worldUp);
     
     // Calculate projection matrix
     projection = glm::perspective(fov, aspect, near, far);
 }
 ```
 
-The `Camera()` constructor takes in a single input of the camera position and instantiates the `position` attribute. The `front`, `right`, `up` and `worldUp` vectors are instantiated with default values.
+The `Camera()` constructor takes in a single input of the camera position and instantiates the `position` attribute with this position. The `target` and `worldUp` vectors are instantiated with default values.
 
 Now we've created our Camera class we need to include it and make calls to the library functions. Add `#include "camera.hpp"` to the top of the `main.cpp` file and create a Camera object before the `main()` function declaration.
 
@@ -792,7 +757,7 @@ Compile and run your code and it should give the same result as before.
 1. Experiment with changing the camera position and target to see the effect this has on the 3D world.
 2. Experiment with changing the field of view angle to see the effect this has.
 3. Use orthographic projection for the view to screen space transformation.
-4. Rotate the camera position around the first cube. Hint: $x = r\cos(t)$ and $z = r\sin(t)$ gives the co-ordinates on a circle with radius $r$ and centred at (0,0,0).
+4. Rotate the camera position around the first cube. Hint: $x = \tt radius \cdot \cos(\tt time)$ and $z = \tt radius \cdot \sin(\tt time)$ gives the co-ordinates on a circle centred at (0,0,0).
 5. Rotate every other cube whilst keeping the remaining cubes stationary.
 
 ---
@@ -801,8 +766,10 @@ Compile and run your code and it should give the same result as before.
 
 The source code for this lab, including the exercise solutions, can be downloaded using the links below.
 
-- [Lab06_no_depth_test.cpp](../code/Lab06_3D_worlds/Lab06_no_depth_test.cpp) - single cube with orthnographic projection and no depth testing
+- [main_no_depth_test.cpp](../code/Lab06_3D_worlds/main_no_depth_test.cpp) - single cube with orthographic projection and no depth testing
 - [main.cpp](../code/Lab06_3D_worlds/main.cpp) - multiple cubes using the Camera class
 - [camera.hpp](../code/Lab06_3D_worlds/camera.hpp)
 - [camera.cpp](../code/Lab06_3D_worlds/camera.cpp)
 - [vertexShader.vert](../code/Lab06_3D_worlds/vertexShader.vert)
+- [main_exercise_solutions.cpp](../code/Lab06_3D_worlds/main_exercise_solutions.cpp)
+- [camera_exercise_solutions.cpp](../code/Lab06_3D_worlds/camera_exercise_solutions.cpp)

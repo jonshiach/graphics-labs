@@ -66,7 +66,7 @@ $$ T = \begin{pmatrix}
 
 ### Translation in OpenGL
 
-Now we now the mathematical theory behind applying a transformation lets apply it to OpenGL. First download and build the project files for this lab.
+Now we know the mathematical theory behind applying a transformation lets apply it to OpenGL. First download and build the project files for this lab.
 
 1. Go to <a href="https://github.com/jonshiach/Lab05_Transformations" target="_blank">https://github.com/jonshiach/Lab05_Transformations</a> and follow the instructions to download and build the project files.
 2. Open the project file `Lab05_Transformations.sln` (or `Lab05_Transformations.xcodeproj` on macOS) set the **Lab05_Transformations** project as the startup project.
@@ -75,7 +75,7 @@ Now we now the mathematical theory behind applying a transformation lets apply i
 
 3. Build the project by pressing CTRL + B (or ⌘B on Xcode) which should build the project without errors. Run the executable by pressing F5 (or ⌘R on Xcode).
 
-If all has gone to plan you should be presented with our smiley texture from Lab03 applied to a rectangle.
+If all has gone to plan you should be presented with our smiley texture from [Lab 3](textures-section) applied to a rectangle.
 
 ```{figure} ../images/05_texture.png
 :width: 500
@@ -97,7 +97,7 @@ Add the following code to the `main.cpp` file before the do/while loop.
 glm::mat4 translate = glm::mat4(1.0f);
 translate[3][0] = 0.5f, translate[3][1] = 0.3f;
 
-std::cout << "translate = " << glm::transpose(translate) << "\n" << std::cout;
+std::cout << "translate = " << glm::transpose(translate) << "\n" << std::endl;
 ```
 
 The output command is there to check we have defined the translation matrix correctly. You should see the following in the output terminal (the window hasn't changed, we'll do that in a minute).
@@ -120,7 +120,7 @@ glm::mat4 transformation = translate;
 GLuint transformationID = glGetUniformLocation(shaderID, "transformation");
 ```
 
-We send the uniform to the vertex shader in the rendering loop just before we draw the triangles. Since we have a 4 $\times$ 4 matrix we need to using the `glUniformMatrix4fv()` function to do this.
+We send the uniform to the vertex shader **in the rendering loop** just before we draw the triangles with the `glDrawArrays()` function. Since we have a 4 $\times$ 4 matrix we need to use the `glUniformMatrix4fv()` function to do this.
 
 ```cpp
 // Send our transformation matrix to the vertex shader
@@ -227,7 +227,7 @@ Define the scaling matrix using the code below.
 glm::mat4 scale = glm::mat4(1.0f);
 scale[0][0] = 2.0f, scale[1][1] = 1.5f;
 
-std::cout << "\nscale = " << glm::transpose(scale) << "\n" << std::cout;
+std::cout << "\nscale = " << glm::transpose(scale) << "\n" << std::endl;
 ```
 
 Also, set the `transformation` matrix equal to the `scale` matrix.
@@ -298,7 +298,7 @@ Consider {numref}`rotation-figure` where the vector $\underline{u}$ is rotated b
 $$ \begin{align*}
     \sin(\phi) &= \frac{\textsf{opposite}}{\textsf{hypotenuse}}, &
     \cos(\phi) &= \frac{\textsf{adjacent}}{\textsf{hypotenuse}}, &
-    \tan(\phi) &= \frac{\textsf{adjacent}}{\textsf{opposite}},
+    \tan(\phi) &= \frac{\textsf{opposite}}{\textsf{adjacent}},
 \end{align*} $$
 
 so the length of the adjacent and opposite sides of the blue triangle is
@@ -308,7 +308,7 @@ $$ \begin{align*}
     \textsf{opposite} &= \textsf{hypotenuse} \cdot \sin(\phi).
 \end{align*} $$
 
-Now $u_x$ and $u_y$ are the lengths of the adjacent and opposite sides respectively and $|\underline{u}|$ is the length of the hypotenuse then we have
+Now $u_x$ and $u_y$ are the lengths of the adjacent and opposite sides respectively and $|\underline{u}|$ is the length of the hypotenuse so we have
 
 $$ \begin{align*}
     u_x &= |\underline{u}| \cos(\phi), \\
@@ -368,7 +368,7 @@ The rotation matrices for the rotation around the $x$ and $y$ axes are derived u
 ````
 
 ```{note}
-You may find some sources present the rotation matrices in a slightly different way where the negative sign for the $\sin(\theta)$ is swapped (see <a href="https://en.wikipedia.org/wiki/Rotation_matrix" target="_blank">Wikipedia</a> for an example). This is because these assume that the vertices are multiplied by the transformation matrix on the left, e.g., $(x', y', z', 1)^\mathsf{T} = T\cdot (x, y, z, 1)^\mathsf{T}$. With OpenGL we multiply by the transformation matrix on the right, e.g., $(x', y', y', 1) = (x, y, z, 1) \cdot T$ (although of course in our code this would be `T * [x, y, z, 1]` since OpenGL uses column-major order - this can get quite confusing!). 
+You may find some sources present the rotation matrices in a slightly different way where the negative sign for $\sin(\theta)$ is swapped (see <a href="https://en.wikipedia.org/wiki/Rotation_matrix" target="_blank">Wikipedia</a> for an example). This is because these assume that the vertices are multiplied by the transformation matrix on the left, e.g., $(x', y', z', 1)^\mathsf{T} = T\cdot (x, y, z, 1)^\mathsf{T}$. With OpenGL we multiply by the transformation matrix on the right, e.g., $(x', y', y', 1) = (x, y, z, 1) \cdot T$ so our rotation matrices are the transpose of those given elsewhere (although of course in our code we use `T * [x, y, z, 1]` since OpenGL uses column-major order to store the matrices - this can get quite confusing!). 
 ```
 
 ### Rotation in OpenGL
@@ -397,7 +397,7 @@ float angle = glm::radians(45.0f);
 rotate[0][0] = cos(angle),  rotate[0][1] = sin(angle);
 rotate[1][0] = -sin(angle), rotate[1][1] = cos(angle);
 
-std::cout << "\nrotate = " << glm::transpose(rotate) << "\n" << std::cout;
+std::cout << "\nrotate = " << glm::transpose(rotate) << "\n" << std::endl;
 ```
 
 Note that here we needed to convert 45$^\circ$ into <a href="https://en.wikipedia.org/wiki/Radian" target="_blank">**radians**</a> since OpenGL expects angles to be in radians. We now set the `transformation` matrix equal to our `rotate` matrix
@@ -628,7 +628,7 @@ If we calculate the transformation matrices inside the render loop we can move t
 
 Comment out all of the code used to calculate the transformation matrices we have entered so far this lab but leave the line where we get the location of the transformation uniform.
 
-Inside the render loop just before we send the `transformation` matrix to the shader add the following code.
+Inside the **render loop** just before we send the `transformation` matrix to the shader add the following code.
 
  ```cpp
 // Calculate transformations
@@ -665,7 +665,7 @@ Compile and run the program and we have something quite different.
 
 ## Exercises
 
-1. Use translation to produce an animation of the original rectangle rotating around a circle of radius 0.5 centered at the centre of the window. Hint: the co-ordinates of points on a circle centered at (0,0) with radius $r$ can be calculated using $x = r \cos(t)$ and $y = r  \sin(t)$ where $t$ is some number.
+1. Use translation to produce an animation of the original rectangle rotating around a circle of radius 0.5 centered at the centre of the window. Hint: the co-ordinates of points on a circle centered at (0,0) can be calculated using $x = {\tt radius} \cdot \cos({\tt time})$ and $y = {\tt radius} \cdot \sin({\tt time})$ where $t$ is some number.
 
 <center>
 <video controls muted="true" loop="true" width="500">
@@ -681,7 +681,7 @@ Compile and run the program and we have something quite different.
 </video>
 </center>
 
-3. Use scaling to scale the rectangle so that it grows and shrinks as it is moving. Hint: the function $s(t) = 1 + 0.5 \sin(at)$ oscillates between 0.5 and 1.5 as $t$ increases. Experiment with the speed of which the rectangle grows and shrinks by changing the value of $a$.
+1. Use scaling to scale the rectangle so that it grows and shrinks as it is moving. Hint: the function $s = 1 + 0.5 \sin(a \cdot {\tt time})$ oscillates between 0.5 and 1.5 as time increases. Experiment with the speed of which the rectangle grows and shrinks by changing the value of $a$.
 
 <center>
 <video controls muted="true" loop="true" width="500">
@@ -689,7 +689,7 @@ Compile and run the program and we have something quite different.
 </video>
 </center>
 
-4. Create your own class called `MyLib` using header and code files `MyLib.hpp` and `MyLib.cpp` that includes static member functions to calculate the translation, scaling and angle-axis rotation matrices (you may use `glm::mat4()`, `glm::vec3` and the `cmath` library). Replace the glm functions `glm::translate()`, `glm::scale()` and `glm::rotate` with functions from MyLib to answer exercises 1 to 3.
+4. Create your own class called `MyLib` using header and code files `MyLib.hpp` and `MyLib.cpp` that includes static member functions to calculate the translation, scaling and angle-axis rotation matrices (you may use `glm::mat4()`, `glm::vec3()` and the `cmath` library). Replace the glm functions `glm::translate()`, `glm::scale()` and `glm::rotate()` with functions from MyLib to answer exercises 1 to 3.
 
 ---
 

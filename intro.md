@@ -11,7 +11,7 @@ This site contains the materials used in the lab sessions for the Computer Graph
 | 5 | 26/02/2024 | [Transformations](transformations-section): Translation, scaling and rotation transformations. Applying transformations to polygons. |
 | 6 | 04/03/2024 | [3D Worlds](3D-worlds-section): Co-ordinate systems, the view, model and projection matrices. |
 | 7 | 11/03/2024 | [Moving the Camera](moving-the-camera-section): using keyboard input, using mouse input, back face culling |
-| 8 | 18/03/2024 | Lighting, Phong's reflection model, lighting shaders |
+| 8 | 18/03/2024 | [Lighting](lighting-section): model loading, Phong's reflection model, lighting shaders |
 | - | 23/03/2024 - 14/04/2024 | Easter break |
 | 9 | 15/04/2024 | Assignment work |
 | 10 | 22/04/2024 | Assignment work |

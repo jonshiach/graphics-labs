@@ -32,7 +32,29 @@ Of course don't forget make a similar change the method in the `Camera.cpp` file
 camera.calculateMatrices(window);
 ```
 
-Now that the `calculateMatrices()` method can take in keyboard inputs we need to capture the key presses and make appropriate changes to the `position` attribute. In the `Camera.cpp` file, add the following code before the `view` matrix is calculated.
+Now that the `calculateMatrices()` method can take in keyboard inputs we need to capture the key presses and make appropriate changes to the `position` attribute. Define three Camera class vectors `front`, `right` and `up` in the `camera.hpp` file
+
+```cpp
+ glm::vec3 front;
+ glm::vec3 right;
+ glm::vec3 up;
+ ```
+
+and instantiate them in the class constructor in `camera.cpp`.
+
+```cpp
+front = glm::vec3(0.0f, 0.0f, -1.0f);
+right = glm::vec3(1.0f, 0.0f, 0.0f);
+up = glm::vec3(0.0f, 1.0f, 0.0f);
+```
+
+Here we have defined the defaults so the camera is pointing down the $z$-axis. To move the camera we simply need to add these vectors to the `position` vector, for example to move the camera forward and back we add or subtract the `front` vector.
+
+```{figure} ../images/07_camera_movement.svg
+:width: 500
+```
+
+No we can add the following code to the Camera class constructor before the `view` matrix is calculated.
 
 ```cpp
 // Keyboard inputs
@@ -77,20 +99,20 @@ Here we have specified that we want our camera to move at a speed of 5 units per
 
 ```cpp
 // Timers
-float currentFrame = 0.0f;
-float lastFrame = 0.0f;
+float currentTime = 0.0f;
+float lastTime = 0.0f;
 float deltaTime = 0.0f;
 ```
 
-Here we have declared the variables `currentFrame` and `lastFrame` which will be used to record the times that the current and previous frames are rendered and `deltaTime` which is difference between these two.
+Here we have declared the variables `currentTime` and `lastTime` which will be used to record the times that the current and previous frames are rendered and `deltaTime` which is difference between these two.
 
 At the beginning of the render loop at the following code to update these timers.
 
 ```cpp
 // Update timers
-currentFrame = glfwGetTime();
-deltaTime = currentFrame - lastFrame;
-lastFrame = currentFrame;
+currentTime = glfwGetTime();
+deltaTime = currentTime - lastTime;
+lastTime = currentTime;
 ```
 
 We need to pass `deltaTime` to the `calculateMatrices()` Camera class method so change the `camera.hpp` and `camera.cpp` files so that the method declaration look like the following.
@@ -142,7 +164,7 @@ Here we declare two doubles (a floating point number that uses 8 bytes instead o
 
 ### Pitch and yaw
 
-The values of `xPos` and `yPos` are the number of pixels across and up the window from the bottom-left hand corner pixel respectively. The inputs to the `glm::lookAt()` function require the camera `front` vector so we need a way of converting from the position of the cursor to a vector. To do this we first calculate the yaw and pitch angles. Consider {numref}`roll-pitch-yaw-figure` which shows $\tt foward$, $\tt right$ and $\tt up$ camera vectors.
+The values of `xPos` and `yPos` are the number of pixels across and up the window from the bottom-left hand corner pixel respectively. The inputs to the `glm::lookAt()` function require the camera `front` vector so we need a way of converting from the position of the cursor to a vector. To do this we first calculate the yaw and pitch angles. Consider {numref}`roll-pitch-yaw-figure` which shows $\tt front$, $\tt right$ and $\tt up$ camera vectors.
 
 ```{figure} /images/07_euler_angles.svg
 :width: 350
@@ -249,8 +271,12 @@ The $\tt right$ and $\tt up$ camera vectors are calculated in a similar was to h
 
 $$ \begin{align*}
   \tt right &= \textsf{normalise}(\tt front \times worldUp), \\
-  \tt up &= \textsf{normalise}(\tt right \times front).
+  \tt up &= \textsf{normalise}(\tt right \times front),
 \end{align*} $$
+
+and the $\tt target$ vector is
+
+$$ \tt target = position + front. $$
 
 Add the following code to the `camera.cpp` file after we have updated the $\tt yaw$ and $\tt pitch$ angles.
 
@@ -259,6 +285,7 @@ Add the following code to the `camera.cpp` file after we have updated the $\tt y
 front = glm::normalize(glm::vec3(cos(pitch) * sin(yaw) , sin(pitch), -cos(yaw) * cos(pitch)));
 right = glm::normalize(glm::cross(front, worldUp));
 up = glm::normalize(glm::cross(right, front));
+target = position + front;
 ```
 
 If you compile and run your program you may notice that the mouse controls are far too sensitive and we need to slow down the speed of rotation. To do this add an attribute to the Camera class in `camera.hpp` called `mouseSpeed` and initialise it to some small number (you may need to experiment with this value).
@@ -302,7 +329,7 @@ Since in computer graphics are surfaces are triangles, we can easily calculate a
 
 $$ \tt normal = (v1 - v0) \times (v2 - v1). $$
 
-A surface is said to be back facing it its normal vector is pointing away from the camera position. If we only render the front facing surfaces then, assuming the surfaces are opaque, we should notice any difference and we have halved the number of surfaces the shader has to deal with ({numref}`backface-culling-figure`). 
+A surface is said to be back facing it its normal vector is pointing away from the camera position. If we only render the front facing surfaces then, assuming the surfaces are opaque, we should not notice any difference and we have halved the number of surfaces the shader has to deal with ({numref}`backface-culling-figure`). 
 
 ```{figure} /images/07_backface_culling.svg
 :width: 300
@@ -311,16 +338,16 @@ A surface is said to be back facing it its normal vector is pointing away from t
 Back face culling removes surfaces with vectors pointing away from the camera.
 ```
 
-But how do we know if a surface is front facing? Consider {numref}`front-facing-figure` which shows a front facing surface.
+But how do we know if a surface is back facing? Consider {numref}`back-facing-figure` which shows a back facing surface.
 
-```{figure} /images/07_front_facing.svg
+```{figure} /images/07_back_facing.svg
 :width: 400
-:name: front-facing-figure
+:name: back-facing-figure
 
-A front facing surface.
+A back facing surface.
 ```
 
-The $\tt angle$ between the $\tt normal$ vector and the $\tt\text{viewVector}$, which is a vector from the camera to the surface, is greater than 90$^\circ$. If the surface was back facing then $\tt angle$ would be less than 90$^\circ$. Recall that the [dot product](dot-product-section) is related to the angle between two vectors, i.e., 
+The $\tt angle$ between the $\tt normal$ vector and the $\tt\text{viewVector}$, which is a vector from the camera to the surface, is less than 90$^\circ$. Recall that the [dot product](dot-product-section) is related to the angle between two vectors, i.e.,
 
 $$ \tt normal \cdot \text{viewVector} = | normal | | \text{viewVector} | \cos(angle). $$
 
@@ -344,7 +371,7 @@ Compile and run your program and use the keyboard and mouse to put the camera in
 ## Exercises
 
 1. Change the `calculateMatrices()` Camera class method so that the camera position always has a $y$ co-ordinate of 0, i.e., like a first person shooter game where the player cannot fly around the world.
-2. Add the ability for the user to perform a jump by pressing the space bar. The jump should last for 1 second and the camera should follow a smooth arc. Hint: the function $y = a\sin(\pi t)$ produces values of $y=0$ when $t=0$ or $t = 1$ and $y = a$ when $t = 0.5$.
+2. Add the ability for the user to perform a jump by pressing the space bar. The jump should last for 1 second and the camera should follow a smooth arc. Hint: the function $y = \tt height \cdot \sin(\pi \cdot \tt time)$ produces values of $y=0$ when $\tt time = 0$ or $\tt time = 1$ and $y = \tt height$ when $t = 0.5$.
 3. Write your own class called `MyLib` with static member functions for each of the functions you have used from the glm library (e.g., `lookAt()`) and make use of them to calculate the `model`, `view` and `projection` matrices (you may make use of `glm::mat4` and `glm::vec3` types).
 
 ---
