@@ -36,7 +36,7 @@ The teapot has been rendered as a wireframe model since, in the absence of light
 
 If you take a look at the source code in the `Lab08_Lighting/source` folder you will notice that in addition to the classes introduced in previous labs (Texture, Shader and Camera) we have an addition class called Model which is defined in the `model.hpp` and `model.cpp` files. The Model class has been written so that we can load the vertex and texture co-ordinates from external files rather than having to define these in our code. Take a look at the `main.cpp` file where the following Model class methods have been called:
 
-- `Model teapot("../objects/teapot.obj` - this is the constructor for the Model class and creates an object called `teapot`, loads the vertex co-ordinates, texture co-ordinates and vertex normals from an .obj file (see below) and creates the VAO and relevant buffers.
+- `Model teapot("../objects/teapot.obj)` - this is the constructor for the Model class and creates an object called `teapot`, loads the vertex co-ordinates, texture co-ordinates and vertex normals from an .obj file (see below) and creates the VAO and relevant buffers.
 - `teapot.addTexture("../objects/crate", "diffuse");` - this method loads the crate texture (not used here but shown to give you an example).
 - `teapot.draw(shaderID)` - this method binds the objects buffers and instructs OpenGL to draw the model.
 - `teapt.deleteBuffers()` - this method deletes all of the buffers created by the constructor.
