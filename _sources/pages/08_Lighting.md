@@ -34,12 +34,12 @@ The teapot has been rendered as a wireframe model since, in the absence of light
 
 ## The Model class
 
-If you take a look at the source code in the `Lab08_Lighting/source` folder you will notice that in addition to the classes introduced in previous labs (Texture, Shader and Camera) we have an addition class called Model which is defined in the `model.hpp` and `model.cpp` files. The Model class has been written so that we can load the vertex and texture co-ordinates from external files rather than having to define these in our code. The methods of interest are:
+If you take a look at the source code in the `Lab08_Lighting/source` folder you will notice that in addition to the classes introduced in previous labs (Texture, Shader and Camera) we have an addition class called Model which is defined in the `model.hpp` and `model.cpp` files. The Model class has been written so that we can load the vertex and texture co-ordinates from external files rather than having to define these in our code. Take a look at the `main.cpp` file where the following Model class methods have been called:
 
-- `Model <model name>(<path to .obj file>);` - the constructor instantiates a Model object, loads the vertices from an `.obj` file and setups and binds the necessary buffers.
-- `<model name>.addTexture(<path to .bmp file>, <type of texture>);` - a method to apply a texture to the model.
-- `<model name>.draw(<shader program ID>);` - binds the textures and instructs OpenGL to draw the model.
-- `<model name>.deleteBuffers();` - deletes the VAO and the buffers used by the model.
+- `Model teapot("../objects/teapot.obj` - this is the constructor for the Model class and creates an object called `teapot`, loads the vertex co-ordinates, texture co-ordinates and vertex normals from an .obj file (see below) and creates the VAO and relevant buffers.
+- `teapot.addTexture("../objects/crate", "diffuse");` - this method loads the crate texture (not used here but shown to give you an example).
+- `teapot.draw(shaderID)` - this method binds the objects buffers and instructs OpenGL to draw the model.
+- `teapt.deleteBuffers()` - this method deletes all of the buffers created by the constructor.
 
 ### Wavefront (.obj) files
 
@@ -102,7 +102,7 @@ The vertex and face data is given in lines with the following abbreviations:
 - `f` - indices of the vertices of a face. Each face is defined by 3 vertices so we have 3 sets of 3 values. The face vertices are of the form `v/vt/vn` so `3/2/1` refers to a vertex where the co-ordinates are given by the 3rd `v` line, the texture co-ordinates are given by the 2nd `vt` line and the normal vector is given by the 1st `vn` line.
 
 ```{note}
-The `loadObj()` private member function in the Model class is quite simplistic and we need to make sure our .obj file is in the correct form. 
+The `loadObj()` private member function in the Model class is quite simplistic and we need to make sure our .obj file is in the correct form. There are some model loading libraries available such as <a href="http://www.assimp.org" target="_blank">assimp</a> (open ASSet IMPorter library) that can handle most common object formats but use of this requires compiling source code and configuring the IDE which is a bit too fiddly for what we are doing here.
 ```
 
 ### Creating an .obj file in Blender
@@ -111,8 +111,19 @@ To create an .obj file we can use the popular open source application <a href="h
 
 1. Create your object in blender and sort out the material textures, UV co-ordinates etc. (lots of tutorials on youtube to help you with this)
 2. Click on **File > Export > Wavefront (.obj)**
+
+```{figure} ../images/08_blender_export_obj_1.png
+:width: 600
+```
+
 3. Make sure **Include Normals**, **Include UVs** and **Triangular Faces** are selected.
-4. Navigate to your chosen folder (here I used `Lab08_Lighting/objects/`) and give it an appropriate name.
+
+
+```{figure} ../images/08_blender_export_obj_2.png
+:width: 600
+```
+
+4. Navigate to your chosen folder e.g., `Lab08_Lighting/objects/`, and give it an appropriate name.
 
 ---
 
@@ -149,8 +160,6 @@ We have used a 3-element vector to containing the RGB values for our light sourc
 glUniform3fv(glGetUniformLocation(shaderID, "lightColour"), 1, &lightColour[0]);
 glUniform3fv(glGetUniformLocation(shaderID, "ambientColour"), 1, &ambientColour[0]);
 ```
-
-
 
 Then edit `fragmentShader.frag` so that it takes in the `lightColour` uniform and calculates the ambient reflection.
 
@@ -213,7 +222,14 @@ $k_a=0.8$
 
 ### Diffuse reflection
 
-When a light ray hits a surface it is reflected in a direction such that the angle between the reflected ray and the surface normal is the same as the angle between the light ray and the surface normal (known as the angle of incidence). When multiple light rays hit a rough surface they are scattered in all directions since the surface normals across the surface vary, this is diffuse reflection.
+When a light ray hits a surface it is reflected in a direction such that the angle between the reflected ray and the surface normal is the same as the angle between the light ray and the surface normal (known as the angle of incidence). Consider {numref}`diffuse-reflection-figure` that shows parallel light rays hitting a rough surface. The normal vectors vary across the surface so the light rays are scattered in multiple directions. This is known as **diffuse reflection**.
+
+```{figure} ../images/08_diffuse_reflection.svg
+:width: 500
+:name: diffuse-reflection-figure
+
+Light rays hitting a rough surface are scattered in all directions.
+```
 
 To model diffuse reflection we assume that light is reflected equally in all directions ({numref}`diffuse-figure`).
 
@@ -224,19 +240,19 @@ To model diffuse reflection we assume that light is reflected equally in all dir
 Diffuse reflection scatters light equally in all directions.
 ```
 
-The amount of reflected light is modelled using the cosine of the angle of incidence $\tt theta$. When the light source is directly in front of the surface then $\tt theta$ is close to zero so $\cos(\tt theta)$ is close to 1. If the light source is close to being inline with the surface then $\tt theta$ is close to 90$^\circ$ and $\cos(\tt theta)$ is close to 0. So a model of diffuse reflection is
+The amount of light that is reflected to the viewer is modelled using the angle $\theta$ between the $\tt light$ and $\tt normal$ vectors. If $\theta$ is small then the light source is directly in front of the surface so most of the light will be reflected to the viewer. Whereas if $\theta$ is close to 90$^\circ$ then the light source is nearly in line with the surface and little of the light will be reflected to the viewer. We model this using the cosine of $\theta$ since $\cos(0) = 1$ and $\cos(90)=0$. Diffuse reflection is calculated using
 
 $$ \textsf{diffuse} = k_d I_o I_d \cos(\theta),$$
 
-where $k_d$ is the **diffuse reflection constant** that determine the amount of diffuse lighting used, $I_d$ is the colour of the diffuse light source and $\theta$ is the angle between the $\tt light$ and $\tt normal$ vectors. Recall that the angle between two vectors is related by [dot product](dot-product-section) so if the $\tt light$ and $\tt normal$ vectors are unit vectors then $\cos(\theta) = \tt light \cdot normal$. If the light source is behind the surface then no light should be reflected so we limit the value of $\cos(\theta )$ between 0 and 1.
+where $k_d$ is the **diffuse reflection constant** that determines the amount of diffuse lighting seen by the viewer and $I_d$ is the colour of the diffuse light source. Recall that the angle between two vectors is related by [dot product](dot-product-section) so if the $\tt light$ and $\tt normal$ vectors are unit vectors then $\cos(\theta) = \tt light \cdot normal$. If $\theta > 90^\circ$ then light source is behind the surface and no light should be reflected to the viewer. When $\theta$ is between 90$^\circ$ and 180$^\circ$, $\cos(\theta)$ is negative so limit the value of $\cos(\theta )$ between 0 and 1.
 
-Lets define position for a light source, just after where we defined the `lightColour` vector, add the following.
+Lets define position for a light source, add the following to `main.cpp` just after where we defined the `lightColour` vector
 
 ```cpp
 glm::vec3 lightPosition = glm::vec3(2.0f, 2.0f, 2.0f);
 ```
 
-Now for the shaders. The vertex shader calculates the position of the fragment in the screen space and since our lighting calculations are done in the view space we need to calculate the view space fragment co-ordinates and the view space normal. Edit `vertexShader.vert` so that is looks like the following.
+The vertex shader calculates the position of the fragment in the screen space and since our lighting calculations are done in the view space we need to get our vertex shader to calculate the normal vector and the co-ordinates of the fragment in the view space. Edit `vertexShader.vert` so that is looks like the following.
 
 ```cpp
 #version 330 core
@@ -270,14 +286,14 @@ void main()
 }
 ```
 
-We also need to calculate the view space co-ordinates for the `lightPosition` vector. Since the light positions are the same for all fragments we do this in our `main.cpp` program and use a uniform to send it to the fragment shader.
+We also need to calculate the view space co-ordinates for the `lightPosition` vector. Since the light position is the same for all fragments it is better do this in our `main.cpp` file rather than recalculating it for each fragment in the shaders.
 
 ```cpp
 glm::vec3 viewSpaceLightPosition = glm::vec3(view * glm::vec4(lightPosition, 1.0f));
 glUniform3fv(glGetUniformLocation(shaderID, "lightPosition"), 1, &viewSpaceLightPosition[0]);
 ```
 
-Add a float constant with the value `kd = 0.7` to the fragment shader and in the `main()` function add the following to calculate diffuse reflection.
+In `fragmentShader.frag` add a float constant with the value `kd = 0.7` and in the `main()` function add the following to calculate diffuse reflection.
 
 ```cpp
 // Diffuse
@@ -303,9 +319,20 @@ The result of applying ambient and diffuse reflection is shown in {numref}`teapo
 Ambient and diffuse reflection: $k_a = 0.2$, $k_d = 0.7$.
 ```
 
+Use the keyboard and mouse to view the teapot from different angles. You should notice that the side of the teapot facing away from the light source is darker.
+
 ### Specular reflection
 
-Specular reflection is the reflection of light off of smooth surfaces. Light rays hitting a smooth surface are scattered in a specific direction given by the reflection vector ({numref}`specular-figure`). The amount of specular reflection seen by the viewer is determined by the angle between the $\tt reflection$ vector and the $\tt eye$ vector which we call $\alpha$. The smaller the value of $\alpha$ the more of the reflected light the viewer will see.
+Consider {numref}`specular-reflection-figure` that shows parallel light rays hitting a smooth surface. The normal vectors will be similar across the surface so the reflected rays will point mostly in the same directions. This is known as **specular reflection**.
+
+```{figure} ../images/08_specular_reflection.svg
+:width: 500
+:name: specular-reflection-figure
+
+Light rays hitting a smooth surface are reflected in the same direction.
+```
+
+For a perfectly smooth surface the reflected ray will point in the direction of the $\tt reflection$ vector so in order to see the light the viewer would need to be positioned in the direction of the $\tt reflection$ vector. Since most surfaces are not perfectly smooth we add a bit of scattering to the model the amount of specular reflection seen by the viewer. This is determined by the angle $\alpha$ between the $\tt reflection$ vector and the $\tt eye$ vector, the vector pointing from the surface to the viewer. The closer the viewer is to the reflection vector, the smaller the value of $\alpha$ will be and the more of the reflected light will be seen.
 
 ```{figure} ../images/08_specular.svg
 :width: 400
@@ -345,12 +372,12 @@ The result of applying ambient, diffuse and specular reflection is shown in {num
 :width: 500
 :name: teapot-phong-figure
 
-Ambient, diffuse and reflection $k_a = 0.2$, $k_d = 0.7$, $k_s = 1.0$, $N_s = 20$.
+Ambient, diffuse and reflection: $k_a = 0.2$, $k_d = 0.7$, $k_s = 1.0$, $N_s = 20$.
 ```
 
 ### Attenuation
 
-**Attenuation** is the gradual decrease in light intensity as the distance between the light source and a surface increases. We can use attenuation to model light from low intensity light source, for example, a candle or torch. Theoretically attenuation should follow the inverse square law where the light intensity is inversely proportional to the square of the distance between the light source and the surface. However, in practice this tends to result in a scene that is too dark so we calculate attenuation using the following
+**Attenuation** is the gradual decrease in light intensity as the distance between the light source and a surface increases. We can use attenuation to model light from low intensity light source, for example, a candle or torch which will only illuminate an area close to the source. Theoretically attenuation should follow the inverse square law where the light intensity is inversely proportional to the square of the distance between the light source and the surface. However, in practice this tends to result in a scene that is too dark so we calculate attenuation using the following
 
 $$ \textsf{attenuation} = \frac{1}{k_c + k_l \cdot \textsf{distance} + k_q \cdot \textsf{distance}^2}, $$
 
@@ -374,7 +401,7 @@ float attenuation = 1.0 / (kc + kl * distance + kq * distance * distance);
 colour = (ambient + diffuse + specular) * attenuation;
 ```
 
-To demonstrate the affects of applying attenuation we are going to need some more objects that are further away from the light source. Before the render loop define an array of position vectors
+To demonstrate the affects of applying attenuation we are going to need some more objects that are further away from the light source. In your `main.cpp` file before the render loop define an array of position vectors
 
 ```cpp
 // Specify world space object positions
@@ -412,7 +439,7 @@ for (unsigned int i = 0; i < 10; i++)
 }
 ```
 
-It would also be useful to render the light source. After you've drawn the 10 teapots add the following code (a light source object and the shader for drawing the light source have been defined beforehand).
+It would also be useful to render the light source. After you've drawn the teapots add the following code (a light source object and the shader for drawing the light source have been defined beforehand).
 
 ```cpp
 // Draw light source
