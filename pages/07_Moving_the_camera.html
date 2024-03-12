@@ -366,6 +366,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-mouse-to-point-the-camera">7.2. Using the mouse to point the camera</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pitch-and-yaw">7.2.1. Pitch and yaw</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constraining-the-pitch-angle">7.2.2. Constraining the pitch angle</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-face-culling">7.3. Back face culling</a></li>
@@ -429,23 +430,28 @@ document.write(`
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Keyboard inputs</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">glfwGetKey</span><span class="p">(</span><span class="n">window</span><span class="p">,</span><span class="w"> </span><span class="n">GLFW_KEY_W</span><span class="p">))</span>
 <span class="p">{</span>
-<span class="w">  </span><span class="n">position</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">front</span><span class="p">;</span><span class="w"> </span><span class="c1">// move forward</span>
+<span class="w">    </span><span class="n">position</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">front</span><span class="p">;</span><span class="w"> </span><span class="c1">// move forward</span>
 <span class="p">}</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">glfwGetKey</span><span class="p">(</span><span class="n">window</span><span class="p">,</span><span class="w"> </span><span class="n">GLFW_KEY_S</span><span class="p">))</span>
 <span class="p">{</span>
-<span class="w">  </span><span class="n">position</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">front</span><span class="p">;</span><span class="w"> </span><span class="c1">// move backwards</span>
+<span class="w">    </span><span class="n">position</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">front</span><span class="p">;</span><span class="w"> </span><span class="c1">// move backwards</span>
 <span class="p">}</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">glfwGetKey</span><span class="p">(</span><span class="n">window</span><span class="p">,</span><span class="w"> </span><span class="n">GLFW_KEY_A</span><span class="p">))</span>
 <span class="p">{</span>
-<span class="w">  </span><span class="n">position</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">right</span><span class="p">;</span><span class="w"> </span><span class="c1">// move left</span>
+<span class="w">    </span><span class="n">position</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">right</span><span class="p">;</span><span class="w"> </span><span class="c1">// move left</span>
 <span class="p">}</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">glfwGetKey</span><span class="p">(</span><span class="n">window</span><span class="p">,</span><span class="w"> </span><span class="n">GLFW_KEY_D</span><span class="p">))</span>
 <span class="p">{</span>
-<span class="w">  </span><span class="n">position</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">right</span><span class="p">;</span><span class="w"> </span><span class="c1">// move right</span>
+<span class="w">    </span><span class="n">position</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">right</span><span class="p">;</span><span class="w"> </span><span class="c1">// move right</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">glfwGetKey(window,</span> <span class="pre">GLFW_KEY_W)</span></code> returns a true value if the W key has been pressed. An if statement is then used to add the <code class="docutils literal notranslate"><span class="pre">front</span></code> vector to the camera <code class="docutils literal notranslate"><span class="pre">position</span></code> vector thereby moving the camera forward. We’ve done similar to move the camera backwards, to the left and right using the classic WSAD key combinations.</p>
+<p>Since we now have the ability to change the <code class="docutils literal notranslate"><span class="pre">positon</span></code> vector we should also update the <code class="docutils literal notranslate"><span class="pre">target</span></code> vector so that the camera direction does change (we do this below using mouse inputs). Just before we calculate the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix add the following code.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Update target</span>
+<span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">front</span><span class="p">;</span>
+</pre></div>
+</div>
 <p>Compile and run the program and you should be able to move the camera around the 3D world using the keyboard.</p>
 <center>
 <video controls muted="true" loop="true" width="500">
@@ -503,7 +509,7 @@ document.write(`
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">glfwSetInputMode()</span></code> and <code class="docutils literal notranslate"><span class="pre">glfwPollEvents()</span></code> functions tell GLFW to expect mouse input and also disable the cursor so it isn’t shown on the window. The <code class="docutils literal notranslate"><span class="pre">gflwSetCursorPos()</span></code> initialises the cursor to be in the center of the window using the width and height window size.</p>
-<p>We now need to change the Camera class method <code class="docutils literal notranslate"><span class="pre">calculateMatrices()</span></code> to get the mouse cursor positions. In the <code class="docutils literal notranslate"><span class="pre">camera.cpp</span></code> add the following code before we calculate the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix.</p>
+<p>We now need to change the Camera class method <code class="docutils literal notranslate"><span class="pre">calculateMatrices()</span></code> to get the mouse cursor positions. In the <code class="docutils literal notranslate"><span class="pre">camera.cpp</span></code> add the following code just before we update the <code class="docutils literal notranslate"><span class="pre">target</span></code> vector.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get mouse cursor position</span>
 <span class="kt">double</span><span class="w"> </span><span class="n">xPos</span><span class="p">,</span><span class="w"> </span><span class="n">yPos</span><span class="p">;</span>
 <span class="n">glfwGetCursorPos</span><span class="p">(</span><span class="n">window</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">xPos</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">yPos</span><span class="p">);</span>
@@ -639,6 +645,17 @@ Calculating the front vector from the yaw and pitch angles<div class="sd-summary
 </video>
 </center>
 </section>
+<section id="constraining-the-pitch-angle">
+<h3><span class="section-number">7.2.2. </span>Constraining the pitch angle<a class="headerlink" href="#constraining-the-pitch-angle" title="Permalink to this heading">#</a></h3>
+<p>Whilst playing with the camera direction you may have noticed that when you attempt to look straight up or down upon the objects the camera suddenly flips. This is because of how we calculate the <code class="docutils literal notranslate"><span class="pre">view</span></code> vector. To prevent this we need to constrain the <code class="docutils literal notranslate"><span class="pre">pitch</span></code> angle so it is between <span class="math notranslate nohighlight">\(\frac{1}{2}\pi\)</span> and <span class="math notranslate nohighlight">\(\frac{3}{2} \pi\)</span> (equivalent to 90<span class="math notranslate nohighlight">\(^\circ\)</span> and 270<span class="math notranslate nohighlight">\(^\circ\)</span> respectively). To do this we simply add the following if statements after updating the <code class="docutils literal notranslate"><span class="pre">yaw</span></code> and <code class="docutils literal notranslate"><span class="pre">pitch</span></code> angles.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Constrain pitch angle so the screen doesn&#39;t flip when looking straight up or down</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pitch</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">1.49f</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pi</span><span class="p">)</span>
+<span class="w">    </span><span class="n">pitch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.49f</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pi</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pitch</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.51f</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pi</span><span class="p">)</span>
+<span class="w">    </span><span class="n">pitch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.51f</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pi</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
 </section>
 <section id="back-face-culling">
 <h2><span class="section-number">7.3. </span>Back face culling<a class="headerlink" href="#back-face-culling" title="Permalink to this heading">#</a></h2>
@@ -687,7 +704,7 @@ Calculating the front vector from the yaw and pitch angles<div class="sd-summary
 <h2><span class="section-number">7.4. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p>Change the <code class="docutils literal notranslate"><span class="pre">calculateMatrices()</span></code> Camera class method so that the camera position always has a <span class="math notranslate nohighlight">\(y\)</span> co-ordinate of 0, i.e., like a first person shooter game where the player cannot fly around the world.</p></li>
-<li><p>Add the ability for the user to perform a jump by pressing the space bar. The jump should last for 1 second and the camera should follow a smooth arc. Hint: the function <span class="math notranslate nohighlight">\(y = \tt height \cdot \sin(\pi \cdot \tt time)\)</span> produces values of <span class="math notranslate nohighlight">\(y=0\)</span> when <span class="math notranslate nohighlight">\(\tt time = 0\)</span> or <span class="math notranslate nohighlight">\(\tt time = 1\)</span> and <span class="math notranslate nohighlight">\(y = \tt height\)</span> when <span class="math notranslate nohighlight">\(t = 0.5\)</span>.</p></li>
+<li><p>Add the ability for the user to perform a jump by pressing the space bar. The jump should last for 1 second and the camera should follow a smooth arc. Hint: the function <span class="math notranslate nohighlight">\(y = \tt height \cdot \sin(\pi \cdot \tt time)\)</span> produces values of <span class="math notranslate nohighlight">\(y=0\)</span> when <span class="math notranslate nohighlight">\(\tt time = 0\)</span> or <span class="math notranslate nohighlight">\(\tt time = 1\)</span> and <span class="math notranslate nohighlight">\(y = \tt height\)</span> when <span class="math notranslate nohighlight">\(\tt time = 0.5\)</span>.</p></li>
 <li><p>Write your own class called <code class="docutils literal notranslate"><span class="pre">MyLib</span></code> with static member functions for each of the functions you have used from the glm library (e.g., <code class="docutils literal notranslate"><span class="pre">lookAt()</span></code>) and make use of them to calculate the <code class="docutils literal notranslate"><span class="pre">model</span></code>, <code class="docutils literal notranslate"><span class="pre">view</span></code> and <code class="docutils literal notranslate"><span class="pre">projection</span></code> matrices (you may make use of <code class="docutils literal notranslate"><span class="pre">glm::mat4</span></code> and <code class="docutils literal notranslate"><span class="pre">glm::vec3</span></code> types).</p></li>
 </ol>
 </section>
@@ -779,6 +796,7 @@ Calculating the front vector from the yaw and pitch angles<div class="sd-summary
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-mouse-to-point-the-camera">7.2. Using the mouse to point the camera</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pitch-and-yaw">7.2.1. Pitch and yaw</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constraining-the-pitch-angle">7.2.2. Constraining the pitch angle</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-face-culling">7.3. Back face culling</a></li>
