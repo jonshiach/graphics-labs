@@ -7,7 +7,7 @@ layout(location = 2) in vec3 normal;
 
 // Output data
 out vec2 UV;
-out vec3 FragmentPosition;
+out vec3 fragmentPosition;
 out vec3 Normal;
 
 // Uniforms
@@ -23,7 +23,7 @@ void main()
     // Output (u,v) co-ordinates
     UV = uv;
     
-    // Output view space fragment position and normal
-    FragmentPosition = vec3(view * model * vec4(position, 1.0));
+    // Output view space position and normal vectors
+    fragmentPosition = vec3(view * model * vec4(position, 1.0));
     Normal = mat3(transpose(inverse(view * model))) * normal;
 }

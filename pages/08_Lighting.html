@@ -361,7 +361,6 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-class">8.1. The Model class</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wavefront-obj-files">8.1.1. Wavefront (.obj) files</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-an-obj-file-in-blender">8.1.2. Creating an .obj file in Blender</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#phong-s-lighting-model">8.2. Phong’s lighting model</a><ul class="nav section-nav flex-column">
@@ -369,11 +368,13 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diffuse-reflection">8.2.2. Diffuse reflection</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specular-reflection">8.2.3. Specular reflection</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attenuation">8.2.4. Attenuation</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-of-phong-s-reflection-model">8.2.5. Summary of Phong’s reflection model</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-light-sources">8.3. Multiple light sources</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#directional-light">8.4. Directional light</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">8.5. Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-code">8.6. Source code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-an-obj-file-in-blender">8.7. Creating an .obj file in Blender</a></li>
 </ul>
             </nav>
         </div>
@@ -392,6 +393,9 @@ document.write(`
 <li><p><strong>local illumination</strong> - the colour and brightness of individual points on a surface are determined by the light emanating from one or more light sources.</p></li>
 <li><p><strong>global illumination</strong> - the colour and brightness of individual points on a surface are determine both by the light emanating from light sources <strong>in addition to</strong> light that is reflected off of other objects in the scene.</p></li>
 </ul>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/08_local_global_illumination.svg"><img alt="../_images/08_local_global_illumination.svg" src="../_images/08_local_global_illumination.svg" width="500" /></a>
+</figure>
 <p>Here we will be applying a local illumination model since they are easier to apply than global illumination and quicker to computer. The downside is that they don’t produce a rendering as realistic than with global illumination.</p>
 <p>Download and build the project files for this lab.</p>
 <ol class="arabic simple">
@@ -484,26 +488,6 @@ f 5/12/6 1/3/6 2/9/6
 <p>The <code class="docutils literal notranslate"><span class="pre">loadObj()</span></code> private member function in the Model class is quite simplistic and we need to make sure our .obj file is in the correct form. There are some model loading libraries available such as <a href="http://www.assimp.org" target="_blank">assimp</a> (open ASSet IMPorter library) that can handle most common object formats but use of this requires compiling source code and configuring the IDE which is a bit too fiddly for what we are doing here.</p>
 </div>
 </section>
-<section id="creating-an-obj-file-in-blender">
-<h3><span class="section-number">8.1.2. </span>Creating an .obj file in Blender<a class="headerlink" href="#creating-an-obj-file-in-blender" title="Permalink to this heading">#</a></h3>
-<p>To create an .obj file we can use the popular open source application <a href="https://www.blender.org" target="_blank">Blender</a> (this is installed on the machines in the Dalton building).</p>
-<ol class="arabic simple">
-<li><p>Create your object in blender and sort out the material textures, UV co-ordinates etc. (lots of tutorials on youtube to help you with this)</p></li>
-<li><p>Click on <strong>File &gt; Export &gt; Wavefront (.obj)</strong></p></li>
-</ol>
-<figure class="align-default">
-<a class="reference internal image-reference" href="../_images/08_blender_export_obj_1.png"><img alt="../_images/08_blender_export_obj_1.png" src="../_images/08_blender_export_obj_1.png" style="width: 600px;" /></a>
-</figure>
-<ol class="arabic simple" start="3">
-<li><p>Make sure <strong>Include Normals</strong>, <strong>Include UVs</strong> and <strong>Triangular Faces</strong> are selected.</p></li>
-</ol>
-<figure class="align-default">
-<a class="reference internal image-reference" href="../_images/08_blender_export_obj_2.png"><img alt="../_images/08_blender_export_obj_2.png" src="../_images/08_blender_export_obj_2.png" style="width: 600px;" /></a>
-</figure>
-<ol class="arabic simple" start="4">
-<li><p>Navigate to your chosen folder e.g., <code class="docutils literal notranslate"><span class="pre">Lab08_Lighting/objects/</span></code>, and give it an appropriate name.</p></li>
-</ol>
-</section>
 </section>
 <hr class="docutils" />
 <section id="phong-s-lighting-model">
@@ -519,19 +503,17 @@ f 5/12/6 1/3/6 2/9/6
 \[ \tt colour  = ambient + diffuse + specular.\]</div>
 <section id="ambient-reflection">
 <h3><span class="section-number">8.2.1. </span>Ambient reflection<a class="headerlink" href="#ambient-reflection" title="Permalink to this heading">#</a></h3>
-<p>Ambient reflection is light that is scatters off of all surfaces in a scene. To model this we use a massive cheat, we assume that all surfaces in a scene are lit equally with the same amount of intensity. The equation to do this is</p>
+<p>Ambient reflection is light that is scatters off of all surfaces in a scene. To model this we use a massive cheat, we assume that all surfaces of the object are lit equally with the same amount of intensity. The equation to do this is</p>
 <div class="math notranslate nohighlight">
 \[ \textsf{ambient} = k_a I_a I_o, \]</div>
 <p>where <span class="math notranslate nohighlight">\(k_a\)</span> is the <strong>ambient reflection constant</strong> that determines the amount of ambient lighting used and <span class="math notranslate nohighlight">\(I_a\)</span> and <span class="math notranslate nohighlight">\(I_o\)</span> are the colours of the ambient light and object respectively. Lets create a light source and calculate the ambient lighting. We need to create a vector for the light colour and send it to the shaders using a uniform. Add the following code to the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file just before the render loop.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define lighting properties</span>
 <span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">lightColour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">);</span>
-<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">ambientColour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>We have used a 3-element vector to containing the RGB values for our light source and ambient colour so in this case it is pure white (a bit boring I know so feel free to experiment with different colours). In the render loop add the following code to send the <code class="docutils literal notranslate"><span class="pre">lightColour</span></code> to the shaders.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Send light source vectors to the shaders</span>
+<p>We have used a 3-element vector to containing the RGB values for our light source so in this case it is pure white (a bit boring I know so feel free to experiment with different colours). In the render loop add the following code to send the <code class="docutils literal notranslate"><span class="pre">lightColour</span></code> to the shaders.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Send light source properties to the shader</span>
 <span class="n">glUniform3fv</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;lightColour&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lightColour</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
-<span class="n">glUniform3fv</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ambientColour&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ambientColour</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
 </pre></div>
 </div>
 <p>Then edit <code class="docutils literal notranslate"><span class="pre">fragmentShader.frag</span></code> so that it takes in the <code class="docutils literal notranslate"><span class="pre">lightColour</span></code> uniform and calculates the ambient reflection.</p>
@@ -539,31 +521,27 @@ f 5/12/6 1/3/6 2/9/6
 
 <span class="c1">// Interpolated values from the vertex shaders</span>
 <span class="n">in</span><span class="w"> </span><span class="n">vec2</span><span class="w"> </span><span class="n">UV</span><span class="p">;</span>
-<span class="n">in</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">FragmentPosition</span><span class="p">;</span>
-<span class="n">in</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">Normal</span><span class="p">;</span>
 
 <span class="c1">// Output data</span>
-<span class="n">out</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">colour</span><span class="p">;</span>
+<span class="n">out</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">fragmentColour</span><span class="p">;</span>
 
 <span class="c1">// Uniforms</span>
-<span class="n">uniform</span><span class="w"> </span><span class="n">sampler2D</span><span class="w"> </span><span class="n">Texture</span><span class="p">;</span>
+<span class="n">uniform</span><span class="w"> </span><span class="n">sampler2D</span><span class="w"> </span><span class="n">diffuse1</span><span class="p">;</span>
 <span class="n">uniform</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">lightColour</span><span class="p">;</span>
-<span class="n">uniform</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">ambientColour</span><span class="p">;</span>
 
 <span class="c1">// Constants</span>
-<span class="kt">float</span><span class="w"> </span><span class="n">ka</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">;</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">ka</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.2</span><span class="p">;</span>
 
 <span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="w"> </span><span class="p">()</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="c1">// Object colour (not using texture mapping yet)</span>
-<span class="w">    </span><span class="c1">//vec3 objectColour = texture(Texture, uv).xyz;</span>
-<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">objectColour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// Object colour</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">objectColour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec3</span><span class="p">(</span><span class="n">texture</span><span class="p">(</span><span class="n">diffuse1</span><span class="p">,</span><span class="w"> </span><span class="n">UV</span><span class="p">));</span>
 
-<span class="w">    </span><span class="c1">// Ambient</span>
-<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">ambient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ka</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">ambientColour</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">objectColour</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// Ambient reflection</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">ambient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ka</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lightColour</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">objectColour</span><span class="p">;</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="c1">// Fragment colour</span>
-<span class="w">    </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ambient</span><span class="p">;</span>
+<span class="w">    </span><span class="n">fragmentColour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ambient</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -572,7 +550,7 @@ f 5/12/6 1/3/6 2/9/6
 <div class="sd-row docutils">
 <div class="sd-col sd-d-flex-column docutils">
 <figure class="align-default" id="id3">
-<img alt="../_images/08_ambient_0.2.png" src="../_images/08_ambient_0.2.png" />
+<img alt="../_images/08_teapot_ambient_0.2.png" src="../_images/08_teapot_ambient_0.2.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 8.1 </span><span class="caption-text"><span class="math notranslate nohighlight">\(k_a=0.2\)</span></span><a class="headerlink" href="#id3" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -580,7 +558,7 @@ f 5/12/6 1/3/6 2/9/6
 </div>
 <div class="sd-col sd-d-flex-column docutils">
 <figure class="align-default" id="id4">
-<img alt="../_images/08_ambient_0.5.png" src="../_images/08_ambient_0.5.png" />
+<img alt="../_images/08_teapot_ambient_0.5.png" src="../_images/08_teapot_ambient_0.5.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 8.2 </span><span class="caption-text"><span class="math notranslate nohighlight">\(k_a=0.5\)</span></span><a class="headerlink" href="#id4" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -588,7 +566,7 @@ f 5/12/6 1/3/6 2/9/6
 </div>
 <div class="sd-col sd-d-flex-column docutils">
 <figure class="align-default" id="id5">
-<img alt="../_images/08_ambient_0.8.png" src="../_images/08_ambient_0.8.png" />
+<img alt="../_images/08_teapot_ambient_0.8.png" src="../_images/08_teapot_ambient_0.8.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 8.3 </span><span class="caption-text"><span class="math notranslate nohighlight">\(k_a=0.8\)</span></span><a class="headerlink" href="#id5" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -621,7 +599,57 @@ f 5/12/6 1/3/6 2/9/6
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">lightPosition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>The vertex shader calculates the position of the fragment in the screen space and since our lighting calculations are done in the view space we need to get our vertex shader to calculate the normal vector and the co-ordinates of the fragment in the view space. Edit <code class="docutils literal notranslate"><span class="pre">vertexShader.vert</span></code> so that is looks like the following.</p>
+<p>All calculations performed in the fragment shader is done in the view space so we need to transform <code class="docutils literal notranslate"><span class="pre">lightPosition</span></code> to the view space. We could do this in the vertex shader but since the light position is the same for all fragments it is better do this in the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file rather than recalculating it for each fragment in the shaders. Add the following code just after we sent <code class="docutils literal notranslate"><span class="pre">lightColour</span></code> to the shader.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">viewSpaceLightPosition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="n">view</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec4</span><span class="p">(</span><span class="n">lightPosition</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">));</span>
+<span class="n">glUniform3fv</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;lightPosition&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">viewSpaceLightPosition</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+</pre></div>
+</div>
+<p>The vertex shader calculates the position of the fragment in the screen space and since our lighting calculations are done in the view space we need to get our vertex shader to calculate the co-ordinates of the fragment in the view space and the normal vector in the view space. For the fragment co-ordinates this is simply a matter of multiplying <code class="docutils literal notranslate"><span class="pre">position</span></code> by the <code class="docutils literal notranslate"><span class="pre">view</span></code> and <code class="docutils literal notranslate"><span class="pre">model</span></code> matrices but for the normal vector we use</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align*}
+    \texttt{viewSpaceNormal} = ((\tt view \cdot model)^{-1})^\mathsf{T} \cdot \tt normal.
+\end{align*} \]</div>
+<p>Recall that <span class="math notranslate nohighlight">\(A^\mathsf{T}\)</span> is the <a class="reference internal" href="04_vectors_and_matrices.html#transpose-section"><span class="std std-ref">transpose</span></a> and <span class="math notranslate nohighlight">\(A^{-1}\)</span> is the <a class="reference internal" href="04_vectors_and_matrices.html#inverse-matrix-section"><span class="std std-ref">inverse</span></a> of the matrix <span class="math notranslate nohighlight">\(A\)</span>. You don’t need to know why we use this equation but if you are curious click on the download link below.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Derivation of the view space normal transformation<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Consider the diagram in <a class="reference internal" href="#view-space-normal-1-figure"><span class="std std-numref">Fig. 8.6</span></a> that shows the normal and tangent vectors to an edge in the object space. If the combined model and view transformations preserves the scaling of the edge such the equal scaling is used in the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> axes then the normal and tangent vectors are perpendicular in the view space.</p>
+<figure class="align-default" id="view-space-normal-1-figure">
+<a class="reference internal image-reference" href="../_images/08_view_space_normal_1.svg"><img alt="../_images/08_view_space_normal_1.svg" src="../_images/08_view_space_normal_1.svg" width="200" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.6 </span><span class="caption-text">Normal and tangent vectors in the object space.</span><a class="headerlink" href="#view-space-normal-1-figure" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p class="sd-card-text">If the model and view transformations do not preserve the scaling then the the view space normal vector is no longer perpendicular to the tangent vector (<a class="reference internal" href="#view-space-normal-2-figure"><span class="std std-numref">Fig. 8.7</span></a>).</p>
+<figure class="align-default" id="view-space-normal-2-figure">
+<a class="reference internal image-reference" href="../_images/08_view_space_normal_2.svg"><img alt="../_images/08_view_space_normal_2.svg" src="../_images/08_view_space_normal_2.svg" width="300" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.7 </span><span class="caption-text">Normal and tangent vectors in the view space.</span><a class="headerlink" href="#view-space-normal-2-figure" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p class="sd-card-text">Let <span class="math notranslate nohighlight">\(\tt M\)</span> be the first 3 rows and columns of the <span class="math notranslate nohighlight">\(\tt model \cdot view\)</span> matrix then <span class="math notranslate nohighlight">\(\tt viewSpaceTangent = M * tangent\)</span> (here I’ve used <span class="math notranslate nohighlight">\(\tt *\)</span> to denote column major matrix multiplication so that it is consistent with our code). We need to derive a <span class="math notranslate nohighlight">\(3\times 3\)</span> transformation matrix <span class="math notranslate nohighlight">\(\tt A\)</span> such that the view space normal and tangents vectors are perpendicular, i.e.,</p>
+<div class="math notranslate nohighlight">
+\[\tt (A * normal) \cdot (M * tangent) = 0.\]</div>
+<p class="sd-card-text">We can replace the dot product by a matrix multiplication by transposing <span class="math notranslate nohighlight">\(\tt(A * normal)\)</span></p>
+<div class="math notranslate nohighlight">
+\[\tt (A * normal)^\mathsf{T} * (M * tangent )= 0.\]</div>
+<p class="sd-card-text">A property of matrix multiplication is that the transpose of a multiplication is equal to the multiplication of the transposes so we can write this as</p>
+<div class="math notranslate nohighlight">
+\[\tt normal^\textsf{T} * A^\mathsf{T} * M * tangent = 0.\]</div>
+<p class="sd-card-text">If <span class="math notranslate nohighlight">\(\tt A^\mathsf{T} * M = I\)</span> then <span class="math notranslate nohighlight">\(\tt viewSpaceNormal \cdot viewSpaceTangent = 0\)</span> so are perpendicular. We need <span class="math notranslate nohighlight">\(\tt A\)</span> so rearranging gives</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+    \tt A^\mathsf{T} * M &amp;= \tt I \\
+    \tt A^\mathsf{T} &amp;= \tt M^{-1} \\
+    \tt A &amp;= \tt (M^{-1})^\mathsf{T}.
+\end{align*} \end{split}\]</div>
+<p class="sd-card-text">Since <span class="math notranslate nohighlight">\(\tt M = view * model\)</span> then the matrix that transforms a model space normal vector to the view space is <span class="math notranslate nohighlight">\(\tt A = ((view * model)^{-1})^\mathsf{T}\)</span></p>
+</div>
+</details><p>Edit <code class="docutils literal notranslate"><span class="pre">vertexShader.vert</span></code> so that is looks like the following.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
 
 <span class="c1">// Input vertex data</span>
@@ -653,15 +681,10 @@ f 5/12/6 1/3/6 2/9/6
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>We also need to calculate the view space co-ordinates for the <code class="docutils literal notranslate"><span class="pre">lightPosition</span></code> vector. Since the light position is the same for all fragments it is better do this in our <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file rather than recalculating it for each fragment in the shaders.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">viewSpaceLightPosition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="n">view</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec4</span><span class="p">(</span><span class="n">lightPosition</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">));</span>
-<span class="n">glUniform3fv</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;lightPosition&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">viewSpaceLightPosition</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
-</pre></div>
-</div>
-<p>In <code class="docutils literal notranslate"><span class="pre">fragmentShader.frag</span></code> add a float constant with the value <code class="docutils literal notranslate"><span class="pre">kd</span> <span class="pre">=</span> <span class="pre">0.7</span></code> and in the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function add the following to calculate diffuse reflection.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Diffuse</span>
+<p>In <code class="docutils literal notranslate"><span class="pre">fragmentShader.frag</span></code> add a <code class="docutils literal notranslate"><span class="pre">vec3</span></code> uniform for the <code class="docutils literal notranslate"><span class="pre">lightPosition</span></code> and add a float constant with the value <code class="docutils literal notranslate"><span class="pre">kd</span> <span class="pre">=</span> <span class="pre">0.7</span></code>. In the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function add the following to calculate diffuse reflection.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Diffuse reflection</span>
 <span class="n">vec3</span><span class="w"> </span><span class="n">normal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="n">Normal</span><span class="p">);</span>
-<span class="n">vec3</span><span class="w"> </span><span class="n">light</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="n">lightPosition</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">FragmentPosition</span><span class="p">);</span>
+<span class="n">vec3</span><span class="w"> </span><span class="n">light</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="n">lightPosition</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fragmentPosition</span><span class="p">);</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">cosTheta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="n">light</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
 <span class="n">vec3</span><span class="w"> </span><span class="n">diffuse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kd</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">objectColour</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lightColour</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cosTheta</span><span class="p">;</span>
 </pre></div>
@@ -671,29 +694,29 @@ f 5/12/6 1/3/6 2/9/6
 <span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ambient</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">diffuse</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>The result of applying ambient and diffuse reflection is shown in <a class="reference internal" href="#teapot-diffuse-figure"><span class="std std-numref">Fig. 8.6</span></a>.</p>
+<p>The result of applying ambient and diffuse reflection is shown in <a class="reference internal" href="#teapot-diffuse-figure"><span class="std std-numref">Fig. 8.8</span></a>.</p>
 <figure class="align-default" id="teapot-diffuse-figure">
 <a class="reference internal image-reference" href="../_images/08_teapot_diffuse.png"><img alt="../_images/08_teapot_diffuse.png" src="../_images/08_teapot_diffuse.png" style="width: 500px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 8.6 </span><span class="caption-text">Ambient and diffuse reflection: <span class="math notranslate nohighlight">\(k_a = 0.2\)</span>, <span class="math notranslate nohighlight">\(k_d = 0.7\)</span>.</span><a class="headerlink" href="#teapot-diffuse-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 8.8 </span><span class="caption-text">Ambient and diffuse reflection: <span class="math notranslate nohighlight">\(k_a = 0.2\)</span>, <span class="math notranslate nohighlight">\(k_d = 0.7\)</span>.</span><a class="headerlink" href="#teapot-diffuse-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Use the keyboard and mouse to view the teapot from different angles. You should notice that the side of the teapot facing away from the light source is darker.</p>
 </section>
 <section id="specular-reflection">
 <h3><span class="section-number">8.2.3. </span>Specular reflection<a class="headerlink" href="#specular-reflection" title="Permalink to this heading">#</a></h3>
-<p>Consider <a class="reference internal" href="#specular-reflection-figure"><span class="std std-numref">Fig. 8.7</span></a> that shows parallel light rays hitting a smooth surface. The normal vectors will be similar across the surface so the reflected rays will point mostly in the same directions. This is known as <strong>specular reflection</strong>.</p>
+<p>Consider <a class="reference internal" href="#specular-reflection-figure"><span class="std std-numref">Fig. 8.9</span></a> that shows parallel light rays hitting a smooth surface. The normal vectors will be similar across the surface so the reflected rays will point mostly in the same directions. This is known as <strong>specular reflection</strong>.</p>
 <figure class="align-default" id="specular-reflection-figure">
 <a class="reference internal image-reference" href="../_images/08_specular_reflection.svg"><img alt="../_images/08_specular_reflection.svg" src="../_images/08_specular_reflection.svg" width="500" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 8.7 </span><span class="caption-text">Light rays hitting a smooth surface are reflected in the same direction.</span><a class="headerlink" href="#specular-reflection-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 8.9 </span><span class="caption-text">Light rays hitting a smooth surface are reflected in the same direction.</span><a class="headerlink" href="#specular-reflection-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>For a perfectly smooth surface the reflected ray will point in the direction of the <span class="math notranslate nohighlight">\(\tt reflection\)</span> vector so in order to see the light the viewer would need to be positioned in the direction of the <span class="math notranslate nohighlight">\(\tt reflection\)</span> vector. Since most surfaces are not perfectly smooth we add a bit of scattering to the model the amount of specular reflection seen by the viewer. This is determined by the angle <span class="math notranslate nohighlight">\(\alpha\)</span> between the <span class="math notranslate nohighlight">\(\tt reflection\)</span> vector and the <span class="math notranslate nohighlight">\(\tt eye\)</span> vector, the vector pointing from the surface to the viewer. The closer the viewer is to the reflection vector, the smaller the value of <span class="math notranslate nohighlight">\(\alpha\)</span> will be and the more of the reflected light will be seen.</p>
 <figure class="align-default" id="specular-figure">
 <a class="reference internal image-reference" href="../_images/08_specular.svg"><img alt="../_images/08_specular.svg" src="../_images/08_specular.svg" width="400" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 8.8 </span><span class="caption-text">Specular reflection scatters light mainly towards the reflection vector.</span><a class="headerlink" href="#specular-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 8.10 </span><span class="caption-text">Specular reflection scatters light mainly towards the reflection vector.</span><a class="headerlink" href="#specular-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>We model the scattering of the reflected light rays using <span class="math notranslate nohighlight">\(\cos(\alpha)\)</span> raised to an integer power</p>
@@ -702,9 +725,9 @@ f 5/12/6 1/3/6 2/9/6
 <p>where <span class="math notranslate nohighlight">\(N_s\)</span> is the <strong>specular exponent</strong> that determines the size of the specular highlights. The angle <span class="math notranslate nohighlight">\(\alpha\)</span> is calculated using a dot product between the <span class="math notranslate nohighlight">\(\tt eye\)</span> and <span class="math notranslate nohighlight">\(\tt reflection\)</span> vectors. The <span class="math notranslate nohighlight">\(\tt eye\)</span> vector is the vector from the fragment position to the camera which is at (0,0,0) and the reflection vector is calculated using</p>
 <div class="math notranslate nohighlight">
 \[\tt reflection = - light + 2 (light \cdot normal) \, normal.\]</div>
-<p>In the fragment shader define a specular constant with a value of <code class="docutils literal notranslate"><span class="pre">ks</span> <span class="pre">=</span> <span class="pre">1.0</span></code>, a specular exponent with a value of <code class="docutils literal notranslate"><span class="pre">Ns</span> <span class="pre">=</span> <span class="pre">20</span></code> and add the following code to the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function to include specular reflection in the fragment colour.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Specular light</span>
-<span class="n">vec3</span><span class="w"> </span><span class="n">eye</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="o">-</span><span class="n">FragmentPosition</span><span class="p">);</span>
+<p>In the fragment shader define a specular constant with a value of <code class="docutils literal notranslate"><span class="pre">ks</span> <span class="pre">=</span> <span class="pre">1.0</span></code>, a specular exponent with a value of <code class="docutils literal notranslate"><span class="pre">Ns</span> <span class="pre">=</span> <span class="pre">20.0</span></code> and add the following code to the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function to include specular reflection in the fragment colour.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Specular reflection</span>
+<span class="n">vec3</span><span class="w"> </span><span class="n">eye</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="o">-</span><span class="n">fragmentPosition</span><span class="p">);</span>
 <span class="n">vec3</span><span class="w"> </span><span class="n">reflection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">light</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dot</span><span class="p">(</span><span class="n">light</span><span class="p">,</span><span class="w"> </span><span class="n">normal</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">normal</span><span class="p">;</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">cosAlpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">eye</span><span class="p">,</span><span class="w"> </span><span class="n">reflection</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
 <span class="n">vec3</span><span class="w"> </span><span class="n">specular</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ks</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lightColour</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pow</span><span class="p">(</span><span class="n">cosAlpha</span><span class="p">,</span><span class="w"> </span><span class="n">Ns</span><span class="p">);</span>
@@ -715,11 +738,11 @@ f 5/12/6 1/3/6 2/9/6
 <span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ambient</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">diffuse</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">specular</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>The result of applying ambient, diffuse and specular reflection is shown in <a class="reference internal" href="#teapot-phong-figure"><span class="std std-numref">Fig. 8.9</span></a>.</p>
-<figure class="align-default" id="teapot-phong-figure">
-<a class="reference internal image-reference" href="../_images/08_teapot_phong.png"><img alt="../_images/08_teapot_phong.png" src="../_images/08_teapot_phong.png" style="width: 500px;" /></a>
+<p>The result of applying ambient, diffuse and specular reflection is shown in <a class="reference internal" href="#teapot-specular-figure"><span class="std std-numref">Fig. 8.11</span></a>.</p>
+<figure class="align-default" id="teapot-specular-figure">
+<a class="reference internal image-reference" href="../_images/08_teapot_specular.png"><img alt="../_images/08_teapot_specular.png" src="../_images/08_teapot_specular.png" style="width: 500px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 8.9 </span><span class="caption-text">Ambient, diffuse and reflection: <span class="math notranslate nohighlight">\(k_a = 0.2\)</span>, <span class="math notranslate nohighlight">\(k_d = 0.7\)</span>, <span class="math notranslate nohighlight">\(k_s = 1.0\)</span>, <span class="math notranslate nohighlight">\(N_s = 20\)</span>.</span><a class="headerlink" href="#teapot-phong-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 8.11 </span><span class="caption-text">Ambient, diffuse and reflection: <span class="math notranslate nohighlight">\(k_a = 0.2\)</span>, <span class="math notranslate nohighlight">\(k_d = 0.7\)</span>, <span class="math notranslate nohighlight">\(k_s = 1.0\)</span>, <span class="math notranslate nohighlight">\(N_s = 20\)</span>.</span><a class="headerlink" href="#teapot-specular-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
@@ -727,18 +750,18 @@ f 5/12/6 1/3/6 2/9/6
 <h3><span class="section-number">8.2.4. </span>Attenuation<a class="headerlink" href="#attenuation" title="Permalink to this heading">#</a></h3>
 <p><strong>Attenuation</strong> is the gradual decrease in light intensity as the distance between the light source and a surface increases. We can use attenuation to model light from low intensity light source, for example, a candle or torch which will only illuminate an area close to the source. Theoretically attenuation should follow the inverse square law where the light intensity is inversely proportional to the square of the distance between the light source and the surface. However, in practice this tends to result in a scene that is too dark so we calculate attenuation using the following</p>
 <div class="math notranslate nohighlight">
-\[ \textsf{attenuation} = \frac{1}{k_c + k_l \cdot \textsf{distance} + k_q \cdot \textsf{distance}^2}, \]</div>
-<p>where <span class="math notranslate nohighlight">\(k_c\)</span>, <span class="math notranslate nohighlight">\(k_l\)</span> and <span class="math notranslate nohighlight">\(k_q\)</span> are constant, linear and quadratic constant values. The values of these constants are set to model the type of light source. The graph in <a class="reference internal" href="#attenuation-figure"><span class="std std-numref">Fig. 8.10</span></a> shows a typical attenuation profile where the light intensity rapidly decreases when the distance is small levelling off as the distance gets larger.</p>
+\[ \textsf{attenuation} = \frac{1}{c + l \cdot \textsf{distance} + q \cdot \textsf{distance}^2}, \]</div>
+<p>where <span class="math notranslate nohighlight">\(c\)</span>, <span class="math notranslate nohighlight">\(l\)</span> and <span class="math notranslate nohighlight">\(q\)</span> are constant, linear and quadratic constant values. The values of these constants are set to model the type of light source. The graph in <a class="reference internal" href="#attenuation-figure"><span class="std std-numref">Fig. 8.12</span></a> shows a typical attenuation profile where the light intensity rapidly decreases when the distance is small levelling off as the distance gets larger.</p>
 <figure class="align-default" id="attenuation-figure">
 <a class="reference internal image-reference" href="../_images/08_attenuation.svg"><img alt="../_images/08_attenuation.svg" src="../_images/08_attenuation.svg" width="500" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 8.10 </span><span class="caption-text">Attenuation can be modelled by an inverse quadratic function.</span><a class="headerlink" href="#attenuation-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 8.12 </span><span class="caption-text">Attenuation can be modelled by an inverse quadratic function.</span><a class="headerlink" href="#attenuation-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>To model attenuation edit the fragment shader so that constant values are set to <code class="docutils literal notranslate"><span class="pre">kc</span> <span class="pre">=</span> <span class="pre">1.0</span></code>, <code class="docutils literal notranslate"><span class="pre">kl</span> <span class="pre">=</span> <span class="pre">0.1</span></code> and <code class="docutils literal notranslate"><span class="pre">kq</span> <span class="pre">=</span> <span class="pre">0.05</span></code> and the attenuation is calculated and applied to the the reflection components using the following.</p>
+<p>To model attenuation edit the fragment shader so that constant values are set to <code class="docutils literal notranslate"><span class="pre">constant</span> <span class="pre">=</span> <span class="pre">1.0</span></code>, <code class="docutils literal notranslate"><span class="pre">linear</span> <span class="pre">=</span> <span class="pre">0.1</span></code> and <code class="docutils literal notranslate"><span class="pre">quadratic</span> <span class="pre">=</span> <span class="pre">0.02</span></code> and the attenuation is calculated and applied to the the reflection components using the following.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Attenuation</span>
-<span class="kt">float</span><span class="w"> </span><span class="n">distance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">viewSpaceLightPosition</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">viewSpaceFragPosition</span><span class="p">);</span>
-<span class="kt">float</span><span class="w"> </span><span class="n">attenuation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">kc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">kl</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">distance</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">kq</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">distance</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">distance</span><span class="p">);</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">distance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">lightPosition</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fragmentPosition</span><span class="p">);</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">attenuation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">constant</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">linear</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">distance</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">quadratic</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">distance</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">distance</span><span class="p">);</span>
 
 <span class="c1">// Fragment colour</span>
 <span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ambient</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">diffuse</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">specular</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">attenuation</span><span class="p">;</span>
@@ -795,98 +818,444 @@ f 5/12/6 1/3/6 2/9/6
 <span class="n">glUniform3fv</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">lightShaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;lightColour&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lightColour</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
 
 <span class="c1">// Draw light source</span>
-<span class="n">lightSource</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">lightShaderID</span><span class="p">);</span>
+<span class="n">sphere</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">lightShaderID</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Moving the camera to a different position allows us to see the affects of attenuation (<a class="reference internal" href="#teapot-attenuation-figure"><span class="std std-numref">Fig. 8.11</span></a>). Note how the teapots further away from the light source are darker as the light intensity has been reduced.</p>
+<p>Moving the camera to a different position allows us to see the affects of attenuation (<a class="reference internal" href="#teapot-attenuation-figure"><span class="std std-numref">Fig. 8.13</span></a>). Note how the teapots further away from the light source are darker as the light intensity has been reduced.</p>
 <figure class="align-default" id="teapot-attenuation-figure">
 <a class="reference internal image-reference" href="../_images/08_teapot_attenuation.png"><img alt="../_images/08_teapot_attenuation.png" src="../_images/08_teapot_attenuation.png" style="width: 500px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 8.11 </span><span class="caption-text">The affects of applying attenuation.</span><a class="headerlink" href="#teapot-attenuation-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 8.13 </span><span class="caption-text">The affects of applying attenuation.</span><a class="headerlink" href="#teapot-attenuation-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>If you are having difficulty with this check out the source code <a class="reference download internal" download="" href="../_downloads/98f0109660ebeb02ba52ae1ad68f26f4/Lab08_Phong_lighting.cpp"><span class="xref download myst">Lab08_Phong_lighting.cpp</span></a> and the shaders <a class="reference download internal" download="" href="../_downloads/717d558f4333dffa0e43ca4b09299ec0/vertexShader.vert"><span class="xref download myst">vertexShader.vert</span></a> and <a class="reference download internal" download="" href="../_downloads/e627a4b5143e33f8cce51a424c1d6589/fragmentShader.frag"><span class="xref download myst">fragmentShader.frag</span></a>.</p>
-</section>
-<section id="summary-of-phong-s-reflection-model">
-<h3><span class="section-number">8.2.5. </span>Summary of Phong’s reflection model<a class="headerlink" href="#summary-of-phong-s-reflection-model" title="Permalink to this heading">#</a></h3>
-<p>Having got to this stage we have covered quite a bit and you have been introduced to lots of vectors and constants so it is a good idea to summarise these here</p>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head text-left"><p>Name</p></th>
-<th class="head text-left"><p>Type</p></th>
-<th class="head text-left"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-left"><p><span class="math notranslate nohighlight">\(\tt ambient\)</span></p></td>
-<td class="text-left"><p>vec3</p></td>
-<td class="text-left"><p>Simplified model of the scattering of light in a scene. All surfaces are illuminated equally.</p></td>
-</tr>
-<tr class="row-odd"><td class="text-left"><p><span class="math notranslate nohighlight">\(\tt diffuse\)</span></p></td>
-<td class="text-left"><p>vec3</p></td>
-<td class="text-left"><p>Reflection of light off a rough surface, light is scattered equally in all directions.</p></td>
-</tr>
-<tr class="row-even"><td class="text-left"><p><span class="math notranslate nohighlight">\(\tt specular\)</span></p></td>
-<td class="text-left"><p>vec3</p></td>
-<td class="text-left"><p>Reflection of light off a smooth surface, light is scatter mainly in the direction of the reflection vector.</p></td>
-</tr>
-<tr class="row-odd"><td class="text-left"><p><span class="math notranslate nohighlight">\(\tt attenuation\)</span></p></td>
-<td class="text-left"><p>vec3</p></td>
-<td class="text-left"><p>Loss of light intensity over distance.</p></td>
-</tr>
-<tr class="row-even"><td class="text-left"><p><span class="math notranslate nohighlight">\(\tt light\)</span></p></td>
-<td class="text-left"><p>vec3</p></td>
-<td class="text-left"><p>The view space vector from the surface to the light source.</p></td>
-</tr>
-<tr class="row-odd"><td class="text-left"><p><span class="math notranslate nohighlight">\(\tt normal\)</span></p></td>
-<td class="text-left"><p>vec3</p></td>
-<td class="text-left"><p>The view space surface (unit) normal vector.</p></td>
-</tr>
-<tr class="row-even"><td class="text-left"><p><span class="math notranslate nohighlight">\(\tt reflection\)</span></p></td>
-<td class="text-left"><p>vec3</p></td>
-<td class="text-left"><p>The view space vector that is the reflection of <span class="math notranslate nohighlight">\(\tt light\)</span> of the surface.</p></td>
-</tr>
-<tr class="row-odd"><td class="text-left"><p><span class="math notranslate nohighlight">\(\tt eye\)</span></p></td>
-<td class="text-left"><p>vec3</p></td>
-<td class="text-left"><p>The view space vector from the surface to the camera.</p></td>
-</tr>
-<tr class="row-even"><td class="text-left"><p><span class="math notranslate nohighlight">\(\tt cosTheta\)</span></p></td>
-<td class="text-left"><p>float</p></td>
-<td class="text-left"><p>The cosine of the angle between the <span class="math notranslate nohighlight">\(\tt light\)</span> and <span class="math notranslate nohighlight">\(\tt normal vectors\)</span>.</p></td>
-</tr>
-<tr class="row-odd"><td class="text-left"><p><span class="math notranslate nohighlight">\(\tt cosAlpha\)</span></p></td>
-<td class="text-left"><p>float</p></td>
-<td class="text-left"><p>The cosine of the angle between the <span class="math notranslate nohighlight">\(\tt reflection\)</span> and <span class="math notranslate nohighlight">\(\tt eye\)</span> vectors.</p></td>
-</tr>
-<tr class="row-even"><td class="text-left"><p><span class="math notranslate nohighlight">\(\tt ka, kd, ks\)</span></p></td>
-<td class="text-left"><p>float</p></td>
-<td class="text-left"><p>Constants for ambient, diffuse and reflection that determine the material look of the surface.</p></td>
-</tr>
-<tr class="row-odd"><td class="text-left"><p><span class="math notranslate nohighlight">\(\tt Ns\)</span></p></td>
-<td class="text-left"><p>int</p></td>
-<td class="text-left"><p>The specular exponent determining the size of the specular highlights</p></td>
-</tr>
-<tr class="row-even"><td class="text-left"><p><span class="math notranslate nohighlight">\(\tt kc, kl, kq\)</span></p></td>
-<td class="text-left"><p>float</p></td>
-<td class="text-left"><p>Constant, linear and quadratic constants used to calculate the attenuation</p></td>
-</tr>
-<tr class="row-odd"><td class="text-left"><p><span class="math notranslate nohighlight">\(\tt colour\)</span></p></td>
-<td class="text-left"><p>vec3</p></td>
-<td class="text-left"><p>Colour of the fragment calculated as the sum of <span class="math notranslate nohighlight">\(\tt ambient\)</span>, <span class="math notranslate nohighlight">\(\tt diffuse\)</span> and <span class="math notranslate nohighlight">\(\tt specular\)</span>.</p></td>
-</tr>
-</tbody>
-</table>
+<p>If you are having difficulty with this check out the source code <a class="reference download internal" download="" href="../_downloads/cf5e33e68955ebc48bc71ff6afba1cda/Lab08_single_light.cpp"><span class="xref download myst">Lab08_single_light.cpp</span></a> and the shaders <a class="reference download internal" download="" href="../_downloads/717d558f4333dffa0e43ca4b09299ec0/vertexShader.vert"><span class="xref download myst">vertexShader.vert</span></a> and <a class="reference download internal" download="" href="../_downloads/e627a4b5143e33f8cce51a424c1d6589/fragmentShader.frag"><span class="xref download myst">fragmentShader.frag</span></a>.</p>
 </section>
 </section>
 <section id="multiple-light-sources">
 <h2><span class="section-number">8.3. </span>Multiple light sources<a class="headerlink" href="#multiple-light-sources" title="Permalink to this heading">#</a></h2>
+<p>In theory to add multiple light sources to a scene is simply a matter of calculating the ambient, diffuse and specular reflection for each light source and the fragment colour is the sum of all of reflections from all of the light sources. We have seen for a single light source we have to define the colour, the position in the world space and the three constant, linear and quadratic attenuation constants. Given that we would like to do this for multiple light sources we need data structure for each light source.</p>
+<p>A data structure in C++ and GLSL is defined in the same way using the <a href="https://cplusplus.com/doc/tutorial/structures/" target="_blank">struct</a> declaration.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Structs</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Light</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">colour</span><span class="p">;</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">position</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">linear</span><span class="p">,</span><span class="w"> </span><span class="n">constant</span><span class="p">,</span><span class="w"> </span><span class="n">quadratic</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This defines a data structure called <code class="docutils literal notranslate"><span class="pre">Light</span></code> that contains the information required to calculate the lighting model for a single light source. We are going to pass this light information for multiple light sources using a uniform with the following code.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#define maxLights 100;</span>
+<span class="n">uniform</span><span class="w"> </span><span class="n">Light</span><span class="w"> </span><span class="n">lights</span><span class="p">[</span><span class="n">maxLights</span><span class="p">];</span>
+<span class="n">uniform</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">numLights</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>This defines a 100 element array of <code class="docutils literal notranslate"><span class="pre">Light</span></code> structs (hopefully we will not need more than 100 light sources but if you then simply increase the number of <code class="docutils literal notranslate"><span class="pre">maxLights</span></code>) and the actual number of lights we have is passed in using the <code class="docutils literal notranslate"><span class="pre">numLights</span></code> uniform. Then all we need to do is loop through each of the light sources, calculate the ambient, diffuse and specular reflection and add it to the fragment colour. The fragment shader for multiple light sources is given below. Create a new file called <code class="docutils literal notranslate"><span class="pre">multipleLightsFragmentShader.frag</span></code> in the <code class="docutils literal notranslate"><span class="pre">source/</span></code> directory and paste this code.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
+
+<span class="c1">// Interpolated values from the vertex shaders</span>
+<span class="n">in</span><span class="w"> </span><span class="n">vec2</span><span class="w"> </span><span class="n">UV</span><span class="p">;</span>
+<span class="n">in</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">fragmentPosition</span><span class="p">;</span>
+<span class="n">in</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">Normal</span><span class="p">;</span>
+
+<span class="c1">// Output data</span>
+<span class="n">out</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">fragmentColour</span><span class="p">;</span>
+
+<span class="c1">// Structs</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Light</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">colour</span><span class="p">;</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">position</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">linear</span><span class="p">,</span><span class="w"> </span><span class="n">constant</span><span class="p">,</span><span class="w"> </span><span class="n">quadratic</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// Uniforms</span>
+<span class="cp">#define maxLights 100</span>
+<span class="n">uniform</span><span class="w"> </span><span class="n">sampler2D</span><span class="w"> </span><span class="n">diffuse1</span><span class="p">;</span>
+<span class="n">uniform</span><span class="w"> </span><span class="n">Light</span><span class="w"> </span><span class="n">lights</span><span class="p">[</span><span class="n">maxLights</span><span class="p">];</span>
+<span class="n">uniform</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">numLights</span><span class="p">;</span>
+
+<span class="n">uniform</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">ka</span><span class="p">;</span>
+<span class="n">uniform</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kd</span><span class="p">;</span>
+<span class="n">uniform</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">ks</span><span class="p">;</span>
+<span class="n">uniform</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">Ns</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="w"> </span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// Object colour, normal and eye vector (these are the same for all light sources)</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">objectColour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec3</span><span class="p">(</span><span class="n">texture</span><span class="p">(</span><span class="n">diffuse1</span><span class="p">,</span><span class="w"> </span><span class="n">UV</span><span class="p">));</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">normal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="n">Normal</span><span class="p">);</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">eye</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="o">-</span><span class="n">fragmentPosition</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Loop through light sources</span>
+<span class="w">    </span><span class="n">fragmentColour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">numLights</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Ambient reflection</span>
+<span class="w">        </span><span class="n">vec3</span><span class="w"> </span><span class="n">ambient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ka</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">colour</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">objectColour</span><span class="p">;</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// Diffuse reflection</span>
+<span class="w">        </span><span class="n">vec3</span><span class="w"> </span><span class="n">light</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="n">lights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">position</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fragmentPosition</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">cosTheta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="n">light</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="n">vec3</span><span class="w"> </span><span class="n">diffuse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kd</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">objectColour</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">colour</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cosTheta</span><span class="p">;</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// Specular reflection</span>
+<span class="w">        </span><span class="n">vec3</span><span class="w"> </span><span class="n">reflection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">light</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dot</span><span class="p">(</span><span class="n">light</span><span class="p">,</span><span class="w"> </span><span class="n">normal</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">normal</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">cosAlpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">eye</span><span class="p">,</span><span class="w"> </span><span class="n">reflection</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="n">vec3</span><span class="w"> </span><span class="n">specular</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ks</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">colour</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pow</span><span class="p">(</span><span class="n">cosAlpha</span><span class="p">,</span><span class="w"> </span><span class="n">Ns</span><span class="p">);</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// Attenuation</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">distance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">lights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">position</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fragmentPosition</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">attenuation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">lights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">constant</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">linear</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">distance</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">quadratic</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">distance</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">distance</span><span class="p">);</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// Add current light source to the fragment colour</span>
+<span class="w">        </span><span class="n">fragmentColour</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="n">ambient</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">diffuse</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">specular</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">attenuation</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We also need to make changes to the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file. Add the <code class="docutils literal notranslate"><span class="pre">Light</span></code> data structure before the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function declaration</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Light structs</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Light</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">position</span><span class="p">;</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">colour</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">constant</span><span class="p">,</span><span class="w"> </span><span class="n">linear</span><span class="p">,</span><span class="w"> </span><span class="n">quadratic</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Since we are using a different file for the fragment shader we need to tell OpenGL to use our new fragment shader which it compiles the shader program.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Compile shader programs</span>
+<span class="n">GLuint</span><span class="w"> </span><span class="n">shaderID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LoadShaders</span><span class="p">(</span><span class="s">&quot;vertexShader.vert&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;multipleLightsFragmentShader.frag&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>We want to define the lighting properties for multiple lights sources so we are going to store our <code class="docutils literal notranslate"><span class="pre">Light</span></code> structures in a <a href="https://en.cppreference.com/w/cpp/container/vector" target="_blank">vector</a>. Where we defined <code class="docutils literal notranslate"><span class="pre">lightColour</span></code> and <code class="docutils literal notranslate"><span class="pre">lightPosition</span></code> for our single light example replace the code with the following.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create vector of Light structs</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Light</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lights</span><span class="p">;</span>
+
+<span class="c1">// First light source</span>
+<span class="n">Light</span><span class="w"> </span><span class="n">light</span><span class="p">;</span>
+<span class="n">light</span><span class="p">.</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">);</span>
+<span class="n">light</span><span class="p">.</span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">);</span>
+<span class="n">light</span><span class="p">.</span><span class="n">constant</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">;</span>
+<span class="n">light</span><span class="p">.</span><span class="n">linear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.1f</span><span class="p">;</span>
+<span class="n">light</span><span class="p">.</span><span class="n">quadratic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.02f</span><span class="p">;</span>
+<span class="n">lights</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">light</span><span class="p">);</span>
+
+<span class="c1">// Second light source</span>
+<span class="n">light</span><span class="p">.</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">);</span>
+<span class="n">light</span><span class="p">.</span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-8.0f</span><span class="p">);</span>
+<span class="n">light</span><span class="p">.</span><span class="n">constant</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">;</span>
+<span class="n">light</span><span class="p">.</span><span class="n">linear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.1f</span><span class="p">;</span>
+<span class="n">light</span><span class="p">.</span><span class="n">quadratic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.02f</span><span class="p">;</span>
+<span class="n">lights</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">light</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This code creates two light sources, defines the values of the data structures and stores then in the vector <code class="docutils literal notranslate"><span class="pre">lights</span></code>. The <code class="docutils literal notranslate"><span class="pre">lights.push_back(light)</span></code> adds the current <code class="docutils literal notranslate"><span class="pre">light</span></code> to the end of the <code class="docutils literal notranslate"><span class="pre">lights</span></code> vector. Now we need to send the light and material values to the shader using uniforms, replace the existing code with the code below.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Send light source properties to the shader</span>
+<span class="n">glUniform1i</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;numLights&quot;</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">lights</span><span class="p">.</span><span class="n">size</span><span class="p">()));</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">lights</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">    </span><span class="n">glUniform3fv</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;lights[&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;].colour&quot;</span><span class="p">).</span><span class="n">c_str</span><span class="p">()),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">colour</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">viewSpaceLightPosition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="n">view</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec4</span><span class="p">(</span><span class="n">lights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">));</span>
+<span class="w">    </span><span class="n">glUniform3fv</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;lights[&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;].position&quot;</span><span class="p">).</span><span class="n">c_str</span><span class="p">()),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">viewSpaceLightPosition</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">glUniform1f</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;lights[&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;].constant&quot;</span><span class="p">).</span><span class="n">c_str</span><span class="p">()),</span><span class="w"> </span><span class="n">lights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">constant</span><span class="p">);</span>
+<span class="w">    </span><span class="n">glUniform1f</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;lights[&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;].linear&quot;</span><span class="p">).</span><span class="n">c_str</span><span class="p">()),</span><span class="w"> </span><span class="n">lights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">linear</span><span class="p">);</span>
+<span class="w">    </span><span class="n">glUniform1f</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;lights[&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;].quadratic&quot;</span><span class="p">).</span><span class="n">c_str</span><span class="p">()),</span><span class="w"> </span><span class="n">lights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">quadratic</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Send material (object) properties to the shader</span>
+<span class="n">glUniform1f</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ka&quot;</span><span class="p">),</span><span class="w"> </span><span class="mf">0.2f</span><span class="p">);</span>
+<span class="n">glUniform1f</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;kd&quot;</span><span class="p">),</span><span class="w"> </span><span class="mf">0.7f</span><span class="p">);</span>
+<span class="n">glUniform1f</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ks&quot;</span><span class="p">),</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">);</span>
+<span class="n">glUniform1f</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ns&quot;</span><span class="p">),</span><span class="w"> </span><span class="mf">20.0f</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Here we simply loop through the <code class="docutils literal notranslate"><span class="pre">lights</span></code> vector and send the values for each individual light to the shader (unfortunately we can’t send a vector of structs using a uniform, we could use <a href="https://www.khronos.org/opengl/wiki/Interface_Block_(GLSL)" target="_blank">GLSL interface blocks</a> but I wanted to keep things simple here).</p>
+<p>Finally to draw each light source replace the code to draw the single one with the following.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Draw light sources</span>
+<span class="n">glUseProgram</span><span class="p">(</span><span class="n">lightShaderID</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">lights</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// Calculate model matrix</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">translate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">translate</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">),</span><span class="w"> </span><span class="n">lights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">position</span><span class="p">);</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">scale</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">),</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.2f</span><span class="p">));</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">translate</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">scale</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Send model, view, projection matrices and light colour to light shader</span>
+<span class="w">    </span><span class="n">glUniformMatrix4fv</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">lightShaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;model&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">GL_FALSE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">model</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">glUniformMatrix4fv</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">lightShaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;view&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">GL_FALSE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">view</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">glUniformMatrix4fv</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">lightShaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;projection&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">GL_FALSE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">projection</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">glUniform3fv</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">lightShaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;lightColour&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">colour</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Draw light source</span>
+<span class="w">    </span><span class="n">sphere</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">lightShaderID</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Hopefully once you’ve made all of the changes it compiles and runs to show the following</p>
+<figure class="align-default" id="multiple-lights-figure">
+<a class="reference internal image-reference" href="../_images/08_teapot_multiple_lights.png"><img alt="../_images/08_teapot_multiple_lights.png" src="../_images/08_teapot_multiple_lights.png" style="width: 500px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.14 </span><span class="caption-text">Teapots lit using 2 light sources.</span><a class="headerlink" href="#multiple-lights-figure" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Use the keyboard and mouse to move the camera around the teapots to see the affects of the light sources.</p>
 </section>
 <section id="directional-light">
 <h2><span class="section-number">8.4. </span>Directional light<a class="headerlink" href="#directional-light" title="Permalink to this heading">#</a></h2>
+<p>When modelling a light source that is far away, e.g., example the sun, the light rays are parallel. It also does not matter where the object is or where the camera is in relation to the light source. Therefore we are only concerned in the direction of the light.</p>
+<p>The lighting calculations are the same as for a point light source seen above with the exception that we do not apply the attenuation. We will use another struct for the directional light source (we will assume we only have one directional light source)</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">DirLight</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">direction</span><span class="p">;</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">ambient</span><span class="p">;</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">diffuse</span><span class="p">;</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">specular</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>and import the corresponding uniform. Here our <code class="docutils literal notranslate"><span class="pre">DirLight</span></code> struct contains the light direction and 3 other 3-element vectors for the ambient, diffuse and specular colours. These replace the <code class="docutils literal notranslate"><span class="pre">ka</span></code>, <code class="docutils literal notranslate"><span class="pre">kd</span></code> and <code class="docutils literal notranslate"><span class="pre">ks</span></code> used in the point light source to give us more control over the look of our scene (you can also do this for the point light source if you want).</p>
+<p>To keep our code organised and readable we should refactor the code and make use of functions. The following function is used to calculate directional lighting</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">vec3</span><span class="w"> </span><span class="nf">directionalLight</span><span class="p">(</span><span class="n">DirLight</span><span class="w"> </span><span class="n">dirLight</span><span class="p">,</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">eye</span><span class="p">,</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">objectColour</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// Ambient reflection</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">ambient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dirLight</span><span class="p">.</span><span class="n">ambient</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">objectColour</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Diffuse refection</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">light</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="o">-</span><span class="n">dirLight</span><span class="p">.</span><span class="n">direction</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">cosTheta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="n">light</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">diffuse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dirLight</span><span class="p">.</span><span class="n">diffuse</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">objectColour</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cosTheta</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Specular light</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">reflection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">light</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dot</span><span class="p">(</span><span class="n">light</span><span class="p">,</span><span class="w"> </span><span class="n">normal</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">normal</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">cosAlpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">eye</span><span class="p">,</span><span class="w"> </span><span class="n">reflection</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">specular</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dirLight</span><span class="p">.</span><span class="n">specular</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">objectColour</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pow</span><span class="p">(</span><span class="n">cosAlpha</span><span class="p">,</span><span class="w"> </span><span class="n">Ns</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Return fragment colour</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ambient</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">diffuse</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">specular</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Doing something similar for the point light source means our <code class="docutils literal notranslate"><span class="pre">main()</span></code> function is now much simpler.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="w"> </span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// Object colour, normal and eye vector (these are the same for all light sources)</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">objectColour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec3</span><span class="p">(</span><span class="n">texture</span><span class="p">(</span><span class="n">diffuse1</span><span class="p">,</span><span class="w"> </span><span class="n">UV</span><span class="p">));</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">normal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="n">Normal</span><span class="p">);</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">eye</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="o">-</span><span class="n">fragmentPosition</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Calculate directional light</span>
+<span class="w">    </span><span class="n">fragmentColour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">directionalLight</span><span class="p">(</span><span class="n">dirLight</span><span class="p">,</span><span class="w"> </span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="n">eye</span><span class="p">,</span><span class="w"> </span><span class="n">objectColour</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Loop through the point light sources</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">numLights</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">fragmentColour</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">pointLight</span><span class="p">(</span><span class="n">lights</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">fragmentPosition</span><span class="p">,</span><span class="w"> </span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="n">eye</span><span class="p">,</span><span class="w"> </span><span class="n">objectColour</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The full code for the fragment shader is shown below. Paste this into your <code class="docutils literal notranslate"><span class="pre">multipleLightsFragmentShader.frag</span></code> file.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
+
+<span class="c1">// Interpolated values from the vertex shaders</span>
+<span class="n">in</span><span class="w"> </span><span class="n">vec2</span><span class="w"> </span><span class="n">UV</span><span class="p">;</span>
+<span class="n">in</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">fragmentPosition</span><span class="p">;</span>
+<span class="n">in</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">Normal</span><span class="p">;</span>
+
+<span class="c1">// Output data</span>
+<span class="n">out</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">fragmentColour</span><span class="p">;</span>
+
+<span class="c1">// Structs</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Light</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">colour</span><span class="p">;</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">position</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">linear</span><span class="p">,</span><span class="w"> </span><span class="n">constant</span><span class="p">,</span><span class="w"> </span><span class="n">quadratic</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">DirLight</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">direction</span><span class="p">;</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">ambient</span><span class="p">;</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">diffuse</span><span class="p">;</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">specular</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// Uniforms</span>
+<span class="cp">#define maxLights 100</span>
+<span class="n">uniform</span><span class="w"> </span><span class="n">sampler2D</span><span class="w"> </span><span class="n">diffuse1</span><span class="p">;</span>
+<span class="n">uniform</span><span class="w"> </span><span class="n">Light</span><span class="w"> </span><span class="n">lights</span><span class="p">[</span><span class="n">maxLights</span><span class="p">];</span>
+<span class="n">uniform</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">numLights</span><span class="p">;</span>
+<span class="n">uniform</span><span class="w"> </span><span class="n">DirLight</span><span class="w"> </span><span class="n">dirLight</span><span class="p">;</span>
+
+<span class="n">uniform</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">ka</span><span class="p">;</span>
+<span class="n">uniform</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kd</span><span class="p">;</span>
+<span class="n">uniform</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">ks</span><span class="p">;</span>
+<span class="n">uniform</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">Ns</span><span class="p">;</span>
+
+<span class="c1">// Function prototypes</span>
+<span class="n">vec3</span><span class="w"> </span><span class="nf">directionalLight</span><span class="p">(</span><span class="n">DirLight</span><span class="w"> </span><span class="n">dirLight</span><span class="p">,</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">eye</span><span class="p">,</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">objectColour</span><span class="p">);</span>
+<span class="n">vec3</span><span class="w"> </span><span class="nf">pointLight</span><span class="p">(</span><span class="n">Light</span><span class="w"> </span><span class="n">ptLight</span><span class="p">,</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">fragmentPosition</span><span class="p">,</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">eye</span><span class="p">,</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">objectColour</span><span class="p">);</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="w"> </span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// Object colour, normal and eye vector (these are the same for all light sources)</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">objectColour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec3</span><span class="p">(</span><span class="n">texture</span><span class="p">(</span><span class="n">diffuse1</span><span class="p">,</span><span class="w"> </span><span class="n">UV</span><span class="p">));</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">normal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="n">Normal</span><span class="p">);</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">eye</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="o">-</span><span class="n">fragmentPosition</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Calculate directional light</span>
+<span class="w">    </span><span class="n">fragmentColour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">directionalLight</span><span class="p">(</span><span class="n">dirLight</span><span class="p">,</span><span class="w"> </span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="n">eye</span><span class="p">,</span><span class="w"> </span><span class="n">objectColour</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Loop through the point light sources</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">numLights</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">fragmentColour</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">pointLight</span><span class="p">(</span><span class="n">lights</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">fragmentPosition</span><span class="p">,</span><span class="w"> </span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="n">eye</span><span class="p">,</span><span class="w"> </span><span class="n">objectColour</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Calculate directional lighting</span>
+<span class="n">vec3</span><span class="w"> </span><span class="nf">directionalLight</span><span class="p">(</span><span class="n">DirLight</span><span class="w"> </span><span class="n">dirLight</span><span class="p">,</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">eye</span><span class="p">,</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">objectColour</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// Ambient reflection</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">ambient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dirLight</span><span class="p">.</span><span class="n">ambient</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">objectColour</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Diffuse refection</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">light</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="o">-</span><span class="n">dirLight</span><span class="p">.</span><span class="n">direction</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">cosTheta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="n">light</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">diffuse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dirLight</span><span class="p">.</span><span class="n">diffuse</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">objectColour</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cosTheta</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Specular light</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">reflection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">light</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dot</span><span class="p">(</span><span class="n">light</span><span class="p">,</span><span class="w"> </span><span class="n">normal</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">normal</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">cosAlpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">eye</span><span class="p">,</span><span class="w"> </span><span class="n">reflection</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">specular</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dirLight</span><span class="p">.</span><span class="n">specular</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pow</span><span class="p">(</span><span class="n">cosAlpha</span><span class="p">,</span><span class="w"> </span><span class="n">Ns</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Return fragment colour</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ambient</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">diffuse</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">specular</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Calculate point light</span>
+<span class="n">vec3</span><span class="w"> </span><span class="nf">pointLight</span><span class="p">(</span><span class="n">Light</span><span class="w"> </span><span class="n">ptLight</span><span class="p">,</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">fragmentPosition</span><span class="p">,</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">eye</span><span class="p">,</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">objectColour</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// Ambient reflection</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">ambient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ka</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">ptLight</span><span class="p">.</span><span class="n">colour</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">objectColour</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Diffuse reflection</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">light</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="n">ptLight</span><span class="p">.</span><span class="n">position</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fragmentPosition</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">cosTheta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="n">light</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">diffuse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kd</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">objectColour</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">ptLight</span><span class="p">.</span><span class="n">colour</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cosTheta</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Specular reflection</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">reflection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">light</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dot</span><span class="p">(</span><span class="n">light</span><span class="p">,</span><span class="w"> </span><span class="n">normal</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">normal</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">cosAlpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">eye</span><span class="p">,</span><span class="w"> </span><span class="n">reflection</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">vec3</span><span class="w"> </span><span class="n">specular</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ks</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">ptLight</span><span class="p">.</span><span class="n">colour</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pow</span><span class="p">(</span><span class="n">cosAlpha</span><span class="p">,</span><span class="w"> </span><span class="n">Ns</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Attenuation</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">distance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">ptLight</span><span class="p">.</span><span class="n">position</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fragmentPosition</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">attenuation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">ptLight</span><span class="p">.</span><span class="n">constant</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ptLight</span><span class="p">.</span><span class="n">linear</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">distance</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ptLight</span><span class="p">.</span><span class="n">quadratic</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">distance</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">distance</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// Return fragment colour</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">ambient</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">diffuse</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">specular</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">attenuation</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Now we need to define a directional light source in the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file and send to to the shader. First declare a struct for the directional light where we declared the <code class="docutils literal notranslate"><span class="pre">Light</span></code> struct.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">DirLight</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">direction</span><span class="p">;</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">ambient</span><span class="p">;</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">diffuse</span><span class="p">;</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">specular</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Then define the values for the directional light</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define directional light</span>
+<span class="n">DirLight</span><span class="w"> </span><span class="n">dirLight</span><span class="p">;</span>
+<span class="n">dirLight</span><span class="p">.</span><span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
+<span class="n">dirLight</span><span class="p">.</span><span class="n">ambient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.2f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.2f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
+<span class="n">dirLight</span><span class="p">.</span><span class="n">diffuse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.7f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.7f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
+<span class="n">dirLight</span><span class="p">.</span><span class="n">specular</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Here we define a directional light source with rays coming down from the top left as we look down the <span class="math notranslate nohighlight">\(z\)</span>-axis. Colour of the light source is yellow (i.e., equal red and green mixed with zero blue) and the ambient, diffuse and specular colours have been scaled similarly to the point light sources above. The directional light values are sent to the shader in the same was as per the point light sources (although we only have one of these). Note that the <code class="docutils literal notranslate"><span class="pre">direction</span></code> vector is defined in the world space so we need to multiply it by <code class="docutils literal notranslate"><span class="pre">view</span></code> before sending it to the shader.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Send directional light to the shader</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">lightDirection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat3</span><span class="p">(</span><span class="n">view</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dirLight</span><span class="p">.</span><span class="n">direction</span><span class="p">;</span>
+<span class="n">glUniform3fv</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;dirLight.direction&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">dirLight</span><span class="p">.</span><span class="n">direction</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="n">glUniform3fv</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;dirLight.ambient&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">dirLight</span><span class="p">.</span><span class="n">ambient</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="n">glUniform3fv</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;dirLight.diffuse&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">dirLight</span><span class="p">.</span><span class="n">diffuse</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="n">glUniform3fv</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;dirLight.specular&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">dirLight</span><span class="p">.</span><span class="n">specular</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+</pre></div>
+</div>
+<p>Make these changes and run the code and you should see something similar to this.</p>
+<figure class="align-default" id="directional-light-figure">
+<a class="reference internal image-reference" href="../_images/08_teapot_directional_light.png"><img alt="../_images/08_teapot_directional_light.png" src="../_images/08_teapot_directional_light.png" style="width: 500px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.15 </span><span class="caption-text">Directional and point light sources.</span><a class="headerlink" href="#directional-light-figure" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Note that we can see that the teapots have been illuminated from a directional light source from the left hand side in addition to the two point light sources. Since the directional light source colour was yellow our blue teapots take on a slightly green appearance.</p>
+</section>
+<hr class="docutils" />
+<section id="exercises">
+<h2><span class="section-number">8.5. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Experiment with the positions, colours and material properties of the various light sources to see what effects they have.</p></li>
+<li><p>Change the colour of the second point light source to magenta and rotate its position in a circle around the teapots.</p></li>
+</ol>
+<center>
+<video controls muted="true" loop="true" width="500">
+    <source src="../08_exercise_2.mp4" type="video/mp4">
+</video>
+</center>
+<ol class="arabic simple" start="3">
+<li><p>The planet Narkov has a red sun and a single day lasts for 5 of our seconds. Use directional lighting to model the illumination of the sun as it passes through the sky and also beneath the horizon (fortunately Narkovians like tea so using our teapots would not seem unusual). The background colour can also be changed to match the colour of the light source.</p></li>
+</ol>
+<center>
+<video controls muted="true" loop="true" width="500">
+    <source src="../08_exercise_3.mp4" type="video/mp4">
+</video>
+</center>
+</section>
+<hr class="docutils" />
+<section id="source-code">
+<h2><span class="section-number">8.6. </span>Source code<a class="headerlink" href="#source-code" title="Permalink to this heading">#</a></h2>
+<p>The source code for this lab can be downloaded below</p>
+<ul class="simple">
+<li><p><a class="reference download internal" download="" href="../_downloads/cf5e33e68955ebc48bc71ff6afba1cda/Lab08_single_light.cpp"><span class="xref download myst">Lab08_single_light.cpp</span></a></p></li>
+<li><p><a class="reference download internal" download="" href="../_downloads/717d558f4333dffa0e43ca4b09299ec0/vertexShader.vert"><span class="xref download myst">vertexShader.vert</span></a></p></li>
+<li><p><a class="reference download internal" download="" href="../_downloads/e627a4b5143e33f8cce51a424c1d6589/fragmentShader.frag"><span class="xref download myst">fragmentShader.frag</span></a></p></li>
+<li><p><a class="reference download internal" download="" href="../_downloads/2093fd6dc2fb56a8a70d06b2c1506f1b/main.cpp"><span class="xref download myst">main.cpp</span></a> - multiple point light sources and directional light</p></li>
+<li><p><a class="reference download internal" download="" href="../_downloads/83d86af8b98e6f3d0ebaf656a853ebff/multipleLightsFragmentShader.frag"><span class="xref download myst">multipleLightsFragmentShader.frag</span></a></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="creating-an-obj-file-in-blender">
+<h2><span class="section-number">8.7. </span>Creating an .obj file in Blender<a class="headerlink" href="#creating-an-obj-file-in-blender" title="Permalink to this heading">#</a></h2>
+<p>To create an .obj file we can use the popular open source application <a href="https://www.blender.org" target="_blank">Blender</a> (this is installed on the machines in the Dalton building).</p>
+<ol class="arabic simple">
+<li><p>Create your object in blender and sort out the material textures, UV co-ordinates etc. (lots of tutorials on youtube to help you with this)</p></li>
+<li><p>Click on <strong>File &gt; Export &gt; Wavefront (.obj)</strong></p></li>
+</ol>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/08_blender_export_obj_1.png"><img alt="../_images/08_blender_export_obj_1.png" src="../_images/08_blender_export_obj_1.png" style="width: 600px;" /></a>
+</figure>
+<ol class="arabic simple" start="3">
+<li><p>Make sure <strong>Include Normals</strong>, <strong>Include UVs</strong> and <strong>Triangular Faces</strong> are selected.</p></li>
+</ol>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/08_blender_export_obj_2.png"><img alt="../_images/08_blender_export_obj_2.png" src="../_images/08_blender_export_obj_2.png" style="width: 600px;" /></a>
+</figure>
+<ol class="arabic simple" start="4">
+<li><p>Navigate to your chosen folder e.g., <code class="docutils literal notranslate"><span class="pre">Lab08_Lighting/objects/</span></code>, and give it an appropriate name.</p></li>
+</ol>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="id2" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
-<p>The Utah teapot is a standard text model for computer graphics first created in 1975 by Martin Newell whilst at the University of Utah. It has become a bit of an in-joke in the computer graphcis community and has appeared in Pixar’s <em>Toy Story</em> and in <em>The Simpsons</em> episode <em>Treehouse of Horror VI</em>.</p>
+<p>The Utah teapot is a standard test model for computer graphics first created in 1975 by Martin Newell whilst at the University of Utah. It has become a bit of an in-joke in the computer graphics community and has appeared in Pixar’s <em>Toy Story</em> and in <em>The Simpsons</em> episode <em>Treehouse of Horror VI</em>.</p>
 </aside>
 </section>
 </section>
@@ -951,7 +1320,6 @@ f 5/12/6 1/3/6 2/9/6
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-class">8.1. The Model class</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wavefront-obj-files">8.1.1. Wavefront (.obj) files</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-an-obj-file-in-blender">8.1.2. Creating an .obj file in Blender</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#phong-s-lighting-model">8.2. Phong’s lighting model</a><ul class="nav section-nav flex-column">
@@ -959,11 +1327,13 @@ f 5/12/6 1/3/6 2/9/6
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diffuse-reflection">8.2.2. Diffuse reflection</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specular-reflection">8.2.3. Specular reflection</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attenuation">8.2.4. Attenuation</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-of-phong-s-reflection-model">8.2.5. Summary of Phong’s reflection model</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-light-sources">8.3. Multiple light sources</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#directional-light">8.4. Directional light</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">8.5. Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-code">8.6. Source code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-an-obj-file-in-blender">8.7. Creating an .obj file in Blender</a></li>
 </ul>
   </nav></div>
 
