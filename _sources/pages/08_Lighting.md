@@ -41,9 +41,8 @@ The teapot has been rendered as a wireframe model since, in the absence of light
 If you take a look at the source code in the `Lab08_Lighting/source` folder you will notice that in addition to the classes introduced in previous labs (Texture, Shader and Camera) we have an addition class called Model which is defined in the `model.hpp` and `model.cpp` files. The Model class has been written so that we can load the vertex and texture co-ordinates from external files rather than having to define these in our code. Take a look at the `main.cpp` file where the following Model class methods have been called:
 
 - `Model teapot("../objects/teapot.obj)` - this is the constructor for the Model class and creates an object called `teapot`, loads the vertex co-ordinates, texture co-ordinates and vertex normals from an .obj file (see below) and creates the VAO and relevant buffers.
-- `teapot.addTexture("../objects/crate", "diffuse");` - this method loads the crate texture (not used here but shown to give you an example).
-- `teapot.draw(shaderID)` - this method binds the objects buffers and instructs OpenGL to draw the model.
-- `teapt.deleteBuffers()` - this method deletes all of the buffers created by the constructor.
+- `teapot.addTexture("../objects/blue.bmp", "diffuse");` - this method loads a texture map called `blue.bmp` and sets its type to `diffuse`. The texture loader now uses a library so our textures no longer have to be bitmaps. 
+- `teapot.draw(shaderID)` - this method binds the objects buffers and textures and instructs OpenGL to draw the model.
 
 ### Wavefront (.obj) files
 
@@ -108,20 +107,19 @@ The vertex and face data is given in lines with the following abbreviations:
 ```{note}
 The `loadObj()` private member function in the Model class is quite simplistic and we need to make sure our .obj file is in the correct form. There are some model loading libraries available such as <a href="http://www.assimp.org" target="_blank">assimp</a> (open ASSet IMPorter library) that can handle most common object formats but use of this requires compiling source code and configuring the IDE which is a bit too fiddly for what we are doing here.
 ```
-
 ---
 
 ## Phong's lighting model
 
-Phong's lighting model is a local illumination model that simulates the interaction of light falling on surfaces. The colour and brightness of a point on a surface is based on three components
+Phong's lighting model, first described by Bui Tuong Phong in 1975, is a local illumination model that simulates the interaction of light falling on surfaces. The brightness of a point on a surface is based on three components
 
 - **ambient reflection** - a simplified model of light that reflects of all objects in a scene
 - **diffuse reflection** - describes the direct illumination of a surface by a light source based on the angle between the light source direction and the normal vector to the surface
 - **specular reflection** - models the shiny highlights on a surface caused by a light source based on the angle between the light source direction, the normal vector and the view direction
 
-The colour of a pixel on the surface is calculated as a sum of these components, i.e.,
+The colour of a fragment on the surface is calculated as a sum of these components, i.e.,
 
-$$ \tt colour  = ambient + diffuse + specular.$$
+$$ \tt fragmentColour  = ambient + diffuse + specular.$$
 
 ### Ambient reflection
 
@@ -264,27 +262,27 @@ If the model and view transformations do not preserve the scaling then the the v
 Normal and tangent vectors in the view space.
 ```
 
-Let $\tt M$ be the first 3 rows and columns of the $\tt model \cdot view$ matrix then $\tt viewSpaceTangent = M * tangent$ (here I've used $\tt *$ to denote column major matrix multiplication so that it is consistent with our code). We need to derive a $3\times 3$ transformation matrix $\tt A$ such that the view space normal and tangents vectors are perpendicular, i.e.,
+Let $M$ be the first 3 rows and columns of the $\textsf{view} * \textsf{model} $ matrix then the view space tangent vector is calculated using $M * {\tt tangent}$ (here I've used $*$ to denote column major matrix multiplication so that it is consistent with our code). We need to derive a $3\times 3$ transformation matrix $A$ such that the view space normal vector is calculated using $A * {\tt normal}$ where this is perpendicular to the view space tangent vector, i.e.,
 
-$$\tt (A * normal) \cdot (M * tangent) = 0.$$
+$$(A * {\tt normal}) \cdot (M * {\tt tangent}) = 0.$$
 
-We can replace the dot product by a matrix multiplication by transposing $\tt(A * normal)$
+We can replace the dot product by a matrix multiplication by transposing $(A * {\tt normal})$
 
-$$\tt (A * normal)^\mathsf{T} * (M * tangent )= 0.$$
+$$(A * {\tt normal})^\mathsf{T} * (M * {\tt tangent} )= 0.$$
 
-A property of matrix multiplication is that the transpose of a multiplication is equal to the multiplication of the transposes so we can write this as
+A property of matrix multiplication is that the transpose of a multiplication is equal to the multiplication of the transposes swapped (i.e., $(AB)^\mathsf{T} = B^\mathsf{T}A^\mathsf{T}$) so we can write this as
 
-$$\tt normal^\textsf{T} * A^\mathsf{T} * M * tangent = 0.$$
+$${\tt normal}^\textsf{T} * A^\mathsf{T} * M * {\tt tangent} = 0.$$
 
-If $\tt A^\mathsf{T} * M = I$ then $\tt viewSpaceNormal \cdot viewSpaceTangent = 0$ so are perpendicular. We need $\tt A$ so rearranging gives
+If $A^\mathsf{T} * M = I$ then the view space normal and tangent vectors are perpendicular. Solving for $A$ gives
 
 $$ \begin{align*}
-    \tt A^\mathsf{T} * M &= \tt I \\
-    \tt A^\mathsf{T} &= \tt M^{-1} \\
-    \tt A &= \tt (M^{-1})^\mathsf{T}.
+    A^\mathsf{T} * M &=  I \\
+    A^\mathsf{T} &=  M^{-1} \\
+    A &=  (M^{-1})^\mathsf{T}.
 \end{align*} $$
 
-Since $\tt M = view * model$ then the matrix that transforms a model space normal vector to the view space is $\tt A = ((view * model)^{-1})^\mathsf{T}$
+Since $M = \textsf{view} * \textsf{model}$ then the matrix that transforms a model space normal vector to the view space is $A = ((\textsf{view} * \textsf{model})^{-1})^\mathsf{T}$
 
 ````
 

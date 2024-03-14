@@ -421,9 +421,8 @@ document.write(`
 <p>If you take a look at the source code in the <code class="docutils literal notranslate"><span class="pre">Lab08_Lighting/source</span></code> folder you will notice that in addition to the classes introduced in previous labs (Texture, Shader and Camera) we have an addition class called Model which is defined in the <code class="docutils literal notranslate"><span class="pre">model.hpp</span></code> and <code class="docutils literal notranslate"><span class="pre">model.cpp</span></code> files. The Model class has been written so that we can load the vertex and texture co-ordinates from external files rather than having to define these in our code. Take a look at the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file where the following Model class methods have been called:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">Model</span> <span class="pre">teapot(&quot;../objects/teapot.obj)</span></code> - this is the constructor for the Model class and creates an object called <code class="docutils literal notranslate"><span class="pre">teapot</span></code>, loads the vertex co-ordinates, texture co-ordinates and vertex normals from an .obj file (see below) and creates the VAO and relevant buffers.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">teapot.addTexture(&quot;../objects/crate&quot;,</span> <span class="pre">&quot;diffuse&quot;);</span></code> - this method loads the crate texture (not used here but shown to give you an example).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">teapot.draw(shaderID)</span></code> - this method binds the objects buffers and instructs OpenGL to draw the model.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">teapt.deleteBuffers()</span></code> - this method deletes all of the buffers created by the constructor.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">teapot.addTexture(&quot;../objects/blue.bmp&quot;,</span> <span class="pre">&quot;diffuse&quot;);</span></code> - this method loads a texture map called <code class="docutils literal notranslate"><span class="pre">blue.bmp</span></code> and sets its type to <code class="docutils literal notranslate"><span class="pre">diffuse</span></code>. The texture loader now uses a library so our textures no longer have to be bitmaps.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">teapot.draw(shaderID)</span></code> - this method binds the objects buffers and textures and instructs OpenGL to draw the model.</p></li>
 </ul>
 <section id="wavefront-obj-files">
 <h3><span class="section-number">8.1.1. </span>Wavefront (.obj) files<a class="headerlink" href="#wavefront-obj-files" title="Permalink to this heading">#</a></h3>
@@ -492,15 +491,15 @@ f 5/12/6 1/3/6 2/9/6
 <hr class="docutils" />
 <section id="phong-s-lighting-model">
 <h2><span class="section-number">8.2. </span>Phong’s lighting model<a class="headerlink" href="#phong-s-lighting-model" title="Permalink to this heading">#</a></h2>
-<p>Phong’s lighting model is a local illumination model that simulates the interaction of light falling on surfaces. The colour and brightness of a point on a surface is based on three components</p>
+<p>Phong’s lighting model, first described by Bui Tuong Phong in 1975, is a local illumination model that simulates the interaction of light falling on surfaces. The brightness of a point on a surface is based on three components</p>
 <ul class="simple">
 <li><p><strong>ambient reflection</strong> - a simplified model of light that reflects of all objects in a scene</p></li>
 <li><p><strong>diffuse reflection</strong> - describes the direct illumination of a surface by a light source based on the angle between the light source direction and the normal vector to the surface</p></li>
 <li><p><strong>specular reflection</strong> - models the shiny highlights on a surface caused by a light source based on the angle between the light source direction, the normal vector and the view direction</p></li>
 </ul>
-<p>The colour of a pixel on the surface is calculated as a sum of these components, i.e.,</p>
+<p>The colour of a fragment on the surface is calculated as a sum of these components, i.e.,</p>
 <div class="math notranslate nohighlight">
-\[ \tt colour  = ambient + diffuse + specular.\]</div>
+\[ \tt fragmentColour  = ambient + diffuse + specular.\]</div>
 <section id="ambient-reflection">
 <h3><span class="section-number">8.2.1. </span>Ambient reflection<a class="headerlink" href="#ambient-reflection" title="Permalink to this heading">#</a></h3>
 <p>Ambient reflection is light that is scatters off of all surfaces in a scene. To model this we use a massive cheat, we assume that all surfaces of the object are lit equally with the same amount of intensity. The equation to do this is</p>
@@ -631,23 +630,23 @@ Derivation of the view space normal transformation<div class="sd-summary-down do
 <p><span class="caption-number">Fig. 8.7 </span><span class="caption-text">Normal and tangent vectors in the view space.</span><a class="headerlink" href="#view-space-normal-2-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p class="sd-card-text">Let <span class="math notranslate nohighlight">\(\tt M\)</span> be the first 3 rows and columns of the <span class="math notranslate nohighlight">\(\tt model \cdot view\)</span> matrix then <span class="math notranslate nohighlight">\(\tt viewSpaceTangent = M * tangent\)</span> (here I’ve used <span class="math notranslate nohighlight">\(\tt *\)</span> to denote column major matrix multiplication so that it is consistent with our code). We need to derive a <span class="math notranslate nohighlight">\(3\times 3\)</span> transformation matrix <span class="math notranslate nohighlight">\(\tt A\)</span> such that the view space normal and tangents vectors are perpendicular, i.e.,</p>
+<p class="sd-card-text">Let <span class="math notranslate nohighlight">\(M\)</span> be the first 3 rows and columns of the <span class="math notranslate nohighlight">\(\textsf{view} * \textsf{model} \)</span> matrix then the view space tangent vector is calculated using <span class="math notranslate nohighlight">\(M * {\tt tangent}\)</span> (here I’ve used <span class="math notranslate nohighlight">\(*\)</span> to denote column major matrix multiplication so that it is consistent with our code). We need to derive a <span class="math notranslate nohighlight">\(3\times 3\)</span> transformation matrix <span class="math notranslate nohighlight">\(A\)</span> such that the view space normal vector is calculated using <span class="math notranslate nohighlight">\(A * {\tt normal}\)</span> where this is perpendicular to the view space tangent vector, i.e.,</p>
 <div class="math notranslate nohighlight">
-\[\tt (A * normal) \cdot (M * tangent) = 0.\]</div>
-<p class="sd-card-text">We can replace the dot product by a matrix multiplication by transposing <span class="math notranslate nohighlight">\(\tt(A * normal)\)</span></p>
+\[(A * {\tt normal}) \cdot (M * {\tt tangent}) = 0.\]</div>
+<p class="sd-card-text">We can replace the dot product by a matrix multiplication by transposing <span class="math notranslate nohighlight">\((A * {\tt normal})\)</span></p>
 <div class="math notranslate nohighlight">
-\[\tt (A * normal)^\mathsf{T} * (M * tangent )= 0.\]</div>
-<p class="sd-card-text">A property of matrix multiplication is that the transpose of a multiplication is equal to the multiplication of the transposes so we can write this as</p>
+\[(A * {\tt normal})^\mathsf{T} * (M * {\tt tangent} )= 0.\]</div>
+<p class="sd-card-text">A property of matrix multiplication is that the transpose of a multiplication is equal to the multiplication of the transposes swapped (i.e., <span class="math notranslate nohighlight">\((AB)^\mathsf{T} = B^\mathsf{T}A^\mathsf{T}\)</span>) so we can write this as</p>
 <div class="math notranslate nohighlight">
-\[\tt normal^\textsf{T} * A^\mathsf{T} * M * tangent = 0.\]</div>
-<p class="sd-card-text">If <span class="math notranslate nohighlight">\(\tt A^\mathsf{T} * M = I\)</span> then <span class="math notranslate nohighlight">\(\tt viewSpaceNormal \cdot viewSpaceTangent = 0\)</span> so are perpendicular. We need <span class="math notranslate nohighlight">\(\tt A\)</span> so rearranging gives</p>
+\[{\tt normal}^\textsf{T} * A^\mathsf{T} * M * {\tt tangent} = 0.\]</div>
+<p class="sd-card-text">If <span class="math notranslate nohighlight">\(A^\mathsf{T} * M = I\)</span> then the view space normal and tangent vectors are perpendicular. Solving for <span class="math notranslate nohighlight">\(A\)</span> gives</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
-    \tt A^\mathsf{T} * M &amp;= \tt I \\
-    \tt A^\mathsf{T} &amp;= \tt M^{-1} \\
-    \tt A &amp;= \tt (M^{-1})^\mathsf{T}.
+    A^\mathsf{T} * M &amp;=  I \\
+    A^\mathsf{T} &amp;=  M^{-1} \\
+    A &amp;=  (M^{-1})^\mathsf{T}.
 \end{align*} \end{split}\]</div>
-<p class="sd-card-text">Since <span class="math notranslate nohighlight">\(\tt M = view * model\)</span> then the matrix that transforms a model space normal vector to the view space is <span class="math notranslate nohighlight">\(\tt A = ((view * model)^{-1})^\mathsf{T}\)</span></p>
+<p class="sd-card-text">Since <span class="math notranslate nohighlight">\(M = \textsf{view} * \textsf{model}\)</span> then the matrix that transforms a model space normal vector to the view space is <span class="math notranslate nohighlight">\(A = ((\textsf{view} * \textsf{model})^{-1})^\mathsf{T}\)</span></p>
 </div>
 </details><p>Edit <code class="docutils literal notranslate"><span class="pre">vertexShader.vert</span></code> so that is looks like the following.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#version 330 core</span>
