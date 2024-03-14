@@ -237,7 +237,7 @@ glUniform3fv(glGetUniformLocation(shaderID, "lightPosition"), 1, &viewSpaceLight
 The vertex shader calculates the position of the fragment in the screen space and since our lighting calculations are done in the view space we need to get our vertex shader to calculate the co-ordinates of the fragment in the view space and the normal vector in the view space. For the fragment co-ordinates this is simply a matter of multiplying `position` by the `view` and `model` matrices but for the normal vector we use
 
 $$ \begin{align*}
-    \texttt{viewSpaceNormal} = ((\tt view \cdot model)^{-1})^\mathsf{T} \cdot \tt normal.
+    \texttt{viewSpaceNormal} = ((\tt view \cdot model)^{-1})^\mathsf{T} * \tt normal.
 \end{align*} $$
 
 Recall that $A^\mathsf{T}$ is the [transpose](transpose-section) and $A^{-1}$ is the [inverse](inverse-matrix-section) of the matrix $A$. You don't need to know why we use this equation but if you are curious click on the download link below.
@@ -942,7 +942,8 @@ The source code for this lab can be downloaded below
 
 To create an .obj file we can use the popular open source application <a href="https://www.blender.org" target="_blank">Blender</a> (this is installed on the machines in the Dalton building).
 
-1. Create your object in blender and sort out the material textures, UV co-ordinates etc. (lots of tutorials on youtube to help you with this)
+1. Create your object in blender and sort out the material textures, UV co-ordinates etc. (lots of tutorials on youtube to help you with this). Or you can import a model produced by someone else (be sure to give credit if doing this).
+   
 2. Click on **File > Export > Wavefront (.obj)**
 
 ```{figure} ../images/08_blender_export_obj_1.png
