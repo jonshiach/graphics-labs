@@ -368,6 +368,7 @@ $$ A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}. $$
 
 We refer to the size of a matrix by the number of horizontal rows $\times$ the number of vertical columns. Here the matrix $A$ has 2 rows and 2 columns so we call this matrix a $2 \times 2$ matrix. The individual elements of a matrix are referenced by an **index** which is a pair of numbers, the first of which is the row number and the second is the column number, so $a_{ij}$ is the element in row $i$ and column $j$ of the matrix $A$. For example for the matrix $A$ defined above $a_{11} = 1$, $a_{12} = 2$, $a_{21} = 3$ and $a_{22} = 4$.
 
+(transpose-section)=
 ### Matrix transpose
 
 The **transpose** of a matrix $A$ is denoted by $A^\mathsf{T}$ and is defined by swapping the rows and columns of $A$.
@@ -570,6 +571,7 @@ I =
  [    3.000,    4.000]]
 ```
 
+(inverse-matrix-section)=
 ### The inverse matrix
 
 Whilst matrix multiplication is defined for certain matrices there is no way of dividing a matrix by another. However, for certain square matrices we can calculate an **inverse matrix** that performs a similar function to divide. Consider the division of two numbers, 4 and 2 say. If we wanted to divide 4 by two we could write

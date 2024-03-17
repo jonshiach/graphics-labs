@@ -11,7 +11,6 @@
 #include <glm/gtx/io.hpp>
 
 #include "shader.hpp"
-#include "texture.hpp"
 #include "camera.hpp"
 #include "model.hpp"
 
@@ -19,17 +18,9 @@
 Camera camera(glm::vec3(0.0f, 1.0f, 5.0f));
 
 // Timers
-float currentFrame = 0.0f;
-float lastFrame = 0.0f;
-float deltaTime = 0.0f;
+float currentTime = 0.0f;
 float lastTime = 0.0f;
-
-// Light struct
-struct Light {
-    glm::vec3 position;
-    glm::vec3 colour;
-    glm::vec3 attenuation;
-};
+float deltaTime = 0.0f;
 
 int main( void )
 {
@@ -66,42 +57,38 @@ int main( void )
         glfwTerminate();
         return -1;
     }
-    
+
     // Enable depth test
     glEnable(GL_DEPTH_TEST);
-    
+
     // Use back face culling
     glEnable(GL_CULL_FACE);
-    
+
     // Ensure we can capture the escape key being pressed below
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-    
+
     // Tell GLFW to capture our mouse
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwPollEvents();
     glfwSetCursorPos(window, 1024/2, 768/2);
-                     
-    // Dark grey background
-    glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
-    
+
     // Compile shader programs
     GLuint shaderID = LoadShaders("vertexShader.vert", "fragmentShader.frag");
     GLuint lightShaderID = LoadShaders("lightVertexShader.vert", "lightFragmentShader.frag");
 
     // Load models
     Model teapot("../objects/teapot.obj");
-    Model lightSource("../objects/sphere.obj");
+    Model sphere("../objects/sphere.obj");
     
-    // Add textures to models
-    teapot.addTexture("../objects/crate.bmp", "diffuse");
-
+    // Load texture
+    teapot.addTexture("../objects/blue.bmp", "diffuse");
+    
     // Use wireframe (comment out to turn off)
 //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     
-    // Define light source
+    // Define lighting properties
     glm::vec3 lightColour = glm::vec3(1.0f, 1.0f, 1.0f);
     glm::vec3 lightPosition = glm::vec3(2.0f, 2.0f, 2.0f);
-    glm::vec3 ambientColour = glm::vec3(1.0f, 1.0f, 1.0f);
     
     // Specify world space object positions
     glm::vec3 positions[] = {
@@ -119,31 +106,35 @@ int main( void )
     
     do {
         // Update timers
-        currentFrame = glfwGetTime();
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
+        currentTime = glfwGetTime();
+        deltaTime = currentTime - lastTime;
+        lastTime = currentTime;
+
+        // Background colour
+        glm::vec3 bgColour = glm::vec3(0.0f, 0.0f, 0.0f);
+        glClearColor(bgColour[0], bgColour[1], bgColour[2], 1.0f);
         
         // Clear the window
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
+
         // Get the view and projection matrices from the camera library
         camera.calculateMatrices(window, deltaTime);
         glm::mat4 view = camera.getViewMatrix();
         glm::mat4 projection = camera.getProjectionMatrix();
-        
+
         // Activate shader
         glUseProgram(shaderID);
+        
+        // Send light source properties to the shader
+        glUniform3fv(glGetUniformLocation(shaderID, "lightColour"), 1, &lightColour[0]);
+        glm::vec3 viewSpaceLightPosition = glm::vec3(view * glm::vec4(lightPosition, 1.0f));
+        glUniform3fv(glGetUniformLocation(shaderID, "lightPosition"), 1, &viewSpaceLightPosition[0]);
+        
         
         // Send view and projection matrices to the shaders
         glUniformMatrix4fv(glGetUniformLocation(shaderID, "view"), 1, GL_FALSE, &view[0][0]);
         glUniformMatrix4fv(glGetUniformLocation(shaderID, "projection"), 1, GL_FALSE, &projection[0][0]);
 
-        // Send light source vectors to the shaders
-        glUniform3fv(glGetUniformLocation(shaderID, "lightColour"), 1, &lightColour[0]);
-        glUniform3fv(glGetUniformLocation(shaderID, "ambientColour"), 1, &ambientColour[0]);
-        glm::vec3 viewSpaceLightPosition = glm::vec3(view * glm::vec4(lightPosition, 1.0f));
-        glUniform3fv(glGetUniformLocation(shaderID, "lightPosition"), 1, &viewSpaceLightPosition[0]);
-        
         // Loop through objects
         for (unsigned int i = 0; i < 10; i++)
         {
@@ -161,12 +152,11 @@ int main( void )
         }
         
         // Draw light source
-        // Active light source shader
         glUseProgram(lightShaderID);
         
         // Calculate model matrix
         glm::mat4 translate = glm::translate(glm::mat4(1.0f), lightPosition);
-        glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+        glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.2f));
         glm::mat4 model = translate * scale;
         
         // Send model, view, projection matrices and light colour to light shader
@@ -174,29 +164,21 @@ int main( void )
         glUniformMatrix4fv(glGetUniformLocation(lightShaderID, "view"), 1, GL_FALSE, &view[0][0]);
         glUniformMatrix4fv(glGetUniformLocation(lightShaderID, "projection"), 1, GL_FALSE, &projection[0][0]);
         glUniform3fv(glGetUniformLocation(lightShaderID, "lightColour"), 1, &lightColour[0]);
-        
+            
         // Draw light source
-        lightSource.draw(lightShaderID);
-        
-        // Unbind VAO
-        glBindVertexArray(0);
-        
+        sphere.draw(lightShaderID);
+
         // Swap buffers
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-    
+
     // Check if the ESC key was pressed or the window was closed
     while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
            glfwWindowShouldClose(window) == 0 );
 
-    // Cleanup
-    teapot.deleteBuffers();
-    lightSource.deleteBuffers();
-    glDeleteProgram(shaderID);
-    
     // Close OpenGL window and terminate GLFW
     glfwTerminate();
-    
+
     return 0;
 }

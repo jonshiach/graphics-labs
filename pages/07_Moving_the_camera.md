@@ -60,23 +60,30 @@ No we can add the following code to the Camera class constructor before the `vie
 // Keyboard inputs
 if (glfwGetKey(window, GLFW_KEY_W))
 {
-  position += front; // move forward
+    position += front; // move forward
 }
 if (glfwGetKey(window, GLFW_KEY_S))
 {
-  position -= front; // move backwards
+    position -= front; // move backwards
 }
 if (glfwGetKey(window, GLFW_KEY_A))
 {
-  position -= right; // move left
+    position -= right; // move left
 }
 if (glfwGetKey(window, GLFW_KEY_D))
 {
-  position += right; // move right
+    position += right; // move right
 }
 ```
 
 The `glfwGetKey(window, GLFW_KEY_W)` returns a true value if the W key has been pressed. An if statement is then used to add the `front` vector to the camera `position` vector thereby moving the camera forward. We've done similar to move the camera backwards, to the left and right using the classic WSAD key combinations.
+
+Since we now have the ability to change the `positon` vector we should also update the `target` vector so that the camera direction does change (we do this below using mouse inputs). Just before we calculate the `view` matrix add the following code.
+
+```cpp
+// Update target
+target = position + front;
+```
 
 Compile and run the program and you should be able to move the camera around the 3D world using the keyboard. 
 
@@ -151,7 +158,7 @@ glfwSetCursorPos(window, 1024/2, 768/2);
 
 The `glfwSetInputMode()` and `glfwPollEvents()` functions tell GLFW to expect mouse input and also disable the cursor so it isn't shown on the window. The `gflwSetCursorPos()` initialises the cursor to be in the center of the window using the width and height window size.
 
-We now need to change the Camera class method `calculateMatrices()` to get the mouse cursor positions. In the `camera.cpp` add the following code before we calculate the `view` matrix.
+We now need to change the Camera class method `calculateMatrices()` to get the mouse cursor positions. In the `camera.cpp` add the following code just before we update the `target` vector.
 
 ```cpp
 // Get mouse cursor position
@@ -310,6 +317,18 @@ Running the program now gives a much better result.
 </video>
 </center>
 
+### Constraining the pitch angle
+
+Whilst playing with the camera direction you may have noticed that when you attempt to look straight up or down upon the objects the camera suddenly flips. This is because of how we calculate the `view` vector. To prevent this we need to constrain the `pitch` angle so it is between $\frac{1}{2}\pi$ and $\frac{3}{2} \pi$ (equivalent to 90$^\circ$ and 270$^\circ$ respectively). To do this we simply add the following if statements after updating the `yaw` and `pitch` angles.
+
+```cpp
+// Constrain pitch angle so the screen doesn't flip when looking straight up or down
+if (pitch > 1.49f * pi)
+    pitch = 1.49f * pi;
+if (pitch < 0.51f * pi)
+    pitch = 0.51f * pi;
+```
+
 ## Back face culling
 
 Whilst moving your camera around your 3D world you may notice that we can move through objects and view them from the inside. All surfaces of the cubes are rendered, including those not visible from the camera because they are on the far side. This is a waste of resources as OpenGL is calculating the vertex and fragment shaders for objects that won't be shown in the frame. To overcome this we can cull (omit) any surface of an object that is **back facing** the camera in a method called **back face culling**.
@@ -371,7 +390,7 @@ Compile and run your program and use the keyboard and mouse to put the camera in
 ## Exercises
 
 1. Change the `calculateMatrices()` Camera class method so that the camera position always has a $y$ co-ordinate of 0, i.e., like a first person shooter game where the player cannot fly around the world.
-2. Add the ability for the user to perform a jump by pressing the space bar. The jump should last for 1 second and the camera should follow a smooth arc. Hint: the function $y = \tt height \cdot \sin(\pi \cdot \tt time)$ produces values of $y=0$ when $\tt time = 0$ or $\tt time = 1$ and $y = \tt height$ when $t = 0.5$.
+2. Add the ability for the user to perform a jump by pressing the space bar. The jump should last for 1 second and the camera should follow a smooth arc. Hint: the function $y = \tt height \cdot \sin(\pi \cdot \tt time)$ produces values of $y=0$ when $\tt time = 0$ or $\tt time = 1$ and $y = \tt height$ when $\tt time = 0.5$.
 3. Write your own class called `MyLib` with static member functions for each of the functions you have used from the glm library (e.g., `lookAt()`) and make use of them to calculate the `model`, `view` and `projection` matrices (you may make use of `glm::mat4` and `glm::vec3` types).
 
 ---

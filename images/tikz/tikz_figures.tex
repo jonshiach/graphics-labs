@@ -7,7 +7,7 @@
 \renewcommand\familydefault{\sfdefault} 
 \usepackage[T1]{fontenc}
 
-\usetikzlibrary{arrows,shapes,calc,math,decorations.fractals,patterns,backgrounds,decorations.markings}
+\usetikzlibrary{arrows,shapes,calc,math,decorations.fractals,patterns,backgrounds,decorations.markings,decorations.pathmorphing}
 \tikzset{every picture/.style={/utils/exec={\sffamily}}}
 \tikzset{point/.style={fill,circle,inner sep=1.5pt}}
 \tikzset{vector/.style={-triangle 45, blue, line width=1pt}}
@@ -17,6 +17,23 @@
 \tikzset{yaxis/.style={-stealth',green!80!black,line width=1pt}}
 \tikzset{zaxis/.style={-stealth',blue,line width=1pt}}
 \renewcommand{\vec}{\underline}
+
+\pgfdeclaredecoration{jiggly}{step}
+{
+  \state{step}[width=+\pgfdecorationsegmentlength]
+  {\pgfmathsetmacro{\delta}{rand*\pgfdecorationsegmentamplitude}
+    \pgfpathlineto{
+      \pgfpointadd
+      {\pgfpoint{\pgfdecorationsegmentlength}{0pt}}
+      {\pgfpointpolar{90-\pgfdecoratedangle}
+          {\delta}}
+    }
+  }
+  \state{final}
+  {
+    \pgfpathlineto{\pgfpointdecoratedpathlast}
+  }
+}
 
 \begin{document}
 
@@ -868,9 +885,54 @@
 %     \node [anchor=south west] at (22.5:1) {\tt pitch};
 % \end{tikzpicture}
 
-% Diffuse reflection
+% Local/global illumination
+% \begin{tikzpicture}[background rectangle/.style={fill=black}, show background rectangle]
+%     \tikzmath{\angle=25;\h=0.5;};
+%     \coordinate (1) at ($(270-\angle:1)$);
+%     \draw [line width=4pt,rounded corners,cap=round,gray,fill=yellow](1) arc (270-\angle:-90+\angle:1) coordinate (2) -- ++(270:\h) -- ($(1)+(270:\h)$) -- (1);
+%     \draw [line width=4pt,cap=round,gray] 
+%         ($(1)+(270:\h+0.2)+(0:0.1)$) -- ($(2)+(270:\h+0.2)+(0:-0.1)$) 
+%         ($(1)+(270:\h+0.4)+(0:0.15)$) -- ($(2)+(270:\h+0.4)+(0:-0.15)$)
+%         ($(1)+(270:\h+0.6)+(0:0.3)$) -- ($(2)+(270:\h+0.6)+(0:-0.3)$);
+%     \foreach \i in {-45, 0, ..., 225}
+%     {
+%         \draw [line width=4pt,cap=round,yellow] (\i:1.25) -- ++(\i:0.4);
+%     }
+% \end{tikzpicture}
+
 % \begin{tikzpicture}
-%     \fill [black] (-1.5, -0.5) rectangle ++(9, 4);
+%     \draw [vector,yellow] (-2,-2) -- (0,-2) coordinate (1);
+%     \draw [vector,blue] (1) -- ++(0,1.5);
+%     \draw [vector,red!50!blue] (3,-0.25) coordinate (2) -- ++(-2.75,0);
+%     \draw [vector,blue] ($(2)+(0,-1.75)$) coordinate (3) -- (2);
+%     \draw [vector,yellow] ($(3)+(2,0)$) coordinate (4) -- (3);
+%     \node at (-0.25,0) [rotate=135] {\includegraphics[width=1cm]{eye.png}};
+%     \node [left] at ($(1)+(-2,0)$) {\includegraphics[width=0.8cm]{lightbulb.pdf}};
+%     \node [right] at (4) {\includegraphics[width=0.8cm]{lightbulb.pdf}};
+%     \draw [blue,line width=2pt] ($(1)+(225:1)$) -- ++(45:2);
+%     \draw [blue,line width=2pt] ($(3)+(315:1)$) -- ++(135:2);
+%     \draw [red,line width=2pt] ($(2)+(315:1)$) -- ++(135:2);
+%     \node at (-2,-1) {local illumination};
+%     \node at (5,0) {global illumination};
+% \end{tikzpicture}
+
+% Reflection vector
+% \begin{tikzpicture}[background rectangle/.style={fill=black}, show background rectangle]
+%     \coordinate (1) at (3,0);
+%     \fill [blue] (0,0) rectangle ++(6,-0.25);
+%     \node at ($(1)+(135:3.5)$) {\includegraphics[width=1cm]{blackbulb.pdf}};
+%     \draw [vector,white] (1) -- ++(135:3) node [pos=0.8,below left] {\tt light};
+%     \draw [vector,white] (1) -- ++(45:3) node [above] {\tt reflection};
+%     \draw [vector,white] (1) -- ++(90:2.5) node [above] {\tt normal};
+%     \draw [white,line width=1pt] ($(1)+(45:1)$) arc (45:135:1);
+%     \node at ($(1)+(112.5:0.67)$) {\color{white} $\theta$};
+%     \node at ($(1)+(67.5:0.67)$) {\color{white} $\theta$};
+%     \node (fragment) [white] at ($(1)+(0,-0.75)$) {\tt fragmentPosition};
+%     \draw [->,white,shorten >= 2pt,line width=1pt] (fragment) to (1);
+% \end{tikzpicture}
+
+% Diffuse reflection
+% \begin{tikzpicture}[background rectangle/.style={fill=black}, show background rectangle]
 %     \fill [blue] (-1,0) rectangle ++(8,-0.25);
 %     \foreach \i/\j in {0/40, 1/70, 2/20, 3/110, 4/60} {
 %         \draw [vector,white] ($(2,0)+(0.5*\i,0)+(135:3)$) -- ++(315:3);
@@ -880,50 +942,51 @@
 %     \node [white,above,yshift=0.5cm] at ($(3,0)+(45:3)$) {reflected rays};
 % \end{tikzpicture}
 
-% \begin{tikzpicture}
+% \begin{tikzpicture}[background rectangle/.style={fill=black}, show background rectangle]
 %     \coordinate (1) at (3,0);
-%     \fill [black] (-0.5, -0.5) rectangle ++(7, 4);
 %     \fill [blue] (0,0) rectangle ++(6,-0.25);
 %     \foreach \i in {0, 20, ..., 180} {
-%         \draw [-triangle 45,blue] (1) -- ++(\i:1.5);
+%         \draw [-triangle 45,blue,line width=1pt] (1) -- ++(\i:1.5);
 %     }
-%     \draw [white] ($(1)+(90:1)$) arc (90:135:1);
+%     \draw [white,line width=1pt] ($(1)+(90:1)$) arc (90:135:1);
 %     \draw [vector,white] (1) -- ++(135:3) node [above] {\tt light};
 %     \draw [vector,white] (1) -- ++(90:3) node [above] {\tt normal};
 %     \node [white] (theta)
-%     at ($(1)+(112.5:2)$) {$\theta$};
-%     \draw [->,white,line width=1pt] (theta) -- ($(1)+(112.5:0.75)$);
-
+%     at ($(1)+(112.5:0.67)$) {$\theta$};
+%     % \draw [->,white,line width=1pt] (theta) -- ($(1)+(112.5:0.75)$);
+%     \node (2) at (5,2) [white] {reflected light};
+%     \draw [->,white,line width=1pt] (2) -- ++(230:1.2);
 % \end{tikzpicture}
 
 % Specular reflection
-
-\begin{tikzpicture}
-    \fill [black] (-1.5, -0.5) rectangle ++(9, 4);
-    \fill [blue] (-1,0) rectangle ++(8,-0.25);
-    \foreach \i in {0, ..., 4} {
-        \draw [vector,white] ($(2,0)+(0.5*\i,0)+(135:3)$) -- ++(315:3);
-        \draw [vector,white] ($(2,0)+(0.5*\i,0)$) -- ++(45:3);
-    }
-    \node [white,above] at ($(3,0)+(135:3)$) {light rays};
-    \node [white,above] at ($(3,0)+(45:3)$) {reflected rays};
-\end{tikzpicture}
+% \begin{tikzpicture}[background rectangle/.style={fill=black}, show background rectangle]
+%     \fill [blue] (-1,0) rectangle ++(8,-0.25);
+%     \foreach \i in {0, ..., 4} {
+%         \draw [vector,white] ($(2,0)+(0.5*\i,0)+(135:3)$) -- ++(315:3);
+%         \draw [vector,white] ($(2,0)+(0.5*\i,0)$) -- ++(45:3);
+%     }
+%     \node [white,above] at ($(3,0)+(135:3)$) {light rays};
+%     \node [white,above] at ($(3,0)+(45:3)$) {reflected rays};
+% \end{tikzpicture}
 
 % \begin{tikzpicture}
 %     \coordinate (1) at (3,0);
 %     \fill [black] (-0.5, -0.5) rectangle ++(7, 4);
 %     \fill [blue] (0,0) rectangle ++(6,-0.25);
-%     \foreach \i in {15, 30, ..., 75} {
-%         \draw [-triangle 45,yellow] (1) -- ++(\i:{2*cos(\i - 45)^5});
-%     }
-%     \draw [white] ($(1)+(30:1)$) arc (30:45:1);
-%     \draw [vector,white] (1) -- ++(135:3) node [above] {\color{yellow}\tt light};
+%     \draw [white,line width=1pt] ($(1)+(30:1.2)$) arc (30:45:1.2);
+%     \node at ($(1)+(135:3.5)$) {\includegraphics[width=1cm]{blackbulb.pdf}};
+%     \draw [vector,white] (1) -- ++(135:3) node [below left,pos=0.8] {\tt light};
 %     \draw [vector,white] (1) -- ++(90:3) node [above] {\tt normal};
 %     \draw [vector,white] (1) -- ++(45:3) node [above] {\tt reflection};
 %     \draw [vector,white] (1) -- ++(30:3) node [right] {\tt eye};
 %     \node [white] (theta)
-%     at ($(1)+(10:2)$) {$\alpha$};
-%     \draw [->,white,line width=1pt] (theta) -- ($(1)+(37.5:0.75)$);
+%     at ($(1)+(37.5:1.5)$) {$\alpha$};
+%     % \draw [->,white,line width=1pt] (theta) -- ($(1)+(37.5:1.2)$);
+%     \node [white] at ($(1)+(112.5:0.67)$) {$\theta$};
+%     \node [white] at ($(1)+(67.5:0.67)$) {$\theta$};
+%     \draw [white, line width=1pt] ($(1)+(45:1)$) arc (45:135:1);    \foreach \i in {15, 30, ..., 75} {
+%         \draw [-triangle 45,yellow] (1) -- ++(\i:{2.5*cos(\i - 45)^5});
+%     }
 % \end{tikzpicture}
 
 % Attenuation
@@ -932,5 +995,79 @@
 %     \draw [-stealth',line width=1pt] (-0.1,-0.1) -- ++(90:4.5) node [pos=0.5,above,rotate=90] {attenuation};
 %     \draw [line width=1pt] plot (\x, {4 * (1 / (1 + \x + 0.1 * \x + 0.05 * \x * \x))});
 % \end{tikzpicture}
+
+% View space normal 
+% \begin{tikzpicture}
+%     \coordinate (v0) at (2,0);
+%     \coordinate (v1) at (0,2);
+%     \coordinate (w0) at ($(v0)!0.5!(v1)$);
+%     \coordinate (w1) at ($(v0)!0.5!(v1)+(45:1.5)$);
+%     \draw [line width=1pt] (v0) -- (v1);
+%     \node [right] at (v0) {\tt v0};
+%     \node [above] at (v1) {\tt v1};
+%     \draw [vector,red,line width=1pt] (w0) -- ($(w0)!0.75!(v1)$) node [pos=0.5,below left] {\tt tangent};
+%     \draw [vector,blue,line width=1pt] (w0) -- (w1) node [right] {\tt normal};
+% \end{tikzpicture}
+
+% \begin{tikzpicture}
+%     \coordinate (v0) at (2,0);
+%     \coordinate (v1) at (0,3);
+%     \coordinate (w0) at ($(v0)!0.5!(v1)$);
+%     \coordinate (w1) at ($(v0)!0.5!(v1)+(70:1.5)$);
+%     \draw [line width=1pt] (v0) -- (v1);
+%     \node [right] at (v0) {\tt v0};
+%     \node [above] at (v1) {\tt v1};
+%     \draw [vector,red,line width=1pt] (w0) -- ($(w0)!0.75!(v1)$) node [pos=0.5,below left] {\tt viewSpaceTangent};
+%     \draw [vector,blue,line width=1pt] (w0) -- (w1) node [right] {\tt viewSpaceNormal};
+% \end{tikzpicture}
+
+% Spot light
+% \begin{tikzpicture}[background rectangle/.style={fill=black}, show background rectangle]
+%     \tikzmath{\w=1;\h=0.4*\w;\t=0.25*\w;};
+%     \fill [yellow] (0,0) arc (220:320:0.66);
+%     \draw [gray,line width=2pt,cap = round] (0,0) -- ++(0:\w) arc (0:80:0.4*\w) -- ++(90:\h) coordinate (1) -- ++(180:\t) (0,0) arc (180:100:\h) -- ++(90:\h) coordinate (2) -- (1);
+%     \fill [gray] (0,0) -- ++(0:\w) arc (0:80:0.4*\w) -- (1) -- (2) -- ++ (270:\h) arc (100:180:\h);
+% \end{tikzpicture}
+
+% \begin{tikzpicture}[background rectangle/.style={fill=black}, show background rectangle]
+%     \coordinate (1) at (3,0);
+%     \coordinate (2) at ($(1)+(0,3)$);
+%     \node (spotlight) at ($(2)+(0,0.5)$) {\includegraphics[width=1cm]{spotlight.pdf}};
+%     \node [white,right] at ($(2)+(0.2,0)$) {\tt position} ;
+%     \fill [blue] (0,0) rectangle ++(6,-0.25);
+%     \draw [white,fill=black!75!yellow,line width=1pt] ($(1)+(-2,0)$) -- (2) -- ($(1)+(2,0)$);
+%     \draw [vector,white] (2) -- (1) node [pos=0.8,right] {\tt direction};
+%     \draw [vector,yellow] (2) -- ($(1)+(-1,0)$) coordinate (3) node [pos=0.8,left] {\tt light};
+%     \draw [yellow,line width=1pt] ($(2)+(270:1.75)$) arc (270:{270-atan(1/3)}:1.75);
+%     \node [yellow] at ($(2)+({270-atan(0.5/3)}:1.5)$) {$\theta$};
+%     \draw [white,line width=1pt] ($(2)+(270:2)$) arc (270:{270+atan(2/3)}:2);
+%     \node [white] at ($(2)+({270+atan(1/3)}:1.6)$) {$\phi$};
+%     \node (fragment) [white] at ($(1)+(-1,-1)$) {\tt fragmentPosition};
+%     \draw [white,->,line width=1pt,shorten >= 2pt] (fragment) -- ($(1)+(-1,0)$);
+% \end{tikzpicture}
+
+% \begin{tikzpicture}[domain=0:10,samples=200]
+%     \tikzmath{\p=8;\w=0.2*\p;\yl=3;};
+%     \draw [-stealth',line width=1pt] (-0.1,-0.1) -- ++(0:10.5) node [right] {$\theta$};
+%     \draw [-stealth',line width=1pt] (-0.1,-0.1) -- ++(90:4) node [pos=0.4,above,rotate=90] {intensity};
+%     \draw [line width=1pt] plot (\x, {\yl * min(1,max(0,(\p - \x) / \w))});
+%     \node [left] at (-0.1,\yl) {1};
+%     \node [left] at (-0.1,0) {0};
+%     \node [below] at (-0.1,-0.1) {0};
+%     \node [below] at (8,-0.1) {$\phi$};
+%     \draw [dashed] (\p-\w,0) -- ++(90:\yl+0.5) (\p,0) -- ++(90:\yl+0.5);
+%     \draw [<->] (\p-\w,3.2) -- ++(\w,0) node [pos=0.5,above] {$\delta$};
+% \end{tikzpicture}
+
+% Directional light
+\begin{tikzpicture}[background rectangle/.style={fill=black}, show background rectangle]
+    \foreach \i in {0, ..., 3} {
+        \node at (\i*1.5,0) {\includegraphics[width=1cm]{teapot.png}};
+    }
+    \foreach \i in {0,...,10}{
+        \draw [vector,white] ($(-0.5+\i*0.5,0.5)+(120:2)$) -- (-0.5+\i*0.5,0.5);
+    }
+    \node [white] at (1,2.5) {directional light vectors};
+\end{tikzpicture}
 
 \end{document}
