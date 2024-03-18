@@ -680,7 +680,7 @@ We want to define the lighting properties for multiple lights sources so we are 
 
 ```cpp
 // Define light colours
-glm::vec3 white = (1.0f, 1.0f, 1.0f);
+glm::vec3 white = glm::vec3(1.0f, 1.0f, 1.0f);
 
 // Create vector of Light structs
 std::vector<Light> lights;
