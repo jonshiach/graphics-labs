@@ -116,6 +116,7 @@ int main( void )
     // Add texture to teapot object
     teapot.addTexture("../objects/blue.bmp", "diffuse");
     
+    
     // Use wireframe rendering (comment out to turn off)
 //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -195,6 +196,79 @@ int main( void )
         currentTime = glfwGetTime();
         deltaTime = currentTime - lastTime;
         lastTime = currentTime;
+
+//        // Exercise 2 - Modelling a flashlight
+//        spotLights[0].position = camera.position;
+//        spotLights[0].direction = camera.front;
+//        spotLights[0].cosPhi = cos(glm::radians(20.0f));
+//        lights.clear();                                     // remove point lights
+//        glm::vec3 black = glm::vec3(0.0f);
+//        dirLight.ambient = glm::vec3(0.0f, 0.0f, 0.0f);     // set directional light to black
+//        dirLight.diffuse = glm::vec3(0.0f, 0.0f, 0.0f);
+//        dirLight.specular = glm::vec3(0.0f, 0.0f, 0.0f);
+        
+//        // Exercise 3 - Rotating a point light
+//        glm::vec3 magenta = glm::vec3(1.0f, 0.0f, 1.0f);
+//        glm::vec3 black = glm::vec3(0.0f);
+//        lights[1].ambient = 0.2f * magenta;
+//        lights[1].diffuse = 0.7f * magenta;
+//        lights[1].specular = 1.0f * magenta;
+//        lights[1].position = glm::vec3(0.0f, 0.0f, -5.0f) + glm::vec3(5.0f * cos(currentTime), 2.0f, 5.0f * sin(currentTime));
+//        spotLights.clear();           // clear spotlights
+//        dirLight.ambient = black;     // set directional light to black
+//        dirLight.diffuse = black;
+//        dirLight.specular = black;
+        
+//        // Exercise 4 - Modelling a red sun
+//        glm::vec3 red = glm::vec3(1.0f, 0.0f, 0.0f);
+//        glm::vec3 black = glm::vec3(0.0f, 0.0f, 0.0f);
+//        dirLight.ambient = 0.2f * red;
+//        dirLight.diffuse = 0.7f * red;
+//        dirLight.specular = 1.0f * red;
+//        dirLight.direction = glm::vec3(cos(-currentTime), sin(-currentTime), 0.0f);
+//        glm::vec3 bgColour = sin(currentTime) * red;
+//        if (dirLight.direction[1] > 0.0f)
+//        {
+//            // Turn off directional light at night
+//            dirLight.ambient = black;
+//            dirLight.diffuse = black;
+//            dirLight.specular = black;
+//            
+//            // Turn on other lights sources at night
+//            for (unsigned int i = 0; i < lights.size(); i++)
+//            {
+//                lights[i].ambient = ka * white;
+//                lights[i].diffuse = kd * white;
+//                lights[i].specular = ks * white;
+//            }
+//            for (unsigned int i = 0; i < spotLights.size(); i++)
+//            {
+//                spotLights[i].ambient = ka * white;
+//                spotLights[i].diffuse = kd * white;
+//                spotLights[i].specular = ks * white;
+//            }
+//        }
+//        else        
+//        {
+//            // Turn on directional light source in the daytime
+//            dirLight.ambient = ka * red;
+//            dirLight.diffuse = kd * red;
+//            dirLight.specular = ks * red;
+//            
+//            // Turn off other light sources in the daytime
+//            for (unsigned int i = 0; i < lights.size(); i++)
+//            {
+//                lights[i].ambient = black;
+//                lights[i].diffuse = black;
+//                lights[i].specular = black;
+//            }
+//            for (unsigned int i = 0; i < spotLights.size(); i++)
+//            {
+//                spotLights[i].ambient = black;
+//                spotLights[i].diffuse = black;
+//                spotLights[i].specular = black;
+//            }
+//        }
 
         // Background colour
         glm::vec3 bgColour = glm::vec3(0.0f, 0.0f, 0.0f);

@@ -30,7 +30,7 @@ Compile and run the project and you will see the window below showing a wirefram
 :width: 500
 ```
 
-The teapot has been rendered as a wireframe model since, in the absence of light and shadow, we wouldn't be able to tell that it was in fact a 3D model. We can turn of the wireframe rendering by commenting out the line `glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);`. Do this and you should see the following.
+The teapot has been rendered as a wireframe model since in the absence of light and shadow we wouldn't be able to tell that it was in fact a 3D model. We can turn of the wireframe rendering by commenting out the line `glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);`. Do this and you should see the following.
 
 ```{figure} ../images/08_teapot_solid.png
 :width: 500
@@ -133,11 +133,15 @@ $$ \textsf{ambient} = k_a I_a I_o, $$
 where $k_a$ is the **ambient reflection constant** that determines the amount of ambient lighting used and $I_a$ and $I_o$ are the colours of the ambient light and object respectively. Lets create a light source and calculate the ambient lighting. We need to create a vector for the light colour and send it to the shaders using a uniform. Add the following code to the `main.cpp` file just before the render loop.
 
 ```cpp
-// Define lighting properties
-glm::vec3 lightAmbient = glm::vec3(0.2f, 0.2f, 0.2f);
+// Define object properties
+float ka = 0.2f;    // ambient constant
+
+// Define light colours
+glm::vec3 white = glm::vec3(1.0f, 1.0f, 1.0f);
+glm::vec3 lightAmbient = ka * white;                    // ambient light colour
 ```
 
-Here we have used a 3-element vector to containing the RGB values for our light source multiplied by the ambient constant $k_aI_a$ so in this case the ambient light it is pure white and $k_a=0.2$ (a bit boring I know so feel free to experiment with different colours). In the render loop add the following code to send the `lightAmbient` to the shaders.
+Here we have defined the ambient constant for the teapot as $k_a = 0.2$ and the colour of the ambient light to be white. In the render loop add the following code just before we calculate the model matrix to send the `lightAmbient` to the shaders.
 
 ```cpp
 // Send light source properties to the shader
@@ -236,25 +240,20 @@ $$ \textsf{diffuse} = k_d I_o I_d \cos(\theta),$$
 
 where $k_d$ is the **diffuse reflection constant** that determines the amount of diffuse lighting seen by the viewer and $I_d$ is the colour of the diffuse light source. Recall that the angle between two vectors is related by [dot product](dot-product-section) so if the $\tt light$ and $\tt normal$ vectors are unit vectors then $\cos(\theta) = \tt light \cdot normal$. If $\theta > 90^\circ$ then light source is behind the surface and no light should be reflected to the viewer. When $\theta$ is between 90$^\circ$ and 180$^\circ$, $\cos(\theta)$ is negative so limit the value of $\cos(\theta )$ between 0 and 1.
 
-Lets define a position for a light source and the colour of the diffuse light. Add the following to `main.cpp` just after where we defined the `lightAmbient` vector
+Lets define a position for a light source and the colour of the diffuse light. Define a float for the the diffuse constant and set its value to $k_d = 0.7f$ and add the following after where we defined the ambient light colour.
 
 ```cpp
-glm::vec3 lightDiffuse = glm::vec3(0.7f, 0.7f, 0.7f);
+glm::vec3 lightDiffuse = kd * white;                    // diffuse light colour
 glm::vec3 lightPosition = glm::vec3(2.0f, 2.0f, 2.0f);
 ```
 
-So the light source is positioned at (2,2,2) and the diffuse light is pure white with $k_d = 0.7$.
+So the light source is positioned at (2,2,2) and the diffuse light is pure white.
 
-We also need to send `lightDiffuse` to the shader so add the following where we did this for `lightAmbient`.
-
-```cpp
-glUniform3fv(glGetUniformLocation(shaderID, "lightDiffuse"), 1, &lightDiffuse[0]);
-```
-
-All calculations performed in the fragment shader is done in the view space and the `gl_Position` which is calculated in the vertex shader is the screen space vertex position so we also need to calculate the view space co-ordinates of the light source position. We could do this in the vertex shader but since the light position is the same for all fragments it is better do this in the `main.cpp` file rather than recalculating it for each fragment in the shaders. Add the following code just after we sent `lightDiffuse` to the shader.
+All calculations performed in the fragment shader is done in the view space and the `gl_Position` which is calculated in the vertex shader is the screen space vertex position so we also need to calculate the view space co-ordinates of the light source position. We could do this in the vertex shader but since the light position is the same for all fragments it is better do this in the `main.cpp` file rather than recalculating it for each fragment in the shaders. Add the following code just after we sent the colour of the ambient light to the shader to do the same for the diffuse light and the light position.
 
 ```cpp
 glm::vec3 viewSpaceLightPosition = glm::vec3(view * glm::vec4(lightPosition, 1.0f));
+glUniform3fv(glGetUniformLocation(shaderID, "lightDiffuse"), 1, &lightDiffuse[0]);
 glUniform3fv(glGetUniformLocation(shaderID, "lightPosition"), 1, &viewSpaceLightPosition[0]);
 ```
 
@@ -339,12 +338,19 @@ void main()
     UV = uv;
     
     // Output view space fragment position and normal
-    FragmentPosition = vec3(view * model * vec4(position, 1.0));
+    fragmentPosition = vec3(view * model * vec4(position, 1.0));
     Normal = mat3(transpose(inverse(view * model))) * normal;
 }
 ```
 
-In `fragmentShader.frag` add `vec3` uniforms for the `lightPosition` and `lightDiffuse` vectors. In the `main()` function add the following to calculate diffuse reflection.
+In `fragmentShader.frag` we need let OpenGL know we are importing `FragmentPosition` and `Normal` from the vertex shader so add the following after we import the `UV` co-ordinates. 
+
+```cpp
+in vec3 Normal;
+in vec3 fragmentPosition;
+```
+
+Add `vec3` uniforms for the `lightPosition` and `lightDiffuse` vectors and in the `main()` function add the following to calculate diffuse reflection.
 
 ```cpp
 // Diffuse reflection
@@ -398,14 +404,14 @@ $$ \textsf{specular} = k_s I_p \cos(\alpha)^{N_s},$$
 
 where $N_s$ is the **specular exponent** that determines the size of the specular highlights (i.e., the shininess of the object). The angle $\alpha$ is calculated using a dot product between the $\tt reflection$ vector and the $\tt eye$ vector which is the vector from the fragment to the camera at (0,0,0).
 
-In `main.cpp` define the specular light colour and exponent where we defined the ambient and diffuse colours
+In `main.cpp` define a float for the specular constant and exponent with values $k_s = 1.0$ and $N_s = 20.0$ and define
+the colour of the specular light where we defined the colours of the ambient and diffuse light.
 
 ```cpp
-glm::vec3 lightSpecular = glm::vec3(1.0f, 1.0f, 1.0f);
-float Ns = 20.0f;
+glm::vec3 lightSpecular = ks * white;
 ```
 
-So we have a white specular light source with $k_s = 1$ and $N_s = 20$. Send the specular colour to the shader where we did for the ambient and diffuse colours.
+Send the specular colour to the shader where we did this for the ambient and diffuse colours.
 
 ```cpp
 glUniform3fv(glGetUniformLocation(shaderID, "lightSpecular"), 1, &lightSpecular[0]);
@@ -471,7 +477,7 @@ float distance = length(lightPosition - fragmentPosition);
 float attenuation = 1.0 / (constant + linear * distance + quadratic * distance * distance);
 
 // Fragment colour
-colour = (ambient + diffuse + specular) * attenuation;
+fragmentColour = (ambient + diffuse + specular) * attenuation;
 ```
 
 To demonstrate the affects of applying attenuation we are going to need some more objects that are further away from the light source. In your `main.cpp` file before the render loop define an array of position vectors
@@ -515,8 +521,8 @@ for (unsigned int i = 0; i < 10; i++)
 It would also be useful to render the light source. After you've drawn the teapots add the following code (a light source object and the shader for drawing the light source have been defined beforehand).
 
 ```cpp
-// Draw light source
-// Active light source shader
+// Draw light sources
+// Activate light source shader
 glUseProgram(lightShaderID);
 
 // Calculate model matrix
@@ -670,18 +676,21 @@ Since we are using a different file for the fragment shader we need to tell Open
 GLuint shaderID = LoadShaders("vertexShader.vert", "multipleLightsFragmentShader.frag");
 ```
 
-We want to define the lighting properties for multiple lights sources so we are going to store our `Light` structures in a <a href="https://en.cppreference.com/w/cpp/container/vector" target="_blank">vector</a>. Where we defined `lightColour` and `lightPosition` for our single light example replace the code with the following.
+We want to define the lighting properties for multiple lights sources so we are going to store our `Light` structures in a <a href="https://en.cppreference.com/w/cpp/container/vector" target="_blank">vector</a>. Where we defined the colour and position of the single light source, replace the code with the following.
 
 ```cpp
+// Define light colours
+glm::vec3 white = (1.0f, 1.0f, 1.0f);
+
 // Create vector of Light structs
 std::vector<Light> lights;
 
 // Add first light source
 Light light;
 light.position = glm::vec3(2.0f, 2.0f, 2.0f);
-light.ambient = glm::vec3(0.2f, 0.2f, 0.2f);
-light.diffuse = glm::vec3(0.7f, 0.7f, 0.7f);
-light.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+light.ambient = ka * white;
+light.diffuse = kd * white;
+light.specular = ks * white;
 light.constant = 1.0f;
 light.linear = 0.1f;
 light.quadratic = 0.02f;
@@ -689,9 +698,9 @@ lights.push_back(light);
 
 // Add second light source
 light.position = glm::vec3(1.0f, 1.0f, -8.0f);
-light.ambient = glm::vec3(0.2f, 0.2f, 0.2f);
-light.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
-light.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+light.ambient = ka * white;
+light.diffuse = kd * white;
+light.specular = ks * white;
 light.constant = 1.0f;
 light.linear = 0.1f;
 light.quadratic = 0.02f;
@@ -714,7 +723,6 @@ for (unsigned int i = 0; i < lights.size(); i++)
     glUniform1f(glGetUniformLocation(shaderID, ("lights[" + number + "].constant").c_str()), lights[i].constant);
     glUniform1f(glGetUniformLocation(shaderID, ("lights[" + number + "].linear").c_str()), lights[i].linear);
     glUniform1f(glGetUniformLocation(shaderID, ("lights[" + number + "].quadratic").c_str()), lights[i].quadratic);
-}
 }
 
 // Send material (object) properties to the shader
@@ -757,7 +765,7 @@ Teapots lit using 2 light sources.
 
 Use the keyboard and mouse to move the camera around the teapots to see the affects of the light sources.
 
-## Spot lights
+## Spotlights
 
 A spotlight is a light source that emits light along a specific direction vector so that only those objects that are within some distance of this vector are illuminated. These are useful for modelling light sources such as flashlights, street lights, car headlights etc.
 
@@ -785,7 +793,7 @@ struct SpotLight
 };
 ```
 
-We will be using uniforms very similar to that for our point light sources so add the following.
+We will be using uniforms very similar to that for our point light sources so add the following to the fragment shader.
 
 ```cpp
 uniform SpotLight spotLights[maxLights];
@@ -838,7 +846,17 @@ vec3 calculateSpotLight(SpotLight spotLight, vec3 fragmentPosition, vec3 normal,
 
 After calculating the ambient, diffuse and specular reflection and the attenuation in the same way as for the point light sources we have additional code to calculate the angle $\tt theta$ between the $\tt light$ and $\tt direction$ vectors (actually this is $\cos(\tt theta)$ since we have used a dot product). A float $\tt intensity$ is calculated so that its value is 1 if the fragment is within the boundary of the spotlight and 0 otherwise. The diffuse and specular components are then multiplied by $\tt intensity$ so they are turned on or off depending on the position of the fragment. The ambient component isn't multiplied by $\tt intensity$ so that we can still see the objects not illuminated by the spotlight.
 
-Now we need to define our spotlight source values in the `main.cpp` file which is done in a similar way to the point light sources.
+In the `main()` function of the fragment shader add the following code to apply the spotlights as well as the point lights.
+
+```cpp
+// Loop through the spotlight sources
+for (int i = 0; i < numSpotLights; i++)
+{
+    fragmentColour += calculateSpotLight(spotLights[i], fragmentPosition, normal, eye);
+}
+```
+
+Now we need to define our spotlight source values in the `main.cpp` file which is done in a similar way to the point light sources. Declare a data structure called `SpotLight` and after we defined our point light sources add the following code.
 
 ```cpp
 // Create vector of SpotLight structs
@@ -848,9 +866,9 @@ std::vector<SpotLight> spotLights;
 SpotLight spotLight;
 spotLight.position = glm::vec3(0.0f, 3.0f, 0.0f);
 spotLight.direction = glm::vec3(0.0f, -1.0f, 0.0f);
-spotLight.ambient = glm::vec3(0.2f, 0.2f, 0.2f);
-spotLight.diffuse = glm::vec3(0.7f, 0.7f, 0.7f);
-spotLight.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+spotLight.ambient = ka * white;
+spotLight.diffuse = kd * white;
+spotLight.specular = ks * white;
 spotLight.cosPhi = cos(glm::radians(45.0f));
 spotLight.constant = 1.0f;
 spotLight.linear = 0.1f;
@@ -858,7 +876,7 @@ spotLight.quadratic = 0.02f;
 spotLights.push_back(spotLight);
 ```
 
-Note that we are only going to use one spotlight for now but have the ability to add more if we want. The spotlights are sent to the shader in the same was as per the point lights.
+Here we have defined a single spotlight with the same properties as our point lights the light spread angle of 45$^\circ$. Note that we are only going to use one spotlight for now but have the ability to add more if we want. The spotlights are sent to the shader in the same was as per the point lights.
 
 ```cpp
 // Send spotlights to the shader
@@ -989,9 +1007,9 @@ Now we need to define a directional light source in the `main.cpp` file and send
 // Define directional light
 DirLight dirLight;
 dirLight.direction = glm::vec3(1.0f, -1.0f, 0.0f);
-dirLight.ambient = 0.0f * glm::vec3(0.2f, 0.2f, 0.0f);
-dirLight.diffuse = 0.0f * glm::vec3(0.7f, 0.7f, 0.0f);
-dirLight.specular = 0.0f * glm::vec3(1.0f, 1.0f, 0.0f);
+dirLight.ambient = glm::vec3(0.2f, 0.2f, 0.0f);
+dirLight.diffuse = glm::vec3(0.7f, 0.7f, 0.0f);
+dirLight.specular = glm::vec3(1.0f, 1.0f, 0.0f);
 ```
 
 Here we define a directional light source with rays coming down from the top left as we look down the $z$-axis. Colour of the light source is yellow (i.e., equal red and green mixed with zero blue) and the ambient, diffuse and specular colours have been scaled similarly to the point light sources above. The directional light values are sent to the shader in the same was as per the point light sources (although we only have one of these). Note that the `direction` vector is defined in the world space so we need to multiply it by the `view` matrix before sending it to the shader.
@@ -1020,20 +1038,28 @@ Note that we can see that the teapots have been illuminated from a directional l
 ## Exercises
 
 1. Experiment with the positions, colours and material properties of the various light sources to see what effects they have.
-2. Model a flashlight that the user can control by using the camera object vectors for the spotlight position and direction vectors.
-3. Change the colour of the second point light source to magenta and rotate its position in a circle around the teapots.
 
+2. Use a spotlight to model a flashlight controlled by the user such that the light is positioned at `camera.position`, is pointing in the same direction as `camera.direction` and has a spread of $\phi = 20^\circ$. Turn off all other light sources (either by commenting out code or setting the colours to zero) for extra spookiness.
+   
 <center>
 <video controls muted="true" loop="true" width="500">
     <source src="../08_exercise_2.mp4" type="video/mp4">
 </video>
 </center>
 
-3. The planet Narkov has a red sun and a single day lasts for 5 of our seconds. Use directional lighting to model the illumination of the sun as it passes through the sky and also beneath the horizon (fortunately Narkovians like tea so using our teapots would not seem unusual). The background colour can also be changed to match the colour of the light source.
+3. Change the colour of the second point light source to magenta and rotate its position in a circle centred at (0,0,-5) with radius 5. Turn off any spotlights and directional lighting. Hint: the co-ordinates of points on a circle can be calculated using $(x, y, z) = (0,0,-5) + 5 * (\cos({\tt time}), 0, \sin(\tt time))$.
 
 <center>
 <video controls muted="true" loop="true" width="500">
     <source src="../08_exercise_3.mp4" type="video/mp4">
+</video>
+</center>
+
+4. The planet Narkov has a red sun and a single day lasts for just 5 of our seconds. Use directional lighting to model the illumination of the sun as it passes through the sky and also beneath the horizon (fortunately Narkovians like tea so using our teapots would not seem unusual). The background colour can also be changed to match the colour of the light source.
+
+<center>
+<video controls muted="true" loop="true" width="500">
+    <source src="../08_exercise_4.mp4" type="video/mp4">
 </video>
 </center>
 
@@ -1047,6 +1073,7 @@ The source code for this lab can be downloaded below
 - [fragmentShader.frag](../code/Lab08_Lighting/fragmentShader.frag)
 - [main.cpp](../code/Lab08_Lighting/main.cpp) - multiple point light sources and directional light
 - [multipleLightsFragmentShader.frag](../code/Lab08_Lighting/multipleLightsFragmentShader.frag)
+- [Lab08_Exercises.cpp](../code/Lab08_Lighting/Lab08_Exercises.cpp) - solutions to the exercises
 
 ---
 (blender-section)=
