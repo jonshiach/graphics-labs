@@ -321,7 +321,7 @@ layout(location = 2) in vec3 normal;
 
 // Output data
 out vec2 UV;
-out vec3 FragmentPosition;
+out vec3 fragmentPosition;
 out vec3 Normal;
 
 // Uniforms
@@ -343,7 +343,7 @@ void main()
 }
 ```
 
-In `fragmentShader.frag` we need let OpenGL know we are importing `FragmentPosition` and `Normal` from the vertex shader so add the following after we import the `UV` co-ordinates. 
+In `fragmentShader.frag` we need let OpenGL know we are importing `fragmentPosition` and `Normal` from the vertex shader so add the following after we import the `UV` co-ordinates. 
 
 ```cpp
 in vec3 Normal;

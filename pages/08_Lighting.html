@@ -676,7 +676,7 @@ Derivation of the view space normal transformation<div class="sd-summary-down do
 
 <span class="c1">// Output data</span>
 <span class="n">out</span><span class="w"> </span><span class="n">vec2</span><span class="w"> </span><span class="n">UV</span><span class="p">;</span>
-<span class="n">out</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">FragmentPosition</span><span class="p">;</span>
+<span class="n">out</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">fragmentPosition</span><span class="p">;</span>
 <span class="n">out</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">Normal</span><span class="p">;</span>
 
 <span class="c1">// Uniforms</span>
@@ -698,7 +698,7 @@ Derivation of the view space normal transformation<div class="sd-summary-down do
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>In <code class="docutils literal notranslate"><span class="pre">fragmentShader.frag</span></code> we need let OpenGL know we are importing <code class="docutils literal notranslate"><span class="pre">FragmentPosition</span></code> and <code class="docutils literal notranslate"><span class="pre">Normal</span></code> from the vertex shader so add the following after we import the <code class="docutils literal notranslate"><span class="pre">UV</span></code> co-ordinates.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">fragmentShader.frag</span></code> we need let OpenGL know we are importing <code class="docutils literal notranslate"><span class="pre">fragmentPosition</span></code> and <code class="docutils literal notranslate"><span class="pre">Normal</span></code> from the vertex shader so add the following after we import the <code class="docutils literal notranslate"><span class="pre">UV</span></code> co-ordinates.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">in</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">Normal</span><span class="p">;</span>
 <span class="n">in</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">fragmentPosition</span><span class="p">;</span>
 </pre></div>
