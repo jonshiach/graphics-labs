@@ -751,7 +751,7 @@ Derivation of the view space normal transformation<div class="sd-summary-down do
 <p><span class="caption-number">Fig. 8.11 </span><span class="caption-text">Specular reflection scatters light mainly towards the reflection vector.</span><a class="headerlink" href="#specular-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>We model the scattering of the reflected light rays using <span class="math notranslate nohighlight">\(\cos(\alpha)\)</span> raised to an integer power</p>
+<p>We model the scattering of the reflected light rays using <span class="math notranslate nohighlight">\(\cos(\alpha)\)</span> raised to power</p>
 <div class="math notranslate nohighlight">
 \[ \texttt{specular} = k_s * \texttt{light colour} * \cos(\alpha)^{N_s},\]</div>
 <p>where <span class="math notranslate nohighlight">\(k_s\)</span> is the <strong>specular reflection constant</strong> similar to its ambient and diffuse counterparts and <span class="math notranslate nohighlight">\(N_s\)</span> is the <strong>specular exponent</strong> that determines the size of the specular highlights (i.e., the shininess of the object). The angle <span class="math notranslate nohighlight">\(\alpha\)</span> is calculated using a dot product between the <span class="math notranslate nohighlight">\(\tt reflection\)</span> vector and the <span class="math notranslate nohighlight">\(\tt eye\)</span> vector.</p>

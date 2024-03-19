@@ -413,7 +413,7 @@ For a perfectly smooth surface the reflected ray will point in the direction of 
 Specular reflection scatters light mainly towards the reflection vector.
 ```
 
-We model the scattering of the reflected light rays using $\cos(\alpha)$ raised to an integer power
+We model the scattering of the reflected light rays using $\cos(\alpha)$ raised to power
 
 $$ \texttt{specular} = k_s * \texttt{light colour} * \cos(\alpha)^{N_s},$$
 
