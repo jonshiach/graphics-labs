@@ -114,7 +114,7 @@ To see how you can use <a href="https://www.blender.org" target="_blank">Blender
 
 ## Phong's lighting model
 
-Phong's lighting model, first described by Bui Tuong Phong in 1975, is a local illumination model that simulates the interaction of light falling on surfaces. The brightness of a point on a surface is based on three components
+Phong's lighting model first described by Bui Tuong Phong is a local illumination model that simulates the interaction of light falling on surfaces. The brightness of a point on a surface is based on three components
 
 - **ambient reflection** - a simplified model of light that reflects off all objects in a scene
 - **diffuse reflection** - describes the direct illumination of a surface by a light source based on the angle between the light source direction and the normal vector to the surface
@@ -122,15 +122,17 @@ Phong's lighting model, first described by Bui Tuong Phong in 1975, is a local i
 
 The colour of a fragment on the surface is calculated as a sum of these components, i.e.,
 
-$$ \textsf{fragment colour}  = \textsf{ambient} + \textsf{diffuse} + \textsf{specular}.$$
+$$ \texttt{fragment colour}  = \texttt{ambient} + \texttt{diffuse} + \texttt{specular}.$$
+
+All colours are defined as 3-element vectors containing the RGB colour values. 
 
 ### Ambient reflection
 
-Ambient reflection is light that is scatters off of all surfaces in a scene. To model this we use a massive cheat, we assume that all surfaces of the object are lit equally with the same amount of intensity. The equation to do this is
+Ambient reflection is light that is scatters off of all surfaces in a scene. To model this we use a massive cheat, we assume that all fragments of the object are lit equally with the same amount of intensity. The equation to do this is
 
-$$ \textsf{ambient} = k_a I_a I_o, $$
+$$ \texttt{ambient} = k_a * \texttt{light colour} * \texttt{object colour}$$
 
-where $k_a$ is the **ambient reflection constant** that determines the amount of ambient lighting used and $I_a$ and $I_o$ are the colours of the ambient light and object respectively. Lets create a light source and calculate the ambient lighting. We need to create a vector for the light colour and send it to the shaders using a uniform. Add the following code to the `main.cpp` file just before the render loop.
+where $k_a$ is the **ambient reflection constant** that determines the amount of ambient lighting used, $\texttt{light colour}$ is the colour of the light source and $\texttt{object colour}$ is the colour of the fragment (usually determined by a texture map). Lets create a light source and calculate the ambient lighting. We need to create a vector for the light colour and send it to the shaders using a uniform. Add the following code to the `main.cpp` file just before the render loop.
 
 ```cpp
 // Define object properties
@@ -141,7 +143,7 @@ glm::vec3 white = glm::vec3(1.0f, 1.0f, 1.0f);
 glm::vec3 lightAmbient = ka * white;                    // ambient light colour
 ```
 
-Here we have defined the ambient constant for the teapot as $k_a = 0.2$ and the colour of the ambient light to be white. In the render loop add the following code just before we calculate the model matrix to send the `lightAmbient` to the shaders.
+Here we have defined the ambient constant for the teapot as $k_2=0.2$ and the $\texttt{light colour}$ as white. In the render loop add the following code just before we calculate the model matrix to send the `lightAmbient` to the shaders.
 
 ```cpp
 // Send light source properties to the shader
@@ -210,10 +212,10 @@ Diffuse and specular reflection depend upon the position of the light source and
 The light vector is reflected about the normal vector.
 ```
 
-If $\tt normal$ and $\tt light$ are unit vectors then the $\tt reflection$ vector is calculated using
+If $\texttt{normal}$ and $\texttt{light}$ are unit vectors then the $\tt reflection$ vector is calculated using
 
 $$ \begin{align*}
-    {\tt reflection} = - {\tt light} + 2 ({\tt light} \cdot {\tt normal}) {\tt normal}.
+    \texttt{reflection} = - \texttt{light} + 2 (\texttt{light} \cdot \texttt{normal}) \texttt{normal}.
 \end{align*} $$
 
 Diffuse reflection is the reflection of light off a rough surface. Consider {numref}`diffuse-reflection-figure` that shows parallel light rays hitting a surface. Since the the normal vectors vary across a rough surface then the light rays are scattered in multiple directions.
@@ -236,14 +238,20 @@ Diffuse reflection scatters light equally in all directions.
 
 The amount of light that is reflected to the viewer is modelled using the angle $\theta$ between the $\tt light$ and $\tt normal$ vectors. If $\theta$ is small then the light source is directly in front of the surface so most of the light will be reflected to the viewer. Whereas if $\theta$ is close to 90$^\circ$ then the light source is nearly in line with the surface and little of the light will be reflected to the viewer. When $\theta > 90^\circ$ the light source is behind the surface so no light is reflected to the viewer. We model this using the cosine of $\theta$ since $\cos(0) = 1$ and $\cos(90)=0$. Diffuse reflection is calculated using
 
-$$ \textsf{diffuse} = k_d I_o I_d \cos(\theta),$$
+$$ \texttt{diffuse} = k_d * \texttt{light colour} * \texttt{object colour} * \cos(\theta),$$
 
-where $k_d$ is the **diffuse reflection constant** that determines the amount of diffuse lighting seen by the viewer and $I_d$ is the colour of the diffuse light source. Recall that the angle between two vectors is related by [dot product](dot-product-section) so if the $\tt light$ and $\tt normal$ vectors are unit vectors then $\cos(\theta) = \tt light \cdot normal$. If $\theta > 90^\circ$ then light source is behind the surface and no light should be reflected to the viewer. When $\theta$ is between 90$^\circ$ and 180$^\circ$, $\cos(\theta)$ is negative so limit the value of $\cos(\theta )$ between 0 and 1.
+where $k_d$ is the **diffuse reflection constant** that determines the amount of diffuse lighting seen by the viewer. Recall that the angle between two vectors is related by [dot product](dot-product-section) so if the $\tt light$ and $\tt normal$ vectors are unit vectors then $\cos(\theta) = \tt light \cdot normal$. If $\theta > 90^\circ$ then light source is behind the surface and no light should be reflected to the viewer. When $\theta$ is between 90$^\circ$ and 180$^\circ$, $\cos(\theta)$ is negative so we limit the value of $\cos(\theta )$ between 0 and 1.
 
-Lets define a position for a light source and the colour of the diffuse light. Define a float for the the diffuse constant and set its value to $k_d = 0.7f$ and add the following after where we defined the ambient light colour.
+Lets define a position for a light source and the colour of the diffuse light. Define a float for the the diffuse constant and set its value to $k_d = 0.7$
 
 ```cpp
-glm::vec3 lightDiffuse = kd * white;                    // diffuse light colour
+float kd = 0.7f;    // diffuse constant
+```
+
+and add the following after where we defined the ambient light colour.
+
+```cpp
+glm::vec3 lightDiffuse = kd * white;
 glm::vec3 lightPosition = glm::vec3(2.0f, 2.0f, 2.0f);
 ```
 
@@ -260,7 +268,7 @@ glUniform3fv(glGetUniformLocation(shaderID, "lightPosition"), 1, &viewSpaceLight
 As well as the view space light position co-ordinates we also need view space versions of the fragment position and normal vector. OpenGL interpolates the outputs from the vertex shader and passes the interpolated values for each fragment to the fragment shader so we calculate view space fragment position and normal in the vertex shader.The view space fragment position is calculated by multiplying `position` by the `view` and `model` matrices. The view space normal vector is calculated using
 
 $$ \begin{align*}
-    \texttt{viewSpaceNormal} = ((\tt view \cdot model)^{-1})^\mathsf{T} * \tt normal.
+    \texttt{view space normal} = ((\textsf{view matrix} * \textsf{model matrix})^{-1})^\mathsf{T} * \tt normal.
 \end{align*} $$
 
 Recall that $A^\mathsf{T}$ is the [transpose](transpose-section) and $A^{-1}$ is the [inverse](inverse-matrix-section) of the matrix $A$. You don't need to know why we use this equation but if you are curious click on the download link below.
@@ -285,7 +293,7 @@ If the model and view transformations do not preserve the scaling then the the v
 Normal and tangent vectors in the view space.
 ```
 
-Let $M$ be the first 3 rows and columns of the $\textsf{view} * \textsf{model} $ matrix then the view space tangent vector is calculated using $M * {\tt tangent}$ (here I've used $*$ to denote column major matrix multiplication so that it is consistent with our code). We need to derive a $3\times 3$ transformation matrix $A$ such that the view space normal vector is calculated using $A * {\tt normal}$ where this is perpendicular to the view space tangent vector, i.e.,
+Let $M$ be the first 3 rows and columns of the $\textsf{view matrix} * \textsf{model matirx}$ then the view space tangent vector is calculated using $M * {\tt tangent}$ (here I've used $*$ to denote column major matrix multiplication so that it is consistent with our code). We need to derive a $3\times 3$ transformation matrix $A$ such that the view space normal vector is calculated using $A * {\tt normal}$ where this is perpendicular to the view space tangent vector, i.e.,
 
 $$(A * {\tt normal}) \cdot (M * {\tt tangent}) = 0.$$
 
@@ -305,7 +313,7 @@ $$ \begin{align*}
     A &=  (M^{-1})^\mathsf{T}.
 \end{align*} $$
 
-Since $M = \textsf{view} * \textsf{model}$ then the matrix that transforms a model space normal vector to the view space is $A = ((\textsf{view} * \textsf{model})^{-1})^\mathsf{T}$
+Since $M = \textsf{view} * \textsf{model}$ then the matrix that transforms a model space normal vector to the view space is $A = ((\textsf{view matrix} * \textsf{model matrix})^{-1})^\mathsf{T}$
 
 ````
 
@@ -343,14 +351,21 @@ void main()
 }
 ```
 
-In `fragmentShader.frag` we need let OpenGL know we are importing `fragmentPosition` and `Normal` from the vertex shader so add the following after we import the `UV` co-ordinates. 
+In `fragmentShader.frag` we need let OpenGL know we are importing `fragmentPosition` and `Normal` from the vertex shader so add the following at the top where we import the `UV` co-ordinates.
 
 ```cpp
 in vec3 Normal;
 in vec3 fragmentPosition;
 ```
 
-Add `vec3` uniforms for the `lightPosition` and `lightDiffuse` vectors and in the `main()` function add the following to calculate diffuse reflection.
+Add `vec3` uniforms for the `lightPosition` and `lightDiffuse` vectors
+
+```cpp
+uniform vec3 lightDiffuse;
+uniform vec3 lightPosition;
+```
+
+and in the `main()` function add the following to calculate diffuse reflection.
 
 ```cpp
 // Diffuse reflection
@@ -389,7 +404,7 @@ Consider {numref}`specular-reflection-figure` that shows parallel light rays hit
 Light rays hitting a smooth surface are reflected in the same direction.
 ```
 
-For a perfectly smooth surface the reflected ray will point in the direction of the $\tt reflection$ vector so in order to see the light the viewer would need to be positioned in the direction of the $\tt reflection$ vector. Since most surfaces are not perfectly smooth we add a bit of scattering to the model the amount of specular reflection seen by the viewer. This is determined by the angle $\alpha$ between the $\tt reflection$ vector and the $\tt eye$ vector, the vector pointing from the surface to the viewer. The closer the viewer is to the reflection vector, the smaller the value of $\alpha$ will be and the more of the reflected light will be seen.
+For a perfectly smooth surface the reflected ray will point in the direction of the $\tt reflection$ vector so in order to see the light the viewer would need to be positioned in the direction of the $\tt reflection$ vector. The position of the viewer is represented by the $\texttt{eye}$ vector with points from the fragment to the camera (which is at (0,0,0). Since most surfaces are not perfectly smooth we add a bit of scattering to the model the amount of specular reflection seen by the viewer. This is determined by the angle $\alpha$ between the $\tt reflection$ vector and the $\tt eye$ vector. The closer the viewer is to the reflection vector, the smaller the value of $\alpha$ will be and the more of the reflected light will be seen.
 
 ```{figure} ../images/08_specular.svg
 :width: 350
@@ -400,12 +415,18 @@ Specular reflection scatters light mainly towards the reflection vector.
 
 We model the scattering of the reflected light rays using $\cos(\alpha)$ raised to an integer power
 
-$$ \textsf{specular} = k_s I_p \cos(\alpha)^{N_s},$$
+$$ \texttt{specular} = k_s * \texttt{light colour} * \cos(\alpha)^{N_s},$$
 
-where $N_s$ is the **specular exponent** that determines the size of the specular highlights (i.e., the shininess of the object). The angle $\alpha$ is calculated using a dot product between the $\tt reflection$ vector and the $\tt eye$ vector which is the vector from the fragment to the camera at (0,0,0).
+where $k_s$ is the **specular reflection constant** similar to its ambient and diffuse counterparts and $N_s$ is the **specular exponent** that determines the size of the specular highlights (i.e., the shininess of the object). The angle $\alpha$ is calculated using a dot product between the $\tt reflection$ vector and the $\tt eye$ vector. 
 
-In `main.cpp` define a float for the specular constant and exponent with values $k_s = 1.0$ and $N_s = 20.0$ and define
-the colour of the specular light where we defined the colours of the ambient and diffuse light.
+In `main.cpp` define a float for the specular constant and exponent with values $k_s = 1.0$ and $N_s = 20.0$ 
+
+```cpp
+float ks = 1.0f;    // specular constant
+float Ns = 20.0f;   // specular exponent
+```
+
+and define the colour of the specular light where we defined the colours of the ambient and diffuse light.
 
 ```cpp
 glm::vec3 lightSpecular = ks * white;
@@ -418,7 +439,14 @@ glUniform3fv(glGetUniformLocation(shaderID, "lightSpecular"), 1, &lightSpecular[
 glUniform1f(glGetUniformLocation(shaderID, "Ns"), Ns);
 ```
 
-In the fragment shader add a vec3 uniform for `lightSpecular` and a float uniform for `Ns`. In the `main()` function add specular refection to our teapot.
+In the fragment shader add a vec3 uniform for `Ns` and `lightSpecular`
+
+```cpp
+uniform vec3 lightSpecular;
+uniform float Ns;
+```
+
+and in the `main()` function add specular refection to our teapot.
 
 ```cpp
 // Specular reflection
@@ -450,9 +478,9 @@ Move the camera around the teapot and watch what happens to the specular highlig
 
 **Attenuation** is the gradual decrease in light intensity as the distance between the light source and a surface increases. We can use attenuation to model light from low intensity light source, for example, a candle or torch which will only illuminate an area close to the source. Theoretically attenuation should follow the inverse square law where the light intensity is inversely proportional to the square of the distance between the light source and the surface. However, in practice this tends to result in a scene that is too dark so we calculate attenuation using the following
 
-$$ \textsf{attenuation} = \frac{1}{c + l \cdot \textsf{distance} + q \cdot \textsf{distance}^2}, $$
+$$ \textsf{attenuation} = \frac{1}{\textsf{constant} + \textsf{linear} * \textsf{distance} + \textsf{quadratic} * \textsf{distance}^2}, $$
 
-where $c$, $l$ and $q$ are constant, linear and quadratic constant values. The values of these constants are set to model the type of light source. The graph in {numref}`attenuation-figure` shows a typical attenuation profile where the light intensity rapidly decreases when the distance is small levelling off as the distance gets larger.
+where constant, linear and quadratic are values that determine who quickly the light intensity decreases, the values of which are set to model the type of light source, and distance is the distance of the fragment from the light source. The graph in {numref}`attenuation-figure` shows a typical attenuation profile where the light intensity rapidly decreases when the distance is small levelling off as the distance gets larger.
 
 ```{figure} ../images/08_attenuation.svg
 :width: 500
@@ -469,7 +497,7 @@ float linear = 0.1;
 float quadratic = 0.02;
 ```
 
-The values of these will depend on the type of light source being modelled. I wanted a weak light source to demonstrate the attenuation but for stronger light sources you may wish to experiment with these values. In the `main()` function and the following to apply attenuation.
+The values of these will depend on the type of light source being modelled. We want a weak light source to demonstrate the attenuation but for stronger light sources you may wish to experiment with these values. In the `main()` function and the following to apply attenuation.
 
 ```cpp
 // Attenuation
@@ -498,7 +526,7 @@ glm::vec3 positions[] = {
 };
 ```
 
-and then replace the `model` matrix and drawing command with the following (it should be fairly obvious what we are doing here).
+and then replace the `model` matrix and drawing commands with the following (it should be fairly obvious what we are doing here).
 
 ```cpp
 // Loop through objects
@@ -518,7 +546,7 @@ for (unsigned int i = 0; i < 10; i++)
 }
 ```
 
-It would also be useful to render the light source. After you've drawn the teapots add the following code (a light source object and the shader for drawing the light source have been defined beforehand).
+It would also be useful to render the light source. After you've drawn the teapots add the following code.
 
 ```cpp
 // Draw light sources
@@ -551,10 +579,9 @@ The affects of applying attenuation.
 
 If you are having difficulty with this check out the source code [Lab08_single_light.cpp](../code/Lab08_Lighting/Lab08_single_light.cpp) and the shaders [vertexShader.vert](../code/Lab08_Lighting/vertexShader.vert) and [fragmentShader.frag](../code/Lab08_Lighting/fragmentShader.frag).
 
-
 ## Multiple light sources
 
-In theory to add multiple light sources to a scene is simply a matter of calculating the ambient, diffuse and specular reflection for each light source and the fragment colour is the sum of all of reflections from all of the light sources. We have seen for a single light source we have to define the colour, the position in the world space and the three constant, linear and quadratic attenuation constants. Given that we would like to do this for multiple light sources we need data structure for each light source.
+In theory to add another light sources to a scene is simply a matter of calculating the ambient, diffuse and specular reflection for the additional light source and then adding them to the fragment colour. We have seen for a single light source we have to define the 3 light source colours, the position of the light source in the world space and the 3 attenuation constants. Given that we would like to do this for multiple light sources we need data structure for each light source.
 
 A data structure in C++ and GLSL is defined in the same way using the <a href="https://cplusplus.com/doc/tutorial/structures/" target="_blank">struct</a> declaration.
 
@@ -573,12 +600,12 @@ struct Light
 This defines a data structure called `Light` that contains the information required to calculate the lighting model for a single light source. In the fragment shader we can create a uniform for an array of `Light` data structures.
 
 ```cpp
-#define maxLights 50;
+#define maxLights 10;
 uniform Light lights[maxLights];
 uniform int numLights;
 ```
 
-This defines a 50 element array of `Light` data structures (hopefully we will not need more than 50 light sources but if you then simply increase the number of `maxLights`) and the actual number of lights we have is passed in using the `numLights` uniform. Then all we need to do is loop through each of the light sources, calculate the fragment colour for the current source and add it to the total fragment colour. The fragment shader for multiple light sources is given below. Create a new file called `multipleLightsFragmentShader.frag` in the `source/` directory and paste this code.
+This defines a 10 element array of `Light` data structures (hopefully we will not need more than 10 light sources but if you then simply increase the number of `maxLights`) and the actual number of lights we have is passed in using the `numLights` uniform. Then all we need to do is loop through each of the light sources, calculate the fragment colour for the current source and add it to the total fragment colour. The fragment shader for multiple light sources is given below. Create a new file called `multipleLightsFragmentShader.frag` in the `source/` directory and paste this code.
 
 ```cpp
 #version 330 core
@@ -653,7 +680,7 @@ vec3 calculatePointLight(Light ptLight, vec3 fragmentPosition, vec3 normal, vec3
 }
 ```
 
-Here we have defined a function called `calculatePointLight()` that contains the commands used to calculate the fragment colour for a single light source (we now call this type of light source a **point light** to distinguish it from other types we will be using). In the `main()` function we have a for loop to loop through each light source and add to to the fragment colour. Note the the $\tt normal$ and $\tt eye$ vectors are the same for all light sources so these are calculated outside of the loop.
+Here we have defined a function called `calculatePointLight()` that contains the commands used to calculate the fragment colour for a single light source. In the `main()` function we have a for loop to loop through each light source and add to to the fragment colour. Note the the $\texttt{normal}$ and $\texttt{eye}$ vectors are the same for all light sources so these are calculated outside of the loop.
 
 We also need to make changes to the `main.cpp` file. Add the `Light` data structure before the `main()` function declaration
 
@@ -778,7 +805,7 @@ A spotlight only illuminates fragments close to the light $\tt direction$ vector
 
 Consider {numref}`spot-light-figure` that shows a spotlight located at $\tt position$ emitting light in the direction given by the $\tt direction$ vector. The $\tt light$ vector points from the light source position to the position of the fragment and the angle $\phi$ determines the spread of the light. If the angle $\theta$ between the $\tt light$ vector and the $\tt direction$ vector is less than $\phi$ then the fragment is illuminated by the spotlight.
 
-To add spotlights to our scene we declare a data structure for a spotlight in the fragment shader and the `main.cpp` file. Add the following to your `main.cpp` and fragment shader (make sure its the one for multiple lights).
+To add spotlights to our scene we declare a data structure for a spotlight in the fragment shader and the `main.cpp` file. Add the following to the top of the `multipleLightsFragmentShader.frag` file.
 
 ```cpp
 struct SpotLight
@@ -800,7 +827,7 @@ uniform SpotLight spotLights[maxLights];
 uniform int numSpotLights;
 ```
 
-We will be defining a function called `calculateSpotLight()` to calculate our spotlight but first we need to declare the function prototype
+We will be defining a function called `calculateSpotLight()` to calculate our spotlight but first we need to declare the function prototype before the `main()` function.
 
 ```cpp
 vec3 calculateSpotLight(SpotLight spotLight, vec3 fragmentPosition, vec3 normal, vec3 eye);
@@ -844,7 +871,7 @@ vec3 calculateSpotLight(SpotLight spotLight, vec3 fragmentPosition, vec3 normal,
 }
 ```
 
-After calculating the ambient, diffuse and specular reflection and the attenuation in the same way as for the point light sources we have additional code to calculate the angle $\tt theta$ between the $\tt light$ and $\tt direction$ vectors (actually this is $\cos(\tt theta)$ since we have used a dot product). A float $\tt intensity$ is calculated so that its value is 1 if the fragment is within the boundary of the spotlight and 0 otherwise. The diffuse and specular components are then multiplied by $\tt intensity$ so they are turned on or off depending on the position of the fragment. The ambient component isn't multiplied by $\tt intensity$ so that we can still see the objects not illuminated by the spotlight.
+After calculating the ambient, diffuse and specular reflection and the attenuation in the same way as for the point light sources we have additional code to calculate $\cos(\theta)$ between the $\texttt{light}$ and $\texttt{direction}$ vectors. A float $\tt intensity$ is calculated so that its value is 1 if the fragment is within the boundary of the spotlight and 0 otherwise. The diffuse and specular components are then multiplied by $\tt intensity$ so they are turned on or off depending on the position of the fragment. The ambient component isn't multiplied by $\tt intensity$ so that we can still see the objects not illuminated by the spotlight.
 
 In the `main()` function of the fragment shader add the following code to apply the spotlights as well as the point lights.
 
@@ -856,7 +883,23 @@ for (int i = 0; i < numSpotLights; i++)
 }
 ```
 
-Now we need to define our spotlight source values in the `main.cpp` file which is done in a similar way to the point light sources. Declare a data structure called `SpotLight` and after we defined our point light sources add the following code.
+Now we need to define our spotlight source values in the `main.cpp` file which is done in a similar way to the point light sources. Declare a data structure called `SpotLight` by adding the following before the `main()` function
+
+```cpp
+struct SpotLight
+{
+    glm::vec3 position;
+    glm::vec3 direction;
+    glm::vec3 ambient;
+    glm::vec3 diffuse;
+    glm::vec3 specular;
+    float cosPhi;
+    float linear, constant, quadratic;
+    bool on = true;
+};
+```
+
+and after we defined our point light sources add the following code.
 
 ```cpp
 // Create vector of SpotLight structs
@@ -962,7 +1005,7 @@ The final light source type we will look at is **directional light**. When model
 Directional lighting
 ```
 
-The lighting calculations are the same as for the other light sources seen above with the exception that we do not need the light source position and we do not apply the attenuation. We will use another struct for the directional light source (we will assume we only have one directional light source)
+The lighting calculations are the same as for the other light sources seen above with the exception that we do not need the light source position and we do not apply the attenuation. We will use another struct for the directional light source, add the following to the `multipleFragmentShader.frag` file
 
 ```cpp
 struct DirLight
@@ -974,7 +1017,19 @@ struct DirLight
 };
 ```
 
-and import the corresponding uniform. The function to calculate directional lighting is shown below.
+and import the corresponding uniform.
+
+```cpp
+uniform DirLight dirLight;
+```
+
+We are going to use a function to calculate the directional lighting first add the function prototype before the `main()` function
+
+```cpp
+vec3 calculateDirectionalLight(DirLight dirLight, vec3 normal, vec3 eye);
+```
+
+and then copy and paste the following code after the `calculateSpotLight()` function.
 
 ```cpp
 // Calculate directional light
@@ -1001,15 +1056,28 @@ vec3 calculateDirectionalLight(DirLight dirLight, vec3 normal, vec3 eye)
 }
 ```
 
-Now we need to define a directional light source in the `main.cpp` file and send to to the shader.
+Now we need to define a directional light source in the `main.cpp` file and send to to the shader, define a data structure before the `main()` function
+
+```cpp
+struct DirLight
+{
+    glm::vec3 direction;
+    glm::vec3 ambient;
+    glm::vec3 diffuse;
+    glm::vec3 specular;
+};
+```
+
+and after we have defined the point light sources add the following code.
 
 ```cpp
 // Define directional light
+glm::vec3 yellow = glm::vec3(1.0f, 1.0f, 0.0f);
 DirLight dirLight;
 dirLight.direction = glm::vec3(1.0f, -1.0f, 0.0f);
-dirLight.ambient = glm::vec3(0.2f, 0.2f, 0.0f);
-dirLight.diffuse = glm::vec3(0.7f, 0.7f, 0.0f);
-dirLight.specular = glm::vec3(1.0f, 1.0f, 0.0f);
+dirLight.ambient = ka * yellow;
+dirLight.diffuse = kd * yellow;
+dirLight.specular = ks * yellow;
 ```
 
 Here we define a directional light source with rays coming down from the top left as we look down the $z$-axis. Colour of the light source is yellow (i.e., equal red and green mixed with zero blue) and the ambient, diffuse and specular colours have been scaled similarly to the point light sources above. The directional light values are sent to the shader in the same was as per the point light sources (although we only have one of these). Note that the `direction` vector is defined in the world space so we need to multiply it by the `view` matrix before sending it to the shader.
@@ -1066,7 +1134,7 @@ Note that we can see that the teapots have been illuminated from a directional l
 --- 
 ## Source code
 
-The source code for this lab can be downloaded below
+The source code for this lab, including the exercise solutions, can be downloaded using the links below.
 
 - [Lab08_single_light.cpp](../code/Lab08_Lighting/Lab08_single_light.cpp)
 - [vertexShader.vert](../code/Lab08_Lighting/vertexShader.vert)
@@ -1097,3 +1165,7 @@ To create an .obj file we can use the popular open source application <a href="h
 ```
 
 4. Navigate to your chosen folder e.g., `Lab08_Lighting/objects/`, and give it an appropriate name.
+
+```{note}
+The Model class that we are using here is very simple and will only work with simple models. 
+```
