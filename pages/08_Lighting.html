@@ -1242,7 +1242,7 @@ Derivation of the view space normal transformation<div class="sd-summary-down do
 </figcaption>
 </figure>
 <p>Replace the <code class="docutils literal notranslate"><span class="pre">intensity</span></code> calculation with the following to soften the edge of the spotlight.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">float</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">radians</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">float</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">radians</span><span class="p">(</span><span class="mf">2.0</span><span class="p">);</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">intensity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clamp</span><span class="p">((</span><span class="n">cosTheta</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">spotLight</span><span class="p">.</span><span class="n">cosPhi</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">delta</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
 </pre></div>
 </div>

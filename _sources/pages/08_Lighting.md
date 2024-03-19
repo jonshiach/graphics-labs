@@ -983,7 +983,7 @@ Intensity value over a range of $\theta$.
 Replace the `intensity` calculation with the following to soften the edge of the spotlight.
 
 ```cpp
-float delta = radians(2);
+float delta = radians(2.0);
 float intensity = clamp((cosTheta - spotLight.cosPhi) / delta, 0.0, 1.0);
 ```
 
