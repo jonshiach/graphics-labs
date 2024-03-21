@@ -376,6 +376,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">8.6. Exercises</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-code">8.7. Source code</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-an-obj-file-in-blender">8.8. Creating an .obj file in Blender</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#video-walkthrough">8.9. Video walkthrough</a></li>
 </ul>
             </nav>
         </div>
@@ -930,7 +931,7 @@ Derivation of the view space normal transformation<div class="sd-summary-down do
 <span class="p">};</span>
 
 <span class="c1">// Uniforms</span>
-<span class="cp">#define maxLights 50</span>
+<span class="cp">#define maxLights 10</span>
 <span class="n">uniform</span><span class="w"> </span><span class="n">sampler2D</span><span class="w"> </span><span class="n">diffuse1</span><span class="p">;</span>
 <span class="n">uniform</span><span class="w"> </span><span class="n">Light</span><span class="w"> </span><span class="n">lights</span><span class="p">[</span><span class="n">maxLights</span><span class="p">];</span>
 <span class="n">uniform</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">numLights</span><span class="p">;</span>
@@ -1305,6 +1306,11 @@ Derivation of the view space normal transformation<div class="sd-summary-down do
 <span class="p">}</span>
 </pre></div>
 </div>
+<p>Once we’ve defined the function to calculate the directional light we need to tell our <code class="docutils literal notranslate"><span class="pre">main()</span></code> function to use it and add the directional light colour to the fragment colour. Add the following code to after where we calculated the spotlight.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate the directional light</span>
+<span class="n">fragmentColour</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">calculateDirectionalLight</span><span class="p">(</span><span class="n">dirLight</span><span class="p">,</span><span class="w"> </span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="n">eye</span><span class="p">);</span>
+</pre></div>
+</div>
 <p>Now we need to define a directional light source in the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file and send to to the shader, define a data structure before the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">DirLight</span>
 <span class="p">{</span>
@@ -1352,7 +1358,7 @@ Derivation of the view space normal transformation<div class="sd-summary-down do
 </ol>
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../08_exercise_2.mp4" type="video/mp4">
+    <source src="../_static/08_exercise_2.mp4" type="video/mp4">
 </video>
 </center>
 <ol class="arabic simple" start="3">
@@ -1360,7 +1366,7 @@ Derivation of the view space normal transformation<div class="sd-summary-down do
 </ol>
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../08_exercise_3.mp4" type="video/mp4">
+    <source src="../_static/08_exercise_3.mp4" type="video/mp4">
 </video>
 </center>
 <ol class="arabic simple" start="4">
@@ -1368,7 +1374,7 @@ Derivation of the view space normal transformation<div class="sd-summary-down do
 </ol>
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../08_exercise_4.mp4" type="video/mp4">
+    <source src="../_static/08_exercise_4.mp4" type="video/mp4">
 </video>
 </center>
 </section>
@@ -1409,7 +1415,12 @@ Derivation of the view space normal transformation<div class="sd-summary-down do
 <p class="admonition-title">Note</p>
 <p>The Model class that we are using here is very simple and will only work with simple models.</p>
 </div>
-<hr class="footnotes docutils" />
+</section>
+<hr class="docutils" />
+<section id="video-walkthrough">
+<h2><span class="section-number">8.9. </span>Video walkthrough<a class="headerlink" href="#video-walkthrough" title="Permalink to this heading">#</a></h2>
+<p>The video below walks you through these lab materials.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/v9e_557Wl_U?si=6fLfaMWJL5s3P5Qs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><hr class="footnotes docutils" />
 <aside class="footnote brackets" id="id2" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
 <p>The Utah teapot is a standard test model for computer graphics first created in 1975 by Martin Newell whilst at the University of Utah. It has become a bit of an in-joke in the computer graphics community and has appeared in Pixar’s <em>Toy Story</em> and in <em>The Simpsons</em> episode <em>Treehouse of Horror VI</em>.</p>
@@ -1492,6 +1503,7 @@ Derivation of the view space normal transformation<div class="sd-summary-down do
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">8.6. Exercises</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-code">8.7. Source code</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-an-obj-file-in-blender">8.8. Creating an .obj file in Blender</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#video-walkthrough">8.9. Video walkthrough</a></li>
 </ul>
   </nav></div>
 

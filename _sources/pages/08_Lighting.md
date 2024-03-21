@@ -629,7 +629,7 @@ struct Light
 };
 
 // Uniforms
-#define maxLights 50
+#define maxLights 10
 uniform sampler2D diffuse1;
 uniform Light lights[maxLights];
 uniform int numLights;
@@ -1056,6 +1056,13 @@ vec3 calculateDirectionalLight(DirLight dirLight, vec3 normal, vec3 eye)
 }
 ```
 
+Once we've defined the function to calculate the directional light we need to tell our `main()` function to use it and add the directional light colour to the fragment colour. Add the following code to after where we calculated the spotlight. 
+
+```cpp
+// Calculate the directional light
+fragmentColour += calculateDirectionalLight(dirLight, normal, eye);
+```
+
 Now we need to define a directional light source in the `main.cpp` file and send to to the shader, define a data structure before the `main()` function
 
 ```cpp
@@ -1111,7 +1118,7 @@ Note that we can see that the teapots have been illuminated from a directional l
    
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../08_exercise_2.mp4" type="video/mp4">
+    <source src="../_static/08_exercise_2.mp4" type="video/mp4">
 </video>
 </center>
 
@@ -1119,7 +1126,7 @@ Note that we can see that the teapots have been illuminated from a directional l
 
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../08_exercise_3.mp4" type="video/mp4">
+    <source src="../_static/08_exercise_3.mp4" type="video/mp4">
 </video>
 </center>
 
@@ -1127,7 +1134,7 @@ Note that we can see that the teapots have been illuminated from a directional l
 
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../08_exercise_4.mp4" type="video/mp4">
+    <source src="../_static/08_exercise_4.mp4" type="video/mp4">
 </video>
 </center>
 
@@ -1169,3 +1176,11 @@ To create an .obj file we can use the popular open source application <a href="h
 ```{note}
 The Model class that we are using here is very simple and will only work with simple models. 
 ```
+
+---
+
+## Video walkthrough
+
+The video below walks you through these lab materials.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/v9e_557Wl_U?si=6fLfaMWJL5s3P5Qs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>

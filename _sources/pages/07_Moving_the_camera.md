@@ -89,7 +89,7 @@ Compile and run the program and you should be able to move the camera around the
 
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../07_keyboard_1.mp4" type="video/mp4">
+    <source src="../_static/07_keyboard_1.mp4" type="video/mp4">
 </video>
 </center>
 
@@ -141,7 +141,7 @@ The result of making these changes means that the camera now moves at 5 units pe
 
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../07_keyboard_2.mp4" type="video/mp4">
+    <source src="../_static/07_keyboard_2.mp4" type="video/mp4">
 </video>
 </center>
 
@@ -313,7 +313,7 @@ Running the program now gives a much better result.
 
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../07_mouse.mp4" type="video/mp4">
+    <source src="../_static/07_mouse.mp4" type="video/mp4">
 </video>
 </center>
 
@@ -406,3 +406,9 @@ The source code for this lab, including the exercise solutions, can be downloade
 - [camera_exercises.cpp](../code/Lab07_Moving_the_camera/camera_exercises.cpp)
 
 Note the solution to exercise 3 has been omitted since it is a requirement for the higher mark band on the coursework assignment.
+
+## Video walkthrough
+
+The video below walks you through these lab materials.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/JJUgf9GCN_4?si=0MDnzyWHUxB0R22f" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
