@@ -428,3 +428,11 @@ The source code for this lab, including the exercise solutions, can be downloade
 - Hello triangle: [main.cpp](../code/Lab02_Basic_shapes/main.cpp), [simpleVertexShader.vert](../code/Lab02_Basic_shapes/simpleVertexShader.vert), [simpleFragmentShader.frag](../code/Lab02_Basic_shapes/simpleFragmentShader.frag)
 - Colour shaders: [colourVertexShader](../code/Lab02_Basic_shapes/colourVertexShader.vert), [colourFragmentShader.frag](../code/Lab02_Basic_shapes/colourFragmentShader.frag)
 - Exercise solutions: [main.cpp](../code/Lab02_Basic_shapes/Lab02_solutions.cpp), [ex1VertexShader.vert](../code/Lab02_Basic_shapes/ex1VertexShader.vert)
+
+---
+
+## Video walkthrough
+
+The video below walks you through these lab materials.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/tsokaomZfZY?si=zAKqb8nZZ5BGdfW0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
