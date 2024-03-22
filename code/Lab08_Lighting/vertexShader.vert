@@ -17,13 +17,13 @@ uniform mat4 projection;
 
 void main()
 {
-    // Output vertex postion
+    // Output vertex position
     gl_Position = projection * view * model * vec4(position, 1.0);
     
     // Output (u,v) co-ordinates
     UV = uv;
     
-    // Output view space position and normal vectors
+    // Output view space fragment position and normal
     fragmentPosition = vec3(view * model * vec4(position, 1.0));
     Normal = mat3(transpose(inverse(view * model))) * normal;
 }

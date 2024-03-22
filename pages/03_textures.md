@@ -444,3 +444,11 @@ The source code for this lab, including the exercise solutions, can be downloade
 - [textureVertexShader.frag](../code/Lab03_Textures/textureVertexShader.vert)
 - [textureFragmentShader.frag](../code/Lab03_Textures/textureFragmentShader.frag)
 - [Lab03ExFragmentShader.frag](../code/Lab03_Textures/Lab03ExTextureFragmentShader.frag) (fragment shader for the exercise solutions)
+
+---
+
+## Video walkthrough
+
+The video below walks you through these lab materials.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ZSHJsjKycyw?si=Z04BrW1IOjAzZuTB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>

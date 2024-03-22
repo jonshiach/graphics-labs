@@ -1,6 +1,6 @@
 # Computer Graphics Labs
 
-This site contains the materials used in the lab sessions for the Computer Graphics unit. They are designed for students to work through in the labs with the help of the tutors. The table below shows the teaching schedule that will be employed. If you happen to miss a week for whatever reason you must make sure you catch up with the material. 
+This site contains the materials used in the lab sessions for the Computer Graphics unit. They are designed for students to work through in the labs with the help of the tutors. The table below shows the teaching schedule that will be employed. If you happen to miss a week for whatever reason you must make sure you catch up with the material.
 
 | <div style="width:50px">Week</div> | Date (w/c) | Lab |
 |:--:|:--:|:--|
@@ -16,6 +16,8 @@ This site contains the materials used in the lab sessions for the Computer Graph
 | 9 | 15/04/2024 | Assignment work |
 | 10 | 22/04/2024 | Assignment work |
 | 11 | 29/04/2024 | Assignment work !
+
+These materials are based upon the excellent OpenGL tutorials <a href="https://learnopengl.com/" target="_blank">learnOpenGL</a> by Joey de Vries and <a href="https://www.opengl-tutorial.org/" target="_blank">open-gl-tutorial</a>.
 
 ---
 :::{image} ./images/jon_Shiach.jpeg

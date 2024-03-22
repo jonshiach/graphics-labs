@@ -339,7 +339,7 @@ Compile and run the program and you should see the following.
 
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../06_orthogonal_cube_no_depth_test.mp4" type="video/mp4">
+    <source src="../_static/06_orthogonal_cube_no_depth_test.mp4" type="video/mp4">
 </video>
 </center>
 
@@ -376,7 +376,7 @@ Make these changes to your code and you should get a much better result.
 
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../06_orthogonal_cube.mp4" type="video/mp4">
+    <source src="../_static/06_orthogonal_cube.mp4" type="video/mp4">
 </video>
 </center>
 
@@ -552,7 +552,7 @@ projection[3][3] = 0.0f;
 
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../06_perspective_cube.mp4" type="video/mp4">
+    <source src="../_static/06_perspective_cube.mp4" type="video/mp4">
 </video>
 </center>
 
@@ -773,3 +773,10 @@ The source code for this lab, including the exercise solutions, can be downloade
 - [vertexShader.vert](../code/Lab06_3D_worlds/vertexShader.vert)
 - [main_exercise_solutions.cpp](../code/Lab06_3D_worlds/main_exercise_solutions.cpp)
 - [camera_exercise_solutions.cpp](../code/Lab06_3D_worlds/camera_exercise_solutions.cpp)
+
+---
+## Video walkthrough
+
+The video below walks you through these lab materials.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/kKxjh1FGw0E?si=oTSZRExkG6A9pQ3b" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>

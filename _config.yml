@@ -38,5 +38,10 @@ exclude_patterns: [/*.cpp]
 
 sphinx:
   config:
-    html_extra_path: ['./videos']
-    # mathjax_path: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+    # html_extra_path: ['./videos']
+    mathjax3_config:
+      "HTML-CSS": {
+        matchFontHeight: true,
+        scale: 100,
+        font-family: helvet
+      }

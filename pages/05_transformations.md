@@ -643,7 +643,7 @@ Here we have defined the `translate`, `scale` and `rotate` matrices and used the
 
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../05_rotating_smiley_1.mp4" type="video/mp4">
+    <source src="../_static/05_rotating_smiley_1.mp4" type="video/mp4">
 </video>
 </center>
 
@@ -657,7 +657,7 @@ Compile and run the program and we have something quite different.
 
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../05_rotating_smiley_2.mp4" type="video/mp4">
+    <source src="../_static/05_rotating_smiley_2.mp4" type="video/mp4">
 </video>
 </center>
 
@@ -669,7 +669,7 @@ Compile and run the program and we have something quite different.
 
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../05_Ex1.mp4" type="video/mp4">
+    <source src="../_static/05_Ex1.mp4" type="video/mp4">
 </video>
 </center>
 
@@ -677,7 +677,7 @@ Compile and run the program and we have something quite different.
 
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../05_Ex2.mp4" type="video/mp4">
+    <source src="../_static/05_Ex2.mp4" type="video/mp4">
 </video>
 </center>
 
@@ -685,7 +685,7 @@ Compile and run the program and we have something quite different.
 
 <center>
 <video controls muted="true" loop="true" width="500">
-    <source src="../05_Ex3.mp4" type="video/mp4">
+    <source src="../_static/05_Ex3.mp4" type="video/mp4">
 </video>
 </center>
 

@@ -15,7 +15,7 @@
 #include "model.hpp"
 
 // Create camera object
-Camera camera(glm::vec3(0.0f, 1.0f, 5.0f));
+Camera camera(glm::vec3(0.0f, 0.0f, 5.0f));
 
 // Timers
 float currentTime = 0.0f;
@@ -80,27 +80,36 @@ int main( void )
     Model teapot("../objects/teapot.obj");
     Model sphere("../objects/sphere.obj");
     
-    // Load texture
+    // Add texture to teapot object
     teapot.addTexture("../objects/blue.bmp", "diffuse");
     
-    // Use wireframe (comment out to turn off)
+    // Use wireframe rendering (comment out to turn off)
 //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    // Define object properties
+    float ka = 0.2f;    // ambient constant
+    float kd = 0.7f;    // diffuse constant
+    float ks = 1.0f;    // specular constant
+    float Ns = 20.0f;   // specular exponent
     
-    // Define lighting properties
-    glm::vec3 lightColour = glm::vec3(1.0f, 1.0f, 1.0f);
+    // Define light colours and position
+    glm::vec3 white = glm::vec3(1.0f, 1.0f, 1.0f);
+    glm::vec3 lightAmbient = ka * white;                    // ambient light colour
+    glm::vec3 lightDiffuse = kd * white;                    // diffuse light colour
+    glm::vec3 lightSpecular = ks * white;                   // specular light colour
     glm::vec3 lightPosition = glm::vec3(2.0f, 2.0f, 2.0f);
     
     // Specify world space object positions
     glm::vec3 positions[] = {
         glm::vec3( 0.0f,  0.0f,  0.0f),
         glm::vec3( 2.0f,  5.0f, -10.0f),
-        glm::vec3(-3.0f, -2.0f, -3.0f),
+        glm::vec3(-3.0f, -2.0f, -4.0f),
         glm::vec3(-4.0f, -2.0f, -8.0f),
         glm::vec3( 2.0f, -1.0f, -4.0f),
-        glm::vec3(-4.0f,  3.0f, -8.0f),
-        glm::vec3( 3.0f, -2.0f, -5.0f),
-        glm::vec3( 4.0f,  2.0f, -5.0f),
-        glm::vec3( 2.0f,  0.0f, -2.0f),
+        glm::vec3(-4.0f,  3.0f, -10.0f),
+        glm::vec3( 0.0f, -2.0f, -8.0f),
+        glm::vec3( 4.0f,  2.0f, -6.0f),
+        glm::vec3( 3.0f,  0.0f, -1.0f),
         glm::vec3(-1.0f,  1.0f, -2.0f)
     };
     
@@ -111,8 +120,8 @@ int main( void )
         lastTime = currentTime;
 
         // Background colour
-        glm::vec3 bgColour = glm::vec3(0.0f, 0.0f, 0.0f);
-        glClearColor(bgColour[0], bgColour[1], bgColour[2], 1.0f);
+        glm::vec3 black = glm::vec3(0.0f, 0.0f, 0.0f);
+        glClearColor(black[0], black[1], black[2], 1.0f);
         
         // Clear the window
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -125,16 +134,20 @@ int main( void )
         // Activate shader
         glUseProgram(shaderID);
         
-        // Send light source properties to the shader
-        glUniform3fv(glGetUniformLocation(shaderID, "lightColour"), 1, &lightColour[0]);
-        glm::vec3 viewSpaceLightPosition = glm::vec3(view * glm::vec4(lightPosition, 1.0f));
-        glUniform3fv(glGetUniformLocation(shaderID, "lightPosition"), 1, &viewSpaceLightPosition[0]);
-        
-        
         // Send view and projection matrices to the shaders
         glUniformMatrix4fv(glGetUniformLocation(shaderID, "view"), 1, GL_FALSE, &view[0][0]);
         glUniformMatrix4fv(glGetUniformLocation(shaderID, "projection"), 1, GL_FALSE, &projection[0][0]);
 
+        // Send light source properties to the shader
+        glm::vec3 viewSpaceLightPosition = glm::vec3(view * glm::vec4(lightPosition, 1.0f));
+        glUniform3fv(glGetUniformLocation(shaderID, "lightAmbient"), 1, &lightAmbient[0]);
+        glUniform3fv(glGetUniformLocation(shaderID, "lightDiffuse"), 1, &lightDiffuse[0]);
+        glUniform3fv(glGetUniformLocation(shaderID, "lightSpecular"), 1, &lightSpecular[0]);
+        glUniform3fv(glGetUniformLocation(shaderID, "lightPosition"), 1, &viewSpaceLightPosition[0]);
+        
+        // Send material (object) properties to the shader
+        glUniform1f(glGetUniformLocation(shaderID, "Ns"), 20.0f);
+    
         // Loop through objects
         for (unsigned int i = 0; i < 10; i++)
         {
@@ -151,7 +164,7 @@ int main( void )
             teapot.draw(shaderID);
         }
         
-        // Draw light source
+        // Draw light sources
         glUseProgram(lightShaderID);
         
         // Calculate model matrix
@@ -163,11 +176,11 @@ int main( void )
         glUniformMatrix4fv(glGetUniformLocation(lightShaderID, "model"), 1, GL_FALSE, &model[0][0]);
         glUniformMatrix4fv(glGetUniformLocation(lightShaderID, "view"), 1, GL_FALSE, &view[0][0]);
         glUniformMatrix4fv(glGetUniformLocation(lightShaderID, "projection"), 1, GL_FALSE, &projection[0][0]);
-        glUniform3fv(glGetUniformLocation(lightShaderID, "lightColour"), 1, &lightColour[0]);
-            
+        glUniform3fv(glGetUniformLocation(lightShaderID, "lightColour"), 1, &lightSpecular[0]);
+        
         // Draw light source
         sphere.draw(lightShaderID);
-
+    
         // Swap buffers
         glfwSwapBuffers(window);
         glfwPollEvents();
