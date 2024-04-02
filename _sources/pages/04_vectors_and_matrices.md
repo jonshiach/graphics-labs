@@ -572,6 +572,7 @@ I =
 ```
 
 (inverse-matrix-section)=
+
 ### The inverse matrix
 
 Whilst matrix multiplication is defined for certain matrices there is no way of dividing a matrix by another. However, for certain square matrices we can calculate an **inverse matrix** that performs a similar function to divide. Consider the division of two numbers, 4 and 2 say. If we wanted to divide 4 by two we could write

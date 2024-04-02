@@ -167,6 +167,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">6. 3D Worlds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="07_Moving_the_camera.html">7. Moving the camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_Lighting.html">8. Lighting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_Normal_mapping.html">9. Normal Mapping</a></li>
 </ul>
 
     </div>
@@ -480,7 +481,7 @@ document.write(`
 <li><p>the <strong>projection</strong> matrix - combined projection of the view space and scaling to NDC</p></li>
 </ul>
 <section id="the-model-matrix">
-<h3><span class="section-number">6.3.1. </span>The model matrix<a class="headerlink" href="#the-model-matrix" title="Permalink to this heading">#</a></h3>
+<span id="model-matrix-section"></span><h3><span class="section-number">6.3.1. </span>The model matrix<a class="headerlink" href="#the-model-matrix" title="Permalink to this heading">#</a></h3>
 <p>In <a class="reference internal" href="05_transformations.html#transformations-section"><span class="std std-ref">Lab 5</span></a> we saw that we can combine transformations such as translation, scaling and rotation by multiplying the individual transformation matrices together. The <strong>model matrix</strong> is the matrix that is used to apply transformations to an object.</p>
 <p>Lets compute a model matrix for our cube where it is scaled down by a factor of 0.5 in each co-ordinate direction, rotated about the <span class="math notranslate nohighlight">\(y\)</span> axis using the time of the current frame as the rotation angle and translated backwards down the <span class="math notranslate nohighlight">\(z\)</span>-axis so that its centre is at (0, 0, -4). Add the following code <strong>inside the rendering loop</strong> before we call the <code class="docutils literal notranslate"><span class="pre">glDrawArrays()</span></code> function.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate the model matrix</span>

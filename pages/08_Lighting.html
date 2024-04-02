@@ -66,6 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/08_Lighting';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="9. Normal Mapping" href="09_Normal_mapping.html" />
     <link rel="prev" title="7. Moving the camera" href="07_Moving_the_camera.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -166,6 +167,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="06_3D_worlds.html">6. 3D Worlds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="07_Moving_the_camera.html">7. Moving the camera</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">8. Lighting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_Normal_mapping.html">9. Normal Mapping</a></li>
 </ul>
 
     </div>
@@ -607,7 +609,7 @@ f 5/12/6 1/3/6 2/9/6
 <p><span class="caption-number">Fig. 8.6 </span><span class="caption-text">Diffuse reflection scatters light equally in all directions.</span><a class="headerlink" href="#diffuse-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>The amount of light that is reflected to the viewer is modelled using the angle <span class="math notranslate nohighlight">\(\theta\)</span> between the <span class="math notranslate nohighlight">\(\tt light\)</span> and <span class="math notranslate nohighlight">\(\tt normal\)</span> vectors. If <span class="math notranslate nohighlight">\(\theta\)</span> is small then the light source is directly in front of the surface so most of the light will be reflected to the viewer. Whereas if <span class="math notranslate nohighlight">\(\theta\)</span> is close to 90<span class="math notranslate nohighlight">\(^\circ\)</span> then the light source is nearly in line with the surface and little of the light will be reflected to the viewer. When <span class="math notranslate nohighlight">\(\theta &gt; 90^\circ\)</span> the light source is behind the surface so no light is reflected to the viewer. We model this using the cosine of <span class="math notranslate nohighlight">\(\theta\)</span> since <span class="math notranslate nohighlight">\(\cos(0) = 1\)</span> and <span class="math notranslate nohighlight">\(\cos(90)=0\)</span>. Diffuse reflection is calculated using</p>
+<p>The amount of light that is reflected to the viewer is modelled using the angle <span class="math notranslate nohighlight">\(\theta\)</span> between the <span class="math notranslate nohighlight">\(\tt light\)</span> and <span class="math notranslate nohighlight">\(\tt normal\)</span> vectors. If <span class="math notranslate nohighlight">\(\theta\)</span> is small then the light source is directly in front of the surface so most of the light will be reflected to the viewer. Whereas if <span class="math notranslate nohighlight">\(\theta\)</span> is close to 90<span class="math notranslate nohighlight">\(^\circ\)</span> then the light source is nearly in line with the surface and little of the light will be reflected to the viewer. When <span class="math notranslate nohighlight">\(\theta &gt; 90^\circ\)</span> the light source is behind the surface so no light is reflected to the viewer. We model this using the cosine of <span class="math notranslate nohighlight">\(\theta\)</span> since <span class="math notranslate nohighlight">\(\cos(0^\circ) = 1\)</span> and <span class="math notranslate nohighlight">\(\cos(90^\circ)=0\)</span>. Diffuse reflection is calculated using</p>
 <div class="math notranslate nohighlight">
 \[ \texttt{diffuse} = k_d * \texttt{light colour} * \texttt{object colour} * \cos(\theta),\]</div>
 <p>where <span class="math notranslate nohighlight">\(k_d\)</span> is the <strong>diffuse reflection constant</strong> that determines the amount of diffuse lighting seen by the viewer. Recall that the angle between two vectors is related by <a class="reference internal" href="04_vectors_and_matrices.html#dot-product-section"><span class="std std-ref">dot product</span></a> so if the <span class="math notranslate nohighlight">\(\tt light\)</span> and <span class="math notranslate nohighlight">\(\tt normal\)</span> vectors are unit vectors then <span class="math notranslate nohighlight">\(\cos(\theta) = \tt light \cdot normal\)</span>. If <span class="math notranslate nohighlight">\(\theta &gt; 90^\circ\)</span> then light source is behind the surface and no light should be reflected to the viewer. When <span class="math notranslate nohighlight">\(\theta\)</span> is between 90<span class="math notranslate nohighlight">\(^\circ\)</span> and 180<span class="math notranslate nohighlight">\(^\circ\)</span>, <span class="math notranslate nohighlight">\(\cos(\theta)\)</span> is negative so we limit the value of <span class="math notranslate nohighlight">\(\cos(\theta )\)</span> between 0 and 1.</p>
@@ -628,8 +630,8 @@ f 5/12/6 1/3/6 2/9/6
 </pre></div>
 </div>
 <p>As well as the view space light position co-ordinates we also need view space versions of the fragment position and normal vector. OpenGL interpolates the outputs from the vertex shader and passes the interpolated values for each fragment to the fragment shader so we calculate view space fragment position and normal in the vertex shader.The view space fragment position is calculated by multiplying <code class="docutils literal notranslate"><span class="pre">position</span></code> by the <code class="docutils literal notranslate"><span class="pre">view</span></code> and <code class="docutils literal notranslate"><span class="pre">model</span></code> matrices. The view space normal vector is calculated using</p>
-<div class="math notranslate nohighlight">
-\[ \begin{align*}
+<div class="math notranslate nohighlight" id="equation-view-space-normal-equation">
+<span class="eqno">(8.1)<a class="headerlink" href="#equation-view-space-normal-equation" title="Permalink to this equation">#</a></span>\[ \begin{align*}
     \texttt{view space normal} = ((\textsf{view matrix} * \textsf{model matrix})^{-1})^\mathsf{T} * \tt normal.
 \end{align*} \]</div>
 <p>Recall that <span class="math notranslate nohighlight">\(A^\mathsf{T}\)</span> is the <a class="reference internal" href="04_vectors_and_matrices.html#transpose-section"><span class="std std-ref">transpose</span></a> and <span class="math notranslate nohighlight">\(A^{-1}\)</span> is the <a class="reference internal" href="04_vectors_and_matrices.html#inverse-matrix-section"><span class="std std-ref">inverse</span></a> of the matrix <span class="math notranslate nohighlight">\(A\)</span>. You don’t need to know why we use this equation but if you are curious click on the download link below.</p>
@@ -654,7 +656,7 @@ Derivation of the view space normal transformation<div class="sd-summary-down do
 <p><span class="caption-number">Fig. 8.8 </span><span class="caption-text">Normal and tangent vectors in the view space.</span><a class="headerlink" href="#view-space-normal-2-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p class="sd-card-text">Let <span class="math notranslate nohighlight">\(M\)</span> be the first 3 rows and columns of the <span class="math notranslate nohighlight">\(\textsf{view matrix} * \textsf{model matirx}\)</span> then the view space tangent vector is calculated using <span class="math notranslate nohighlight">\(M * {\tt tangent}\)</span> (here I’ve used <span class="math notranslate nohighlight">\(*\)</span> to denote column major matrix multiplication so that it is consistent with our code). We need to derive a <span class="math notranslate nohighlight">\(3\times 3\)</span> transformation matrix <span class="math notranslate nohighlight">\(A\)</span> such that the view space normal vector is calculated using <span class="math notranslate nohighlight">\(A * {\tt normal}\)</span> where this is perpendicular to the view space tangent vector, i.e.,</p>
+<p class="sd-card-text">Let <span class="math notranslate nohighlight">\(M\)</span> be the first 3 rows and columns of the <span class="math notranslate nohighlight">\(\textsf{view matrix} * \textsf{model matrix}\)</span> then the view space tangent vector is calculated using <span class="math notranslate nohighlight">\(M * {\tt tangent}\)</span> (here I’ve used <span class="math notranslate nohighlight">\(*\)</span> to denote column major matrix multiplication so that it is consistent with our code). We need to derive a <span class="math notranslate nohighlight">\(3\times 3\)</span> transformation matrix <span class="math notranslate nohighlight">\(A\)</span> such that the view space normal vector is calculated using <span class="math notranslate nohighlight">\(A * {\tt normal}\)</span> where this is perpendicular to the view space tangent vector, i.e.,</p>
 <div class="math notranslate nohighlight">
 \[(A * {\tt normal}) \cdot (M * {\tt tangent}) = 0.\]</div>
 <p class="sd-card-text">We can replace the dot product by a matrix multiplication by transposing <span class="math notranslate nohighlight">\((A * {\tt normal})\)</span></p>
@@ -1467,6 +1469,15 @@ Derivation of the view space normal transformation<div class="sd-summary-down do
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title"><span class="section-number">7. </span>Moving the camera</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="09_Normal_mapping.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">9. </span>Normal Mapping</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div></div>
   

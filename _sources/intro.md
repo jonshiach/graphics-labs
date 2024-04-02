@@ -13,9 +13,9 @@ This site contains the materials used in the lab sessions for the Computer Graph
 | 7 | 11/03/2024 | [Moving the Camera](moving-the-camera-section): using keyboard input, using mouse input, back face culling |
 | 8 | 18/03/2024 | [Lighting](lighting-section): model loading, Phong's reflection model, lighting shaders |
 | - | 23/03/2024 - 14/04/2024 | Easter break |
-| 9 | 15/04/2024 | Assignment work |
-| 10 | 22/04/2024 | Assignment work |
-| 11 | 29/04/2024 | Assignment work !
+| 9 | 15/04/2024 | Normal mapping: the tangent space, applying a normal map, specular maps |
+| 10 | 22/04/2024 | Quaternions |
+| 11 | 29/04/2024 | Assignment work |
 
 These materials are based upon the excellent OpenGL tutorials <a href="https://learnopengl.com/" target="_blank">learnOpenGL</a> by Joey de Vries and <a href="https://www.opengl-tutorial.org/" target="_blank">open-gl-tutorial</a>.
 

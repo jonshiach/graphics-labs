@@ -236,7 +236,7 @@ To model diffuse reflection we assume that light is reflected equally in all dir
 Diffuse reflection scatters light equally in all directions.
 ```
 
-The amount of light that is reflected to the viewer is modelled using the angle $\theta$ between the $\tt light$ and $\tt normal$ vectors. If $\theta$ is small then the light source is directly in front of the surface so most of the light will be reflected to the viewer. Whereas if $\theta$ is close to 90$^\circ$ then the light source is nearly in line with the surface and little of the light will be reflected to the viewer. When $\theta > 90^\circ$ the light source is behind the surface so no light is reflected to the viewer. We model this using the cosine of $\theta$ since $\cos(0) = 1$ and $\cos(90)=0$. Diffuse reflection is calculated using
+The amount of light that is reflected to the viewer is modelled using the angle $\theta$ between the $\tt light$ and $\tt normal$ vectors. If $\theta$ is small then the light source is directly in front of the surface so most of the light will be reflected to the viewer. Whereas if $\theta$ is close to 90$^\circ$ then the light source is nearly in line with the surface and little of the light will be reflected to the viewer. When $\theta > 90^\circ$ the light source is behind the surface so no light is reflected to the viewer. We model this using the cosine of $\theta$ since $\cos(0^\circ) = 1$ and $\cos(90^\circ)=0$. Diffuse reflection is calculated using
 
 $$ \texttt{diffuse} = k_d * \texttt{light colour} * \texttt{object colour} * \cos(\theta),$$
 
@@ -269,7 +269,7 @@ As well as the view space light position co-ordinates we also need view space ve
 
 $$ \begin{align*}
     \texttt{view space normal} = ((\textsf{view matrix} * \textsf{model matrix})^{-1})^\mathsf{T} * \tt normal.
-\end{align*} $$
+\end{align*} $$(view-space-normal-equation)
 
 Recall that $A^\mathsf{T}$ is the [transpose](transpose-section) and $A^{-1}$ is the [inverse](inverse-matrix-section) of the matrix $A$. You don't need to know why we use this equation but if you are curious click on the download link below.
 
@@ -293,7 +293,7 @@ If the model and view transformations do not preserve the scaling then the the v
 Normal and tangent vectors in the view space.
 ```
 
-Let $M$ be the first 3 rows and columns of the $\textsf{view matrix} * \textsf{model matirx}$ then the view space tangent vector is calculated using $M * {\tt tangent}$ (here I've used $*$ to denote column major matrix multiplication so that it is consistent with our code). We need to derive a $3\times 3$ transformation matrix $A$ such that the view space normal vector is calculated using $A * {\tt normal}$ where this is perpendicular to the view space tangent vector, i.e.,
+Let $M$ be the first 3 rows and columns of the $\textsf{view matrix} * \textsf{model matrix}$ then the view space tangent vector is calculated using $M * {\tt tangent}$ (here I've used $*$ to denote column major matrix multiplication so that it is consistent with our code). We need to derive a $3\times 3$ transformation matrix $A$ such that the view space normal vector is calculated using $A * {\tt normal}$ where this is perpendicular to the view space tangent vector, i.e.,
 
 $$(A * {\tt normal}) \cdot (M * {\tt tangent}) = 0.$$
 
