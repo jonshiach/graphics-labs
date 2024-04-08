@@ -374,6 +374,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#neutral-maps">9.4.1. Neutral maps</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">9.5. Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-code">9.6. Source code</a></li>
 </ul>
             </nav>
         </div>
@@ -756,14 +758,18 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <span class="k">struct</span><span class="w"> </span><span class="nc">Object</span>
 <span class="p">{</span>
 <span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
-<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">rotation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
+<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">rotation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
 <span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">);</span>
-<span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">ka</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.2f</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">kd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.7f</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">ks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">Ns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">20.0f</span><span class="p">;</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
 <span class="p">};</span>
 </pre></div>
 </div>
-<p>When we create an <code class="docutils literal notranslate"><span class="pre">Object</span></code> data structure the objects will have a default position at (0,0,0) and the rotation and scale are unchanged (we can change this later). Load the <code class="docutils literal notranslate"><span class="pre">floor</span></code> model and give it diffuse and normal textures where we load the <code class="docutils literal notranslate"><span class="pre">teapot</span></code> and <code class="docutils literal notranslate"><span class="pre">lightModel</span></code> models.</p>
+<p>When we create an <code class="docutils literal notranslate"><span class="pre">Object</span></code> data structure the objects will have a default position at (0,0,0), the rotation and scale are unchanged and the object lighting properties are the same as what we have using so far (we can change these later if we want). Load the <code class="docutils literal notranslate"><span class="pre">floor</span></code> model and give it diffuse and normal textures where we load the <code class="docutils literal notranslate"><span class="pre">teapot</span></code> and <code class="docutils literal notranslate"><span class="pre">lightModel</span></code> models.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Load models</span>
 <span class="n">Model</span><span class="w"> </span><span class="n">teapot</span><span class="p">(</span><span class="s">&quot;../objects/teapot.obj&quot;</span><span class="p">);</span>
 <span class="n">Model</span><span class="w"> </span><span class="n">lightModel</span><span class="p">(</span><span class="s">&quot;../objects/sphere.obj&quot;</span><span class="p">);</span>
@@ -777,17 +783,18 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 </pre></div>
 </div>
 <p>We are going to create a vector to contain the difference objects. Add the following code after we have added the textures to the models.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">objects</span><span class="p">;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define objects</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">objects</span><span class="p">;</span>
 <span class="n">Object</span><span class="w"> </span><span class="n">object</span><span class="p">;</span>
-<span class="n">object</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;floor&quot;</span><span class="p">;</span>
+<span class="n">object</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;teapot&quot;</span><span class="p">;</span>
 <span class="n">objects</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">object</span><span class="p">);</span>
 
-<span class="n">object</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;teapot&quot;</span><span class="p">;</span>
-<span class="n">object</span><span class="p">.</span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.85f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
+<span class="n">object</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;floor&quot;</span><span class="p">;</span>
+<span class="n">object</span><span class="p">.</span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.85f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">);</span>
 <span class="n">objects</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">object</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Here we have created a <code class="docutils literal notranslate"><span class="pre">floor</span></code> object with default position, rotation and scaling and a <code class="docutils literal notranslate"><span class="pre">teapot</span></code> object positioned at (0, 0.85, 0) and have added both objects to the <code class="docutils literal notranslate"><span class="pre">objects</span></code> vector. Now all we need to do is loop through the <code class="docutils literal notranslate"><span class="pre">objects</span></code> vector, calculate the <code class="docutils literal notranslate"><span class="pre">model</span></code> matrix for each object, send it to the shader and draw the model. Replace the previous code used to draw the multiple teapots with the following.</p>
+<p>Here we have created a <code class="docutils literal notranslate"><span class="pre">teapot</span></code> object with default position, rotation and scaling and a <code class="docutils literal notranslate"><span class="pre">floor</span></code> object positioned at (0, -0.85, 0) and have added both objects to the <code class="docutils literal notranslate"><span class="pre">objects</span></code> vector. Now all we need to do is loop through the <code class="docutils literal notranslate"><span class="pre">objects</span></code> vector, calculate the <code class="docutils literal notranslate"><span class="pre">model</span></code> matrix for each object, send it to the shader and draw the model. Replace the previous code used to draw the multiple teapots with the following.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Loop through objects</span>
 <span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">objects</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
 <span class="p">{</span>
@@ -807,10 +814,10 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <span class="w">    </span><span class="n">glUniform1f</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ns&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">objects</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Ns</span><span class="p">);</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="c1">// Draw the model</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">objects</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;floor&quot;</span><span class="p">)</span>
-<span class="w">        </span><span class="n">floor</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">shaderID</span><span class="p">);</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">objects</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;teapot&quot;</span><span class="p">)</span>
 <span class="w">        </span><span class="n">teapot</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">shaderID</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">objects</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;floor&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">floor</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">shaderID</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -850,6 +857,38 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <p>A neutral specular map is simply a texture with all white pixels that have the RGB colour code (1, 1, 1) so multiplying this by the specular colour has no affect.</p>
 <p>The neutral maps for normal and specular mapping are contained in the <code class="docutils literal notranslate"><span class="pre">neutral_normal.png</span></code> and <code class="docutils literal notranslate"><span class="pre">neutral_specular.png</span></code> files in the <code class="docutils literal notranslate"><span class="pre">objects/</span></code> folder and are applied to a model when it is created. When we use the <code class="docutils literal notranslate"><span class="pre">addTexture()</span></code> Model class method the neutral maps are replaced.</p>
 </section>
+</section>
+<section id="exercises">
+<h2><span class="section-number">9.5. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Add another object using the .obj model <code class="docutils literal notranslate"><span class="pre">../objects/wall.obj</span></code> to your scene and position it at (0, 4, -2), scale it up by a factor of 5 in the x and z directions and rotate it 90<span class="math notranslate nohighlight">\(^\circ\)</span> about the x axis. Apply the diffuse map <code class="docutils literal notranslate"><span class="pre">../objects/bricks_diffuse.png</span></code>.</p></li>
+</ol>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/09_ex1.png"><img alt="../_images/09_ex1.png" src="../_images/09_ex1.png" style="width: 500px;" /></a>
+</figure>
+<ol class="arabic simple" start="2">
+<li><p>Apply the normal map <code class="docutils literal notranslate"><span class="pre">../objects/bricks_normal.png</span></code> to the wall object.</p></li>
+</ol>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/09_ex2.png"><img alt="../_images/09_ex2.png" src="../_images/09_ex2.png" style="width: 500px;" /></a>
+</figure>
+<ol class="arabic simple" start="3">
+<li><p>Apply the specular map <code class="docutils literal notranslate"><span class="pre">../objects/bricks_specular.png</span></code> to the wall object.</p></li>
+</ol>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/09_ex3.png"><img alt="../_images/09_ex3.png" src="../_images/09_ex3.png" style="width: 500px;" /></a>
+</figure>
+</section>
+<hr class="docutils" />
+<section id="source-code">
+<h2><span class="section-number">9.6. </span>Source code<a class="headerlink" href="#source-code" title="Permalink to this heading">#</a></h2>
+<p>The source code for this lab, including the exercise solutions, can be downloaded using the links below.</p>
+<ul class="simple">
+<li><p><a class="reference download internal" download="" href="../_downloads/72bf47163a4b8e405b3323433fa85c6a/Lab09_Normal_maps.cpp"><span class="xref download myst">Lab09_Normal_maps.cpp</span></a> - normal map applied to a single teapot object</p></li>
+<li><p><a class="reference download internal" download="" href="../_downloads/cca81edca506589a84ac5edc0f58c661/normalMapVertexShader.vert"><span class="xref download myst">normalMapVertexShader.vert</span></a></p></li>
+<li><p><a class="reference download internal" download="" href="../_downloads/5734ddff33bf8982478f17766bbdb1b0/normalMapFragmentShader.frag"><span class="xref download myst">normalMapFragmentShader.vert</span></a></p></li>
+<li><p><a class="reference download internal" download="" href="../_downloads/030ddb3c6975df435aa22aff94d61c7e/main.cpp"><span class="xref download myst">main.cpp</span></a> - solutions to the exercises</p></li>
+</ul>
 </section>
 </section>
 
@@ -925,6 +964,8 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#neutral-maps">9.4.1. Neutral maps</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">9.5. Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-code">9.6. Source code</a></li>
 </ul>
   </nav></div>
 

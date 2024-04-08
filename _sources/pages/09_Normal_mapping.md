@@ -423,14 +423,18 @@ To apply our stone floor we are going to have a different object than our old fr
 struct Object
 {
     glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
-    glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+    glm::vec3 rotation = glm::vec3(0.0f, 1.0f, 0.0f);
     glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
-    glm::vec3 angle = 0.0f;
+    float angle = 0.0f;
+    float ka = 0.2f;
+    float kd = 0.7f;
+    float ks = 1.0f;
+    float Ns = 20.0f;
     std::string name;
 };
 ```
 
-When we create an `Object` data structure the objects will have a default position at (0,0,0) and the rotation and scale are unchanged (we can change this later). Load the `floor` model and give it diffuse and normal textures where we load the `teapot` and `lightModel` models.
+When we create an `Object` data structure the objects will have a default position at (0,0,0), the rotation and scale are unchanged and the object lighting properties are the same as what we have using so far (we can change these later if we want). Load the `floor` model and give it diffuse and normal textures where we load the `teapot` and `lightModel` models.
 
 ```cpp
 // Load models
@@ -448,17 +452,18 @@ floor.addTexture("../objects/stones_normal.png", "normal");
 We are going to create a vector to contain the difference objects. Add the following code after we have added the textures to the models.
 
 ```cpp
+// Define objects
 std::vector<Object> objects;
 Object object;
-object.name = "floor";
+object.name = "teapot";
 objects.push_back(object);
 
-object.name = "teapot";
-object.position = glm::vec3(0.0f, 0.85f, 0.0f);
+object.name = "floor";
+object.position = glm::vec3(0.0f, -0.85f, 0.0f);
 objects.push_back(object);
 ```
 
-Here we have created a `floor` object with default position, rotation and scaling and a `teapot` object positioned at (0, 0.85, 0) and have added both objects to the `objects` vector. Now all we need to do is loop through the `objects` vector, calculate the `model` matrix for each object, send it to the shader and draw the model. Replace the previous code used to draw the multiple teapots with the following.
+Here we have created a `teapot` object with default position, rotation and scaling and a `floor` object positioned at (0, -0.85, 0) and have added both objects to the `objects` vector. Now all we need to do is loop through the `objects` vector, calculate the `model` matrix for each object, send it to the shader and draw the model. Replace the previous code used to draw the multiple teapots with the following.
 
 ```cpp
 // Loop through objects
@@ -480,10 +485,10 @@ for (unsigned int i = 0; i < objects.size(); i++)
     glUniform1f(glGetUniformLocation(shaderID, "Ns"), objects[i].Ns);
     
     // Draw the model
-    if (objects[i].name == "floor")
-        floor.draw(shaderID);
     if (objects[i].name == "teapot")
         teapot.draw(shaderID);
+    if (objects[i].name == "floor")
+        floor.draw(shaderID);
 }
 ```
 
@@ -536,3 +541,33 @@ then if the normal maps has pixels with the RGB colour code (0.5, 0.5, 1) then a
 A neutral specular map is simply a texture with all white pixels that have the RGB colour code (1, 1, 1) so multiplying this by the specular colour has no affect.
 
 The neutral maps for normal and specular mapping are contained in the `neutral_normal.png` and `neutral_specular.png` files in the `objects/` folder and are applied to a model when it is created. When we use the `addTexture()` Model class method the neutral maps are replaced.
+
+## Exercises
+
+1. Add another object using the .obj model `../objects/wall.obj` to your scene and position it at (0, 4, -2), scale it up by a factor of 5 in the x and z directions and rotate it 90$^\circ$ about the x axis. Apply the diffuse map `../objects/bricks_diffuse.png`.
+
+```{figure} ../images/09_ex1.png
+:width: 500
+```
+
+2. Apply the normal map `../objects/bricks_normal.png` to the wall object.
+
+```{figure} ../images/09_ex2.png
+:width: 500
+```
+
+3. Apply the specular map `../objects/bricks_specular.png` to the wall object.
+
+```{figure} ../images/09_ex3.png
+:width: 500
+```
+
+--- 
+## Source code
+
+The source code for this lab, including the exercise solutions, can be downloaded using the links below.
+
+- [Lab09_Normal_maps.cpp](../code/Lab09_Normal_maps/Lab09_Normal_maps.cpp) - normal map applied to a single teapot object
+- [normalMapVertexShader.vert](../code/Lab09_Normal_maps/normalMapVertexShader.vert)
+- [normalMapFragmentShader.vert](../code/Lab09_Normal_maps/normalMapFragmentShader.frag)
+- [main.cpp](../code/Lab09_Normal_maps/main.cpp) - solutions to the exercises
