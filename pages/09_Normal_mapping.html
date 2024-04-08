@@ -369,8 +369,11 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fragment-shader">9.2.2. Fragment shader</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#re-orthogonising-the-tangent-space-vectors">9.3. Re-orthogonising the tangent space vectors</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#specular-maps">9.4. Specular maps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#re-orthogonalising-the-tangent-space-vectors">9.3. Re-orthogonalising the tangent space vectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#specular-maps">9.4. Specular maps</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#neutral-maps">9.4.1. Neutral maps</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -383,15 +386,15 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="normal-mapping">
-<h1><span class="section-number">9. </span>Normal Mapping<a class="headerlink" href="#normal-mapping" title="Permalink to this heading">#</a></h1>
-<p>In <a class="reference internal" href="08_Lighting.html#lighting-section"><span class="std std-ref">Lab 8 on lighting</span></a> we saw that the diffuse and specular reflection models used the normal vector to determine the fragment colour. The vertex shader was used to interpolate the normal vectors for each fragment based on the normal vectors at the vertices of a triangle. This works well for smooth objects, but for objects with a rough or patterned surface we don’t get the benefits of highlights and shadow. <strong>Normal mapping</strong> is technique that uses a <a class="reference internal" href="03_textures.html#textures-section"><span class="std std-ref">textures map</span></a> to define the normal vectors for each fragment so that when a lighting model is applied it gives the appearance of a non-flat surface.</p>
+<span id="normal-mapping-section"></span><h1><span class="section-number">9. </span>Normal Mapping<a class="headerlink" href="#normal-mapping" title="Permalink to this heading">#</a></h1>
+<p>In <a class="reference internal" href="08_Lighting.html#lighting-section"><span class="std std-ref">Lab 8 on lighting</span></a> we saw that the diffuse and specular reflection models used the normal vector to determine the fragment colour. The vertex shader was used to interpolate the normal vectors for each fragment based on the normal vectors at the vertices of a triangle. This works well for smooth objects, but for objects with a rough or patterned surface we don’t get the benefits of highlights and shadow. <strong>Normal mapping</strong> is technique that uses a <a class="reference internal" href="03_textures.html#textures-section"><span class="std std-ref">texture map</span></a> to define the normal vectors for each fragment so that when a lighting model is applied it gives the appearance of a non-flat surface.</p>
 <figure class="align-default" id="id2">
 <a class="reference internal image-reference" href="../_images/09_normal_mapping.svg"><img alt="../_images/09_normal_mapping.svg" src="../_images/09_normal_mapping.svg" width="600" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 9.1 </span><span class="caption-text">Normal mapping applies a texture of normals for each fragment giving the appearance of a non-flat surface.</span><a class="headerlink" href="#id2" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>A <strong>normal map</strong> is a texture where the colour values of each textel is used for the three elements of a normal vector where the red, green and blue colour values give the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> values of the normal vector respectively (<a class="reference internal" href="#normal-map-figure"><span class="std std-numref">Fig. 9.2</span></a>). Since the OpenGL co-ordinate system has the <span class="math notranslate nohighlight">\(z\)</span>-axis pointing out from the screen normal maps tend to have a mainly blueish colour to them.</p>
+<p>A <strong>normal map</strong> is a texture where the RGB colour values of each textel is used for the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> values of a normal vector (<a class="reference internal" href="#normal-map-figure"><span class="std std-numref">Fig. 9.2</span></a>). Since the OpenGL co-ordinate system has the <span class="math notranslate nohighlight">\(z\)</span>-axis pointing out from the screen the colour of a normal map is mainly blue.</p>
 <figure class="align-default" id="normal-map-figure">
 <a class="reference internal image-reference" href="../_images/09_normal_map.svg"><img alt="../_images/09_normal_map.svg" src="../_images/09_normal_map.svg" width="200" /></a>
 <figcaption>
@@ -415,14 +418,14 @@ document.write(`
 </figure>
 <p>A Light class has been created to handle the light sources. Take a look at the <code class="docutils literal notranslate"><span class="pre">light.hpp</span></code> and <code class="docutils literal notranslate"><span class="pre">light.cpp</span></code> files and you will see the following Light class methods</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">addPointLight()</span></code>, <code class="docutils literal notranslate"><span class="pre">addSpotLight()</span></code>, <code class="docutils literal notranslate"><span class="pre">addDirLight()</span></code> - used to add another light source to the scene</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">addPointLight()</span></code>, <code class="docutils literal notranslate"><span class="pre">addSpotLight()</span></code>, <code class="docutils literal notranslate"><span class="pre">addDirLight()</span></code> - these are used to add another light source to the scene</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">toShader()</span></code> - sends all of the lighting uniforms to the shader</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">draw()</span></code> - draws the light source</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">reorder()</span></code> - a private member function that reorders the <code class="docutils literal notranslate"><span class="pre">lights</span></code> array so that all the point light sources come first, followed by the spotlight source and then the directional light sources. This means we can avoid if statements in our shader files (this slows down the shaders significantly).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reorder()</span></code> - a private member function that reorders the <code class="docutils literal notranslate"><span class="pre">lights</span></code> vector so that all the point light sources come first, followed by the spotlight sources and then the directional light sources. This means we can avoid if statements in our shader files (this slows down the shaders significantly).</p></li>
 </ul>
 <section id="tangent-space">
 <h2><span class="section-number">9.1. </span>Tangent space<a class="headerlink" href="#tangent-space" title="Permalink to this heading">#</a></h2>
-<p>We have already seen in <a class="reference internal" href="06_3D_worlds.html#d-worlds-section"><span class="std std-ref">Lab 6 3D worlds</span></a> that we can use transformations to map co-ordinates and vector between spaces. To apply normal mapping we need to perform our lighting calculations in a new space called the <strong>tangent space</strong>. The tangent space is a 3D space where vectors are defined in terms of three vectors: <strong>tangent</strong>, <strong>bitangent</strong> and <strong>normal</strong> vectors (<a class="reference internal" href="#bitangent-vector-figure"><span class="std std-numref">Fig. 9.3</span></a>).</p>
+<p>We have already seen in <a class="reference internal" href="06_3D_worlds.html#d-worlds-section"><span class="std std-ref">Lab 6 3D worlds</span></a> that we can use transformations to map co-ordinates and vectors between the model, view and screen spaces. To apply normal mapping we need to perform our lighting calculations in a new space called the <strong>tangent space</strong>. The tangent space is a 3D space where vectors are defined in terms of three vectors: <strong>tangent</strong>, <strong>bitangent</strong> and <strong>normal</strong> vectors (<a class="reference internal" href="#bitangent-vector-figure"><span class="std std-numref">Fig. 9.3</span></a>).</p>
 <figure class="align-default" id="bitangent-vector-figure">
 <a class="reference internal image-reference" href="../_images/09_bitangent.svg"><img alt="../_images/09_bitangent.svg" src="../_images/09_bitangent.svg" width="300" /></a>
 <figcaption>
@@ -476,13 +479,13 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <div class="sd-summary-up docutils">
 <svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
 </summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">Consider <a class="reference internal" href="#tbn-figure"><span class="std std-numref">Fig. 9.5</span></a> where a triangle is mapped onto the normal map using texture co-ordinates <span class="math notranslate nohighlight">\(\mathsf{(u_0,v_0)}\)</span>, <span class="math notranslate nohighlight">\(\mathsf{(u_1,v_1)}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{(u_2,v_2)}\)</span>. If the vectors <span class="math notranslate nohighlight">\(\mathsf{T}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{B}\)</span> point in the co-ordinate directions of the normal map then the vectors <span class="math notranslate nohighlight">\(\mathsf{E_1}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{E_2}\)</span> can be calculated using</p>
+<p class="sd-card-text">Consider <a class="reference internal" href="#tbn-figure"><span class="std std-numref">Fig. 9.5</span></a> where a triangle is mapped onto the normal map using texture co-ordinates <span class="math notranslate nohighlight">\(\mathsf{(u_0,v_0)}\)</span>, <span class="math notranslate nohighlight">\(\mathsf{(u_1,v_1)}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{(u_2,v_2)}\)</span>. If the vectors <span class="math notranslate nohighlight">\(\mathsf{T}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{B}\)</span> point in the co-ordinate directions of the normal map then the tangle space positions along the triangle edges <span class="math notranslate nohighlight">\(\mathsf{E_1}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{E_2}\)</span> can be calculated using</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{align*}
     \mathsf{E_1} &amp;= \mathsf{\Delta u_1 \cdot T + \Delta v_1 \cdot B}, \\
     \mathsf{E_2} &amp;= \mathsf{\Delta u_2 \cdot T + \Delta v_2 \cdot B},
 \end{align*}\end{split}\]</div>
-<p class="sd-card-text">where <span class="math notranslate nohighlight">\(\mathsf{\Delta u_1 = u_1 - u_0}\)</span>, <span class="math notranslate nohighlight">\(\mathsf{\Delta v_1 = v_1 - v_0}\)</span>, <span class="math notranslate nohighlight">\(\mathsf{U_2 = u_2 - u_1}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{\Delta v_2 = v_2 - v_1}\)</span>. We can write this using matrices</p>
+<p class="sd-card-text">where <span class="math notranslate nohighlight">\(\mathsf{\Delta u_1 = u_1 - u_0}\)</span>, <span class="math notranslate nohighlight">\(\mathsf{\Delta v_1 = v_1 - v_0}\)</span>, <span class="math notranslate nohighlight">\(\mathsf{\Delta u_2 = u_2 - u_1}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{\Delta v_2 = v_2 - v_1}\)</span>. We can express this using matrices</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
     \begin{pmatrix} \mathsf{E_1} \\ \mathsf{E_2} \end{pmatrix} &amp;=
@@ -492,7 +495,7 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
     \end{pmatrix}
     \begin{pmatrix} \mathsf{T} \\ \mathsf{B} \end{pmatrix}.
 \end{align*} \end{split}\]</div>
-<p class="sd-card-text">We want to calculate <span class="math notranslate nohighlight">\(\mathsf{T}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{B}\)</span> and we know the values of <span class="math notranslate nohighlight">\(\mathsf{E_1}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{E_2}\)</span>. Using the <a class="reference internal" href="04_vectors_and_matrices.html#inverse-matrix-section"><span class="std std-ref">matrix inverse</span></a> we can rearrange this equation</p>
+<p class="sd-card-text">We want to calculate <span class="math notranslate nohighlight">\(\mathsf{T}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{B}\)</span> and we know the values of <span class="math notranslate nohighlight">\(\mathsf{E_1}\)</span>, <span class="math notranslate nohighlight">\(\mathsf{E_2}\)</span>, <span class="math notranslate nohighlight">\(\mathsf{\Delta u_1}\)</span>, <span class="math notranslate nohighlight">\(\mathsf{\Delta v_1}\)</span>, <span class="math notranslate nohighlight">\(\mathsf{\Delta u_2}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{\Delta v_2}\)</span>. Using the <a class="reference internal" href="04_vectors_and_matrices.html#inverse-matrix-section"><span class="std std-ref">inverse</span></a> of the square matrix we can rewrite this equation as</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
     \begin{pmatrix} \mathsf{T} \\ \mathsf{B} \end{pmatrix} &amp;=
@@ -516,7 +519,7 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
     \mathsf{B} &amp;= \frac{1}{\mathsf{\Delta u_1\Delta v_2 - \Delta u_2\Delta v_1}}(\mathsf{\Delta u_1 \cdot E_2 - \Delta u_2 \cdot E_1}).
 \end{align*} \end{split}\]</div>
 </div>
-</details><p>Once we have the tangent, bitangent and normal vectors we can form a matrix that transforms from an arbitrary co-ordinate system to the tangent space. The matrix that achieves this a 3 <span class="math notranslate nohighlight">\(\times\)</span> 3 matrix known as the <strong>TBN matrix</strong> (we don’t need a 4 <span class="math notranslate nohighlight">\(\times\)</span> 4 matrix since we don’t need to perform translation)</p>
+</details><p>Once we have the tangent, bitangent and normal vectors we can form a matrix that transforms from an arbitrary co-ordinate system to the tangent space. The matrix that achieves this a 3 <span class="math notranslate nohighlight">\(\times\)</span> 3 matrix known as the <strong>TBN matrix</strong> (we don’t need a 4 <span class="math notranslate nohighlight">\(\times\)</span> 4 matrix since we don’t need to perform a translation)</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
     \textsf{TBN} &amp;= 
@@ -529,7 +532,7 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <p>However, we will be performing our lighting calculations in the tangent space so we want to transform from an another space to the tangent space. To do this we calculate the <a class="reference internal" href="04_vectors_and_matrices.html#inverse-matrix-section"><span class="std std-ref">inverse</span></a> of the TBN matrix. Fortunately this is an orthogonal matrix where the inverse is simply the transpose, i.e., <span class="math notranslate nohighlight">\(\mathsf{(TBN)^{-1}} = \mathsf{(TBN)^{T}}\)</span>, which is an easy calculation.</p>
 <section id="calculating-the-tangent-and-bitangent-vectors">
 <h3><span class="section-number">9.1.1. </span>Calculating the tangent and bitangent vectors<a class="headerlink" href="#calculating-the-tangent-and-bitangent-vectors" title="Permalink to this heading">#</a></h3>
-<p>All of the lighting calculations are performed by the shaders so we calculate the tangent and bitangent vectors in our C++ program and pass them to the vertex shader using uniforms. The model class contains all of the attributes for a model so we create two vectors that will contain the tangents and bitangents for each of the vertices of the model. In <code class="docutils literal notranslate"><span class="pre">model.hpp</span></code> add the following code after <code class="docutils literal notranslate"><span class="pre">public:</span></code>.</p>
+<p>All of the lighting calculations are performed by the shaders so we calculate the tangent and bitangent vectors in our C++ program and pass them to the vertex shader using uniforms. The model class contains all of the attributes for a model so we create two vectors that will contain the tangents and bitangents for each of the vertices of the model. In <code class="docutils literal notranslate"><span class="pre">model.hpp</span></code> add the following code after we have declared a vector array for the normals.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="o">&gt;</span><span class="w"> </span><span class="n">tangents</span><span class="p">;</span>
 <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="o">&gt;</span><span class="w"> </span><span class="n">bitangents</span><span class="p">;</span>
 </pre></div>
@@ -615,7 +618,7 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 </pre></div>
 </div>
 <p>We need to transform the fragment position, light position and direction vector to the tangent space and to do so we calculate the TBN matrix. After the (u,v) co-ordinates have been outputted add the following code.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate the TBN matrix that transforms view space to tangent space</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate the TBN matrix that transforms model space to tangent space</span>
 <span class="n">mat3</span><span class="w"> </span><span class="n">normalMatrix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">transpose</span><span class="p">(</span><span class="n">inverse</span><span class="p">(</span><span class="n">mat3</span><span class="p">(</span><span class="n">view</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">model</span><span class="p">)));</span>
 <span class="n">vec3</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="n">normalMatrix</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">tangent</span><span class="p">);</span>
 <span class="n">vec3</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="n">normalMatrix</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">bitangent</span><span class="p">);</span>
@@ -626,14 +629,15 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <p>Here we transform the tangent, bitangent and normal vectors to the view space using the matrix from equation <a class="reference internal" href="08_Lighting.html#equation-view-space-normal-equation">(8.1)</a> which are then used to calculate the TBN matrix. Remember that by transposing the TBN matrix we are calculating its inverse so here the TBN matrix will transform from the view space to the tangent space.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Some people transform the vectors to the world space instead of the view space, however, this means that we need to also calculate the tangent space position of the camera for the eye vector calculation in the fragment shader. This means we have an additional uniform and vector calculations. Since the camera position in the view space is (0,0,0) then it is also (0,0,0) in the tangent space so we don’t need to worry about this.</p>
+<p>Some people transform the vectors to the world space instead of the view space, however, this means that we need to also calculate the tangent space position of the camera for the eye vector calculation in the fragment shader. Doing this would mean we have additional uniforms and vector calculations. Since the camera position in the view space is (0,0,0) then it is also (0,0,0) in the tangent space so by transforming the vectors to the view space we don’t need to worry about this.</p>
 </div>
-<p>All that remains for us to do to the vertex shader is to calculate the tangent space fragment position, light position and direction vector using the TBN matrix.</p>
+<p>All that remains for us to do to the vertex shader is to calculate the tangent space fragment position, light position and direction vector using the TBN matrix. Replace the code used to calculate the view space vectors with the following code.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Output tangent space fragment position</span>
 <span class="n">fragmentPosition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TBN</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vec3</span><span class="p">(</span><span class="n">view</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">));</span>
 
 <span class="c1">// Output tangent space light positions and directions</span>
-<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">numPoint</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">numSpot</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">numDir</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">numPoint</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">numSpot</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">numDir</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
 <span class="w">    </span><span class="n">lightPositions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TBN</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vec3</span><span class="p">(</span><span class="n">view</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vec4</span><span class="p">(</span><span class="n">lights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">));</span>
 <span class="w">    </span><span class="n">lightDirections</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TBN</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vec3</span><span class="p">(</span><span class="n">view</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vec4</span><span class="p">(</span><span class="n">lights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">direction</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">));</span>
 <span class="p">}</span>
@@ -642,7 +646,7 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 </section>
 <section id="fragment-shader">
 <h3><span class="section-number">9.2.2. </span>Fragment shader<a class="headerlink" href="#fragment-shader" title="Permalink to this heading">#</a></h3>
-<p>Now that we have transformed the vectors to the tangent space in the vertex shader we need to make a few changes to the fragment shader. The beauty of the tangent space is that it is orthogonal (T, B and N vectors are at right angles) so we don’t need to change any of our lighting calculations. This means we only need to make 2 changes to the fragment shader. Create a new shader file called <code class="docutils literal notranslate"><span class="pre">normalMapFragmentShader.frag</span></code> in the <code class="docutils literal notranslate"><span class="pre">source/</span></code> folder and copy in the contents of the <code class="docutils literal notranslate"><span class="pre">fragmentShader.frag</span></code> file.</p>
+<p>Now that we have transformed the vectors to the tangent space in the vertex shader we need to make a few changes to the fragment shader. The beauty of the tangent space is that it is orthogonal (T, B and N vectors are at right angles) so we don’t need to change any of our lighting calculations. This means we only need to make two changes to the fragment shader. Create a new shader file called <code class="docutils literal notranslate"><span class="pre">normalMapFragmentShader.frag</span></code> in the <code class="docutils literal notranslate"><span class="pre">source/</span></code> folder and copy in the contents of the <code class="docutils literal notranslate"><span class="pre">fragmentShader.frag</span></code> file.</p>
 <p>We have an addition texture for the normal map so we use a sampler uniform to send this to the shader. Add the following where we declared the diffuse map uniform.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">uniform</span><span class="w"> </span><span class="n">sampler2D</span><span class="w"> </span><span class="n">normalMap</span><span class="p">;</span>
 </pre></div>
@@ -659,30 +663,30 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">GLuint</span><span class="w"> </span><span class="n">shaderID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LoadShaders</span><span class="p">(</span><span class="s">&quot;normalMapVertexShader.vert&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;normalMapFragmentShader.frag&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Then add the normal map texture to the cube object.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add textures to cube object</span>
-<span class="n">cube</span><span class="p">.</span><span class="n">addTexture</span><span class="p">(</span><span class="s">&quot;../objects/blue.bmp&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;diffuse&quot;</span><span class="p">);</span>
-<span class="n">cube</span><span class="p">.</span><span class="n">addTexture</span><span class="p">(</span><span class="s">&quot;../objects/diamond.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;normal&quot;</span><span class="p">);</span>
+<p>Then add the normal map texture to the <code class="docutils literal notranslate"><span class="pre">teapot</span></code> object.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add textures to teapot object</span>
+<span class="n">teapot</span><span class="p">.</span><span class="n">addTexture</span><span class="p">(</span><span class="s">&quot;../objects/blue_diffuse.bmp&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;diffuse&quot;</span><span class="p">);</span>
+<span class="n">teapot</span><span class="p">.</span><span class="n">addTexture</span><span class="p">(</span><span class="s">&quot;../objects/diamond_normal.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;normal&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>Compile and run the program and you should see the following.</p>
 <figure class="align-default" id="id1">
 <a class="reference internal image-reference" href="../_images/09_normal_map.png"><img alt="../_images/09_normal_map.png" src="../_images/09_normal_map.png" style="width: 500px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 9.6 </span><span class="caption-text">Normal map applied to a cube object.</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 9.6 </span><span class="caption-text">Normal map applied to teapot objects.</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>The surfaces of the teapots which are smooth now have the appearance of bumpy diamond plate simply by getting the normal vectors from a texture and performing the lighting calculations in the tangent space. <a class="reference internal" href="#normal-map-closeup-figure"><span class="std std-numref">Fig. 9.7</span></a> shows a closeup of the surface so we can see the detail.</p>
 <figure class="align-default" id="normal-map-closeup-figure">
 <a class="reference internal image-reference" href="../_images/09_normal_map_closeup.png"><img alt="../_images/09_normal_map_closeup.png" src="../_images/09_normal_map_closeup.png" style="width: 500px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 9.7 </span><span class="caption-text">Close up of the normal map applied to a cube object.</span><a class="headerlink" href="#normal-map-closeup-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 9.7 </span><span class="caption-text">Close up of the normal map applied to teapot objects.</span><a class="headerlink" href="#normal-map-closeup-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
 </section>
-<section id="re-orthogonising-the-tangent-space-vectors">
-<h2><span class="section-number">9.3. </span>Re-orthogonising the tangent space vectors<a class="headerlink" href="#re-orthogonising-the-tangent-space-vectors" title="Permalink to this heading">#</a></h2>
+<section id="re-orthogonalising-the-tangent-space-vectors">
+<h2><span class="section-number">9.3. </span>Re-orthogonalising the tangent space vectors<a class="headerlink" href="#re-orthogonalising-the-tangent-space-vectors" title="Permalink to this heading">#</a></h2>
 <p>When a vertex is shared by multiple triangles the normal vector for the vertex will be calculated as an average of the normal vectors for the triangles (<a class="reference internal" href="#averaged-normal-figure"><span class="std std-numref">Fig. 9.8</span></a>). This helps to create an appearance of a smooth surface where the edges of the triangles are hidden.</p>
 <figure class="align-default" id="averaged-normal-figure">
 <a class="reference internal image-reference" href="../_images/09_averaged_normal.svg"><img alt="../_images/09_averaged_normal.svg" src="../_images/09_averaged_normal.svg" width="300" /></a>
@@ -690,7 +694,7 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <p><span class="caption-number">Fig. 9.8 </span><span class="caption-text">The vertex normal is the average of the normal of the triangles sharing that vertex.</span><a class="headerlink" href="#averaged-normal-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>A problem with this is that by changing the normal vector it means that the the normal, tangent and bitangents vectors will no longer be orthogonal to each other. We can get around this problem by <strong>re-orthogonalising</strong> the three vectors by pushing the tangent vector a bit so that it is orthongonal to the normal vector.</p>
+<p>A problem with this is that when a normal map is used the normal vectors at the vertices are not perpendicular to the triangle so calculating the tangents and bitangents using equation {eq}{TB-equation} will not give an orthogonal set of vectors. We can get around this problem by <strong>re-orthogonalising</strong> the three vectors by adjusting the tangent vector a bit so that it is orthongonal to the normal vector.</p>
 <figure class="align-default" id="reorthogonalise-t-figure">
 <a class="reference internal image-reference" href="../_images/09_reorthogonalise_T.svg"><img alt="../_images/09_reorthogonalise_T.svg" src="../_images/09_reorthogonalise_T.svg" width="300" /></a>
 <figcaption>
@@ -709,17 +713,23 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 </pre></div>
 </div>
 <p>You may notice that here we have calculated the bitangent in the vertex shader using normal and tangent vectors without needed to access the bitangent buffer. To save on memory you could remove the <code class="docutils literal notranslate"><span class="pre">bitangents</span></code> buffer from the Model class since we don’t need these anymore.</p>
+<figure class="align-default" id="normal-map-orthogonalised-figure">
+<a class="reference internal image-reference" href="../_images/09_normal_map_orthogonalised.png"><img alt="../_images/09_normal_map_orthogonalised.png" src="../_images/09_normal_map_orthogonalised.png" style="width: 500px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 9.10 </span><span class="caption-text">A normal map with orthogonalised tangent and bitangent vectors.</span><a class="headerlink" href="#normal-map-orthogonalised-figure" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 </section>
 <section id="specular-maps">
 <h2><span class="section-number">9.4. </span>Specular maps<a class="headerlink" href="#specular-maps" title="Permalink to this heading">#</a></h2>
-<p>In addition to diffuse (texture) and normal maps we can also apply a <strong>specular</strong> map which can be used to control the specular highlights across a surface. Lets say we want to add a stone floor to our scene. We can add a horizontal polygon object for a the floor and use a texture map <a class="reference internal" href="#stones-diffuse-map-figure"><span class="std std-numref">Fig. 9.10</span></a> to give the impression of stones and a normal map <a class="reference internal" href="#stones-normal-map-figure"><span class="std std-numref">Fig. 9.11</span></a> so that the stones are lit properly. This would work fine but parts of the diffuse texture which wouldn’t have specular highlights in real life, for example the mortar between the stones, would appear shiny.</p>
+<p>In addition to diffuse (texture) and normal maps we can also apply a <strong>specular map</strong> which can be used to control the specular highlights across a surface. Lets say we want to add a stone floor to our scene. We can add a horizontal polygon object for the floor and use a texture map <a class="reference internal" href="#stones-diffuse-map-figure"><span class="std std-numref">Fig. 9.11</span></a> to give the impression of stones and a normal map <a class="reference internal" href="#stones-normal-map-figure"><span class="std std-numref">Fig. 9.12</span></a> so that the stones are lit by the light sources.</p>
 <div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
 <div class="sd-row docutils">
 <div class="sd-col sd-d-flex-column docutils">
 <figure class="align-default" id="stones-diffuse-map-figure">
 <img alt="../_images/09_stones_diffuse.png" src="../_images/09_stones_diffuse.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 9.10 </span><span class="caption-text">Diffuse map</span><a class="headerlink" href="#stones-diffuse-map-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 9.11 </span><span class="caption-text">Diffuse map</span><a class="headerlink" href="#stones-diffuse-map-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 </div>
@@ -727,7 +737,7 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <figure class="align-default" id="stones-normal-map-figure">
 <img alt="../_images/09_stones_normal.png" src="../_images/09_stones_normal.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 9.11 </span><span class="caption-text">Normal map</span><a class="headerlink" href="#stones-normal-map-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 9.12 </span><span class="caption-text">Normal map</span><a class="headerlink" href="#stones-normal-map-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 </div>
@@ -735,13 +745,12 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <figure class="align-default" id="stones-specular-map-figure">
 <img alt="../_images/09_stones_specular.png" src="../_images/09_stones_specular.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 9.12 </span><span class="caption-text">Specular map</span><a class="headerlink" href="#stones-specular-map-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 9.13 </span><span class="caption-text">Specular map</span><a class="headerlink" href="#stones-specular-map-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>To overcome this we could use the <strong>specular map</strong> from <a class="reference internal" href="#stones-specular-map-figure"><span class="std std-numref">Fig. 9.12</span></a>. This is a texture that controls which parts of the diffuse texture has specular reflection applied where the dark regions, i.e., those with RGB colour values close to zero, reduce the specular colour.</p>
 <p>To apply our stone floor we are going to have a different object than our old friend the teapot. We will also want to add multiple different objects in the future so it we are going to use a data structure to contain the world space position, rotation and scaling of our objects and then store this in a vector. Add the following code to the <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code> file before the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Data structures</span>
 <span class="k">struct</span><span class="w"> </span><span class="nc">Object</span>
@@ -754,7 +763,7 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <span class="p">};</span>
 </pre></div>
 </div>
-<p>When we create an <code class="docutils literal notranslate"><span class="pre">Object</span></code> data structure the objects will have a default position at (0,0,0) and the rotation and scale are unchanged (we can change this later). Load the <code class="docutils literal notranslate"><span class="pre">floor</span></code> model and give it diffuse, normal and specular textures where we load the <code class="docutils literal notranslate"><span class="pre">teapot</span></code> and <code class="docutils literal notranslate"><span class="pre">lightModel</span></code> models.</p>
+<p>When we create an <code class="docutils literal notranslate"><span class="pre">Object</span></code> data structure the objects will have a default position at (0,0,0) and the rotation and scale are unchanged (we can change this later). Load the <code class="docutils literal notranslate"><span class="pre">floor</span></code> model and give it diffuse and normal textures where we load the <code class="docutils literal notranslate"><span class="pre">teapot</span></code> and <code class="docutils literal notranslate"><span class="pre">lightModel</span></code> models.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Load models</span>
 <span class="n">Model</span><span class="w"> </span><span class="n">teapot</span><span class="p">(</span><span class="s">&quot;../objects/teapot.obj&quot;</span><span class="p">);</span>
 <span class="n">Model</span><span class="w"> </span><span class="n">lightModel</span><span class="p">(</span><span class="s">&quot;../objects/sphere.obj&quot;</span><span class="p">);</span>
@@ -765,7 +774,6 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <span class="n">teapot</span><span class="p">.</span><span class="n">addTexture</span><span class="p">(</span><span class="s">&quot;../objects/diamond_normal.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;normal&quot;</span><span class="p">);</span>
 <span class="n">floor</span><span class="p">.</span><span class="n">addTexture</span><span class="p">(</span><span class="s">&quot;../objects/stones_diffuse.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;diffuse&quot;</span><span class="p">);</span>
 <span class="n">floor</span><span class="p">.</span><span class="n">addTexture</span><span class="p">(</span><span class="s">&quot;../objects/stones_normal.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;normal&quot;</span><span class="p">);</span>
-<span class="n">floor</span><span class="p">.</span><span class="n">addTexture</span><span class="p">(</span><span class="s">&quot;../objects/stones_specular.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;specular&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>We are going to create a vector to contain the difference objects. Add the following code after we have added the textures to the models.</p>
@@ -793,10 +801,10 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <span class="w">    </span><span class="n">glUniformMatrix4fv</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;model&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">GL_FALSE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">model</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="c1">// Send material properties to the shader</span>
-<span class="w">    </span><span class="n">glUniform1f</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ka&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">teapot</span><span class="p">.</span><span class="n">ka</span><span class="p">);</span>
-<span class="w">    </span><span class="n">glUniform1f</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;kd&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">teapot</span><span class="p">.</span><span class="n">kd</span><span class="p">);</span>
-<span class="w">    </span><span class="n">glUniform1f</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ks&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">teapot</span><span class="p">.</span><span class="n">ks</span><span class="p">);</span>
-<span class="w">    </span><span class="n">glUniform1f</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ns&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">teapot</span><span class="p">.</span><span class="n">Ns</span><span class="p">);</span>
+<span class="w">    </span><span class="n">glUniform1f</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ka&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">objects</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">ka</span><span class="p">);</span>
+<span class="w">    </span><span class="n">glUniform1f</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;kd&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">objects</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">kd</span><span class="p">);</span>
+<span class="w">    </span><span class="n">glUniform1f</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ks&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">objects</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">ks</span><span class="p">);</span>
+<span class="w">    </span><span class="n">glUniform1f</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderID</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ns&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">objects</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Ns</span><span class="p">);</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="c1">// Draw the model</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">objects</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;floor&quot;</span><span class="p">)</span>
@@ -810,24 +818,38 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <figure class="align-default" id="stone-floor-no-specular-figure">
 <a class="reference internal image-reference" href="../_images/09_floor_no_specular.png"><img alt="../_images/09_floor_no_specular.png" src="../_images/09_floor_no_specular.png" style="width: 500px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 9.13 </span><span class="caption-text">Stone floor with no specular map applied.</span><a class="headerlink" href="#stone-floor-no-specular-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 9.14 </span><span class="caption-text">Stone floor with no specular map applied.</span><a class="headerlink" href="#stone-floor-no-specular-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>Move the camera around the floor and note how the mortar between the stones have specular highlights (an example of this can be seen in the bottom left-hand corner of <a class="reference internal" href="#stone-floor-no-specular-figure"><span class="std std-numref">Fig. 9.13</span></a>). To apply the specular map we added to the <code class="docutils literal notranslate"><span class="pre">floor</span></code> object we need to make minor changes to the fragment shader. First, declare a sampler uniform for the specular map where we did the same for the diffuse and normal maps (the Model class method <code class="docutils literal notranslate"><span class="pre">draw()</span></code> sends the specular map to shader).</p>
+<p>Move the camera around the floor and note how the mortar between the stones have specular highlights (an example of this can be seen in the bottom left-hand corner of <a class="reference internal" href="#stone-floor-no-specular-figure"><span class="std std-numref">Fig. 9.14</span></a>). This isn’t very realistic as in real life mortar is rough and does not appear shiny. To overcome this we can apply a specular map to switch off the specular highlights for certain fragments.</p>
+<p>To apply the specular map we added to the <code class="docutils literal notranslate"><span class="pre">floor</span></code> object we first need to add a specular map to the <code class="docutils literal notranslate"><span class="pre">floor</span></code> model. Where we added the diffuse and normal maps add a specular map using the following code</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">floor</span><span class="p">.</span><span class="n">addTexture</span><span class="p">(</span><span class="s">&quot;../objects/stones_specular.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;specular&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>We now need to make minor changes to the fragment shader. First, declare a sampler uniform for the specular map near to where we did the same for the diffuse and normal maps.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">uniform</span><span class="w"> </span><span class="n">sampler2D</span><span class="w"> </span><span class="n">specularMap</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>Then, whenever we calculate the specular lighting multiply the colour of the textel from the specular map.</p>
+<p>Then, whenever we calculate the specular lighting in the <code class="docutils literal notranslate"><span class="pre">calculatePointLight()</span></code>, <code class="docutils literal notranslate"><span class="pre">calculateSpotlight()</span></code> and <code class="docutils literal notranslate"><span class="pre">calculateDirectionalLight)(</span></code> functions multiply by the colour of the textel from the specular map.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">vec3</span><span class="w"> </span><span class="n">specular</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ks</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">light</span><span class="p">.</span><span class="n">colour</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pow</span><span class="p">(</span><span class="n">cosAlpha</span><span class="p">,</span><span class="w"> </span><span class="n">Ns</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">texture</span><span class="p">(</span><span class="n">specularMap</span><span class="p">,</span><span class="w"> </span><span class="n">UV</span><span class="p">).</span><span class="n">rgb</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>Compile and run the program and now you will notice that the mortar between the stones no long have specular highlights. Result!</p>
+<p>Compile and run the program and now you will notice that the mortar between the stones no longer have specular highlights.</p>
 <figure class="align-default" id="stone-floor-specular-figure">
 <a class="reference internal image-reference" href="../_images/09_floor_specular.png"><img alt="../_images/09_floor_specular.png" src="../_images/09_floor_specular.png" style="width: 500px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 9.14 </span><span class="caption-text">Stone floor with specular map applied.</span><a class="headerlink" href="#stone-floor-specular-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 9.15 </span><span class="caption-text">Stone floor with specular map applied.</span><a class="headerlink" href="#stone-floor-specular-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
+<section id="neutral-maps">
+<h3><span class="section-number">9.4.1. </span>Neutral maps<a class="headerlink" href="#neutral-maps" title="Permalink to this heading">#</a></h3>
+<p>We may not always want to apply a normal map or specular map to an object. Rather than writing a fragment shader for each case we can apply <strong>neutral maps</strong> which is a texture that when normal and specular mapping is applied it has no affect. Since the normal vector is calculated using</p>
+<div class="math notranslate nohighlight">
+\[ \mathsf{normal} = \mathsf{normalise}(2.0 * \textsf{textel colour} - 1.0), \]</div>
+<p>then if the normal maps has pixels with the RGB colour code (0.5, 0.5, 1) then all fragments will have a normal vector of (0, 0, 1) which is perpendicular to the surface.</p>
+<p>A neutral specular map is simply a texture with all white pixels that have the RGB colour code (1, 1, 1) so multiplying this by the specular colour has no affect.</p>
+<p>The neutral maps for normal and specular mapping are contained in the <code class="docutils literal notranslate"><span class="pre">neutral_normal.png</span></code> and <code class="docutils literal notranslate"><span class="pre">neutral_specular.png</span></code> files in the <code class="docutils literal notranslate"><span class="pre">objects/</span></code> folder and are applied to a model when it is created. When we use the <code class="docutils literal notranslate"><span class="pre">addTexture()</span></code> Model class method the neutral maps are replaced.</p>
+</section>
 </section>
 </section>
 
@@ -898,8 +920,11 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fragment-shader">9.2.2. Fragment shader</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#re-orthogonising-the-tangent-space-vectors">9.3. Re-orthogonising the tangent space vectors</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#specular-maps">9.4. Specular maps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#re-orthogonalising-the-tangent-space-vectors">9.3. Re-orthogonalising the tangent space vectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#specular-maps">9.4. Specular maps</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#neutral-maps">9.4.1. Neutral maps</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

@@ -1,6 +1,8 @@
+(normal-mapping-section)=
+
 # Normal Mapping
 
-In [Lab 8 on lighting](lighting-section) we saw that the diffuse and specular reflection models used the normal vector to determine the fragment colour. The vertex shader was used to interpolate the normal vectors for each fragment based on the normal vectors at the vertices of a triangle. This works well for smooth objects, but for objects with a rough or patterned surface we don't get the benefits of highlights and shadow. **Normal mapping** is technique that uses a [textures map](textures-section) to define the normal vectors for each fragment so that when a lighting model is applied it gives the appearance of a non-flat surface.
+In [Lab 8 on lighting](lighting-section) we saw that the diffuse and specular reflection models used the normal vector to determine the fragment colour. The vertex shader was used to interpolate the normal vectors for each fragment based on the normal vectors at the vertices of a triangle. This works well for smooth objects, but for objects with a rough or patterned surface we don't get the benefits of highlights and shadow. **Normal mapping** is technique that uses a [texture map](textures-section) to define the normal vectors for each fragment so that when a lighting model is applied it gives the appearance of a non-flat surface.
 
 ```{figure} ../images/09_normal_mapping.svg
 :width: 600
@@ -8,7 +10,7 @@ In [Lab 8 on lighting](lighting-section) we saw that the diffuse and specular re
 Normal mapping applies a texture of normals for each fragment giving the appearance of a non-flat surface.
 ```
 
-A **normal map** is a texture where the colour values of each textel is used for the three elements of a normal vector where the red, green and blue colour values give the $x$, $y$ and $z$ values of the normal vector respectively ({numref}`normal-map-figure`). Since the OpenGL co-ordinate system has the $z$-axis pointing out from the screen normal maps tend to have a mainly blueish colour to them.
+A **normal map** is a texture where the RGB colour values of each textel is used for the $x$, $y$ and $z$ values of a normal vector ({numref}`normal-map-figure`). Since the OpenGL co-ordinate system has the $z$-axis pointing out from the screen the colour of a normal map is mainly blue.
 
 ```{figure} ../images/09_normal_map.svg
 :width: 200
@@ -34,14 +36,14 @@ Compile and run the project and you will see that we have the scene used at the 
 
 A Light class has been created to handle the light sources. Take a look at the `light.hpp` and `light.cpp` files and you will see the following Light class methods
 
-- `addPointLight()`, `addSpotLight()`, `addDirLight()` - used to add another light source to the scene
+- `addPointLight()`, `addSpotLight()`, `addDirLight()` - these are used to add another light source to the scene
 - `toShader()` - sends all of the lighting uniforms to the shader
 - `draw()` - draws the light source
-- `reorder()` - a private member function that reorders the `lights` array so that all the point light sources come first, followed by the spotlight source and then the directional light sources. This means we can avoid if statements in our shader files (this slows down the shaders significantly).
+- `reorder()` - a private member function that reorders the `lights` vector so that all the point light sources come first, followed by the spotlight sources and then the directional light sources. This means we can avoid if statements in our shader files (this slows down the shaders significantly).
 
 ## Tangent space
 
-We have already seen in [Lab 6 3D worlds](3D-worlds-section) that we can use transformations to map co-ordinates and vector between spaces. To apply normal mapping we need to perform our lighting calculations in a new space called the **tangent space**. The tangent space is a 3D space where vectors are defined in terms of three vectors: **tangent**, **bitangent** and **normal** vectors ({numref}`bitangent-vector-figure`).
+We have already seen in [Lab 6 3D worlds](3D-worlds-section) that we can use transformations to map co-ordinates and vectors between the model, view and screen spaces. To apply normal mapping we need to perform our lighting calculations in a new space called the **tangent space**. The tangent space is a 3D space where vectors are defined in terms of three vectors: **tangent**, **bitangent** and **normal** vectors ({numref}`bitangent-vector-figure`).
 
 ```{figure} ../images/09_bitangent.svg
 :name: bitangent-vector-figure
@@ -99,14 +101,14 @@ To see the derivation of these equations click on the dropdown below.
 
 ````{dropdown} Calculating the tangent and bitangent vectors
 
-Consider {numref}`TBN-figure` where a triangle is mapped onto the normal map using texture co-ordinates $\mathsf{(u_0,v_0)}$, $\mathsf{(u_1,v_1)}$ and $\mathsf{(u_2,v_2)}$. If the vectors $\mathsf{T}$ and $\mathsf{B}$ point in the co-ordinate directions of the normal map then the vectors $\mathsf{E_1}$ and $\mathsf{E_2}$ can be calculated using
+Consider {numref}`TBN-figure` where a triangle is mapped onto the normal map using texture co-ordinates $\mathsf{(u_0,v_0)}$, $\mathsf{(u_1,v_1)}$ and $\mathsf{(u_2,v_2)}$. If the vectors $\mathsf{T}$ and $\mathsf{B}$ point in the co-ordinate directions of the normal map then the tangle space positions along the triangle edges $\mathsf{E_1}$ and $\mathsf{E_2}$ can be calculated using
 
 $$\begin{align*}
     \mathsf{E_1} &= \mathsf{\Delta u_1 \cdot T + \Delta v_1 \cdot B}, \\
     \mathsf{E_2} &= \mathsf{\Delta u_2 \cdot T + \Delta v_2 \cdot B},
 \end{align*}$$
 
-where $\mathsf{\Delta u_1 = u_1 - u_0}$, $\mathsf{\Delta v_1 = v_1 - v_0}$, $\mathsf{U_2 = u_2 - u_1}$ and $\mathsf{\Delta v_2 = v_2 - v_1}$. We can write this using matrices
+where $\mathsf{\Delta u_1 = u_1 - u_0}$, $\mathsf{\Delta v_1 = v_1 - v_0}$, $\mathsf{\Delta u_2 = u_2 - u_1}$ and $\mathsf{\Delta v_2 = v_2 - v_1}$. We can express this using matrices
 
 $$ \begin{align*}
     \begin{pmatrix} \mathsf{E_1} \\ \mathsf{E_2} \end{pmatrix} &=
@@ -117,7 +119,7 @@ $$ \begin{align*}
     \begin{pmatrix} \mathsf{T} \\ \mathsf{B} \end{pmatrix}.
 \end{align*} $$
 
-We want to calculate $\mathsf{T}$ and $\mathsf{B}$ and we know the values of $\mathsf{E_1}$ and $\mathsf{E_2}$. Using the [matrix inverse](inverse-matrix-section) we can rearrange this equation
+We want to calculate $\mathsf{T}$ and $\mathsf{B}$ and we know the values of $\mathsf{E_1}$, $\mathsf{E_2}$, $\mathsf{\Delta u_1}$, $\mathsf{\Delta v_1}$, $\mathsf{\Delta u_2}$ and $\mathsf{\Delta v_2}$. Using the [inverse](inverse-matrix-section) of the square matrix we can rewrite this equation as
 
 $$ \begin{align*}
     \begin{pmatrix} \mathsf{T} \\ \mathsf{B} \end{pmatrix} &=
@@ -143,7 +145,7 @@ $$ \begin{align*}
 \end{align*} $$
 ````
 
-Once we have the tangent, bitangent and normal vectors we can form a matrix that transforms from an arbitrary co-ordinate system to the tangent space. The matrix that achieves this a 3 $\times$ 3 matrix known as the **TBN matrix** (we don't need a 4 $\times$ 4 matrix since we don't need to perform translation)
+Once we have the tangent, bitangent and normal vectors we can form a matrix that transforms from an arbitrary co-ordinate system to the tangent space. The matrix that achieves this a 3 $\times$ 3 matrix known as the **TBN matrix** (we don't need a 4 $\times$ 4 matrix since we don't need to perform a translation)
 
 $$ \begin{align*}
     \textsf{TBN} &= 
@@ -158,7 +160,7 @@ However, we will be performing our lighting calculations in the tangent space so
 
 ### Calculating the tangent and bitangent vectors
 
-All of the lighting calculations are performed by the shaders so we calculate the tangent and bitangent vectors in our C++ program and pass them to the vertex shader using uniforms. The model class contains all of the attributes for a model so we create two vectors that will contain the tangents and bitangents for each of the vertices of the model. In `model.hpp` add the following code after `public:`.
+All of the lighting calculations are performed by the shaders so we calculate the tangent and bitangent vectors in our C++ program and pass them to the vertex shader using uniforms. The model class contains all of the attributes for a model so we create two vectors that will contain the tangents and bitangents for each of the vertices of the model. In `model.hpp` add the following code after we have declared a vector array for the normals.
 
 ```cpp
 std::vector<glm::vec3> tangents;
@@ -258,7 +260,7 @@ layout(location = 4) in vec3 bitangent;
 We need to transform the fragment position, light position and direction vector to the tangent space and to do so we calculate the TBN matrix. After the (u,v) co-ordinates have been outputted add the following code.
 
 ```cpp
-// Calculate the TBN matrix that transforms view space to tangent space
+// Calculate the TBN matrix that transforms model space to tangent space
 mat3 normalMatrix = transpose(inverse(mat3(view * model)));
 vec3 T = normalize(normalMatrix * tangent);
 vec3 B = normalize(normalMatrix * bitangent);
@@ -269,17 +271,18 @@ mat3 TBN = transpose(mat3(T, B, N));
 Here we transform the tangent, bitangent and normal vectors to the view space using the matrix from equation {eq}`view-space-normal-equation` which are then used to calculate the TBN matrix. Remember that by transposing the TBN matrix we are calculating its inverse so here the TBN matrix will transform from the view space to the tangent space.
 
 ```{note}
-Some people transform the vectors to the world space instead of the view space, however, this means that we need to also calculate the tangent space position of the camera for the eye vector calculation in the fragment shader. This means we have an additional uniform and vector calculations. Since the camera position in the view space is (0,0,0) then it is also (0,0,0) in the tangent space so we don't need to worry about this.
+Some people transform the vectors to the world space instead of the view space, however, this means that we need to also calculate the tangent space position of the camera for the eye vector calculation in the fragment shader. Doing this would mean we have additional uniforms and vector calculations. Since the camera position in the view space is (0,0,0) then it is also (0,0,0) in the tangent space so by transforming the vectors to the view space we don't need to worry about this.
 ```
 
-All that remains for us to do to the vertex shader is to calculate the tangent space fragment position, light position and direction vector using the TBN matrix.
+All that remains for us to do to the vertex shader is to calculate the tangent space fragment position, light position and direction vector using the TBN matrix. Replace the code used to calculate the view space vectors with the following code.
 
 ```cpp
 // Output tangent space fragment position
 fragmentPosition = TBN * vec3(view * model * vec4(position, 1.0));
 
 // Output tangent space light positions and directions
-for (int i = 0; i < numPoint + numSpot + numDir; i++){
+for (int i = 0; i < numPoint + numSpot + numDir; i++)
+{
     lightPositions[i] = TBN * vec3(view * vec4(lights[i].position, 1.0));
     lightDirections[i] = TBN * vec3(view * vec4(lights[i].direction, 0.0));
 }
@@ -287,7 +290,7 @@ for (int i = 0; i < numPoint + numSpot + numDir; i++){
 
 ### Fragment shader
 
-Now that we have transformed the vectors to the tangent space in the vertex shader we need to make a few changes to the fragment shader. The beauty of the tangent space is that it is orthogonal (T, B and N vectors are at right angles) so we don't need to change any of our lighting calculations. This means we only need to make 2 changes to the fragment shader. Create a new shader file called `normalMapFragmentShader.frag` in the `source/` folder and copy in the contents of the `fragmentShader.frag` file.
+Now that we have transformed the vectors to the tangent space in the vertex shader we need to make a few changes to the fragment shader. The beauty of the tangent space is that it is orthogonal (T, B and N vectors are at right angles) so we don't need to change any of our lighting calculations. This means we only need to make two changes to the fragment shader. Create a new shader file called `normalMapFragmentShader.frag` in the `source/` folder and copy in the contents of the `fragmentShader.frag` file.
 
 We have an addition texture for the normal map so we use a sampler uniform to send this to the shader. Add the following where we declared the diffuse map uniform.
 
@@ -297,7 +300,7 @@ uniform sampler2D normalMap;
 
 Within the main function we obtain the normal vector from the normal map. Since the values in a texture are between 0 and 1 and we need the values of a normal vector to be between -1 and 1 we scale using the following
 
-$$ \mathsf{normal} = \mathsf{normalise}(2 * \textsf{textel colour} - 1). $$ 
+$$ \mathsf{normal} = \mathsf{normalise}(2 * \textsf{textel colour} - 1). $$
 
 So change the `normal` calculation to the following.
 
@@ -312,12 +315,12 @@ We only have a couple of things we need to add to the `main.cpp` file. First tel
 GLuint shaderID = LoadShaders("normalMapVertexShader.vert", "normalMapFragmentShader.frag");
 ```
 
-Then add the normal map texture to the cube object.
+Then add the normal map texture to the `teapot` object.
 
 ```cpp
-// Add textures to cube object
-cube.addTexture("../objects/blue.bmp", "diffuse");
-cube.addTexture("../objects/diamond.png", "normal");
+// Add textures to teapot object
+teapot.addTexture("../objects/blue_diffuse.bmp", "diffuse");
+teapot.addTexture("../objects/diamond_normal.png", "normal");
 ```
 
 Compile and run the program and you should see the following.
@@ -326,7 +329,7 @@ Compile and run the program and you should see the following.
 :width: 500
 :name: 09-normal-map-figure
 
-Normal map applied to a cube object.
+Normal map applied to teapot objects.
 ```
 
 The surfaces of the teapots which are smooth now have the appearance of bumpy diamond plate simply by getting the normal vectors from a texture and performing the lighting calculations in the tangent space. {numref}`09-normal-map-closeup-figure` shows a closeup of the surface so we can see the detail.
@@ -335,10 +338,10 @@ The surfaces of the teapots which are smooth now have the appearance of bumpy di
 :width: 500
 :name: 09-normal-map-closeup-figure
 
-Close up of the normal map applied to a cube object.
+Close up of the normal map applied to teapot objects.
 ```
 
-## Re-orthogonising the tangent space vectors
+## Re-orthogonalising the tangent space vectors
 
 When a vertex is shared by multiple triangles the normal vector for the vertex will be calculated as an average of the normal vectors for the triangles ({numref}`averaged-normal-figure`). This helps to create an appearance of a smooth surface where the edges of the triangles are hidden.
 
@@ -349,7 +352,7 @@ When a vertex is shared by multiple triangles the normal vector for the vertex w
 The vertex normal is the average of the normal of the triangles sharing that vertex. 
 ```
 
-A problem with this is that by changing the normal vector it means that the the normal, tangent and bitangents vectors will no longer be orthogonal to each other. We can get around this problem by **re-orthogonalising** the three vectors by pushing the tangent vector a bit so that it is orthongonal to the normal vector. 
+A problem with this is that when a normal map is used the normal vectors at the vertices are not perpendicular to the triangle so calculating the tangents and bitangents using equation {eq}{TB-equation} will not give an orthogonal set of vectors. We can get around this problem by **re-orthogonalising** the three vectors by adjusting the tangent vector a bit so that it is orthongonal to the normal vector.
 
 ```{figure} ../images/09_reorthogonalise_T.svg
 :width: 300
@@ -374,9 +377,17 @@ mat3 TBN = transpose(mat3(T, B, N));
 
 You may notice that here we have calculated the bitangent in the vertex shader using normal and tangent vectors without needed to access the bitangent buffer. To save on memory you could remove the `bitangents` buffer from the Model class since we don't need these anymore.
 
+
+```{figure} ../images/09_normal_map_orthogonalised.png
+:width: 500
+:name: 09-normal-map-orthogonalised-figure
+
+A normal map with orthogonalised tangent and bitangent vectors.
+```
+
 ## Specular maps
 
-In addition to diffuse (texture) and normal maps we can also apply a **specular** map which can be used to control the specular highlights across a surface. Lets say we want to add a stone floor to our scene. We can add a horizontal polygon object for a the floor and use a texture map {numref}`stones-diffuse-map-figure` to give the impression of stones and a normal map {numref}`stones-normal-map-figure` so that the stones are lit properly. This would work fine but parts of the diffuse texture which wouldn't have specular highlights in real life, for example the mortar between the stones, would appear shiny. 
+In addition to diffuse (texture) and normal maps we can also apply a **specular map** which can be used to control the specular highlights across a surface. Lets say we want to add a stone floor to our scene. We can add a horizontal polygon object for the floor and use a texture map {numref}`stones-diffuse-map-figure` to give the impression of stones and a normal map {numref}`stones-normal-map-figure` so that the stones are lit by the light sources.
 
 `````{grid}
 
@@ -405,8 +416,6 @@ Specular map
 ````
 `````
 
-To overcome this we could use the **specular map** from {numref}`stones-specular-map-figure`. This is a texture that controls which parts of the diffuse texture has specular reflection applied where the dark regions, i.e., those with RGB colour values close to zero, reduce the specular colour.
-
 To apply our stone floor we are going to have a different object than our old friend the teapot. We will also want to add multiple different objects in the future so it we are going to use a data structure to contain the world space position, rotation and scaling of our objects and then store this in a vector. Add the following code to the `main.cpp` file before the `main()` function.
 
 ```cpp
@@ -421,7 +430,7 @@ struct Object
 };
 ```
 
-When we create an `Object` data structure the objects will have a default position at (0,0,0) and the rotation and scale are unchanged (we can change this later). Load the `floor` model and give it diffuse, normal and specular textures where we load the `teapot` and `lightModel` models.
+When we create an `Object` data structure the objects will have a default position at (0,0,0) and the rotation and scale are unchanged (we can change this later). Load the `floor` model and give it diffuse and normal textures where we load the `teapot` and `lightModel` models.
 
 ```cpp
 // Load models
@@ -434,7 +443,6 @@ teapot.addTexture("../objects/blue_diffuse.bmp", "diffuse");
 teapot.addTexture("../objects/diamond_normal.png", "normal");
 floor.addTexture("../objects/stones_diffuse.png", "diffuse");
 floor.addTexture("../objects/stones_normal.png", "normal");
-floor.addTexture("../objects/stones_specular.png", "specular");
 ```
 
 We are going to create a vector to contain the difference objects. Add the following code after we have added the textures to the models.
@@ -466,10 +474,10 @@ for (unsigned int i = 0; i < objects.size(); i++)
     glUniformMatrix4fv(glGetUniformLocation(shaderID, "model"), 1, GL_FALSE, &model[0][0]);
     
     // Send material properties to the shader
-    glUniform1f(glGetUniformLocation(shaderID, "ka"), teapot.ka);
-    glUniform1f(glGetUniformLocation(shaderID, "kd"), teapot.kd);
-    glUniform1f(glGetUniformLocation(shaderID, "ks"), teapot.ks);
-    glUniform1f(glGetUniformLocation(shaderID, "Ns"), teapot.Ns);
+    glUniform1f(glGetUniformLocation(shaderID, "ka"), objects[i].ka);
+    glUniform1f(glGetUniformLocation(shaderID, "kd"), objects[i].kd);
+    glUniform1f(glGetUniformLocation(shaderID, "ks"), objects[i].ks);
+    glUniform1f(glGetUniformLocation(shaderID, "Ns"), objects[i].Ns);
     
     // Draw the model
     if (objects[i].name == "floor")
@@ -488,19 +496,27 @@ Compile and run the program and you should see a scene resembling the following.
 Stone floor with no specular map applied.
 ```
 
-Move the camera around the floor and note how the mortar between the stones have specular highlights (an example of this can be seen in the bottom left-hand corner of {numref}`stone-floor-no-specular-figure`). To apply the specular map we added to the `floor` object we need to make minor changes to the fragment shader. First, declare a sampler uniform for the specular map where we did the same for the diffuse and normal maps (the Model class method `draw()` sends the specular map to shader).
+Move the camera around the floor and note how the mortar between the stones have specular highlights (an example of this can be seen in the bottom left-hand corner of {numref}`stone-floor-no-specular-figure`). This isn't very realistic as in real life mortar is rough and does not appear shiny. To overcome this we can apply a specular map to switch off the specular highlights for certain fragments.
+
+To apply the specular map we added to the `floor` object we first need to add a specular map to the `floor` model. Where we added the diffuse and normal maps add a specular map using the following code
+
+```cpp
+floor.addTexture("../objects/stones_specular.png", "specular");
+```
+
+We now need to make minor changes to the fragment shader. First, declare a sampler uniform for the specular map near to where we did the same for the diffuse and normal maps.
 
 ```cpp
 uniform sampler2D specularMap;
 ```
 
-Then, whenever we calculate the specular lighting multiply the colour of the textel from the specular map.
+Then, whenever we calculate the specular lighting in the `calculatePointLight()`, `calculateSpotlight()` and `calculateDirectionalLight)(` functions multiply by the colour of the textel from the specular map.
 
 ```cpp
 vec3 specular = ks * light.colour * pow(cosAlpha, Ns) * texture(specularMap, UV).rgb;
 ```
 
-Compile and run the program and now you will notice that the mortar between the stones no long have specular highlights. Result!
+Compile and run the program and now you will notice that the mortar between the stones no longer have specular highlights.
 
 ```{figure} ../images/09_floor_specular.png
 :width: 500
@@ -508,3 +524,15 @@ Compile and run the program and now you will notice that the mortar between the 
 
 Stone floor with specular map applied.
 ```
+
+### Neutral maps
+
+We may not always want to apply a normal map or specular map to an object. Rather than writing a fragment shader for each case we can apply **neutral maps** which is a texture that when normal and specular mapping is applied it has no affect. Since the normal vector is calculated using
+
+$$ \mathsf{normal} = \mathsf{normalise}(2.0 * \textsf{textel colour} - 1.0), $$
+
+then if the normal maps has pixels with the RGB colour code (0.5, 0.5, 1) then all fragments will have a normal vector of (0, 0, 1) which is perpendicular to the surface.
+
+A neutral specular map is simply a texture with all white pixels that have the RGB colour code (1, 1, 1) so multiplying this by the specular colour has no affect.
+
+The neutral maps for normal and specular mapping are contained in the `neutral_normal.png` and `neutral_specular.png` files in the `objects/` folder and are applied to a model when it is created. When we use the `addTexture()` Model class method the neutral maps are replaced.
