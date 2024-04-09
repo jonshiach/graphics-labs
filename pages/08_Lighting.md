@@ -99,9 +99,9 @@ f 5/12/6 1/3/6 2/9/6
 
 The vertex and face data is given in lines with the following abbreviations:
 
-- `v` - the (x, y, z) co-ordinates of a vertex
-- `vn` - the (nx, ny, nz) normal vector for the vertex
-- `vt` - the (u, v) texture co-ordinates
+- `v` - the $\mathsf{(x, y, z)}$ co-ordinates of a vertex
+- `vn` - the $\mathsf{(n_x, n_y, n_z)}$ normal vector for the vertex
+- `vt` - the $\mathsf{(u, v)}$ texture co-ordinates
 - `f` - indices of the vertices of a face. Each face is defined by 3 vertices so we have 3 sets of 3 values. The face vertices are of the form `v/vt/vn` so `3/2/1` refers to a vertex where the co-ordinates are given by the 3rd `v` line, the texture co-ordinates are given by the 2nd `vt` line and the normal vector is given by the 1st `vn` line.
 
 ```{note}

@@ -1,7 +1,7 @@
 (vectors-and-matrices-section)=
 
 # Vectors and Matrices
-
+ 
 Computer graphics relies heavily on mathematics of vectors and matrices. In this lab we will be revising these and show how we can perform calculations in C++.
 
 ## Vectors
@@ -10,7 +10,7 @@ A vector in is an object with magnitude (length) and direction. A vector is deno
 
 $$ \underline{a} = (a_x, a_y, a_z), $$
 
-where $a_x$, $a_y$ and $a_z$ are the lengths of the vector in the $x$, $y$ and $z$ directions.
+where $a_x$, $a_y$ and $a_z$ are the lengths of the vector in the x, y, and z directions.
 
 ```{figure} ../images/04_vector.svg
 :height: 250

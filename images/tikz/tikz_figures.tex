@@ -1108,7 +1108,7 @@
 % 	\draw [vector,blue] (0,0) -- (\a3:\l);
 % \end{tikzpicture}
 
-% % Normal mapping
+% Normal mapping
 % \begin{tikzpicture}
 % 	\tikzmath{\l=9;\a1=90;\a2=110;\a3=90;\a4=70;\a5=90;\a6=110;\a7=90;\a8=70;\a9=90;};
 %     \draw [line width=2pt] (0, 0) -- ++(\l,0) node [pos=0.5,below] {surface normals};
@@ -1144,6 +1144,7 @@
 % 	\draw [vector,green,line width=2pt,opacity=1] (O) -- ++(\B:\l) node [above] {bitangent};
 % \end{tikzpicture}
 
+% T, B, N vectors
 % \begin{tikzpicture}
 % 	\tikzmath{\a1=20;\a2=150;\w=3;\h=3;}
 % 	\coordinate (1) at (\a1:\w);
@@ -1156,78 +1157,78 @@
 % 	\draw [vector,blue,line width=2pt] (0,0) -- (85:3.2) node [right] {normal};
 % \end{tikzpicture}
 
-% \begin{tikzpicture}
-% 	\tikzmath{\a1=0;\a2=90;\l=5;\h=5;}
-% 	\coordinate (1) at (\a1:\l);
-% 	\coordinate (2) at ($(1)+(\a2:\h)$);
-% 	\coordinate (3) at (\a2:\h);
-% 	\coordinate (P1) at (2.5,1);
-% 	\coordinate (P2) at (4,4);
-% 	\coordinate (P3) at (1,3);
-% 	\texturedtriangle{(0,0)}{(1)}{(2)} {(0,0)}{(1,0)}{(1,1)} {diamond_plate.jpeg}
-% 	\texturedtriangle{(0,0)}{(2)}{(3)} {(0,0)}{(1,1)}{(0,1)} {diamond_plate.jpeg}
-% 	\draw [vector,red] (0,0) -- (\a1:\l) node [right] {T};
-% 	\draw [vector,green] (0,0) -- (\a2:\h) node [left] {B};;
-% 	\draw [line width=1pt] (P1) -- (P2) -- (P3) -- cycle;
-% 	\node [below] at (P1) {$\mathsf{(u_0, v_0)}$}; 
-% 	\node [above] at (P2) {$\mathsf{(u_1, v_1)}$}; 
-% 	\node [above,xshift=-0.25cm] at (P3) {$\mathsf{(u_2, v_2)}$}; 
-% 	\draw [<->] ($(0:1)+(90:-0.25)$) -- ++(\a1:0.5*\l-1) node [pos=0.5,below] {$\mathsf{\Delta u_1}$};
-% 	\draw [<->] ($(\a2:-0.25)+(\a1:0.5*\l)$) -- ++(1.5,0) node [pos=0.5,below] {$\mathsf{\Delta u_2}$};
-% 	\draw [<->] ($(\a2:0.2*\h)+(\a1:-0.25)$) -- ++(\a2:2) node [pos=0.5,left] {$\mathsf{\Delta v_1}$};
-% 	\draw [<->] ($(\a1:5.25)+(\a2:1)$) -- ++(\a2:3) node [pos=0.5,right] {$\mathsf{\Delta v_2}$};
-% 	\draw [vector] (P1) -- (P2) node [pos=0.5,below right] {$\mathsf{E}_1$};
-% 	\draw [vector] (P2) -- (P3) node [pos=0.5,above] {$\mathsf{E}_2$};
-% 	\node at (2.5,-1) {tangent space};
+\begin{tikzpicture}
+	\tikzmath{\a1=0;\a2=90;\l=5;\h=5;}
+	\coordinate (1) at (\a1:\l);
+	\coordinate (2) at ($(1)+(\a2:\h)$);
+	\coordinate (3) at (\a2:\h);
+	\coordinate (P1) at (2.5,1);
+	\coordinate (P2) at (4,4);
+	\coordinate (P3) at (1,3);
+	\texturedtriangle{(0,0)}{(1)}{(2)} {(0,0)}{(1,0)}{(1,1)} {diamond_plate.jpeg}
+	\texturedtriangle{(0,0)}{(2)}{(3)} {(0,0)}{(1,1)}{(0,1)} {diamond_plate.jpeg}
+	\draw [vector,red] (0,0) -- (\a1:\l) node [right] {T};
+	\draw [vector,green] (0,0) -- (\a2:\h) node [left] {B};;
+	\draw [line width=1pt] (P1) -- (P2) -- (P3) -- cycle;
+	\node [below] at (P1) {$\mathsf{(u_0, v_0)}$}; 
+	\node [above] at (P2) {$\mathsf{(u_1, v_1)}$}; 
+	\node [above,xshift=-0.25cm] at (P3) {$\mathsf{(u_2, v_2)}$}; 
+	\draw [<->] ($(0:1)+(90:-0.25)$) -- ++(\a1:0.5*\l-1) node [pos=0.5,below] {$\mathsf{\Delta u_1}$};
+	\draw [<->] ($(\a2:-0.25)+(\a1:0.5*\l)$) -- ++(1.5,0) node [pos=0.5,below] {$\mathsf{\Delta u_2}$};
+	\draw [<->] ($(\a2:0.2*\h)+(\a1:-0.25)$) -- ++(\a2:2) node [pos=0.5,left] {$\mathsf{\Delta v_1}$};
+	\draw [<->] ($(\a1:5.25)+(\a2:1)$) -- ++(\a2:3) node [pos=0.5,right] {$\mathsf{\Delta v_2}$};
+	\draw [vector] (P1) -- (P2) node [pos=0.5,below right] {$\mathsf{E}_1$};
+	\draw [vector] (P2) -- (P3) node [pos=0.5,above] {$\mathsf{E}_2$};
+	\node at (2.5,-1) {tangent space};
 
-% 	\coordinate (O) at (7,0);
-% 	\draw [xaxis] (O) -- ++(5,0) node [right] {$\mathsf{x}$};
-% 	\draw [yaxis] (O) -- ++(0,5) node [above] {$\mathsf{y}$};
-% 	\draw [line width=1pt] ($(O)+(1,1)$) coordinate (1) -- ++(3,1) coordinate (2) -- ++(-2,2) coordinate(3) -- cycle;
-% 	\node [below] at (1) {$\mathsf{(x_0,y_0,z_0)}$};
-% 	\node [below right] at (2) {$\mathsf{(x_1,y_1,z_1)}$};
-% 	\node [above] at (3) {$\mathsf{(x_2,y_2,z_2)}$};
-% 	\draw [vector] (1) -- (2) node [pos=0.5,below right] {$\mathsf{E}_1$};
-% 	\draw [vector] (2) -- (3) node [pos=0.5,above right] {$\mathsf{E}_2$};
-% 	\node at (9.5,-1) {model space};
-% \end{tikzpicture}
+	\coordinate (O) at (7,0);
+	\draw [xaxis] (O) -- ++(5,0) node [right] {$\mathsf{x}$};
+	\draw [yaxis] (O) -- ++(0,5) node [above] {$\mathsf{y}$};
+	\draw [line width=1pt] ($(O)+(1,1)$) coordinate (1) -- ++(3,1) coordinate (2) -- ++(-2,2) coordinate(3) -- cycle;
+	\node [below] at (1) {$\mathsf{(x_0,y_0,z_0)}$};
+	\node [below right] at (2) {$\mathsf{(x_1,y_1,z_1)}$};
+	\node [above] at (3) {$\mathsf{(x_2,y_2,z_2)}$};
+	% \draw [vector] (1) -- (2) node [pos=0.5,below right] {$\mathsf{E}_1$};
+	% \draw [vector] (2) -- (3) node [pos=0.5,above right] {$\mathsf{E}_2$};
+	\node at (9.5,-1) {model space};
+\end{tikzpicture}
 
 % Reorthogonising
-% \begin{tikzpicture}
-% 	\tikzmath{\r=150;\g=70;\b=30;}
-% 	\coordinate (0) at (0,0);
-% 	\coordinate (1) at (225:2);
-% 	\coordinate (2) at ($(1)+(315:2)$);
-% 	\coordinate (3) at (315:3);
-% 	\draw [line width=1pt,dashed] (1) -- (3);
-% 	\fill [red,opacity=0.25] (0) -- (1) -- (2);
-% 	\fill [blue,opacity=0.25] (0) -- (2) -- (3);
-% 	\draw [line width=1pt] (0) -- (1) -- (2) -- cycle (0) -- (3) -- (2);
-% 	\draw [vector,red] (0) -- ++(\r:1);
-% 	\draw [vector,red] (1) -- ++(\r:1);
-% 	\draw [vector,red] (2) -- ++(\r:1);
-% 	\draw [vector] (0) -- ++(\b:1);
-% 	\draw [vector] (2) -- ++(\b:1);
-% 	\draw [vector] (3) -- ++(\b:1);
-% 	\draw [vector,green] (0) -- ++(\g:0.75);
-% 	\draw [vector,green] (1) -- ++(\g:0.75);
-% 	\draw [vector,green] (3) -- ++(\g:0.75);
-% 	\draw [vector,red!50!green!50!blue] (0) -- ++(100:1.5) node [above] {averaged normal};
-% 	\node [text width=1.5cm,align=right] (normals) at (-2.5,1) {surface normals};
-% 	% \draw [->,shorten >= 4pt] (normals) to ($(0)+(\b:1)$);
-% 	\draw [->,shorten >= 4pt] (normals) to ($(0)+(\r:1)$);
-% 	\draw [->,shorten >= 4pt] (normals) to ($(1)+(\g:0.75)$);
-% 	\draw [->,shorten >= 4pt] (normals) to ($(1)+(\r:1)$);
-% \end{tikzpicture}
-
 \begin{tikzpicture}
-	\tikzmath{\N=20;\T=70;\l=3;}
-	\draw [vector] (0,0) -- ++(\N:4) node [right] {N};
-	\draw [vector,red] (0,0) -- ++(\T:\l) node [above] {T}; 
-	\draw [vector,red] (0,0) -- ++(\N+90:{\l*cos(\N+90-\T)}) node [left] {new T}; 
-	\draw [vector,black] (0,0) -- ++(\N:{\l*cos(\T-\N)}) node [pos=0.5,below,rotate=\N] {$\mathsf{(T \cdot N)N}$};
-	\draw [vector,black] (\T:\l) -- ++(\N:{-\l*cos(\T-\N)}) node [pos=0.5,above,rotate=\N] {$-\mathsf{(T \cdot N)N}$};
-	\draw (\N:0.2) -- ++(\N+90:0.2) -- ++(\N:-0.2);
+	\tikzmath{\r=150;\g=70;\b=30;}
+	\coordinate (0) at (0,0);
+	\coordinate (1) at (225:2);
+	\coordinate (2) at ($(1)+(315:2)$);
+	\coordinate (3) at (315:3);
+	\draw [line width=1pt,dashed] (1) -- (3);
+	\fill [red,opacity=0.25] (0) -- (1) -- (2);
+	\fill [blue,opacity=0.25] (0) -- (2) -- (3);
+	\draw [line width=1pt] (0) -- (1) -- (2) -- cycle (0) -- (3) -- (2);
+	\draw [vector,red] (0) -- ++(\r:1);
+	\draw [vector,red] (1) -- ++(\r:1);
+	\draw [vector,red] (2) -- ++(\r:1);
+	\draw [vector] (0) -- ++(\b:1);
+	\draw [vector] (2) -- ++(\b:1);
+	\draw [vector] (3) -- ++(\b:1);
+	\draw [vector,green] (0) -- ++(\g:0.75);
+	\draw [vector,green] (1) -- ++(\g:0.75);
+	\draw [vector,green] (3) -- ++(\g:0.75);
+	\draw [vector,red!50!green!50!blue] (0) -- ++(100:1.5) node [above] {averaged normal};
+	\node [text width=1.5cm,align=right] (normals) at (-2.5,1) {surface normals};
+	% \draw [->,shorten >= 4pt] (normals) to ($(0)+(\b:1)$);
+	\draw [->,shorten >= 4pt] (normals) to ($(0)+(\r:1)$);
+	\draw [->,shorten >= 4pt] (normals) to ($(1)+(\g:0.75)$);
+	\draw [->,shorten >= 4pt] (normals) to ($(1)+(\r:1)$);
 \end{tikzpicture}
+
+% \begin{tikzpicture}
+% 	\tikzmath{\N=20;\T=70;\l=3;}
+% 	\draw [vector] (0,0) -- ++(\N:4) node [right] {N};
+% 	\draw [vector,red] (0,0) -- ++(\T:\l) node [above] {T}; 
+% 	\draw [vector,red] (0,0) -- ++(\N+90:{\l*cos(\N+90-\T)}) node [left] {new T}; 
+% 	\draw [vector,black] (0,0) -- ++(\N:{\l*cos(\T-\N)}) node [pos=0.5,below,rotate=\N] {$\mathsf{(T \cdot N)N}$};
+% 	\draw [vector,black] (\T:\l) -- ++(\N:{-\l*cos(\T-\N)}) node [pos=0.5,above,rotate=\N] {$-\mathsf{(T \cdot N)N}$};
+% 	\draw (\N:0.2) -- ++(\N+90:0.2) -- ++(\N:-0.2);
+% \end{tikzpicture}
 
 \end{document}
