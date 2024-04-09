@@ -376,6 +376,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">9.5. Exercises</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-code">9.6. Source code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#video-walkthrough">9.7. Video walkthrough</a></li>
 </ul>
             </nav>
         </div>
@@ -396,9 +397,9 @@ document.write(`
 <p><span class="caption-number">Fig. 9.1 </span><span class="caption-text">Normal mapping applies a texture of normals for each fragment giving the appearance of a non-flat surface.</span><a class="headerlink" href="#id2" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>A <strong>normal map</strong> is a texture where the RGB colour values of each textel is used for the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> values of a normal vector (<a class="reference internal" href="#normal-map-figure"><span class="std std-numref">Fig. 9.2</span></a>). Since the OpenGL co-ordinate system has the <span class="math notranslate nohighlight">\(z\)</span>-axis pointing out from the screen the colour of a normal map is mainly blue.</p>
+<p>A <strong>normal map</strong> is a texture where the RGB colour values of each textel is used for the x, y and z values of a normal vector (<a class="reference internal" href="#normal-map-figure"><span class="std std-numref">Fig. 9.2</span></a>). Since the OpenGL co-ordinate system has the z axis pointing out from the screen the colour of a normal map is mainly blue.</p>
 <figure class="align-default" id="normal-map-figure">
-<a class="reference internal image-reference" href="../_images/09_normal_map.svg"><img alt="../_images/09_normal_map.svg" src="../_images/09_normal_map.svg" width="200" /></a>
+<a class="reference internal image-reference" href="../_images/09_normal_map.svg"><img alt="../_images/09_normal_map.svg" src="../_images/09_normal_map.svg" width="300" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 9.2 </span><span class="caption-text">The RBG values of a normal map give the values of the normal vectors.</span><a class="headerlink" href="#normal-map-figure" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -425,6 +426,7 @@ document.write(`
 <li><p><code class="docutils literal notranslate"><span class="pre">draw()</span></code> - draws the light source</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">reorder()</span></code> - a private member function that reorders the <code class="docutils literal notranslate"><span class="pre">lights</span></code> vector so that all the point light sources come first, followed by the spotlight sources and then the directional light sources. This means we can avoid if statements in our shader files (this slows down the shaders significantly).</p></li>
 </ul>
+<hr class="docutils" />
 <section id="tangent-space">
 <h2><span class="section-number">9.1. </span>Tangent space<a class="headerlink" href="#tangent-space" title="Permalink to this heading">#</a></h2>
 <p>We have already seen in <a class="reference internal" href="06_3D_worlds.html#d-worlds-section"><span class="std std-ref">Lab 6 3D worlds</span></a> that we can use transformations to map co-ordinates and vectors between the model, view and screen spaces. To apply normal mapping we need to perform our lighting calculations in a new space called the <strong>tangent space</strong>. The tangent space is a 3D space where vectors are defined in terms of three vectors: <strong>tangent</strong>, <strong>bitangent</strong> and <strong>normal</strong> vectors (<a class="reference internal" href="#bitangent-vector-figure"><span class="std std-numref">Fig. 9.3</span></a>).</p>
@@ -435,9 +437,9 @@ document.write(`
 </figcaption>
 </figure>
 <ul class="simple">
-<li><p>Normal vector - we have already met the normal vector which is a vector perpendicular to the surface</p></li>
-<li><p>Tangent vector - this is a vector that points along the surface so is perpendicular to the normal vector</p></li>
-<li><p>Bitangent vector - this is a vector that is perpendicular to both the normal and tangent vectors</p></li>
+<li><p><strong>Normal vector</strong> - we have already met the normal vector which is a vector perpendicular to the surface</p></li>
+<li><p><strong>Tangent vector</strong> - this is a vector that points along the surface so is perpendicular to the normal vector</p></li>
+<li><p><strong>Bitangent vector</strong> - this is a vector that is perpendicular to both the normal and tangent vectors</p></li>
 </ul>
 <p>There are an infinite number of vectors on a plane that is perpendicular to the normal vector so we have a choice for the tangent and bitangent vectors. A natural choice is to use vectors that point along the edges of the normal map, we know these are perpendicular and this also means we are consistent for neighbouring triangles.</p>
 <figure class="align-default" id="tangent-space-figure">
@@ -605,6 +607,7 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <p>These are essentially the same as what we’ve done previously for the vertices, texture co-ordinates and normal vectors. Note that the tangent and bitangent buffers are bound to attributes 3 and 4 respectively.</p>
 </section>
 </section>
+<hr class="docutils" />
 <section id="shaders">
 <h2><span class="section-number">9.2. </span>Shaders<a class="headerlink" href="#shaders" title="Permalink to this heading">#</a></h2>
 <section id="vertex-shader">
@@ -687,16 +690,17 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 </figure>
 </section>
 </section>
+<hr class="docutils" />
 <section id="re-orthogonalising-the-tangent-space-vectors">
 <h2><span class="section-number">9.3. </span>Re-orthogonalising the tangent space vectors<a class="headerlink" href="#re-orthogonalising-the-tangent-space-vectors" title="Permalink to this heading">#</a></h2>
 <p>When a vertex is shared by multiple triangles the normal vector for the vertex will be calculated as an average of the normal vectors for the triangles (<a class="reference internal" href="#averaged-normal-figure"><span class="std std-numref">Fig. 9.8</span></a>). This helps to create an appearance of a smooth surface where the edges of the triangles are hidden.</p>
 <figure class="align-default" id="averaged-normal-figure">
-<a class="reference internal image-reference" href="../_images/09_averaged_normal.svg"><img alt="../_images/09_averaged_normal.svg" src="../_images/09_averaged_normal.svg" width="300" /></a>
+<a class="reference internal image-reference" href="../_images/09_averaged_normal.svg"><img alt="../_images/09_averaged_normal.svg" src="../_images/09_averaged_normal.svg" width="350" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 9.8 </span><span class="caption-text">The vertex normal is the average of the normal of the triangles sharing that vertex.</span><a class="headerlink" href="#averaged-normal-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>A problem with this is that when a normal map is used the normal vectors at the vertices are not perpendicular to the triangle so calculating the tangents and bitangents using equation {eq}{TB-equation} will not give an orthogonal set of vectors. We can get around this problem by <strong>re-orthogonalising</strong> the three vectors by adjusting the tangent vector a bit so that it is orthongonal to the normal vector.</p>
+<p>A problem with this is that when a normal map is used the normal vectors at the vertices are not perpendicular to the triangle so calculating the tangents and bitangents using equation <a class="reference internal" href="#equation-tb-equation">(9.1)</a> will not give an orthogonal set of vectors. We can get around this problem by <strong>re-orthogonalising</strong> the three vectors by adjusting the tangent vector a bit so that it is orthongonal to the normal vector.</p>
 <figure class="align-default" id="reorthogonalise-t-figure">
 <a class="reference internal image-reference" href="../_images/09_reorthogonalise_T.svg"><img alt="../_images/09_reorthogonalise_T.svg" src="../_images/09_reorthogonalise_T.svg" width="300" /></a>
 <figcaption>
@@ -721,7 +725,9 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <p><span class="caption-number">Fig. 9.10 </span><span class="caption-text">A normal map with orthogonalised tangent and bitangent vectors.</span><a class="headerlink" href="#normal-map-orthogonalised-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
+<p>If you are having difficulty getting to this stage check out the source code files <a class="reference download internal" download="" href="../_downloads/72bf47163a4b8e405b3323433fa85c6a/Lab09_Normal_maps.cpp"><span class="xref download myst">Lab09_Normal_maps</span></a> and the shader files <a class="reference download internal" download="" href="../_downloads/cca81edca506589a84ac5edc0f58c661/normalMapVertexShader.vert"><span class="xref download myst">normalMapVertexShader.vert</span></a> and <a class="reference download internal" download="" href="../_downloads/5734ddff33bf8982478f17766bbdb1b0/normalMapFragmentShader.frag"><span class="xref download myst">normalMapFragmentShader.frag</span></a>.</p>
 </section>
+<hr class="docutils" />
 <section id="specular-maps">
 <h2><span class="section-number">9.4. </span>Specular maps<a class="headerlink" href="#specular-maps" title="Permalink to this heading">#</a></h2>
 <p>In addition to diffuse (texture) and normal maps we can also apply a <strong>specular map</strong> which can be used to control the specular highlights across a surface. Lets say we want to add a stone floor to our scene. We can add a horizontal polygon object for the floor and use a texture map <a class="reference internal" href="#stones-diffuse-map-figure"><span class="std std-numref">Fig. 9.11</span></a> to give the impression of stones and a normal map <a class="reference internal" href="#stones-normal-map-figure"><span class="std std-numref">Fig. 9.12</span></a> so that the stones are lit by the light sources.</p>
@@ -782,7 +788,7 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <span class="n">floor</span><span class="p">.</span><span class="n">addTexture</span><span class="p">(</span><span class="s">&quot;../objects/stones_normal.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;normal&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>We are going to create a vector to contain the difference objects. Add the following code after we have added the textures to the models.</p>
+<p>We are going to create a vector to contain the different objects. Add the following code after we have added the textures to the models.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define objects</span>
 <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">objects</span><span class="p">;</span>
 <span class="n">Object</span><span class="w"> </span><span class="n">object</span><span class="p">;</span>
@@ -858,6 +864,7 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <p>The neutral maps for normal and specular mapping are contained in the <code class="docutils literal notranslate"><span class="pre">neutral_normal.png</span></code> and <code class="docutils literal notranslate"><span class="pre">neutral_specular.png</span></code> files in the <code class="docutils literal notranslate"><span class="pre">objects/</span></code> folder and are applied to a model when it is created. When we use the <code class="docutils literal notranslate"><span class="pre">addTexture()</span></code> Model class method the neutral maps are replaced.</p>
 </section>
 </section>
+<hr class="docutils" />
 <section id="exercises">
 <h2><span class="section-number">9.5. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
 <ol class="arabic simple">
@@ -890,6 +897,11 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <li><p><a class="reference download internal" download="" href="../_downloads/030ddb3c6975df435aa22aff94d61c7e/main.cpp"><span class="xref download myst">main.cpp</span></a> - solutions to the exercises</p></li>
 </ul>
 </section>
+<hr class="docutils" />
+<section id="video-walkthrough">
+<h2><span class="section-number">9.7. </span>Video walkthrough<a class="headerlink" href="#video-walkthrough" title="Permalink to this heading">#</a></h2>
+<p>The video below walks you through these lab materials.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/TVsZjf1Gwu4?si=ezQkt9g-UwzWfnxM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -966,6 +978,7 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">9.5. Exercises</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-code">9.6. Source code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#video-walkthrough">9.7. Video walkthrough</a></li>
 </ul>
   </nav></div>
 

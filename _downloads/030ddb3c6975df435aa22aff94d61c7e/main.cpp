@@ -101,10 +101,6 @@ int main( void )
     floor.addTexture("../objects/stones_diffuse.png", "diffuse");
     floor.addTexture("../objects/stones_normal.png", "normal");
     floor.addTexture("../objects/stones_specular.png", "specular");
-    
-    wall.addTexture("../objects/bricks_diffuse.png", "diffuse");
-    wall.addTexture("../objects/bricks_normal.png", "normal");
-    wall.addTexture("../objects/bricks_specular.png", "specular");
                        
     // Define objects
     std::vector<Object> objects;
@@ -116,12 +112,21 @@ int main( void )
     object.position = glm::vec3(0.0f, -0.85f, 0.0f);
     objects.push_back(object);
     
+    // Exercise 1
     object.name = "wall";
     object.position = glm::vec3(0.0f, 4.0f, -2.0f);
     object.scale = glm::vec3(5.0f, 1.0f, 5.0f);
     object.rotation = glm::vec3(1.0f, 0.0f, 0.0f);
     object.angle = glm::radians(90.0f);
     objects.push_back(object);
+    
+    wall.addTexture("../objects/bricks_diffuse.png", "diffuse");
+    
+    // Exercise 2
+    wall.addTexture("../objects/bricks_normal.png", "normal");
+    
+    // Exercise 3
+    wall.addTexture("../objects/bricks_specular.png", "specular");
     
     // Define light colours
     glm::vec3 white = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -163,28 +168,6 @@ int main( void )
 
         // Send light source properties to the shader
         lightSources.toShader(shaderID);
-    
-//        // Loop through objects
-//        for (unsigned int i = 0; i < 10; i++)
-//        {
-//            // Calculate model matrix
-//            glm::mat4 translate = glm::translate(glm::mat4(1.0f), positions[i]);
-//            glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
-//            glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 30.0f * i, glm::vec3(1.0f));
-//            glm::mat4 model = translate * rotate * scale;
-//            
-//            // Send the model matrix to the shader
-//            glUniformMatrix4fv(glGetUniformLocation(shaderID, "model"), 1, GL_FALSE, &model[0][0]);
-//            
-//            // Send material properties to the shader
-//            glUniform1f(glGetUniformLocation(shaderID, "ka"), 0.2f);
-//            glUniform1f(glGetUniformLocation(shaderID, "kd"), 0.7f);
-//            glUniform1f(glGetUniformLocation(shaderID, "ks"), 1.0f);
-//            glUniform1f(glGetUniformLocation(shaderID, "Ns"), 20.0f);
-//            
-//            // Draw the object
-//            teapot.draw(shaderID);
-//        }
         
         // Loop through the objects
         for (unsigned int i = 0; i < objects.size(); i++)

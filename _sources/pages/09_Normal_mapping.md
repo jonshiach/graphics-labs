@@ -10,10 +10,10 @@ In [Lab 8 on lighting](lighting-section) we saw that the diffuse and specular re
 Normal mapping applies a texture of normals for each fragment giving the appearance of a non-flat surface.
 ```
 
-A **normal map** is a texture where the RGB colour values of each textel is used for the $x$, $y$ and $z$ values of a normal vector ({numref}`normal-map-figure`). Since the OpenGL co-ordinate system has the $z$-axis pointing out from the screen the colour of a normal map is mainly blue.
+A **normal map** is a texture where the RGB colour values of each textel is used for the x, y and z values of a normal vector ({numref}`normal-map-figure`). Since the OpenGL co-ordinate system has the z axis pointing out from the screen the colour of a normal map is mainly blue.
 
 ```{figure} ../images/09_normal_map.svg
-:width: 200
+:width: 300
 :name: normal-map-figure
 
 The RBG values of a normal map give the values of the normal vectors.
@@ -41,6 +41,7 @@ A Light class has been created to handle the light sources. Take a look at the `
 - `draw()` - draws the light source
 - `reorder()` - a private member function that reorders the `lights` vector so that all the point light sources come first, followed by the spotlight sources and then the directional light sources. This means we can avoid if statements in our shader files (this slows down the shaders significantly).
 
+---
 ## Tangent space
 
 We have already seen in [Lab 6 3D worlds](3D-worlds-section) that we can use transformations to map co-ordinates and vectors between the model, view and screen spaces. To apply normal mapping we need to perform our lighting calculations in a new space called the **tangent space**. The tangent space is a 3D space where vectors are defined in terms of three vectors: **tangent**, **bitangent** and **normal** vectors ({numref}`bitangent-vector-figure`).
@@ -52,9 +53,9 @@ We have already seen in [Lab 6 3D worlds](3D-worlds-section) that we can use tra
 Normal, tangent and the bitangent vectors.
 ```
 
-- Normal vector - we have already met the normal vector which is a vector perpendicular to the surface
-- Tangent vector - this is a vector that points along the surface so is perpendicular to the normal vector
-- Bitangent vector - this is a vector that is perpendicular to both the normal and tangent vectors
+- **Normal vector** - we have already met the normal vector which is a vector perpendicular to the surface
+- **Tangent vector** - this is a vector that points along the surface so is perpendicular to the normal vector
+- **Bitangent vector** - this is a vector that is perpendicular to both the normal and tangent vectors
 
 There are an infinite number of vectors on a plane that is perpendicular to the normal vector so we have a choice for the tangent and bitangent vectors. A natural choice is to use vectors that point along the edges of the normal map, we know these are perpendicular and this also means we are consistent for neighbouring triangles.
 
@@ -240,6 +241,7 @@ glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
 These are essentially the same as what we've done previously for the vertices, texture co-ordinates and normal vectors. Note that the tangent and bitangent buffers are bound to attributes 3 and 4 respectively.
 
+---
 ## Shaders
 
 ### Vertex shader
@@ -341,18 +343,19 @@ The surfaces of the teapots which are smooth now have the appearance of bumpy di
 Close up of the normal map applied to teapot objects.
 ```
 
+---
 ## Re-orthogonalising the tangent space vectors
 
 When a vertex is shared by multiple triangles the normal vector for the vertex will be calculated as an average of the normal vectors for the triangles ({numref}`averaged-normal-figure`). This helps to create an appearance of a smooth surface where the edges of the triangles are hidden.
 
 ```{figure} ../images/09_averaged_normal.svg
-:width: 300
+:width: 350
 :name: averaged-normal-figure
 
 The vertex normal is the average of the normal of the triangles sharing that vertex. 
 ```
 
-A problem with this is that when a normal map is used the normal vectors at the vertices are not perpendicular to the triangle so calculating the tangents and bitangents using equation {eq}{TB-equation} will not give an orthogonal set of vectors. We can get around this problem by **re-orthogonalising** the three vectors by adjusting the tangent vector a bit so that it is orthongonal to the normal vector.
+A problem with this is that when a normal map is used the normal vectors at the vertices are not perpendicular to the triangle so calculating the tangents and bitangents using equation {eq}`TB-equation` will not give an orthogonal set of vectors. We can get around this problem by **re-orthogonalising** the three vectors by adjusting the tangent vector a bit so that it is orthongonal to the normal vector.
 
 ```{figure} ../images/09_reorthogonalise_T.svg
 :width: 300
@@ -385,6 +388,9 @@ You may notice that here we have calculated the bitangent in the vertex shader u
 A normal map with orthogonalised tangent and bitangent vectors.
 ```
 
+If you are having difficulty getting to this stage check out the source code files [Lab09_Normal_maps](../code/Lab09_Normal_maps/Lab09_Normal_maps.cpp) and the shader files [normalMapVertexShader.vert](../code/Lab09_Normal_maps/normalMapVertexShader.vert) and [normalMapFragmentShader.frag](../code/Lab09_Normal_maps/normalMapFragmentShader.frag).
+
+---
 ## Specular maps
 
 In addition to diffuse (texture) and normal maps we can also apply a **specular map** which can be used to control the specular highlights across a surface. Lets say we want to add a stone floor to our scene. We can add a horizontal polygon object for the floor and use a texture map {numref}`stones-diffuse-map-figure` to give the impression of stones and a normal map {numref}`stones-normal-map-figure` so that the stones are lit by the light sources.
@@ -449,7 +455,7 @@ floor.addTexture("../objects/stones_diffuse.png", "diffuse");
 floor.addTexture("../objects/stones_normal.png", "normal");
 ```
 
-We are going to create a vector to contain the difference objects. Add the following code after we have added the textures to the models.
+We are going to create a vector to contain the different objects. Add the following code after we have added the textures to the models.
 
 ```cpp
 // Define objects
@@ -542,6 +548,7 @@ A neutral specular map is simply a texture with all white pixels that have the R
 
 The neutral maps for normal and specular mapping are contained in the `neutral_normal.png` and `neutral_specular.png` files in the `objects/` folder and are applied to a model when it is created. When we use the `addTexture()` Model class method the neutral maps are replaced.
 
+---
 ## Exercises
 
 1. Add another object using the .obj model `../objects/wall.obj` to your scene and position it at (0, 4, -2), scale it up by a factor of 5 in the x and z directions and rotate it 90$^\circ$ about the x axis. Apply the diffuse map `../objects/bricks_diffuse.png`.
@@ -571,3 +578,10 @@ The source code for this lab, including the exercise solutions, can be downloade
 - [normalMapVertexShader.vert](../code/Lab09_Normal_maps/normalMapVertexShader.vert)
 - [normalMapFragmentShader.vert](../code/Lab09_Normal_maps/normalMapFragmentShader.frag)
 - [main.cpp](../code/Lab09_Normal_maps/main.cpp) - solutions to the exercises
+
+---
+## Video walkthrough
+
+The video below walks you through these lab materials.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/TVsZjf1Gwu4?si=ezQkt9g-UwzWfnxM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
