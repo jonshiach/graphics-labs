@@ -61,7 +61,7 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"HTML-CSS": {"matchFontHeight": true, "scale": 100, "font-family": "helvet"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/08_Lighting';</script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -481,9 +481,9 @@ f 5/12/6 1/3/6 2/9/6
 </div>
 <p>The vertex and face data is given in lines with the following abbreviations:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">v</span></code> - the (x, y, z) co-ordinates of a vertex</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">vn</span></code> - the (nx, ny, nz) normal vector for the vertex</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">vt</span></code> - the (u, v) texture co-ordinates</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">v</span></code> - the <span class="math notranslate nohighlight">\(\mathsf{(x, y, z)}\)</span> co-ordinates of a vertex</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vn</span></code> - the <span class="math notranslate nohighlight">\(\mathsf{(n_x, n_y, n_z)}\)</span> normal vector for the vertex</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vt</span></code> - the <span class="math notranslate nohighlight">\(\mathsf{(u, v)}\)</span> texture co-ordinates</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">f</span></code> - indices of the vertices of a face. Each face is defined by 3 vertices so we have 3 sets of 3 values. The face vertices are of the form <code class="docutils literal notranslate"><span class="pre">v/vt/vn</span></code> so <code class="docutils literal notranslate"><span class="pre">3/2/1</span></code> refers to a vertex where the co-ordinates are given by the 3rd <code class="docutils literal notranslate"><span class="pre">v</span></code> line, the texture co-ordinates are given by the 2nd <code class="docutils literal notranslate"><span class="pre">vt</span></code> line and the normal vector is given by the 1st <code class="docutils literal notranslate"><span class="pre">vn</span></code> line.</p></li>
 </ul>
 <div class="admonition note">

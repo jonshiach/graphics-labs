@@ -61,7 +61,7 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"HTML-CSS": {"matchFontHeight": true, "scale": 100, "font-family": "helvet"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/09_Normal_mapping';</script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -442,17 +442,17 @@ document.write(`
 <li><p><strong>Bitangent vector</strong> - this is a vector that is perpendicular to both the normal and tangent vectors</p></li>
 </ul>
 <p>There are an infinite number of vectors on a plane that is perpendicular to the normal vector so we have a choice for the tangent and bitangent vectors. A natural choice is to use vectors that point along the edges of the normal map, we know these are perpendicular and this also means we are consistent for neighbouring triangles.</p>
-<figure class="align-default" id="tangent-space-figure">
+<figure class="align-default" id="tbn-figure">
 <a class="reference internal image-reference" href="../_images/09_TBN.svg"><img alt="../_images/09_TBN.svg" src="../_images/09_TBN.svg" width="300" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 9.4 </span><span class="caption-text">The tangent space is defined by the tangent, bitangent and normal vectors.</span><a class="headerlink" href="#tangent-space-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 9.4 </span><span class="caption-text">The tangent space is defined by the tangent, bitangent and normal vectors.</span><a class="headerlink" href="#tbn-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>The tangent and bitangent vectors are calculated using the model space vertex co-ordinates of the triangle <span class="math notranslate nohighlight">\(\mathsf{(x_0,y_0,z_0)}\)</span>, <span class="math notranslate nohighlight">\(\mathsf{(x_1,y_1,z_1)}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{(x_2,y_2,z_2)}\)</span> and their corresponding texture co-ordinates <span class="math notranslate nohighlight">\(\mathsf{(u_0,v_0)}\)</span>, <span class="math notranslate nohighlight">\(\mathsf{(u_1,v_1)}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{(u_2,v_2)}\)</span>.</p>
-<figure class="align-default" id="tbn-figure">
+<figure class="align-default" id="uv-deltas-figure">
 <a class="reference internal image-reference" href="../_images/09_UV_deltas.svg"><img alt="../_images/09_UV_deltas.svg" src="../_images/09_UV_deltas.svg" width="700" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 9.5 </span><span class="caption-text">The tangent <span class="math notranslate nohighlight">\(\mathsf{T}\)</span> and bitangent <span class="math notranslate nohighlight">\(\mathsf{B}\)</span> vectors are calculated using the world space vertices and the normal mapped vertices.</span><a class="headerlink" href="#tbn-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 9.5 </span><span class="caption-text">The tangent, <span class="math notranslate nohighlight">\(\mathsf{T}\)</span>, and bitangent, <span class="math notranslate nohighlight">\(\mathsf{B}\)</span>, vectors are calculated by mapping the model space triangle onto the normal map space.</span><a class="headerlink" href="#uv-deltas-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>We first calculate vectors that point along two sides of the triangle in the model space</p>
@@ -483,7 +483,7 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <div class="sd-summary-up docutils">
 <svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
 </summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">Consider <a class="reference internal" href="#tbn-figure"><span class="std std-numref">Fig. 9.5</span></a> where a triangle is mapped onto the normal map using texture co-ordinates <span class="math notranslate nohighlight">\(\mathsf{(u_0,v_0)}\)</span>, <span class="math notranslate nohighlight">\(\mathsf{(u_1,v_1)}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{(u_2,v_2)}\)</span>. If the vectors <span class="math notranslate nohighlight">\(\mathsf{T}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{B}\)</span> point in the co-ordinate directions of the normal map then the tangle space positions along the triangle edges <span class="math notranslate nohighlight">\(\mathsf{E_1}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{E_2}\)</span> can be calculated using</p>
+<p class="sd-card-text">Consider <a class="reference internal" href="#uv-deltas-figure"><span class="std std-numref">Fig. 9.5</span></a> where a triangle is mapped onto the normal map using texture co-ordinates <span class="math notranslate nohighlight">\(\mathsf{(u_0,v_0)}\)</span>, <span class="math notranslate nohighlight">\(\mathsf{(u_1,v_1)}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{(u_2,v_2)}\)</span>. If the vectors <span class="math notranslate nohighlight">\(\mathsf{T}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{B}\)</span> point in the co-ordinate directions of the normal map then the tangle space positions along the triangle edges <span class="math notranslate nohighlight">\(\mathsf{E_1}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{E_2}\)</span> can be calculated using</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{align*}
     \mathsf{E_1} &amp;= \mathsf{\Delta u_1 \cdot T + \Delta v_1 \cdot B}, \\
@@ -497,7 +497,7 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
         \mathsf{\Delta u_1} &amp; \mathsf{\Delta v_1} \\
         \mathsf{\Delta u_2} &amp; \mathsf{\Delta v_2}
     \end{pmatrix}
-    \begin{pmatrix} \mathsf{T} \\ \mathsf{B} \end{pmatrix}.
+  \begin{pmatrix} \mathsf{T} \\ \mathsf{B} \end{pmatrix}.
 \end{align*} \end{split}\]</div>
 <p class="sd-card-text">We want to calculate <span class="math notranslate nohighlight">\(\mathsf{T}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{B}\)</span> and we know the values of <span class="math notranslate nohighlight">\(\mathsf{E_1}\)</span>, <span class="math notranslate nohighlight">\(\mathsf{E_2}\)</span>, <span class="math notranslate nohighlight">\(\mathsf{\Delta u_1}\)</span>, <span class="math notranslate nohighlight">\(\mathsf{\Delta v_1}\)</span>, <span class="math notranslate nohighlight">\(\mathsf{\Delta u_2}\)</span> and <span class="math notranslate nohighlight">\(\mathsf{\Delta v_2}\)</span>. Using the <a class="reference internal" href="04_vectors_and_matrices.html#inverse-matrix-section"><span class="std std-ref">inverse</span></a> of the square matrix we can rewrite this equation as</p>
 <div class="math notranslate nohighlight">
@@ -523,17 +523,17 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
     \mathsf{B} &amp;= \frac{1}{\mathsf{\Delta u_1\Delta v_2 - \Delta u_2\Delta v_1}}(\mathsf{\Delta u_1 \cdot E_2 - \Delta u_2 \cdot E_1}).
 \end{align*} \end{split}\]</div>
 </div>
-</details><p>Once we have the tangent, bitangent and normal vectors we can form a matrix that transforms from an arbitrary co-ordinate system to the tangent space. The matrix that achieves this a 3 <span class="math notranslate nohighlight">\(\times\)</span> 3 matrix known as the <strong>TBN matrix</strong> (we don’t need a 4 <span class="math notranslate nohighlight">\(\times\)</span> 4 matrix since we don’t need to perform a translation)</p>
+</details><p>Once we have the tangent, bitangent and normal vectors we can form a matrix that transforms from the tangent space to an arbitrary space (e.g., the view space). The matrix that achieves this a 3 <span class="math notranslate nohighlight">\(\times\)</span> 3 matrix known as the <strong>TBN matrix</strong> (we don’t need a 4 <span class="math notranslate nohighlight">\(\times\)</span> 4 matrix since we don’t need to perform a translation)</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
     \textsf{TBN} &amp;= 
     \begin{pmatrix}
-        \mathsf{T_x} &amp; \mathsf{T_y} &amp; \mathsf{T_z} \\
-        \mathsf{B_x} &amp; \mathsf{B_y} &amp; \mathsf{B_z} \\
-        \mathsf{N_x} &amp; \mathsf{N_y} &amp; \mathsf{N_z}
+        \mathsf{T_x} &amp; \mathsf{B_x} &amp; \mathsf{N_x} \\
+        \mathsf{T_y} &amp; \mathsf{B_y} &amp; \mathsf{N_y} \\
+        \mathsf{T_z} &amp; \mathsf{B_z} &amp; \mathsf{N_z}
     \end{pmatrix}.
 \end{align*} \end{split}\]</div>
-<p>However, we will be performing our lighting calculations in the tangent space so we want to transform from an another space to the tangent space. To do this we calculate the <a class="reference internal" href="04_vectors_and_matrices.html#inverse-matrix-section"><span class="std std-ref">inverse</span></a> of the TBN matrix. Fortunately this is an orthogonal matrix where the inverse is simply the transpose, i.e., <span class="math notranslate nohighlight">\(\mathsf{(TBN)^{-1}} = \mathsf{(TBN)^{T}}\)</span>, which is an easy calculation.</p>
+<p>However, we will be performing our lighting calculations in the tangent space so we want to transform from the view space to the tangent space. To do this we calculate the <a class="reference internal" href="04_vectors_and_matrices.html#inverse-matrix-section"><span class="std std-ref">inverse</span></a> of the TBN matrix. Fortunately this is an orthogonal matrix where the inverse is simply the transpose, i.e., <span class="math notranslate nohighlight">\(\mathsf{(TBN)^{-1}} = \mathsf{(TBN)^{T}}\)</span>, which is an easy calculation.</p>
 <section id="calculating-the-tangent-and-bitangent-vectors">
 <h3><span class="section-number">9.1.1. </span>Calculating the tangent and bitangent vectors<a class="headerlink" href="#calculating-the-tangent-and-bitangent-vectors" title="Permalink to this heading">#</a></h3>
 <p>All of the lighting calculations are performed by the shaders so we calculate the tangent and bitangent vectors in our C++ program and pass them to the vertex shader using uniforms. The model class contains all of the attributes for a model so we create two vectors that will contain the tangents and bitangents for each of the vertices of the model. In <code class="docutils literal notranslate"><span class="pre">model.hpp</span></code> add the following code after we have declared a vector array for the normals.</p>
@@ -541,7 +541,12 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="o">&gt;</span><span class="w"> </span><span class="n">bitangents</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>We now create a private method for our model class to calculate the tangent and bitangent vectors (since we will not be calling this method from outside of the class its best to make it private). In the <code class="docutils literal notranslate"><span class="pre">model.hpp</span></code> add the following method declaration underneath <code class="docutils literal notranslate"><span class="pre">private:</span></code>.</p>
+<p>We are going to send the tangents and bitangents to the GPU using vertex buffers in the same way as we did for the vertices, texture co-ordinates and normal vectors. In <code class="docutils literal notranslate"><span class="pre">model.hpp</span></code> under the <code class="docutils literal notranslate"><span class="pre">private:</span></code> declaration add the identifiers for the tangent and bitangent buffers.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">GLuint</span><span class="w"> </span><span class="n">tangentBuffer</span><span class="p">;</span>
+<span class="n">GLuint</span><span class="w"> </span><span class="n">bitangentBuffer</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>We now create a private method for our model class to calculate the tangent and bitangent vectors. Add the following method declaration.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="c1">// Calculate tangents and bitangents</span>
 <span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">calculateTangents</span><span class="p">();</span>
 </pre></div>
@@ -623,7 +628,7 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 </pre></div>
 </div>
 <p>We need to transform the fragment position, light position and direction vector to the tangent space and to do so we calculate the TBN matrix. After the (u,v) co-ordinates have been outputted add the following code.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate the TBN matrix that transforms model space to tangent space</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate the TBN matrix that transforms view space to tangent space</span>
 <span class="n">mat3</span><span class="w"> </span><span class="n">normalMatrix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">transpose</span><span class="p">(</span><span class="n">inverse</span><span class="p">(</span><span class="n">mat3</span><span class="p">(</span><span class="n">view</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">model</span><span class="p">)));</span>
 <span class="n">vec3</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="n">normalMatrix</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">tangent</span><span class="p">);</span>
 <span class="n">vec3</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="n">normalMatrix</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">bitangent</span><span class="p">);</span>
@@ -693,14 +698,15 @@ Calculating the tangent and bitangent vectors<div class="sd-summary-down docutil
 <hr class="docutils" />
 <section id="re-orthogonalising-the-tangent-space-vectors">
 <h2><span class="section-number">9.3. </span>Re-orthogonalising the tangent space vectors<a class="headerlink" href="#re-orthogonalising-the-tangent-space-vectors" title="Permalink to this heading">#</a></h2>
-<p>When a vertex is shared by multiple triangles the normal vector for the vertex will be calculated as an average of the normal vectors for the triangles (<a class="reference internal" href="#averaged-normal-figure"><span class="std std-numref">Fig. 9.8</span></a>). This helps to create an appearance of a smooth surface where the edges of the triangles are hidden.</p>
+<p>In the close up view of the normal mapped teapot in <a class="reference internal" href="#normal-map-closeup-figure"><span class="std std-numref">Fig. 9.7</span></a> we can see a distinct line in the specular highlights where polygons that form the surface of the teapot join. The reason for this is that the tangent vector is not exactly perpendicular to the normal vector.</p>
+<p>When a vertex is shared by multiple triangles the 3D modelling software (e.g., Blender) calculates a single normal vector for the vertex by averaging of the normal vectors for the triangles (<a class="reference internal" href="#averaged-normal-figure"><span class="std std-numref">Fig. 9.8</span></a>). This saves memory and ensures that there is a smooth transition between the normal vectors across the surface.</p>
 <figure class="align-default" id="averaged-normal-figure">
 <a class="reference internal image-reference" href="../_images/09_averaged_normal.svg"><img alt="../_images/09_averaged_normal.svg" src="../_images/09_averaged_normal.svg" width="350" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 9.8 </span><span class="caption-text">The vertex normal is the average of the normal of the triangles sharing that vertex.</span><a class="headerlink" href="#averaged-normal-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>A problem with this is that when a normal map is used the normal vectors at the vertices are not perpendicular to the triangle so calculating the tangents and bitangents using equation <a class="reference internal" href="#equation-tb-equation">(9.1)</a> will not give an orthogonal set of vectors. We can get around this problem by <strong>re-orthogonalising</strong> the three vectors by adjusting the tangent vector a bit so that it is orthongonal to the normal vector.</p>
+<p>A problem with this is that when using a normal map we assume that the vertex normals are perpendicular to the triangle we are rendering. Since this is not the case so calculating the tangents and bitangents using equation <a class="reference internal" href="#equation-tb-equation">(9.1)</a> will not give an orthogonal set of vectors. We can get around this problem by <strong>re-orthogonalising</strong> the three vectors by adjusting the tangent vector a bit so that it is orthongonal to the normal vector.</p>
 <figure class="align-default" id="reorthogonalise-t-figure">
 <a class="reference internal image-reference" href="../_images/09_reorthogonalise_T.svg"><img alt="../_images/09_reorthogonalise_T.svg" src="../_images/09_reorthogonalise_T.svg" width="300" /></a>
 <figcaption>

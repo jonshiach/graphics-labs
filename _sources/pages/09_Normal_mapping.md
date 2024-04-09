@@ -61,7 +61,7 @@ There are an infinite number of vectors on a plane that is perpendicular to the 
 
 ```{figure} ../images/09_TBN.svg
 :width: 300
-:name: tangent-space-figure
+:name: TBN-figure
 
 The tangent space is defined by the tangent, bitangent and normal vectors.
 ```
@@ -70,9 +70,9 @@ The tangent and bitangent vectors are calculated using the model space vertex co
 
 ```{figure} ../images/09_UV_deltas.svg
 :width: 700
-:name: TBN-figure
+:name: UV-deltas-figure
 
-The tangent $\mathsf{T}$ and bitangent $\mathsf{B}$ vectors are calculated using the world space vertices and the normal mapped vertices.
+The tangent, $\mathsf{T}$, and bitangent, $\mathsf{B}$, vectors are calculated by mapping the model space triangle onto the normal map space.
 ```
 
 We first calculate vectors that point along two sides of the triangle in the model space
@@ -102,7 +102,7 @@ To see the derivation of these equations click on the dropdown below.
 
 ````{dropdown} Calculating the tangent and bitangent vectors
 
-Consider {numref}`TBN-figure` where a triangle is mapped onto the normal map using texture co-ordinates $\mathsf{(u_0,v_0)}$, $\mathsf{(u_1,v_1)}$ and $\mathsf{(u_2,v_2)}$. If the vectors $\mathsf{T}$ and $\mathsf{B}$ point in the co-ordinate directions of the normal map then the tangle space positions along the triangle edges $\mathsf{E_1}$ and $\mathsf{E_2}$ can be calculated using
+Consider {numref}`UV-deltas-figure` where a triangle is mapped onto the normal map using texture co-ordinates $\mathsf{(u_0,v_0)}$, $\mathsf{(u_1,v_1)}$ and $\mathsf{(u_2,v_2)}$. If the vectors $\mathsf{T}$ and $\mathsf{B}$ point in the co-ordinate directions of the normal map then the tangle space positions along the triangle edges $\mathsf{E_1}$ and $\mathsf{E_2}$ can be calculated using
 
 $$\begin{align*}
     \mathsf{E_1} &= \mathsf{\Delta u_1 \cdot T + \Delta v_1 \cdot B}, \\
@@ -117,7 +117,7 @@ $$ \begin{align*}
         \mathsf{\Delta u_1} & \mathsf{\Delta v_1} \\
         \mathsf{\Delta u_2} & \mathsf{\Delta v_2}
     \end{pmatrix}
-    \begin{pmatrix} \mathsf{T} \\ \mathsf{B} \end{pmatrix}.
+  \begin{pmatrix} \mathsf{T} \\ \mathsf{B} \end{pmatrix}.
 \end{align*} $$
 
 We want to calculate $\mathsf{T}$ and $\mathsf{B}$ and we know the values of $\mathsf{E_1}$, $\mathsf{E_2}$, $\mathsf{\Delta u_1}$, $\mathsf{\Delta v_1}$, $\mathsf{\Delta u_2}$ and $\mathsf{\Delta v_2}$. Using the [inverse](inverse-matrix-section) of the square matrix we can rewrite this equation as
@@ -146,18 +146,18 @@ $$ \begin{align*}
 \end{align*} $$
 ````
 
-Once we have the tangent, bitangent and normal vectors we can form a matrix that transforms from an arbitrary co-ordinate system to the tangent space. The matrix that achieves this a 3 $\times$ 3 matrix known as the **TBN matrix** (we don't need a 4 $\times$ 4 matrix since we don't need to perform a translation)
+Once we have the tangent, bitangent and normal vectors we can form a matrix that transforms from the tangent space to an arbitrary space (e.g., the view space). The matrix that achieves this a 3 $\times$ 3 matrix known as the **TBN matrix** (we don't need a 4 $\times$ 4 matrix since we don't need to perform a translation)
 
 $$ \begin{align*}
     \textsf{TBN} &= 
     \begin{pmatrix}
-        \mathsf{T_x} & \mathsf{T_y} & \mathsf{T_z} \\
-        \mathsf{B_x} & \mathsf{B_y} & \mathsf{B_z} \\
-        \mathsf{N_x} & \mathsf{N_y} & \mathsf{N_z}
+        \mathsf{T_x} & \mathsf{B_x} & \mathsf{N_x} \\
+        \mathsf{T_y} & \mathsf{B_y} & \mathsf{N_y} \\
+        \mathsf{T_z} & \mathsf{B_z} & \mathsf{N_z}
     \end{pmatrix}.
 \end{align*} $$
 
-However, we will be performing our lighting calculations in the tangent space so we want to transform from an another space to the tangent space. To do this we calculate the [inverse](inverse-matrix-section) of the TBN matrix. Fortunately this is an orthogonal matrix where the inverse is simply the transpose, i.e., $\mathsf{(TBN)^{-1}} = \mathsf{(TBN)^{T}}$, which is an easy calculation.
+However, we will be performing our lighting calculations in the tangent space so we want to transform from the view space to the tangent space. To do this we calculate the [inverse](inverse-matrix-section) of the TBN matrix. Fortunately this is an orthogonal matrix where the inverse is simply the transpose, i.e., $\mathsf{(TBN)^{-1}} = \mathsf{(TBN)^{T}}$, which is an easy calculation.
 
 ### Calculating the tangent and bitangent vectors
 
@@ -168,7 +168,14 @@ std::vector<glm::vec3> tangents;
 std::vector<glm::vec3> bitangents;
 ```
 
-We now create a private method for our model class to calculate the tangent and bitangent vectors (since we will not be calling this method from outside of the class its best to make it private). In the `model.hpp` add the following method declaration underneath `private:`.
+We are going to send the tangents and bitangents to the GPU using vertex buffers in the same way as we did for the vertices, texture co-ordinates and normal vectors. In `model.hpp` under the `private:` declaration add the identifiers for the tangent and bitangent buffers.
+
+```cpp
+GLuint tangentBuffer;
+GLuint bitangentBuffer;
+```
+
+We now create a private method for our model class to calculate the tangent and bitangent vectors. Add the following method declaration.
 
 ```cpp
  // Calculate tangents and bitangents
@@ -262,7 +269,7 @@ layout(location = 4) in vec3 bitangent;
 We need to transform the fragment position, light position and direction vector to the tangent space and to do so we calculate the TBN matrix. After the (u,v) co-ordinates have been outputted add the following code.
 
 ```cpp
-// Calculate the TBN matrix that transforms model space to tangent space
+// Calculate the TBN matrix that transforms view space to tangent space
 mat3 normalMatrix = transpose(inverse(mat3(view * model)));
 vec3 T = normalize(normalMatrix * tangent);
 vec3 B = normalize(normalMatrix * bitangent);
@@ -346,7 +353,9 @@ Close up of the normal map applied to teapot objects.
 ---
 ## Re-orthogonalising the tangent space vectors
 
-When a vertex is shared by multiple triangles the normal vector for the vertex will be calculated as an average of the normal vectors for the triangles ({numref}`averaged-normal-figure`). This helps to create an appearance of a smooth surface where the edges of the triangles are hidden.
+In the close up view of the normal mapped teapot in {numref}`09-normal-map-closeup-figure` we can see a distinct line in the specular highlights where polygons that form the surface of the teapot join. The reason for this is that the tangent vector is not exactly perpendicular to the normal vector.
+
+When a vertex is shared by multiple triangles the 3D modelling software (e.g., Blender) calculates a single normal vector for the vertex by averaging of the normal vectors for the triangles ({numref}`averaged-normal-figure`). This saves memory and ensures that there is a smooth transition between the normal vectors across the surface. 
 
 ```{figure} ../images/09_averaged_normal.svg
 :width: 350
@@ -355,7 +364,7 @@ When a vertex is shared by multiple triangles the normal vector for the vertex w
 The vertex normal is the average of the normal of the triangles sharing that vertex. 
 ```
 
-A problem with this is that when a normal map is used the normal vectors at the vertices are not perpendicular to the triangle so calculating the tangents and bitangents using equation {eq}`TB-equation` will not give an orthogonal set of vectors. We can get around this problem by **re-orthogonalising** the three vectors by adjusting the tangent vector a bit so that it is orthongonal to the normal vector.
+A problem with this is that when using a normal map we assume that the vertex normals are perpendicular to the triangle we are rendering. Since this is not the case so calculating the tangents and bitangents using equation {eq}`TB-equation` will not give an orthogonal set of vectors. We can get around this problem by **re-orthogonalising** the three vectors by adjusting the tangent vector a bit so that it is orthongonal to the normal vector.
 
 ```{figure} ../images/09_reorthogonalise_T.svg
 :width: 300
