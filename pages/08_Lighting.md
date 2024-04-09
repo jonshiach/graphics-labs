@@ -143,7 +143,7 @@ glm::vec3 white = glm::vec3(1.0f, 1.0f, 1.0f);
 glm::vec3 lightAmbient = ka * white;                    // ambient light colour
 ```
 
-Here we have defined the ambient constant for the teapot as $k_2=0.2$ and the $\texttt{light colour}$ as white. In the render loop add the following code just before we calculate the model matrix to send the `lightAmbient` to the shaders.
+Here we have defined the ambient constant for the teapot as $k_a=0.2$ and the $\texttt{light colour}$ as white. In the render loop add the following code just before we calculate the model matrix to send the `lightAmbient` to the shaders.
 
 ```cpp
 // Send light source properties to the shader
@@ -236,7 +236,7 @@ To model diffuse reflection we assume that light is reflected equally in all dir
 Diffuse reflection scatters light equally in all directions.
 ```
 
-The amount of light that is reflected to the viewer is modelled using the angle $\theta$ between the $\tt light$ and $\tt normal$ vectors. If $\theta$ is small then the light source is directly in front of the surface so most of the light will be reflected to the viewer. Whereas if $\theta$ is close to 90$^\circ$ then the light source is nearly in line with the surface and little of the light will be reflected to the viewer. When $\theta > 90^\circ$ the light source is behind the surface so no light is reflected to the viewer. We model this using the cosine of $\theta$ since $\cos(0) = 1$ and $\cos(90)=0$. Diffuse reflection is calculated using
+The amount of light that is reflected to the viewer is modelled using the angle $\theta$ between the $\tt light$ and $\tt normal$ vectors. If $\theta$ is small then the light source is directly in front of the surface so most of the light will be reflected to the viewer. Whereas if $\theta$ is close to 90$^\circ$ then the light source is nearly in line with the surface and little of the light will be reflected to the viewer. When $\theta > 90^\circ$ the light source is behind the surface so no light is reflected to the viewer. We model this using the cosine of $\theta$ since $\cos(0^\circ) = 1$ and $\cos(90^\circ)=0$. Diffuse reflection is calculated using
 
 $$ \texttt{diffuse} = k_d * \texttt{light colour} * \texttt{object colour} * \cos(\theta),$$
 
@@ -269,7 +269,7 @@ As well as the view space light position co-ordinates we also need view space ve
 
 $$ \begin{align*}
     \texttt{view space normal} = ((\textsf{view matrix} * \textsf{model matrix})^{-1})^\mathsf{T} * \tt normal.
-\end{align*} $$
+\end{align*} $$(view-space-normal-equation)
 
 Recall that $A^\mathsf{T}$ is the [transpose](transpose-section) and $A^{-1}$ is the [inverse](inverse-matrix-section) of the matrix $A$. You don't need to know why we use this equation but if you are curious click on the download link below.
 
@@ -293,7 +293,7 @@ If the model and view transformations do not preserve the scaling then the the v
 Normal and tangent vectors in the view space.
 ```
 
-Let $M$ be the first 3 rows and columns of the $\textsf{view matrix} * \textsf{model matirx}$ then the view space tangent vector is calculated using $M * {\tt tangent}$ (here I've used $*$ to denote column major matrix multiplication so that it is consistent with our code). We need to derive a $3\times 3$ transformation matrix $A$ such that the view space normal vector is calculated using $A * {\tt normal}$ where this is perpendicular to the view space tangent vector, i.e.,
+Let $M$ be the first 3 rows and columns of the $\textsf{view matrix} * \textsf{model matrix}$ then the view space tangent vector is calculated using $M * {\tt tangent}$ (here I've used $*$ to denote column major matrix multiplication so that it is consistent with our code). We need to derive a $3\times 3$ transformation matrix $A$ such that the view space normal vector is calculated using $A * {\tt normal}$ where this is perpendicular to the view space tangent vector, i.e.,
 
 $$(A * {\tt normal}) \cdot (M * {\tt tangent}) = 0.$$
 
@@ -581,9 +581,9 @@ If you are having difficulty with this check out the source code [Lab08_single_l
 
 ## Multiple light sources
 
-In theory to add another light sources to a scene is simply a matter of calculating the ambient, diffuse and specular reflection for the additional light source and then adding them to the fragment colour. We have seen for a single light source we have to define the 3 light source colours, the position of the light source in the world space and the 3 attenuation constants. Given that we would like to do this for multiple light sources we need data structure for each light source.
+In theory to add another light sources to a scene is simply a matter of calculating the ambient, diffuse and specular reflection for the additional light source and then adding them to the fragment colour. We have seen for a single light source we have to define the three light source colours, the position of the light source in the world space and the three attenuation constants. Given that we would like to do this for multiple light sources we need data structure for each light source.
 
-A data structure in C++ and GLSL is defined in the same way using the <a href="https://cplusplus.com/doc/tutorial/structures/" target="_blank">struct</a> declaration.
+A data structure in C++ and GLSL is defined in a similar way using the <a href="https://cplusplus.com/doc/tutorial/structures/" target="_blank">struct</a> declaration.
 
 ```cpp
 // Structs
@@ -640,10 +640,11 @@ vec3 calculatePointLight(Light ptLight, vec3 fragmentPosition, vec3 normal, vec3
 
 void main ()
 {
+
     // Calculate normal and eye vectors (these are the same for all light sources)
     vec3 normal = normalize(Normal);
     vec3 eye = normalize(-fragmentPosition);
-    
+
     // Loop through the point light sources
     fragmentColour = vec3(0.0, 0.0, 0.0);
     for (int i = 0; i < numLights; i++)
@@ -680,7 +681,7 @@ vec3 calculatePointLight(Light ptLight, vec3 fragmentPosition, vec3 normal, vec3
 }
 ```
 
-Here we have defined a function called `calculatePointLight()` that contains the commands used to calculate the fragment colour for a single light source. In the `main()` function we have a for loop to loop through each light source and add to to the fragment colour. Note the the $\texttt{normal}$ and $\texttt{eye}$ vectors are the same for all light sources so these are calculated outside of the loop.
+Here we have defined a function called `calculatePointLight()` that contains the commands used to calculate the fragment colour for a single light source. In the `main()` function we have a for loop to loop through each light source, perform the light calculations for the current light source and add it to the fragment colour. Note the the $\texttt{normal}$ and $\texttt{eye}$ vectors are the same for all light sources so these are calculated outside of the for loop.
 
 We also need to make changes to the `main.cpp` file. Add the `Light` data structure before the `main()` function declaration
 
@@ -895,7 +896,6 @@ struct SpotLight
     glm::vec3 specular;
     float cosPhi;
     float linear, constant, quadratic;
-    bool on = true;
 };
 ```
 
@@ -941,7 +941,7 @@ for (unsigned int i = 0; i < spotLights.size(); i++)
 }
 ```
 
-If we want to render the spotlight sources we replicate that code of the point lights.
+If we want to render the spotlight sources we replicate the code for the point lights.
 
 ```cpp
 for (unsigned int i = 0; i < spotLights.size(); i++)

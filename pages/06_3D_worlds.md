@@ -92,6 +92,7 @@ We saw in [Lab 5](transformations-section) that we apply a transformation by mul
 - the **view** matrix - combined translation and alignment transformations
 - the **projection** matrix - combined projection of the view space and scaling to NDC
 
+(model-matrix-section)=
 ### The model matrix
 
 In [Lab 5](transformations-section) we saw that we can combine transformations such as translation, scaling and rotation by multiplying the individual transformation matrices together. The **model matrix** is the matrix that is used to apply transformations to an object.
