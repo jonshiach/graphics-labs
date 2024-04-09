@@ -530,7 +530,7 @@ We now need to make minor changes to the fragment shader. First, declare a sampl
 uniform sampler2D specularMap;
 ```
 
-Then, whenever we calculate the specular lighting in the `calculatePointLight()`, `calculateSpotlight()` and `calculateDirectionalLight)(` functions multiply by the colour of the textel from the specular map.
+Then, whenever we calculate the specular lighting in the `calculatePointLight()`, `calculateSpotlight()` and `calculateDirectionalLight()` functions multiply by the colour of the textel from the specular map.
 
 ```cpp
 vec3 specular = ks * light.colour * pow(cosAlpha, Ns) * texture(specularMap, UV).rgb;
