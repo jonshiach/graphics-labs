@@ -420,6 +420,8 @@ rotate =
 :width: 500
 ```
 
+(axis-angle-rotation-section)= 
+
 ### Axis-angle rotation
 
 The three rotation transformations are only useful if we want to only rotate around one of the three co-ordinate axes. A more useful transformation is the rotation around the axis that points in the direction of a vector, $\underline{v}$ say, which has its tail at (0,0,0) ({numref}`axis-angle-rotation-figure`).

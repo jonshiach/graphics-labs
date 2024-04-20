@@ -61,7 +61,7 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script>window.MathJax = {"tex": {"macros": {"vec": ["\\mathbf{#1}", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/05_transformations';</script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -168,6 +168,11 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="07_Moving_the_camera.html">7. Moving the camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_Lighting.html">8. Lighting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_Normal_mapping.html">9. Normal Mapping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_Quaternions.html">10. Quaternions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="A_Complex_numbers_and_quaternions.html">Complex numbers and quaternions</a></li>
 </ul>
 
     </div>
@@ -765,7 +770,7 @@ Derivation of the rotation matrices (click to show)<div class="sd-summary-down d
 </figure>
 </section>
 <section id="axis-angle-rotation">
-<h3><span class="section-number">5.3.2. </span>Axis-angle rotation<a class="headerlink" href="#axis-angle-rotation" title="Permalink to this heading">#</a></h3>
+<span id="axis-angle-rotation-section"></span><h3><span class="section-number">5.3.2. </span>Axis-angle rotation<a class="headerlink" href="#axis-angle-rotation" title="Permalink to this heading">#</a></h3>
 <p>The three rotation transformations are only useful if we want to only rotate around one of the three co-ordinate axes. A more useful transformation is the rotation around the axis that points in the direction of a vector, <span class="math notranslate nohighlight">\(\underline{v}\)</span> say, which has its tail at (0,0,0) (<a class="reference internal" href="#axis-angle-rotation-figure"><span class="std std-numref">Fig. 5.6</span></a>).</p>
 <figure class="align-default" id="axis-angle-rotation-figure">
 <a class="reference internal image-reference" href="../_images/05_axis_angle_rotation_1.svg"><img alt="../_images/05_axis_angle_rotation_1.svg" height="250" src="../_images/05_axis_angle_rotation_1.svg" /></a>
