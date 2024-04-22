@@ -376,7 +376,7 @@ The last change we need to make to our third person camera method is to move the
 ```cpp
 // Update character movement vectors
 charDirection.eulerToQuat(pitch, charYaw, roll);
-glm::mat4 charMat = charDirection.mat();
+glm::mat4 charMat = charDirection.quatToMat();
 right.x = charMat[0][0],  right.y = charMat[1][0],  right.z = charMat[2][0];
 up.x    = charMat[0][1],  up.y    = charMat[1][1],  up.z    = charMat[2][1];
 front.x = -charMat[0][2], front.y = -charMat[1][2], front.z = -charMat[2][2];
@@ -427,7 +427,7 @@ if (camera.mode == "third")
     // Calculate model matrix
     glm::mat4 translate = Maths::translate(glm::mat4(1.0f), camera.position);
     glm::mat4 scale = Maths::scale(glm::mat4(1.0f), glm::vec3(0.2f, 0.2f, 0.2f));
-    glm::mat4 rotate = glm::transpose(camera.charDirection.mat());
+    glm::mat4 rotate = glm::transpose(camera.charDirection.quatToMat());
     glm::mat4 model = translate * rotate * scale;
     
     // Send the model matrix to the shader
