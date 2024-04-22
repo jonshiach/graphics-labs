@@ -13,7 +13,7 @@ The pitch, yaw and roll Euler angles.
 
 The angles that we use to define the rotation around each of the axes are known as **Euler angles** and we use the names **pitch**, **yaw** and **roll** for the rotation around the $x$, $y$ and $z$ axes respectively. To problem with using a composite of Euler angles rotations is that for certain alignments we can experience <a href="https://en.wikipedia.org/wiki/Gimbal_lock" target="_blank">**gimbal lock**</a> where two of the rotation axes are aligned leading to a loss of a degree of freedom causing the composite rotation to be "locked" into a 2D rotation.
 
-Quaternions are a mathematical object that can be used to perform rotation operations that do not suffer from gimbal lock and require fewer floating point calculations. There is quite a lot of maths used here but in this lab sheet I've focussed only on the bits you need to know to apply quaternions. If you are interested in the derviations of the various equations see [Appendix A - Complex Numbers and Quaternions](appendix-quaternions-section)
+Quaternions are a mathematical object that can be used to perform rotation operations that do not suffer from gimbal lock and require fewer floating point calculations. There is quite a lot of maths used here but in this lab sheet I've focussed only on the bits you need to know to apply quaternions. If you are interested in the derviations of the various equations see [Appendix A - Complex Numbers and Quaternions](appendix-quaternions-section).
 
 Download and build the project files for this lab.
 
@@ -285,7 +285,7 @@ Then in the `camera.cpp` file, comment out the lines where we update the camera 
 direction.eulerToQuat(pitch, yaw, roll);
     
 // Calculate view matrix
-view = direction.mat() * Maths::translate(glm::mat4(1.0f), -position);
+view = direction.quatToMat() * Maths::translate(glm::mat4(1.0f), -position);
 ```
 
 Here we calculate the translation matrix to move the camera to (0,0,0) and then multiply it by the quaternion rotation matrix. Of course we need the $\tt right$, $\tt up$ and $\tt front$ camera vectors to move the camera, these can be easily obtained from the first three rows and columns of the `view` matrix. Add the following code after you have calculated the `view` matrix.
