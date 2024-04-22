@@ -624,7 +624,7 @@ SLERP interpolation between two points on a sphere.
 Consider {numref}`A-SLERP-figure` where $q_1$ and $q_2$ are two quaternions emanating from the centre of a sphere. The interpolated quaternion $q_t$ represents another quaternion that is partway between $q_1$ and $q_2$ calculated using
 
 $$ \begin{align*}
-    \operatorname{SLERP}(q_1, q_2, t) = \frac{\sin((1-t) \theta)}{\sin(\theta)}q_0 + \frac{\sin(t\theta)}{\sin(\theta)}q_1
+    \operatorname{SLERP}(q_1, q_2, t) = \frac{\sin((1-t) \theta)}{\sin(\theta)}q_1 + \frac{\sin(t\theta)}{\sin(\theta)}q_2
 \end{align*}, $$(slerp-equation)
 
 where $t$ is a value between 0 and 1 and $\theta$ is the angle between the two pure quaternions $q_1$ and $q_2$ and is calculated using

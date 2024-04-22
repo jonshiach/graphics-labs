@@ -371,9 +371,8 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quaternion-rotations">10.2. Quaternion Rotations</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unit-quaternions">10.2.1. Unit quaternions</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">10.2.2. Quaternion rotations</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#euler-angles-to-quaternion">10.2.3. Euler angles to quaternion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">10.2.1. Quaternion rotations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#euler-angles-to-quaternion">10.2.2. Euler angles to quaternion</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#third-person-camera">10.3. Third person camera</a></li>
@@ -398,7 +397,7 @@ document.write(`
 </figcaption>
 </figure>
 <p>The angles that we use to define the rotation around each of the axes are known as <strong>Euler angles</strong> and we use the names <strong>pitch</strong>, <strong>yaw</strong> and <strong>roll</strong> for the rotation around the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> axes respectively. To problem with using a composite of Euler angles rotations is that for certain alignments we can experience <a href="https://en.wikipedia.org/wiki/Gimbal_lock" target="_blank"><strong>gimbal lock</strong></a> where two of the rotation axes are aligned leading to a loss of a degree of freedom causing the composite rotation to be “locked” into a 2D rotation.</p>
-<p>Quaternions are a mathematical object that can be used to perform rotation operations that do not suffer from gimbal lock and require few floating point calculations.</p>
+<p>Quaternions are a mathematical object that can be used to perform rotation operations that do not suffer from gimbal lock and require fewer floating point calculations.</p>
 <p>Download and build the project files for this lab.</p>
 <ol class="arabic simple">
 <li><p>Go to <a href="https://github.com/jonshiach/Lab10_Quaternions" target="_blank">https://github.com/jonshiach/Lab10_Quaternions</a> and follow the instructions to download and build the project files.</p></li>
@@ -433,16 +432,6 @@ document.write(`
 <p><span class="caption-number">Fig. 10.2 </span><span class="caption-text">The complex number <span class="math notranslate nohighlight">\(x + yi\)</span> plotted on the complex plane.</span><a class="headerlink" href="#complex-plane-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>Each complex number <span class="math notranslate nohighlight">\(z = x + yi\)</span> has a <strong>complex conjugate</strong> which is denoted by <span class="math notranslate nohighlight">\(z^*\)</span> and is defined by negating the sign of the complex part</p>
-<div class="math notranslate nohighlight">
-\[ z^* = x - yi. \]</div>
-<p>When plotted on the complex plane, we can see that the complex conjugate of <span class="math notranslate nohighlight">\(z\)</span> is the reflection of <span class="math notranslate nohighlight">\(z\)</span> about the real axis (<a class="reference internal" href="#complex-conjugate-figure"><span class="std std-numref">Fig. 10.3</span></a>).</p>
-<figure class="align-default" id="complex-conjugate-figure">
-<a class="reference internal image-reference" href="../_images/10_Complex_conjugate.svg"><img alt="../_images/10_Complex_conjugate.svg" src="../_images/10_Complex_conjugate.svg" width="300" /></a>
-<figcaption>
-<p><span class="caption-number">Fig. 10.3 </span><span class="caption-text">Plot of the complex conjugate to <span class="math notranslate nohighlight">\(x + yi\)</span>.</span><a class="headerlink" href="#complex-conjugate-figure" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
 <section id="rotation-using-complex-numbers">
 <h3><span class="section-number">10.1.1. </span>Rotation using complex numbers<a class="headerlink" href="#rotation-using-complex-numbers" title="Permalink to this heading">#</a></h3>
 <p>A very useful property of complex numbers, and the reason why we are interested in them, is that multiplying a number by <span class="math notranslate nohighlight">\(i\)</span> rotates the number by <span class="math notranslate nohighlight">\(90^\circ\)</span> in the complex plane. For example consider the complex number <span class="math notranslate nohighlight">\(2 + i\)</span>, multiplying repeatedly by <span class="math notranslate nohighlight">\(i\)</span> gives</p>
@@ -453,22 +442,24 @@ document.write(`
     (-2 - i)i &amp;= 2i - i^2 = 1 - 2i, \\
     (1 - 2i)i &amp;= i - 2i^2 = 2 + i.
 \end{align*} \end{split}\]</div>
-<p>So after four multiplications we are back to the original complex number. <a class="reference internal" href="#complex-rotation-figure"><span class="std std-numref">Fig. 10.4</span></a> shows these complex numbers plotted on the complex plane. Note how they have been rotated by <span class="math notranslate nohighlight">\(90^\circ\)</span> each time.</p>
+<p>So after four multiplications we are back to the original complex number. <a class="reference internal" href="#complex-rotation-figure"><span class="std std-numref">Fig. 10.3</span></a> shows these complex numbers plotted on the complex plane. Note how they have been rotated by <span class="math notranslate nohighlight">\(90^\circ\)</span> each time.</p>
 <figure class="align-default" id="complex-rotation-figure">
 <a class="reference internal image-reference" href="../_images/10_Complex_rotation.svg"><img alt="../_images/10_Complex_rotation.svg" src="../_images/10_Complex_rotation.svg" width="300" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 10.4 </span><span class="caption-text">Rotation of the complex number <span class="math notranslate nohighlight">\(2 + i\)</span> by repeated multiplying by <span class="math notranslate nohighlight">\(i\)</span>.</span><a class="headerlink" href="#complex-rotation-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 10.3 </span><span class="caption-text">Rotation of the complex number <span class="math notranslate nohighlight">\(2 + i\)</span> by repeated multiplying by <span class="math notranslate nohighlight">\(i\)</span>.</span><a class="headerlink" href="#complex-rotation-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>The radius of the circle shown in <a class="reference internal" href="#complex-rotation-figure"><span class="std std-numref">Fig. 10.4</span></a> can be calculated using Pythagoras’ theorem, i.e.,</p>
+<p>So we have seen that multiplying a number by <span class="math notranslate nohighlight">\(i\)</span> rotates it by 90<span class="math notranslate nohighlight">\(^\circ\)</span>, so how do we rotate a number by a different angle. <a class="reference internal" href="#complex-rotation-2-figure"><span class="std std-numref">Fig. 10.4</span></a> shows the rotation of the number 1 by <span class="math notranslate nohighlight">\(\theta\)</span> anti-clockwise in the complex plane.</p>
+<figure class="align-default" id="complex-rotation-2-figure">
+<a class="reference internal image-reference" href="../_images/10_Complex_rotation_2.svg"><img alt="../_images/10_Complex_rotation_2.svg" src="../_images/10_Complex_rotation_2.svg" width="300" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 10.4 </span><span class="caption-text">The complex number <span class="math notranslate nohighlight">\(z\)</span> is the real number 1 rotated <span class="math notranslate nohighlight">\(\theta\)</span> anti-clockwise in the complex plane.</span><a class="headerlink" href="#complex-rotation-2-figure" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Recall that <span class="math notranslate nohighlight">\(\cos(\theta) = \frac{adjacent}{hypotenuse}\)</span> and <span class="math notranslate nohighlight">\(\sin(\theta) = \frac{opposite}{hypotenuse}\)</span> and since the hypotenuse is 1 then</p>
 <div class="math notranslate nohighlight">
-\[ r = \sqrt{2^2 + 1^2} = \sqrt{5}. \]</div>
-<p>This values is known as the <strong>absolute value</strong> of the complex number <span class="math notranslate nohighlight">\(2 + i\)</span>. The absolute value of the general form of a complex number <span class="math notranslate nohighlight">\(z = x + yi\)</span> is denoted by <span class="math notranslate nohighlight">\(|z|\)</span> and calculated using</p>
-<div class="math notranslate nohighlight">
-\[ |z| = \sqrt{ x^2 + y^2 }.\]</div>
-<p>So we have seen that multiplying a number by <span class="math notranslate nohighlight">\(i\)</span> rotates it by 90<span class="math notranslate nohighlight">\(^\circ\)</span>. To multiply by an arbitrary angle <span class="math notranslate nohighlight">\(\theta\)</span> we multiply by the following complex number</p>
-<div class="math notranslate nohighlight">
-\[ z = \cos(\theta) + i \sin(\theta). \]</div>
+\[ z = \cos(\theta) + i \sin(theta).\]</div>
+<p>This means we can rotate by an arbitrary angle <span class="math notranslate nohighlight">\(\theta\)</span> in the complex plane by multiplying by <span class="math notranslate nohighlight">\(z\)</span>.</p>
 </section>
 </section>
 <hr class="docutils" />
@@ -494,14 +485,11 @@ document.write(`
     <span class="o">//</span> <span class="n">Constructors</span>
     <span class="n">Quaternion</span><span class="p">();</span>
     <span class="n">Quaternion</span><span class="p">(</span><span class="n">const</span> <span class="nb">float</span> <span class="n">w</span><span class="p">,</span> <span class="n">const</span> <span class="nb">float</span> <span class="n">x</span><span class="p">,</span> <span class="n">const</span> <span class="nb">float</span> <span class="n">y</span><span class="p">,</span> <span class="n">const</span> <span class="nb">float</span> <span class="n">z</span><span class="p">);</span>
-
-    <span class="o">//</span> <span class="n">Methods</span>
-    <span class="n">void</span> <span class="n">scalarMultiply</span><span class="p">(</span><span class="n">const</span> <span class="nb">float</span> <span class="n">k</span><span class="p">);</span>
 <span class="p">};</span>
 </pre></div>
 </div>
-<p>This is a data structure called <code class="docutils literal notranslate"><span class="pre">Quaternion</span></code> which contains the attributes <code class="docutils literal notranslate"><span class="pre">w</span></code>, <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">z</span></code> values, two constructor methods and a method to multiply the quaternion by a scalar.</p>
-<p>In the <code class="docutils literal notranslate"><span class="pre">maths.cpp</span></code> add the following function definitions for the constructors and the scalar multiplication method.</p>
+<p>This is a data structure called <code class="docutils literal notranslate"><span class="pre">Quaternion</span></code> which contains the attributes <code class="docutils literal notranslate"><span class="pre">w</span></code>, <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">z</span></code> values and two constructor methods (one for creating a quaternion and another for creating a quaternion and initialising the <span class="math notranslate nohighlight">\(w\)</span>, <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> values).</p>
+<p>In the <code class="docutils literal notranslate"><span class="pre">maths.cpp</span></code> add the following function definitions for the constructors.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Quaternion constructors</span>
 <span class="n">Quaternion</span><span class="o">::</span><span class="n">Quaternion</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
 
@@ -512,42 +500,10 @@ document.write(`
 <span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
 <span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">z</span><span class="p">;</span>
 <span class="p">}</span>
-
-<span class="c1">// Scalar multiplication of quaternion</span>
-<span class="kt">void</span><span class="w"> </span><span class="n">Quaternion</span><span class="o">::</span><span class="n">scalarMultiply</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
-<span class="p">{</span>
-<span class="w">    </span><span class="n">w</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">k</span><span class="p">;</span>
-<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">k</span><span class="p">;</span>
-<span class="w">    </span><span class="n">y</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">k</span><span class="p">;</span>
-<span class="w">    </span><span class="n">z</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">k</span><span class="p">;</span>
-<span class="p">}</span>
 </pre></div>
 </div>
-<section id="unit-quaternions">
-<h3><span class="section-number">10.2.1. </span>Unit quaternions<a class="headerlink" href="#unit-quaternions" title="Permalink to this heading">#</a></h3>
-<p>The absolute value of a quaternion <span class="math notranslate nohighlight">\(q\)</span> is denoted by <span class="math notranslate nohighlight">\(|q|\)</span> and is calculated using</p>
-<div class="math notranslate nohighlight">
-\[ |q| = \sqrt{w^2 + x^2 + y^2 + z^2}. \]</div>
-<p>A <strong>unit quaternion</strong> is a quaternion with an absolute value of 1. We can <strong>normalize</strong> a quaternion by dividing by its absolute value</p>
-<div class="math notranslate nohighlight">
-\[ q = \frac{q}{|q|}. \]</div>
-<p>Lets add a method to our <code class="docutils literal notranslate"><span class="pre">Quaternion</span></code> data structure to normalize a quaternion. In <code class="docutils literal notranslate"><span class="pre">maths.hpp</span></code> add the following methods declaration</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">normalize</span><span class="p">();</span>
-</pre></div>
-</div>
-<p>and add the method definition to <code class="docutils literal notranslate"><span class="pre">maths.cpp</span></code>.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Normalize quaternion</span>
-<span class="kt">void</span><span class="w"> </span><span class="nf">Quaternion::normalize</span><span class="p">()</span>
-<span class="p">{</span>
-<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">abs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqrt</span><span class="p">(</span><span class="n">w</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">z</span><span class="p">);</span>
-<span class="w">    </span><span class="n">scalarMultiply</span><span class="p">(</span><span class="mf">1.0f</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">abs</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>So we can now normalise a quaternion <code class="docutils literal notranslate"><span class="pre">q</span></code> by calling <code class="docutils literal notranslate"><span class="pre">q.normalize()</span></code>.</p>
-</section>
 <section id="id1">
-<h3><span class="section-number">10.2.2. </span>Quaternion rotations<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">10.2.1. </span>Quaternion rotations<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
 <p>We saw above that we can rotate a number in the complex plane by multiplying by the complex number</p>
 <div class="math notranslate nohighlight">
 \[ z = \cos(\theta) + i\sin(\theta). \]</div>
@@ -597,8 +553,8 @@ document.write(`
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>We can now calculate the rotation matrix for a rotation quaternion <code class="docutils literal notranslate"><span class="pre">q</span></code> using <code class="docutils literal notranslate"><span class="pre">q.quatToMat()</span></code>. Comparing this code to the definition of <code class="docutils literal notranslate"><span class="pre">Maths::rotate()</span></code> in the <code class="docutils literal notranslate"><span class="pre">maths.cpp</span></code> file we can see the the the quaternion rotation matrix requires 16 multiplications compared to 24 multiplications to calculate the rotation matrix based on the composite of three separate rotations about the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> axes. Efficiency is always a bonus but the main advantage however is the quaternion rotation matrix does not suffer from gimbal lock.</p>
-<p>So it makes sense to use the quaternion rotation matrix for our axis-angle rotations. Edit the <code class="docutils literal notranslate"><span class="pre">Maths::rotate()</span></code> function definition so that is looks like the following.</p>
+<p>We can now calculate the rotation matrix for a rotation quaternion <code class="docutils literal notranslate"><span class="pre">q</span></code> using <code class="docutils literal notranslate"><span class="pre">q.quatToMat()</span></code>. Comparing this code to the definition of <code class="docutils literal notranslate"><span class="pre">rotate()</span></code> in the <code class="docutils literal notranslate"><span class="pre">maths.cpp</span></code> file we can see the the the quaternion rotation matrix requires 16 multiplications compared to 24 multiplications to calculate the rotation matrix based on the composite of three separate rotations about the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> axes and a translation. Efficiency is always a bonus but the main advantage is the quaternion rotation matrix does not suffer from gimbal lock.</p>
+<p>So it makes sense to use the quaternion rotation matrix for our axis-angle rotations. Edit the <code class="docutils literal notranslate"><span class="pre">rotate()</span></code> function definition so that is looks like the following.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="nf">Maths::rotate</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">mat</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">angle</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">vec</span><span class="p">)</span>
 <span class="p">{</span>
 <span class="w">    </span><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Maths</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span><span class="n">vec</span><span class="p">);</span>
@@ -610,11 +566,11 @@ document.write(`
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Here we calculate the rotation quaternion <code class="docutils literal notranslate"><span class="pre">q</span></code> and then output the rotation matrix multiplied by the input matrix <code class="docutils literal notranslate"><span class="pre">mat</span></code> (it isn’t really necessary to do this but I wanted our <code class="docutils literal notranslate"><span class="pre">rotate()</span></code> function to have the same functionality as the glm version).</p>
+<p>Here we normalise the vector which we are rotating around before calculating the rotation quaternion <code class="docutils literal notranslate"><span class="pre">q</span></code>. The function then returns quaternion rotation matrix multiplied by the input matrix <code class="docutils literal notranslate"><span class="pre">mat</span></code> (it isn’t really necessary to do this but I wanted our <code class="docutils literal notranslate"><span class="pre">rotate()</span></code> function to have the same functionality as the glm version).</p>
 <p>Compile and run your program and you should see that nothing has changed. This is good news as we are now using efficient quaternion rotation to rotate the cubes and don’t have to worry about gimbal lock.</p>
 </section>
 <section id="euler-angles-to-quaternion">
-<h3><span class="section-number">10.2.3. </span>Euler angles to quaternion<a class="headerlink" href="#euler-angles-to-quaternion" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">10.2.2. </span>Euler angles to quaternion<a class="headerlink" href="#euler-angles-to-quaternion" title="Permalink to this heading">#</a></h3>
 <p>Quaternions can be thought of as a orientation in 4D space. Imagine a camera in the world space that is pointing in a particular direction. The direction in which the camera is pointing can be described with reference to the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> axes in terms of the pitch, yaw and roll Euler angles.</p>
 <p>Given the three Euler angles pitch, yaw and roll then using the abbreviations</p>
 <div class="math notranslate nohighlight">
@@ -629,8 +585,7 @@ document.write(`
 <p>the quaternion that represents the camera orientation is</p>
 <div class="math notranslate nohighlight" id="equation-euler-to-quaternion-equation">
 <span class="eqno">(10.3)<a class="headerlink" href="#equation-euler-to-quaternion-equation" title="Permalink to this equation">#</a></span>\[ q = [c_pc_yc_r - s_ps_ys_r, (s_pc_yc_r + c_ps_ys_r, c_ps_yc_r - s_pc_ys_r, c_pc_ys_r - s_ps_yc_r)]. \]</div>
-<p>See <a class="reference internal" href="A_Complex_numbers_and_quaternions.html#euler-to-quaternion-derivation-section"><span class="std std-ref">Appendix: Euler angles to quaternion</span></a> for the derivation of this.</p>
-<p>We are going to add a member function to convert from Euler angles to the rotation quaternion. Add the following to the <code class="docutils literal notranslate"><span class="pre">Quaternion</span></code> data structure declaration in <code class="docutils literal notranslate"><span class="pre">maths.hpp</span></code></p>
+<p>See <a class="reference internal" href="A_Complex_numbers_and_quaternions.html#euler-to-quaternion-derivation-section"><span class="std std-ref">Appendix: Euler angles to quaternion</span></a> for the derivation of this equation. We are going to add a member function to convert from Euler angles to the rotation quaternion. Add the following to the <code class="docutils literal notranslate"><span class="pre">Quaternion</span></code> data structure declaration in <code class="docutils literal notranslate"><span class="pre">maths.hpp</span></code></p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">eulerToQuat</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">pitch</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">yaw</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">roll</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -655,7 +610,7 @@ document.write(`
 </pre></div>
 </div>
 <p>We can now calculate the quaternion for the orientation given by the pitch, yaw and roll Euler angles using <code class="docutils literal notranslate"><span class="pre">q.eulerToQuat()</span></code>.</p>
-<p>We currently using Euler angles rotation to calculate the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix in the <code class="docutils literal notranslate"><span class="pre">calculateMatrices()</span></code> Camera class camera class function. So our camera may suffer from gimbal lock and it also does not allow us to move the camera through 90<span class="math notranslate nohighlight">\(^\circ\)</span> or 270<span class="math notranslate nohighlight">\(^\circ\)</span> (try looking at the cubes from directly above or below and you will notice the orientation suddenly flipping orientation). So it would be advantageous to use quaternion rotations for calculate the view matrix.</p>
+<p>We currently using Euler angles rotation to calculate the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix in the <code class="docutils literal notranslate"><span class="pre">calculateMatrices()</span></code> Camera class function. As such our camera may suffer from gimbal lock and it also does not allow us to move the camera through 90<span class="math notranslate nohighlight">\(^\circ\)</span> or 270<span class="math notranslate nohighlight">\(^\circ\)</span> (try looking at the cubes from directly above or below and you will notice the orientation suddenly flipping around). So it would be advantageous to use quaternion rotations to calculate the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix.</p>
 <p>First we need to add an attribute to the Camera class for the quaternion that describes the direction which the camera is looking. In <code class="docutils literal notranslate"><span class="pre">camera.hpp</span></code> add the following code.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Direction quaternion</span>
 <span class="n">Quaternion</span><span class="w"> </span><span class="n">direction</span><span class="p">;</span>
@@ -669,7 +624,7 @@ document.write(`
 <span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">direction</span><span class="p">.</span><span class="n">mat</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Maths</span><span class="o">::</span><span class="n">translate</span><span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">),</span><span class="w"> </span><span class="o">-</span><span class="n">position</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Here we have calculated the quaternion from the Euler angles and multiplied it by the translation matrix to compute the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix. Of course we need the <span class="math notranslate nohighlight">\(\tt front\)</span>, <span class="math notranslate nohighlight">\(\tt right\)</span> and <span class="math notranslate nohighlight">\(\tt up\)</span> camera vectors to move the camera so we can calculate them from the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix. Add the following code after you have calculated the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix.</p>
+<p>Here we calculate the translation matrix to move the camera to (0,0,0) and then multiply it by the quaternion rotation matrix. Of course we need the <span class="math notranslate nohighlight">\(\tt right\)</span>, <span class="math notranslate nohighlight">\(\tt up\)</span> and <span class="math notranslate nohighlight">\(\tt front\)</span> camera vectors to move the camera, these can be easily obtained from the first three rows and columns of the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix. Add the following code after you have calculated the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Update camera vectors</span>
 <span class="n">right</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">view</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w">  </span><span class="n">right</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">view</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w">  </span><span class="n">right</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">view</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
 <span class="n">up</span><span class="p">.</span><span class="n">x</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">view</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="w">  </span><span class="n">up</span><span class="p">.</span><span class="n">y</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">view</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="w">  </span><span class="n">up</span><span class="p">.</span><span class="n">z</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">view</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
@@ -690,7 +645,7 @@ document.write(`
 </section>
 <section id="third-person-camera">
 <h2><span class="section-number">10.3. </span>Third person camera<a class="headerlink" href="#third-person-camera" title="Permalink to this heading">#</a></h2>
-<p>Quaternions allowed game developers to implement third person camera view in 3D games where the camera follows the character that the player is controlling. This was first done for the Playstation game <em>Tomb Raider</em> released by Core Design in 1996.</p>
+<p>The use of quaternions allows game developers to implement third person camera view in 3D games where the camera follows the character that the player is controlling. This was first done for the Playstation game <em>Tomb Raider</em> released by Core Design in 1996 and has become popular with game developers with game franchises such as <em>God of War</em>, <em>Horizon Zero Dawn</em>, <em>Assassins Creed</em> and <em>Red Dead Redemption</em> to name a few all using third person camera view.</p>
 <p>To implement a simple third person camera we are going to calculate the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix as usual and then move the camera back by an <span class="math notranslate nohighlight">\(\tt offset\)</span> vector which is a vector pointing from the actual camera position to the third person camera position <a class="reference internal" href="#third-person-camera-figure"><span class="std std-numref">Fig. 10.6</span></a>.</p>
 <figure class="align-default" id="third-person-camera-figure">
 <a class="reference internal image-reference" href="../_images/10_Third_person_camera.svg"><img alt="../_images/10_Third_person_camera.svg" src="../_images/10_Third_person_camera.svg" width="300" /></a>
@@ -773,9 +728,8 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quaternion-rotations">10.2. Quaternion Rotations</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unit-quaternions">10.2.1. Unit quaternions</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">10.2.2. Quaternion rotations</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#euler-angles-to-quaternion">10.2.3. Euler angles to quaternion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">10.2.1. Quaternion rotations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#euler-angles-to-quaternion">10.2.2. Euler angles to quaternion</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#third-person-camera">10.3. Third person camera</a></li>

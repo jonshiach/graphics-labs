@@ -13,7 +13,7 @@ The pitch, yaw and roll Euler angles.
 
 The angles that we use to define the rotation around each of the axes are known as **Euler angles** and we use the names **pitch**, **yaw** and **roll** for the rotation around the $x$, $y$ and $z$ axes respectively. To problem with using a composite of Euler angles rotations is that for certain alignments we can experience <a href="https://en.wikipedia.org/wiki/Gimbal_lock" target="_blank">**gimbal lock**</a> where two of the rotation axes are aligned leading to a loss of a degree of freedom causing the composite rotation to be "locked" into a 2D rotation.
 
-Quaternions are a mathematical object that can be used to perform rotation operations that do not suffer from gimbal lock and require few floating point calculations.
+Quaternions are a mathematical object that can be used to perform rotation operations that do not suffer from gimbal lock and require fewer floating point calculations.
 
 Download and build the project files for this lab.
 
@@ -57,19 +57,6 @@ Since a complex number consists of two parts we can plot them on a 2D space call
 The complex number $x + yi$ plotted on the complex plane.
 ```
 
-Each complex number $z = x + yi$ has a **complex conjugate** which is denoted by $z^*$ and is defined by negating the sign of the complex part
-
-$$ z^* = x - yi. $$
-
-When plotted on the complex plane, we can see that the complex conjugate of $z$ is the reflection of $z$ about the real axis ({numref}`complex-conjugate-figure`).
-
-```{figure} ../images/10_Complex_conjugate.svg
-:width: 300
-:name: complex-conjugate-figure
-
-Plot of the complex conjugate to $x + yi$.
-```
-
 ### Rotation using complex numbers
 
 A very useful property of complex numbers, and the reason why we are interested in them, is that multiplying a number by $i$ rotates the number by $90^\circ$ in the complex plane. For example consider the complex number $2 + i$, multiplying repeatedly by $i$ gives
@@ -90,17 +77,20 @@ So after four multiplications we are back to the original complex number. {numre
 Rotation of the complex number $2 + i$ by repeated multiplying by $i$.
 ```
 
-The radius of the circle shown in {numref}`complex-rotation-figure` can be calculated using Pythagoras' theorem, i.e.,
+So we have seen that multiplying a number by $i$ rotates it by 90$^\circ$, so how do we rotate a number by a different angle. {numref}`complex-rotation-2-figure` shows the rotation of the number 1 by $\theta$ anti-clockwise in the complex plane.
 
-$$ r = \sqrt{2^2 + 1^2} = \sqrt{5}. $$
+```{figure} ../images/10_Complex_rotation_2.svg
+:width: 300
+:name: complex-rotation-2-figure
 
-This values is known as the **absolute value** of the complex number $2 + i$. The absolute value of the general form of a complex number $z = x + yi$ is denoted by $|z|$ and calculated using
+The complex number $z$ is the real number 1 rotated $\theta$ anti-clockwise in the complex plane.
+```
 
-$$ |z| = \sqrt{ x^2 + y^2 }.$$
+Recall that $\cos(\theta) = \frac{adjacent}{hypotenuse}$ and $\sin(\theta) = \frac{opposite}{hypotenuse}$ and since the hypotenuse is 1 then 
 
-So we have seen that multiplying a number by $i$ rotates it by 90$^\circ$. To multiply by an arbitrary angle $\theta$ we multiply by the following complex number
+$$ z = \cos(\theta) + i \sin(theta).$$
 
-$$ z = \cos(\theta) + i \sin(\theta). $$
+This means we can rotate by an arbitrary angle $\theta$ in the complex plane by multiplying by $z$. 
 
 ---
 
@@ -132,15 +122,12 @@ struct Quaternion
     // Constructors
     Quaternion();
     Quaternion(const float w, const float x, const float y, const float z);
-
-    // Methods
-    void scalarMultiply(const float k);
 };
 ```
 
-This is a data structure called `Quaternion` which contains the attributes `w`, `x`, `y` and `z` values, two constructor methods and a method to multiply the quaternion by a scalar.
+This is a data structure called `Quaternion` which contains the attributes `w`, `x`, `y` and `z` values and two constructor methods (one for creating a quaternion and another for creating a quaternion and initialising the $w$, $x$, $y$ and $z$ values).
 
-In the `maths.cpp` add the following function definitions for the constructors and the scalar multiplication method.
+In the `maths.cpp` add the following function definitions for the constructors.
 
 ```cpp
 // Quaternion constructors
@@ -153,45 +140,7 @@ Quaternion::Quaternion(const float w, const float x, const float y, const float 
     this->y = y;
     this->z = z;
 }
-
-// Scalar multiplication of quaternion
-void Quaternion::scalarMultiply(const float k)
-{
-    w *= k;
-    x *= k;
-    y *= k;
-    z *= k;
-}
 ```
-
-### Unit quaternions
-
-The absolute value of a quaternion $q$ is denoted by $|q|$ and is calculated using
-
-$$ |q| = \sqrt{w^2 + x^2 + y^2 + z^2}. $$
-
-A **unit quaternion** is a quaternion with an absolute value of 1. We can **normalize** a quaternion by dividing by its absolute value
-
-$$ q = \frac{q}{|q|}. $$
-
-Lets add a method to our `Quaternion` data structure to normalize a quaternion. In `maths.hpp` add the following methods declaration
-
-```cpp
-void normalize();
-```
-
-and add the method definition to `maths.cpp`.
-
-```cpp
-// Normalize quaternion
-void Quaternion::normalize()
-{
-    float abs = sqrt(w * w + x * x + y * y + z * z);
-    scalarMultiply(1.0f / abs);
-}
-```
-
-So we can now normalise a quaternion `q` by calling `q.normalize()`.
 
 ### Quaternion rotations
 
@@ -255,9 +204,9 @@ glm::mat4 Quaternion::quatToMat()
 }
 ```
 
-We can now calculate the rotation matrix for a rotation quaternion `q` using `q.quatToMat()`. Comparing this code to the definition of `Maths::rotate()` in the `maths.cpp` file we can see the the the quaternion rotation matrix requires 16 multiplications compared to 24 multiplications to calculate the rotation matrix based on the composite of three separate rotations about the $x$, $y$ and $z$ axes. Efficiency is always a bonus but the main advantage however is the quaternion rotation matrix does not suffer from gimbal lock.
+We can now calculate the rotation matrix for a rotation quaternion `q` using `q.quatToMat()`. Comparing this code to the definition of `rotate()` in the `maths.cpp` file we can see the the the quaternion rotation matrix requires 16 multiplications compared to 24 multiplications to calculate the rotation matrix based on the composite of three separate rotations about the $x$, $y$ and $z$ axes and a translation. Efficiency is always a bonus but the main advantage is the quaternion rotation matrix does not suffer from gimbal lock.
 
-So it makes sense to use the quaternion rotation matrix for our axis-angle rotations. Edit the `Maths::rotate()` function definition so that is looks like the following.
+So it makes sense to use the quaternion rotation matrix for our axis-angle rotations. Edit the `rotate()` function definition so that is looks like the following.
 
 ```cpp
 glm::mat4 Maths::rotate(const glm::mat4 mat, const float angle, const glm::vec3 vec)
@@ -271,7 +220,7 @@ glm::mat4 Maths::rotate(const glm::mat4 mat, const float angle, const glm::vec3 
 }
 ```
 
-Here we calculate the rotation quaternion `q` and then output the rotation matrix multiplied by the input matrix `mat` (it isn't really necessary to do this but I wanted our `rotate()` function to have the same functionality as the glm version).
+Here we normalise the vector which we are rotating around before calculating the rotation quaternion `q`. The function then returns quaternion rotation matrix multiplied by the input matrix `mat` (it isn't really necessary to do this but I wanted our `rotate()` function to have the same functionality as the glm version).
 
 Compile and run your program and you should see that nothing has changed. This is good news as we are now using efficient quaternion rotation to rotate the cubes and don't have to worry about gimbal lock.
 
@@ -294,9 +243,7 @@ the quaternion that represents the camera orientation is
 
 $$ q = [c_pc_yc_r - s_ps_ys_r, (s_pc_yc_r + c_ps_ys_r, c_ps_yc_r - s_pc_ys_r, c_pc_ys_r - s_ps_yc_r)]. $$(euler-to-quaternion-equation)
 
-See [Appendix: Euler angles to quaternion](euler-to-quaternion-derivation-section) for the derivation of this.
-
-We are going to add a member function to convert from Euler angles to the rotation quaternion. Add the following to the `Quaternion` data structure declaration in `maths.hpp`
+See [Appendix: Euler angles to quaternion](euler-to-quaternion-derivation-section) for the derivation of this equation. We are going to add a member function to convert from Euler angles to the rotation quaternion. Add the following to the `Quaternion` data structure declaration in `maths.hpp`
 
 ```cpp
 void eulerToQuat(const float pitch, const float yaw, const float roll);
@@ -326,7 +273,7 @@ void Quaternion::eulerToQuat(const float pitch, const float yaw, const float rol
 
 We can now calculate the quaternion for the orientation given by the pitch, yaw and roll Euler angles using `q.eulerToQuat()`.
 
-We currently using Euler angles rotation to calculate the `view` matrix in the `calculateMatrices()` Camera class camera class function. So our camera may suffer from gimbal lock and it also does not allow us to move the camera through 90$^\circ$ or 270$^\circ$ (try looking at the cubes from directly above or below and you will notice the orientation suddenly flipping orientation). So it would be advantageous to use quaternion rotations for calculate the view matrix.
+We currently using Euler angles rotation to calculate the `view` matrix in the `calculateMatrices()` Camera class function. As such our camera may suffer from gimbal lock and it also does not allow us to move the camera through 90$^\circ$ or 270$^\circ$ (try looking at the cubes from directly above or below and you will notice the orientation suddenly flipping around). So it would be advantageous to use quaternion rotations to calculate the `view` matrix.
 
 First we need to add an attribute to the Camera class for the quaternion that describes the direction which the camera is looking. In `camera.hpp` add the following code.
 
@@ -345,7 +292,7 @@ direction.eulerToQuat(pitch, yaw, roll);
 view = direction.mat() * Maths::translate(glm::mat4(1.0f), -position);
 ```
 
-Here we have calculated the quaternion from the Euler angles and multiplied it by the translation matrix to compute the `view` matrix. Of course we need the $\tt front$, $\tt right$ and $\tt up$ camera vectors to move the camera so we can calculate them from the `view` matrix. Add the following code after you have calculated the `view` matrix.
+Here we calculate the translation matrix to move the camera to (0,0,0) and then multiply it by the quaternion rotation matrix. Of course we need the $\tt right$, $\tt up$ and $\tt front$ camera vectors to move the camera, these can be easily obtained from the first three rows and columns of the `view` matrix. Add the following code after you have calculated the `view` matrix.
 
 ```cpp
 // Update camera vectors
@@ -370,7 +317,7 @@ You probably are able to work out that pressing the Q and E keys decreases or in
 
 ## Third person camera
 
-Quaternions allowed game developers to implement third person camera view in 3D games where the camera follows the character that the player is controlling. This was first done for the Playstation game *Tomb Raider* released by Core Design in 1996. 
+The use of quaternions allows game developers to implement third person camera view in 3D games where the camera follows the character that the player is controlling. This was first done for the Playstation game *Tomb Raider* released by Core Design in 1996 and has become popular with game developers with game franchises such as *God of War*, *Horizon Zero Dawn*, *Assassins Creed* and *Red Dead Redemption* to name a few all using third person camera view.
 
 To implement a simple third person camera we are going to calculate the `view` matrix as usual and then move the camera back by an $\tt offset$ vector which is a vector pointing from the actual camera position to the third person camera position {numref}`third-person-camera-figure`. 
 

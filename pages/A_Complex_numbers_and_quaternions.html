@@ -944,7 +944,7 @@ document.write(`
 <p>Consider <a class="reference internal" href="#a-slerp-figure"><span class="std std-numref">Fig. 6</span></a> where <span class="math notranslate nohighlight">\(q_1\)</span> and <span class="math notranslate nohighlight">\(q_2\)</span> are two quaternions emanating from the centre of a sphere. The interpolated quaternion <span class="math notranslate nohighlight">\(q_t\)</span> represents another quaternion that is partway between <span class="math notranslate nohighlight">\(q_1\)</span> and <span class="math notranslate nohighlight">\(q_2\)</span> calculated using</p>
 <div class="math notranslate nohighlight" id="equation-slerp-equation">
 <span class="eqno">(5)<a class="headerlink" href="#equation-slerp-equation" title="Permalink to this equation">#</a></span>\[ \begin{align*}
-    \operatorname{SLERP}(q_1, q_2, t) = \frac{\sin((1-t) \theta)}{\sin(\theta)}q_0 + \frac{\sin(t\theta)}{\sin(\theta)}q_1
+    \operatorname{SLERP}(q_1, q_2, t) = \frac{\sin((1-t) \theta)}{\sin(\theta)}q_1 + \frac{\sin(t\theta)}{\sin(\theta)}q_2
 \end{align*}, \]</div>
 <p>where <span class="math notranslate nohighlight">\(t\)</span> is a value between 0 and 1 and <span class="math notranslate nohighlight">\(\theta\)</span> is the angle between the two pure quaternions <span class="math notranslate nohighlight">\(q_1\)</span> and <span class="math notranslate nohighlight">\(q_2\)</span> and is calculated using</p>
 <div class="math notranslate nohighlight">
