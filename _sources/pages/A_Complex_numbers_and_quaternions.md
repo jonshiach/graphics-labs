@@ -1,3 +1,5 @@
+(appendix-quaternions-section)=
+
 # A. Quaternions
 
 In [Lab 10](quaternions-section) we explored how we can make use of quaternions to perform rotation calculations. You don't need to know exactly how the various equations are derived in order to use them in your programs, however, if you are curious their derivations are provided here. 
@@ -555,7 +557,7 @@ $$ \begin{align*}
         s(xz + yw) & s(yz - xw) & 1 - s(x^2 + y^2) & 0 \\
         0 & 0 & 0 & 1
     \end{pmatrix}
-\end{align*}
+\end{align*} $$
 
 The matrix $R$ is the rotation matrix for rotating a vector $\vec{p}$ by angle $\theta$ about the unit vector $\hat{\vec{v}}$ where $x$, $y$, $z$ and $w$ are the values of the unit rotation quaternion.
 
@@ -599,38 +601,3 @@ The result of this calculation is plotted in {numref}`quaternion-rotation-4-figu
 
 The rotation of the vector $\vec{p} = (2, 0, 0)$ by angle 45$^\circ$ about the vector $\vec{v} = (\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})$ using the quaternion rotation matrix $R$.
 ```
-
-## A.4 SLERP
-
-The real advantage that quaternions have over Euler angles is that we can interpolate between two orientations smoothly and without encountering the problem of gimble lock. Standard Linear intERPolation (LERP) is used to calculate an intermediate position on the straight line between two points. 
-
-```{figure} ../images/A_Linear_interpolation.svg
-:width: 400
-```
-
-If $\vec{p}_1$ and $\vec{p}_2$ are two points then an interpolated point $\vec{p}_t$ is calculated using
-
-$$ \operatorname{LERP}(\vec{p}_1, \vec{p}_2, t) = \vec{p}_1 + t(\vec{p}_2 - \vec{p}_1), $$
-
-where $t$ is a value between 0 and 1. **SLERP** stands for Spherical Linear intERPpolation and is a method used to interpolate between two orientations emanating from the centre of a sphere.
-
-```{figure} ../images/A_SLERP.svg
-:width: 400
-:name: A-SLERP-figure
-
-SLERP interpolation between two points on a sphere.
-```
-
-Consider {numref}`A-SLERP-figure` where $q_1$ and $q_2$ are two quaternions emanating from the centre of a sphere. The interpolated quaternion $q_t$ represents another quaternion that is partway between $q_1$ and $q_2$ calculated using
-
-$$ \begin{align*}
-    \operatorname{SLERP}(q_1, q_2, t) = \frac{\sin((1-t) \theta)}{\sin(\theta)}q_1 + \frac{\sin(t\theta)}{\sin(\theta)}q_2
-\end{align*}, $$(slerp-equation)
-
-where $t$ is a value between 0 and 1 and $\theta$ is the angle between the two pure quaternions $q_1$ and $q_2$ and is calculated using
-
-$$ \theta = \cos^{-1} \left( \frac{q_1 \cdot q_2}{|q_1||q_2|} \right).$$
-
-Sometimes the to product $q_1 \cdot q_2$ returns a negative result meaning that $\theta$ we will be interpolating the long way round the sphere. To overcome this we negate the values of one of the quaternions, this is fine since the quaternion $-q$ is the same orientation as $q$.
-
-Another consideration is when $\theta$ is very small then $\sin(\theta)$ in equation {eq}`slerp-equation` can be rounded to zero causing a divide by zero error. To get around this we can use LERP between $q_1$ and $q_2$.

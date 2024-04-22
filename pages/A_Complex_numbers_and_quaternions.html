@@ -393,7 +393,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-3-2-rotation-matrix">A.3.2 Rotation matrix</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-4-slerp">A.4 SLERP</a></li>
 </ul>
             </nav>
         </div>
@@ -406,7 +405,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="a-quaternions">
-<h1>A. Quaternions<a class="headerlink" href="#a-quaternions" title="Permalink to this heading">#</a></h1>
+<span id="appendix-quaternions-section"></span><h1>A. Quaternions<a class="headerlink" href="#a-quaternions" title="Permalink to this heading">#</a></h1>
 <p>In <a class="reference internal" href="10_Quaternions.html#quaternions-section"><span class="std std-ref">Lab 10</span></a> we explored how we can make use of quaternions to perform rotation calculations. You don’t need to know exactly how the various equations are derived in order to use them in your programs, however, if you are curious their derivations are provided here.</p>
 <section id="a-1-complex-numbers">
 <h2>A.1 Complex numbers<a class="headerlink" href="#a-1-complex-numbers" title="Permalink to this heading">#</a></h2>
@@ -881,7 +880,7 @@ document.write(`
 \end{align*} \end{split}\]</div>
 <p>Let <span class="math notranslate nohighlight">\(s = \dfrac{2}{w^2 + x^2 + y^2 + z^2}\)</span> then this simplifies to</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}\begin{split} \begin{align*}
+\[\begin{split} \begin{align*}
     R &amp;= 
     \begin{pmatrix}
         1 - s(y^2 + z^2) &amp; s(xy + zw) &amp; s(xz - yw) &amp; 0 \\
@@ -889,10 +888,14 @@ document.write(`
         s(xz + yw) &amp; s(yz - xw) &amp; 1 - s(x^2 + y^2) &amp; 0 \\
         0 &amp; 0 &amp; 0 &amp; 1
     \end{pmatrix}
-\end{align*}\end{split}\\The matrix $R$ is the rotation matrix for rotating a vector $\vec{p}$ by angle $\theta$ about the unit vector $\hat{\vec{v}}$ where $x$, $y$, $z$ and $w$ are the values of the unit rotation quaternion.\\Lets return to our example of rotating the vector $\vec{p} = (2, 0, 0)$ by 45$^\circ$ about the vector $(\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})$. We first calculate the rotation quaternion $q$\\\begin{split}$$ \begin{align*}
+\end{align*} \end{split}\]</div>
+<p>The matrix <span class="math notranslate nohighlight">\(R\)</span> is the rotation matrix for rotating a vector <span class="math notranslate nohighlight">\(\vec{p}\)</span> by angle <span class="math notranslate nohighlight">\(\theta\)</span> about the unit vector <span class="math notranslate nohighlight">\(\hat{\vec{v}}\)</span> where <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, <span class="math notranslate nohighlight">\(z\)</span> and <span class="math notranslate nohighlight">\(w\)</span> are the values of the unit rotation quaternion.</p>
+<p>Lets return to our example of rotating the vector <span class="math notranslate nohighlight">\(\vec{p} = (2, 0, 0)\)</span> by 45<span class="math notranslate nohighlight">\(^\circ\)</span> about the vector <span class="math notranslate nohighlight">\((\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})\)</span>. We first calculate the rotation quaternion <span class="math notranslate nohighlight">\(q\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
     q &amp;= [\cos(\tfrac{45^\circ}{2}), \sin(\tfrac{45^\circ}{2}) (\tfrac{\sqrt{2}}{2}, 0, \tfrac{\sqrt{2}}{2})] \\
     &amp;\approx [0.9239, (0.2706, 0, 0.2706)].
-\end{align*} \end{split}\end{aligned}\end{align} \]</div>
+\end{align*} \end{split}\]</div>
 <p>From <span class="math notranslate nohighlight">\(q\)</span> we have <span class="math notranslate nohighlight">\(w = 0.9239\)</span>, <span class="math notranslate nohighlight">\(x = 0.2706\)</span>, <span class="math notranslate nohighlight">\(y = 0\)</span> and <span class="math notranslate nohighlight">\(z = 0.2706\)</span>. Substituting these into equation <a class="reference internal" href="10_Quaternions.html#equation-quaternion-rotation-matrix-equation">(10.2)</a> gives</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
@@ -924,33 +927,6 @@ document.write(`
 </figcaption>
 </figure>
 </section>
-</section>
-<section id="a-4-slerp">
-<h2>A.4 SLERP<a class="headerlink" href="#a-4-slerp" title="Permalink to this heading">#</a></h2>
-<p>The real advantage that quaternions have over Euler angles is that we can interpolate between two orientations smoothly and without encountering the problem of gimble lock. Standard Linear intERPolation (LERP) is used to calculate an intermediate position on the straight line between two points.</p>
-<figure class="align-default">
-<a class="reference internal image-reference" href="../_images/A_Linear_interpolation.svg"><img alt="../_images/A_Linear_interpolation.svg" src="../_images/A_Linear_interpolation.svg" width="400" /></a>
-</figure>
-<p>If <span class="math notranslate nohighlight">\(\vec{p}_1\)</span> and <span class="math notranslate nohighlight">\(\vec{p}_2\)</span> are two points then an interpolated point <span class="math notranslate nohighlight">\(\vec{p}_t\)</span> is calculated using</p>
-<div class="math notranslate nohighlight">
-\[ \operatorname{LERP}(\vec{p}_1, \vec{p}_2, t) = \vec{p}_1 + t(\vec{p}_2 - \vec{p}_1), \]</div>
-<p>where <span class="math notranslate nohighlight">\(t\)</span> is a value between 0 and 1. <strong>SLERP</strong> stands for Spherical Linear intERPpolation and is a method used to interpolate between two orientations emanating from the centre of a sphere.</p>
-<figure class="align-default" id="a-slerp-figure">
-<a class="reference internal image-reference" href="../_images/A_SLERP.svg"><img alt="../_images/A_SLERP.svg" src="../_images/A_SLERP.svg" width="400" /></a>
-<figcaption>
-<p><span class="caption-number">Fig. 6 </span><span class="caption-text">SLERP interpolation between two points on a sphere.</span><a class="headerlink" href="#a-slerp-figure" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
-<p>Consider <a class="reference internal" href="#a-slerp-figure"><span class="std std-numref">Fig. 6</span></a> where <span class="math notranslate nohighlight">\(q_1\)</span> and <span class="math notranslate nohighlight">\(q_2\)</span> are two quaternions emanating from the centre of a sphere. The interpolated quaternion <span class="math notranslate nohighlight">\(q_t\)</span> represents another quaternion that is partway between <span class="math notranslate nohighlight">\(q_1\)</span> and <span class="math notranslate nohighlight">\(q_2\)</span> calculated using</p>
-<div class="math notranslate nohighlight" id="equation-slerp-equation">
-<span class="eqno">(5)<a class="headerlink" href="#equation-slerp-equation" title="Permalink to this equation">#</a></span>\[ \begin{align*}
-    \operatorname{SLERP}(q_1, q_2, t) = \frac{\sin((1-t) \theta)}{\sin(\theta)}q_1 + \frac{\sin(t\theta)}{\sin(\theta)}q_2
-\end{align*}, \]</div>
-<p>where <span class="math notranslate nohighlight">\(t\)</span> is a value between 0 and 1 and <span class="math notranslate nohighlight">\(\theta\)</span> is the angle between the two pure quaternions <span class="math notranslate nohighlight">\(q_1\)</span> and <span class="math notranslate nohighlight">\(q_2\)</span> and is calculated using</p>
-<div class="math notranslate nohighlight">
-\[ \theta = \cos^{-1} \left( \frac{q_1 \cdot q_2}{|q_1||q_2|} \right).\]</div>
-<p>Sometimes the to product <span class="math notranslate nohighlight">\(q_1 \cdot q_2\)</span> returns a negative result meaning that <span class="math notranslate nohighlight">\(\theta\)</span> we will be interpolating the long way round the sphere. To overcome this we negate the values of one of the quaternions, this is fine since the quaternion <span class="math notranslate nohighlight">\(-q\)</span> is the same orientation as <span class="math notranslate nohighlight">\(q\)</span>.</p>
-<p>Another consideration is when <span class="math notranslate nohighlight">\(\theta\)</span> is very small then <span class="math notranslate nohighlight">\(\sin(\theta)\)</span> in equation <a class="reference internal" href="#equation-slerp-equation">(5)</a> can be rounded to zero causing a divide by zero error. To get around this we can use LERP between <span class="math notranslate nohighlight">\(q_1\)</span> and <span class="math notranslate nohighlight">\(q_2\)</span>.</p>
 </section>
 </section>
 
@@ -1040,7 +1016,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-3-2-rotation-matrix">A.3.2 Rotation matrix</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-4-slerp">A.4 SLERP</a></li>
 </ul>
   </nav></div>
 
