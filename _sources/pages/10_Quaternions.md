@@ -368,7 +368,7 @@ if (glfwGetKey(window, GLFW_KEY_D))
 The third person camera is moved back from the character position by translating the `view` matrix by the `offset` vector. Change the `view` matrix calculation to the following
 
 ```cpp
-view = Maths::translate(glm::mat4(1.0f), -offset) * direction.mat() * Maths::translate(glm::mat4(1.0f), -position);
+view = Maths::translate(glm::mat4(1.0f), -offset) * direction.quatToMat() * Maths::translate(glm::mat4(1.0f), -position);
 ```
 
 The last change we need to make to our third person camera method is to move the character based on the character direction quaternion and not the camera direction quaternion. Replace the code used to update the camera vectors with the following.
