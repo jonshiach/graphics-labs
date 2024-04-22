@@ -64,7 +64,7 @@ A very useful property of complex numbers, and the reason why we are interested 
 $$ \begin{align*}
     (2 + i)i &= 2i + i^2 = -1 + 2i, \\
     (-1 +2i)i &= -i + 2i^2 = -2 - i, \\
-    (-2 - i)i &= 2i - i^2 = 1 - 2i, \\
+    (-2 - i)i &= -2i - i^2 = 1 - 2i, \\
     (1 - 2i)i &= i - 2i^2 = 2 + i.
 \end{align*} $$
 
