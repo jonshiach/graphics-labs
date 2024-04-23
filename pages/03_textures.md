@@ -4,7 +4,7 @@
 
 Texture mapping is a technique for applying a 2D image known as a **texture** onto a 3D surface. Applying a texture adds detail and complexity to the appearance of 3D objects without the need for modelling intricate geometry.
 
-```{figure} ../images/texture_mapping.svg
+```{figure} ../images/03_texture_mapping.svg
 :width: 600
 
 Mapping a texture to a polygon.
@@ -40,7 +40,7 @@ GLuint texture1 = loadBMP_custom("crate.bmp");
 
 This creates an OpenGL texture which can be referenced by the integer `texture1`. The bitmap was are using here is `crate.bmp` which is stored in the `source/` folder and shows a side of a wooden crate.
 
-```{figure} ../images/crate.bmp
+```{figure} ../images/03_crate.bmp
 :width: 300
 
 The crate texture.
@@ -179,7 +179,7 @@ glVertexAttribPointer(
 
 Note that since the texture has (u, v) co-ordinates instead of (x, y, z) the size attribute is `2` instead of `3`. Compile and run program and, after sending a prayer to the programming gods, you should be presented with a textured triangle.
 
-```{figure} ../images/texture_triangle.png
+```{figure} ../images/03_texture_triangle.png
 :width: 500
 ```
 
@@ -189,7 +189,7 @@ If you are having difficulty with this check out the source code and shaders: [m
 
 Our texture triangle is great and all but doesn't really look like a realistic object. Since the original texture is rectangular, lets create a rectangle out of two triangles with the appropriate texture mapping.
 
-```{figure} ../images/rectangle.svg
+```{figure} ../images/03_rectangle.svg
 :width: 500
 
 A rectangle constructed using two triangles.
@@ -222,7 +222,7 @@ static const GLfloat uvCoords[] = {
 
 Compile and run the program and you should be presented with the more realistic image below.
 
-```{figure} ../images/texture_rectangle.png
+```{figure} ../images/03_texture_rectangle.png
 :width: 500
 ```
 
@@ -230,7 +230,7 @@ Compile and run the program and you should be presented with the more realistic 
 
 In our examples above, all of the texture co-ordinates have been in the range from 0 to 1. If we specify co-ordinates outside of this range then OpenGL will repeat the texture across the fragment. This is known as **texture wrapping**.
 
-```{figure} ../images/texture_repeat.png
+```{figure} ../images/03_texture_repeat.png
 :width: 300
 
 The default texture wrapping in OpenGL is to repeat the texture. 
@@ -247,7 +247,7 @@ OpenGL offers other options for texture wrapping;
 
 `````{grid}
 ````{grid-item}
-```{figure} ../images/texture_mirrored_repeat.png
+```{figure} ../images/03_texture_mirrored_repeat.png
 :width: 300
 
 `GL_MIRRORED_REPEAT` 
@@ -255,7 +255,7 @@ OpenGL offers other options for texture wrapping;
 ````
 
 ````{grid-item}
-```{figure} ../images/texture_clamp_to_edge.png
+```{figure} ../images/03_texture_clamp_to_edge.png
 :width: 300
 
 `GL_CLAMP_TO_EDGE`
@@ -263,7 +263,7 @@ OpenGL offers other options for texture wrapping;
 ````
 
 ````{grid-item}
-```{figure} ../images/texture_clamp_to_border.png
+```{figure} ../images/03_texture_clamp_to_border.png
 :width: 300
 
 `GL_CLAMP_TO_BORDER`
@@ -293,13 +293,13 @@ Here we can choose what type of texture wrapping we want to use by commenting or
 
 `GL_NEAREST` is the default in OpenGL uses the colour of the nearest textel to the texture co-ordinates as the colour sample. This is illustrated in the diagram below where the texture co-ordinates represented by the black circle is mapped in a region on the texture with four neighbouring textels with the textel centres represented by the crosses. The texture co-ordinates are closed to the centre of the textel in the top-left so the colour of that textel is used for the colour sample.
 
-```{figure} ../images/nearest_filtering.svg
+```{figure} ../images/03_nearest_filtering.svg
 :width: 400
 ```
 
 However, the texture co-ordinate is quite close to three other neighbouring textels so shouldn't the colours of these be taken into account? Another method is to calculate the sample colour using <a href="https://en.wikipedia.org/wiki/Bilinear_interpolation" target="_blank">(bi)linear</a> interpolation where the distance of a textels centre from the texture co-ordinate determines how much that textel contributes to the sample colour, i.e., the closer the textel the more of the textel colour is contained in the colour sample. This can be applied using the `GL_NEAREST` option.
 
-```{figure} ../images/linear_filtering.svg
+```{figure} ../images/03_linear_filtering.svg
 :width: 400
 ```
 
@@ -307,7 +307,7 @@ The effects of these two filtering methods are shown in {numref}`nearest-filteri
 
 `````{grid}
 ````{grid-item}
-```{figure} ../images/nearest_filtering.png
+```{figure} ../images/03_nearest_filtering.png
 :width: 200
 :name: nearest-filtering-figure
 
@@ -316,7 +316,7 @@ The effects of these two filtering methods are shown in {numref}`nearest-filteri
 ````
 
 ````{grid-item}
-```{figure} ../images/linear_filtering.png
+```{figure} ../images/03_linear_filtering.png
 :width: 200
 :name: linear-filtering-figure
 
@@ -340,7 +340,7 @@ To solve this issue OpenGL uses <a href="https://www.khronos.org/opengl/wiki/Tex
 
 [^1]: "mip" is short for the latin phrase *"multum in parvo"* or "much in little".
 
-```{figure} ../images/mipmaps.svg
+```{figure} ../images/03_mipmaps.svg
 :width: 500
 
 Mipmaps
@@ -410,7 +410,7 @@ void main ()
 
 Here we have used the `mix()` GLSL function to combine the colour samples from the two textures. The last number `0.3` is used to interpolate between the two textures so 30% of the fragment colour comes from the second texture and 70% comes from the first texture.
 
-```{figure} ../images/two_textures.png
+```{figure} ../images/03_two_textures.png
 :width: 500
 ```
 
@@ -420,19 +420,19 @@ Here we have used the `mix()` GLSL function to combine the colour samples from t
 
 1. Apply the smiley face texture to the rectangle so that it displays a 3 by 4 grid of smiley faces.
 
-```{figure} ../images/smiley_grid.png
+```{figure} ../images/03_smiley_grid.png
 :width: 500
 ```
 
 2. Modify the fragment shader so that the smiley face looks in the other direction. Hint: the individual elements of a `vec3` vector can be accessed using `<vector name>.x`, `<vector name>.y` etc.
 
-```{figure} ../images/smiley_reversed.png
+```{figure} ../images/03_smiley_reversed.png
 :width: 500
 ```
 
 3. Apply a texture of your choice to the rectangle (e.g., a selfie). You will need to ensure that the source image is a bitmap so an online converter such as <a href="https://online-converting.com/image/convert2bmp/" target="_blank">https://online-converting.com/image/convert2bmp/</a> are useful for converting from various image formats.
 
-```{figure} ../images/kratos_texture.png
+```{figure} ../images/03_kratos_texture.png
 :width: 500
 ```
 

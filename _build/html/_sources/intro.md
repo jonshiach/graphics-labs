@@ -14,7 +14,7 @@ This site contains the materials used in the lab sessions for the Computer Graph
 | 8 | 18/03/2024 | [Lighting](lighting-section): model loading, Phong's reflection model, lighting shaders |
 | - | 23/03/2024 - 14/04/2024 | Easter break (no teaching)|
 | 9 | 15/04/2024 | [Normal mapping](normal-mapping-section): the tangent space, applying a normal map, specular maps |
-| 10 | 22/04/2024 | Quaternions |
+| 10 | 22/04/2024 | [Quaternions](quaternions-section): complex numbers and quaternions, rotations, SLERP |
 | 11 | 29/04/2024 | Assignment work |
 
 These materials are based upon the excellent OpenGL tutorials <a href="https://learnopengl.com/" target="_blank">learnOpenGL</a> by Joey de Vries and <a href="https://www.opengl-tutorial.org/" target="_blank">open-gl-tutorial</a>.

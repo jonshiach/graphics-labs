@@ -6,7 +6,7 @@ Computer graphics relies heavily on mathematics of vectors and matrices. In this
 
 ## Vectors
 
-A vector in is an object with magnitude (length) and direction. A vector is denoted by an underlined lower case letter, e.g., $\underline{a}$ (alternate notation includes representing vectors using a boldface character, e.g., $\mathbf{a}$, or an over arrow e.g., $\vec{a}$) and represented mathematically by the 3-tuple
+A vector in is an object with magnitude (length) and direction. A vector is denoted by an underlined lower case letter, e.g., $\underline{a}$ (alternate notation includes representing vectors using a boldface character, e.g., $\mathbf{a}$) and represented mathematically by the 3-tuple
 
 $$ \underline{a} = (a_x, a_y, a_z), $$
 

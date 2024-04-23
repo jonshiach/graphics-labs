@@ -209,7 +209,7 @@ You don't necessarily need to know where this comes from but if you are curious 
 
 First consider the left-to-right movement, since we use `xPos - 1024/2` to calculate the $\tt yaw$ angle, if we move the cursor to the right then the $\tt yaw$ angle increases and we want to rotate **clockwise** about the $y$-axis ({numref}`yaw-figure`). 
 
-```{figure} /images/yaw.svg
+```{figure} /images/03_yaw.svg
 :name: yaw-figure
 :width: 250
 
@@ -229,7 +229,7 @@ $$ \begin{align*}
 
 Similarly, if we move the cursor up then $\tt pitch$ angle increases and we want to rotate **anti-clockwise** about the $x$-axis ({numref}`pitch-figure`).
 
-```{figure} /images/pitch.svg
+```{figure} /images/03_pitch.svg
 :name: pitch-figure
 :width: 200
 

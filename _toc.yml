@@ -5,5 +5,15 @@ format: jb-book
 root: intro
 options:
   numbered: true
-chapters:
-- glob: pages/*
+
+parts:
+- caption:
+  numbered: true
+  chapters:
+  - glob: pages/0*
+  - glob: pages/1*
+
+- caption: Appendices
+  # numbered: true
+  chapters:
+  - glob: pages/A*
