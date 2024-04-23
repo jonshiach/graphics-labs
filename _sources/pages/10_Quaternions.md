@@ -1,6 +1,6 @@
 (quaternions-section)=
 
-# Quaternion
+# Quaternions
 
 We saw in [Lab 5 in Transformations](axis-angle-rotation-section) that we can use calculate a transformation matrix to rotate about a vector. This matrix was derived by compositing three individual rotations about the three co-ordinate $x$, $y$ and $z$ axes.
 
