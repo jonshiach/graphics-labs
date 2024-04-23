@@ -1,6 +1,6 @@
 (appendix-quaternions-section)=
 
-# A. Quaternions
+# A. Complex Numbers and Quaternions
 
 In [Lab 10](quaternions-section) we explored how we can make use of quaternions to perform rotation calculations. You don't need to know exactly how the various equations are derived in order to use them in your programs, however, if you are curious their derivations are provided here. 
 

@@ -1,6 +1,6 @@
 (quaternions-section)=
 
-# Quaternions
+# Quaternion Rotations
 
 We saw in [Lab 5 in Transformations](axis-angle-rotation-section) that we can use calculate a transformation matrix to rotate about a vector. This matrix was derived by compositing three individual rotations about the three co-ordinate $x$, $y$ and $z$ axes.
 
@@ -86,7 +86,7 @@ So we have seen that multiplying a number by $i$ rotates it by 90$^\circ$, so ho
 The complex number $z$ is the real number 1 rotated $\theta$ anti-clockwise in the complex plane.
 ```
 
-Recall that $\cos(\theta) = \frac{\textsf{adjacent}}{\textsf{hypotenuse}}$ and $\sin(\theta) = \frac{\textsf{opposite}}{\textsf{hypotenuse}}$ and since the hypotenuse is 1 then 
+Recall that $\cos(\theta) = \dfrac{\textsf{adjacent}}{\textsf{hypotenuse}}$ and $\sin(\theta) = \dfrac{\textsf{opposite}}{\textsf{hypotenuse}}$ and since the hypotenuse is 1 then
 
 $$ z = \cos(\theta) + i \sin(\theta).$$
 
@@ -292,9 +292,9 @@ Here we calculate the translation matrix to move the camera to (0,0,0) and then 
 
 ```cpp
 // Update camera vectors
-right.x = view[0][0],  right.y = view[1][0],  right.z = view[2][0];
-up.x    = view[0][1],  up.y    = view[1][1],  up.z    = view[2][1];
-front.x = -view[0][2], front.y = -view[1][2], front.z = -view[2][2];
+right.x =  view[0][0], right.y =  view[1][0],  right.z =  view[2][0];
+up.x    =  view[0][1], up.y    =  view[1][1],  up.z    =  view[2][1];
+front.x = -view[0][2], front.y = -view[1][2], front.z  = -view[2][2];
 ```
 
 Compile and run the code and you will see that you can move the camera in any orientation and we can move the camera through 90$^\circ$ or 270$^\circ$ without the orientation flipping around.
@@ -377,8 +377,8 @@ The last change we need to make to our third person camera method is to move the
 // Update character movement vectors
 charDirection.eulerToQuat(pitch, charYaw, roll);
 glm::mat4 charMat = charDirection.quatToMat();
-right.x = charMat[0][0],  right.y = charMat[1][0],  right.z = charMat[2][0];
-up.x    = charMat[0][1],  up.y    = charMat[1][1],  up.z    = charMat[2][1];
+right.x =  charMat[0][0], right.y =  charMat[1][0], right.z =  charMat[2][0];
+up.x    =  charMat[0][1], up.y    =  charMat[1][1], up.z    =  charMat[2][1];
 front.x = -charMat[0][2], front.y = -charMat[1][2], front.z = -charMat[2][2];
 ```
 
@@ -508,7 +508,7 @@ Quaternion Maths::slerp(Quaternion q1, Quaternion q2, const float t)
     // Calculate interpolated quaternion qt
     Quaternion qt;
     float denom = sin(theta);
-    if (denom > 0.1)
+    if (denom > 0.001f)
     {
         // Use SLERP
         float fact1 = sin((1.0f - t) * theta);

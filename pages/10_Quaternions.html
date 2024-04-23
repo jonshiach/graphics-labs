@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>10. Quaternions &#8212; Computer Graphics Labs</title>
+    <title>10. Quaternion Rotations &#8212; Computer Graphics Labs</title>
   
   
   
@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/10_Quaternions';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="A. Quaternions" href="A_Complex_numbers_and_quaternions.html" />
+    <link rel="next" title="A. Complex Numbers and Quaternions" href="A_Complex_numbers_and_quaternions.html" />
     <link rel="prev" title="9. Normal Mapping" href="09_Normal_mapping.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -168,11 +168,11 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="07_Moving_the_camera.html">7. Moving the camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_Lighting.html">8. Lighting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_Normal_mapping.html">9. Normal Mapping</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">10. Quaternions</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">10. Quaternion Rotations</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendices</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="A_Complex_numbers_and_quaternions.html">A. Quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="A_Complex_numbers_and_quaternions.html">A. Complex Numbers and Quaternions</a></li>
 </ul>
 
     </div>
@@ -356,7 +356,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Quaternions</h1>
+    <h1>Quaternion Rotations</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -370,8 +370,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotation-using-complex-numbers">10.1.1. Rotation using complex numbers</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">10.2. Quaternions</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quaternion-rotations">10.2.1. Quaternion rotations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quaternions">10.2. Quaternions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">10.2.1. Quaternion rotations</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#euler-angles-to-quaternion">10.2.2. Euler angles to quaternion</a></li>
 </ul>
 </li>
@@ -389,8 +389,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="quaternions">
-<span id="quaternions-section"></span><h1><span class="section-number">10. </span>Quaternions<a class="headerlink" href="#quaternions" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="quaternion-rotations">
+<span id="quaternions-section"></span><h1><span class="section-number">10. </span>Quaternion Rotations<a class="headerlink" href="#quaternion-rotations" title="Permalink to this heading">#</a></h1>
 <p>We saw in <a class="reference internal" href="05_transformations.html#axis-angle-rotation-section"><span class="std std-ref">Lab 5 in Transformations</span></a> that we can use calculate a transformation matrix to rotate about a vector. This matrix was derived by compositing three individual rotations about the three co-ordinate <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> axes.</p>
 <figure class="align-default" id="euler-angles-figure">
 <a class="reference internal image-reference" href="../_images/10_Euler_angles.svg"><img alt="../_images/10_Euler_angles.svg" src="../_images/10_Euler_angles.svg" width="300" /></a>
@@ -458,15 +458,15 @@ document.write(`
 <p><span class="caption-number">Fig. 10.4 </span><span class="caption-text">The complex number <span class="math notranslate nohighlight">\(z\)</span> is the real number 1 rotated <span class="math notranslate nohighlight">\(\theta\)</span> anti-clockwise in the complex plane.</span><a class="headerlink" href="#complex-rotation-2-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>Recall that <span class="math notranslate nohighlight">\(\cos(\theta) = \frac{\textsf{adjacent}}{\textsf{hypotenuse}}\)</span> and <span class="math notranslate nohighlight">\(\sin(\theta) = \frac{\textsf{opposite}}{\textsf{hypotenuse}}\)</span> and since the hypotenuse is 1 then</p>
+<p>Recall that <span class="math notranslate nohighlight">\(\cos(\theta) = \dfrac{\textsf{adjacent}}{\textsf{hypotenuse}}\)</span> and <span class="math notranslate nohighlight">\(\sin(\theta) = \dfrac{\textsf{opposite}}{\textsf{hypotenuse}}\)</span> and since the hypotenuse is 1 then</p>
 <div class="math notranslate nohighlight">
 \[ z = \cos(\theta) + i \sin(\theta).\]</div>
 <p>This means we can rotate by an arbitrary angle <span class="math notranslate nohighlight">\(\theta\)</span> in the complex plane by multiplying by <span class="math notranslate nohighlight">\(z\)</span>.</p>
 </section>
 </section>
 <hr class="docutils" />
-<section id="id1">
-<h2><span class="section-number">10.2. </span>Quaternions<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<section id="quaternions">
+<h2><span class="section-number">10.2. </span>Quaternions<a class="headerlink" href="#quaternions" title="Permalink to this heading">#</a></h2>
 <p>A <strong>quaternion</strong> is an extension of a complex number where two additional imaginary numbers are used to extend from a 2D space to a 4D space. The general form of a quaternion is</p>
 <div class="math notranslate nohighlight">
 \[ q = w + xi + yj + zk, \]</div>
@@ -501,8 +501,8 @@ document.write(`
 <span class="p">}</span>
 </pre></div>
 </div>
-<section id="quaternion-rotations">
-<h3><span class="section-number">10.2.1. </span>Quaternion rotations<a class="headerlink" href="#quaternion-rotations" title="Permalink to this heading">#</a></h3>
+<section id="id1">
+<h3><span class="section-number">10.2.1. </span>Quaternion rotations<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
 <p>We saw above that we can rotate a number in the complex plane by multiplying by the complex number</p>
 <div class="math notranslate nohighlight">
 \[ z = \cos(\theta) + i\sin(\theta). \]</div>
@@ -625,9 +625,9 @@ document.write(`
 </div>
 <p>Here we calculate the translation matrix to move the camera to (0,0,0) and then multiply it by the quaternion rotation matrix. Of course we need the <span class="math notranslate nohighlight">\(\tt right\)</span>, <span class="math notranslate nohighlight">\(\tt up\)</span> and <span class="math notranslate nohighlight">\(\tt front\)</span> camera vectors to move the camera, these can be easily obtained from the first three rows and columns of the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix. Add the following code after you have calculated the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Update camera vectors</span>
-<span class="n">right</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">view</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w">  </span><span class="n">right</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">view</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w">  </span><span class="n">right</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">view</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
-<span class="n">up</span><span class="p">.</span><span class="n">x</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">view</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="w">  </span><span class="n">up</span><span class="p">.</span><span class="n">y</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">view</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="w">  </span><span class="n">up</span><span class="p">.</span><span class="n">z</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">view</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
-<span class="n">front</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">view</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">front</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">view</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">front</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">view</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
+<span class="n">right</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">view</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">right</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">view</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w">  </span><span class="n">right</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">view</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+<span class="n">up</span><span class="p">.</span><span class="n">x</span><span class="w">    </span><span class="o">=</span><span class="w">  </span><span class="n">view</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">up</span><span class="p">.</span><span class="n">y</span><span class="w">    </span><span class="o">=</span><span class="w">  </span><span class="n">view</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="w">  </span><span class="n">up</span><span class="p">.</span><span class="n">z</span><span class="w">    </span><span class="o">=</span><span class="w">  </span><span class="n">view</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
+<span class="n">front</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">view</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">front</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">view</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">front</span><span class="p">.</span><span class="n">z</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">view</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
 </pre></div>
 </div>
 <p>Compile and run the code and you will see that you can move the camera in any orientation and we can move the camera through 90<span class="math notranslate nohighlight">\(^\circ\)</span> or 270<span class="math notranslate nohighlight">\(^\circ\)</span> without the orientation flipping around.</p>
@@ -693,8 +693,8 @@ document.write(`
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Update character movement vectors</span>
 <span class="n">charDirection</span><span class="p">.</span><span class="n">eulerToQuat</span><span class="p">(</span><span class="n">pitch</span><span class="p">,</span><span class="w"> </span><span class="n">charYaw</span><span class="p">,</span><span class="w"> </span><span class="n">roll</span><span class="p">);</span>
 <span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">charMat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">charDirection</span><span class="p">.</span><span class="n">quatToMat</span><span class="p">();</span>
-<span class="n">right</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">charMat</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w">  </span><span class="n">right</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">charMat</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w">  </span><span class="n">right</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">charMat</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
-<span class="n">up</span><span class="p">.</span><span class="n">x</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">charMat</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="w">  </span><span class="n">up</span><span class="p">.</span><span class="n">y</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">charMat</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="w">  </span><span class="n">up</span><span class="p">.</span><span class="n">z</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">charMat</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
+<span class="n">right</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">charMat</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">right</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">charMat</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">right</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">charMat</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+<span class="n">up</span><span class="p">.</span><span class="n">x</span><span class="w">    </span><span class="o">=</span><span class="w">  </span><span class="n">charMat</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">up</span><span class="p">.</span><span class="n">y</span><span class="w">    </span><span class="o">=</span><span class="w">  </span><span class="n">charMat</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">up</span><span class="p">.</span><span class="n">z</span><span class="w">    </span><span class="o">=</span><span class="w">  </span><span class="n">charMat</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
 <span class="n">front</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">charMat</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">front</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">charMat</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">front</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">charMat</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
 </pre></div>
 </div>
@@ -803,7 +803,7 @@ document.write(`
 <span class="w">    </span><span class="c1">// Calculate interpolated quaternion qt</span>
 <span class="w">    </span><span class="n">Quaternion</span><span class="w"> </span><span class="n">qt</span><span class="p">;</span>
 <span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">denom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">);</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">denom</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.1</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">denom</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.001f</span><span class="p">)</span>
 <span class="w">    </span><span class="p">{</span>
 <span class="w">        </span><span class="c1">// Use SLERP</span>
 <span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">fact1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sin</span><span class="p">((</span><span class="mf">1.0f</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">theta</span><span class="p">);</span>
@@ -894,7 +894,7 @@ document.write(`
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">A. Quaternions</p>
+        <p class="prev-next-title">A. Complex Numbers and Quaternions</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -920,8 +920,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotation-using-complex-numbers">10.1.1. Rotation using complex numbers</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">10.2. Quaternions</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quaternion-rotations">10.2.1. Quaternion rotations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quaternions">10.2. Quaternions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">10.2.1. Quaternion rotations</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#euler-angles-to-quaternion">10.2.2. Euler angles to quaternion</a></li>
 </ul>
 </li>
