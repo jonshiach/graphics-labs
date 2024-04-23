@@ -168,7 +168,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">7. Moving the camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_Lighting.html">8. Lighting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_Normal_mapping.html">9. Normal Mapping</a></li>
-<li class="toctree-l1"><a class="reference internal" href="10_Quaternions.html">10. Quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_Quaternions.html">10. Quaternion</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendices</span></p>
 <ul class="nav bd-sidenav">
@@ -561,7 +561,7 @@ Calculating the front vector from the yaw and pitch angles<div class="sd-summary
 </summary><div class="sd-summary-content sd-card-body docutils">
 <p class="sd-card-text">First consider the left-to-right movement, since we use <code class="docutils literal notranslate"><span class="pre">xPos</span> <span class="pre">-</span> <span class="pre">1024/2</span></code> to calculate the <span class="math notranslate nohighlight">\(\tt yaw\)</span> angle, if we move the cursor to the right then the <span class="math notranslate nohighlight">\(\tt yaw\)</span> angle increases and we want to rotate <strong>clockwise</strong> about the <span class="math notranslate nohighlight">\(y\)</span>-axis (<a class="reference internal" href="#yaw-figure"><span class="std std-numref">Fig. 7.2</span></a>).</p>
 <figure class="align-default" id="yaw-figure">
-<a class="reference internal image-reference" href="../_images/yaw.svg"><img alt="../_images/yaw.svg" src="../_images/yaw.svg" width="250" /></a>
+<a class="reference internal image-reference" href="images/03_yaw.svg"><img alt="images/03_yaw.svg" src="images/03_yaw.svg" width="250" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 7.2 </span><span class="caption-text">Yaw movement is rotation about the <span class="math notranslate nohighlight">\(y\)</span>-axis.</span><a class="headerlink" href="#yaw-figure" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -578,7 +578,7 @@ Calculating the front vector from the yaw and pitch angles<div class="sd-summary
 \end{align*} \end{split}\]</div>
 <p class="sd-card-text">Similarly, if we move the cursor up then <span class="math notranslate nohighlight">\(\tt pitch\)</span> angle increases and we want to rotate <strong>anti-clockwise</strong> about the <span class="math notranslate nohighlight">\(x\)</span>-axis (<a class="reference internal" href="#pitch-figure"><span class="std std-numref">Fig. 7.3</span></a>).</p>
 <figure class="align-default" id="pitch-figure">
-<a class="reference internal image-reference" href="../_images/pitch.svg"><img alt="../_images/pitch.svg" src="../_images/pitch.svg" width="200" /></a>
+<a class="reference internal image-reference" href="images/03_pitch.svg"><img alt="images/03_pitch.svg" src="images/03_pitch.svg" width="200" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 7.3 </span><span class="caption-text">Pitch movement is rotation about the <span class="math notranslate nohighlight">\(x\)</span>-axis.</span><a class="headerlink" href="#pitch-figure" title="Permalink to this image">#</a></p>
 </figcaption>

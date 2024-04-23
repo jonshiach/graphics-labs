@@ -271,6 +271,12 @@ We can now calculate the quaternion for the orientation given by the pitch, yaw 
 
 We currently using Euler angles rotation to calculate the `view` matrix in the `calculateMatrices()` Camera class function. As such our camera may suffer from gimbal lock and it also does not allow us to move the camera through 90$^\circ$ or 270$^\circ$ (try looking at the cubes from directly above or below and you will notice the orientation suddenly flipping around). So it would be advantageous to use quaternion rotations to calculate the `view` matrix.
 
+<center>
+<video controls muted="true" loop="true" width="500">
+    <source src="../_static/10_Camera_without_quaternion.mp4" type="video/mp4">
+</video>
+</center>
+
 First we need to add an attribute to the Camera class for the quaternion that describes the direction which the camera is looking. In `camera.hpp` add the following code.
 
 ```cpp
@@ -299,6 +305,12 @@ front.x = -view[0][2], front.y = -view[1][2], front.z  = -view[2][2];
 
 Compile and run the code and you will see that you can move the camera in any orientation and we can move the camera through 90$^\circ$ or 270$^\circ$ without the orientation flipping around.
 
+<center>
+<video controls muted="true" loop="true" width="500">
+    <source src="../_static/10_Camera_with_quaternion.mp4" type="video/mp4">
+</video>
+</center>
+
 We are only using pitch and yaw Euler angles for our camera, lets add the ability to roll that camera as well (like a flight simulator). Where we get the keyboard input to move the camera add the following code.
 
 ```cpp
@@ -310,6 +322,12 @@ if (glfwGetKey(window, GLFW_KEY_E))
 ```
 
 You probably are able to work out that pressing the Q and E keys decreases or increases the roll angle respectively. Run the code and you will now be able to roll the camera!
+
+<center>
+<video controls muted="true" loop="true" width="500">
+    <source src="../_static/10_Camera_roll.mp4" type="video/mp4">
+</video>
+</center>
 
 ## Third person camera
 
@@ -442,6 +460,12 @@ Here we are using Suzanne the Blender mascot to act as our character model. The 
 
 Compile and run the program and you should be able to switch between the camera modes using the 1 and 2 keys.
 
+<center>
+<video controls muted="true" loop="true" width="500">
+    <source src="../_static/10_Third_person_camera_no_SLERP.mp4" type="video/mp4">
+</video>
+</center>
+
 ---
 ## SLERP
 
@@ -541,6 +565,12 @@ direction = Maths::slerp(direction, newDirection, deltaTime);
 ```
 
 Here we use a temporary quaternion `newDirection` which is calculated using the pitch, yaw and roll Euler angles of the camera and then used SLERP to interpolate between `direction` and `newDirection`. Compile and run your program and you should see that the third person camera now rotates smoothly around the character.
+
+<center>
+<video controls muted="true" loop="true" width="500">
+    <source src="../_static/10_Third_person_camera_with_SLERP.mp4" type="video/mp4">
+</video>
+</center>
 
 ---
 

@@ -610,6 +610,11 @@ document.write(`
 </div>
 <p>We can now calculate the quaternion for the orientation given by the pitch, yaw and roll Euler angles using <code class="docutils literal notranslate"><span class="pre">q.eulerToQuat()</span></code>.</p>
 <p>We currently using Euler angles rotation to calculate the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix in the <code class="docutils literal notranslate"><span class="pre">calculateMatrices()</span></code> Camera class function. As such our camera may suffer from gimbal lock and it also does not allow us to move the camera through 90<span class="math notranslate nohighlight">\(^\circ\)</span> or 270<span class="math notranslate nohighlight">\(^\circ\)</span> (try looking at the cubes from directly above or below and you will notice the orientation suddenly flipping around). So it would be advantageous to use quaternion rotations to calculate the <code class="docutils literal notranslate"><span class="pre">view</span></code> matrix.</p>
+<center>
+<video controls muted="true" loop="true" width="500">
+    <source src="../_static/10_Camera_without_quaternion.mp4" type="video/mp4">
+</video>
+</center>
 <p>First we need to add an attribute to the Camera class for the quaternion that describes the direction which the camera is looking. In <code class="docutils literal notranslate"><span class="pre">camera.hpp</span></code> add the following code.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Direction quaternion</span>
 <span class="n">Quaternion</span><span class="w"> </span><span class="n">direction</span><span class="p">;</span>
@@ -631,6 +636,11 @@ document.write(`
 </pre></div>
 </div>
 <p>Compile and run the code and you will see that you can move the camera in any orientation and we can move the camera through 90<span class="math notranslate nohighlight">\(^\circ\)</span> or 270<span class="math notranslate nohighlight">\(^\circ\)</span> without the orientation flipping around.</p>
+<center>
+<video controls muted="true" loop="true" width="500">
+    <source src="../_static/10_Camera_with_quaternion.mp4" type="video/mp4">
+</video>
+</center>
 <p>We are only using pitch and yaw Euler angles for our camera, lets add the ability to roll that camera as well (like a flight simulator). Where we get the keyboard input to move the camera add the following code.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">glfwGetKey</span><span class="p">(</span><span class="n">window</span><span class="p">,</span><span class="w"> </span><span class="n">GLFW_KEY_Q</span><span class="p">))</span>
 <span class="w">  </span><span class="n">roll</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="mf">0.5f</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">deltaTime</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">speed</span><span class="p">;</span>
@@ -640,6 +650,11 @@ document.write(`
 </pre></div>
 </div>
 <p>You probably are able to work out that pressing the Q and E keys decreases or increases the roll angle respectively. Run the code and you will now be able to roll the camera!</p>
+<center>
+<video controls muted="true" loop="true" width="500">
+    <source src="../_static/10_Camera_roll.mp4" type="video/mp4">
+</video>
+</center>
 </section>
 </section>
 <section id="third-person-camera">
@@ -749,6 +764,11 @@ document.write(`
 </div>
 <p>Here we are using Suzanne the Blender mascot to act as our character model. The <code class="docutils literal notranslate"><span class="pre">model</span></code> matrix is calculated by translating Suzanne to the camera position (this is actually our character position as the camera has been offset) and an inverse of the <code class="docutils literal notranslate"><span class="pre">charDirection</span></code> matrix is used to rotate the model so it is facing in the right direction. Since the <code class="docutils literal notranslate"><span class="pre">charDirection</span></code> matrix is orthogonal (the columns vectors are all at right angles) this can be done using the transpose of the matrix which is much quicker than calculating an inverse of a matrix.</p>
 <p>Compile and run the program and you should be able to switch between the camera modes using the 1 and 2 keys.</p>
+<center>
+<video controls muted="true" loop="true" width="500">
+    <source src="../_static/10_Third_person_camera_no_SLERP.mp4" type="video/mp4">
+</video>
+</center>
 </section>
 <hr class="docutils" />
 <section id="slerp">
@@ -834,6 +854,11 @@ document.write(`
 </pre></div>
 </div>
 <p>Here we use a temporary quaternion <code class="docutils literal notranslate"><span class="pre">newDirection</span></code> which is calculated using the pitch, yaw and roll Euler angles of the camera and then used SLERP to interpolate between <code class="docutils literal notranslate"><span class="pre">direction</span></code> and <code class="docutils literal notranslate"><span class="pre">newDirection</span></code>. Compile and run your program and you should see that the third person camera now rotates smoothly around the character.</p>
+<center>
+<video controls muted="true" loop="true" width="500">
+    <source src="../_static/10_Third_person_camera_with_SLERP.mp4" type="video/mp4">
+</video>
+</center>
 </section>
 <hr class="docutils" />
 <section id="source-code">

@@ -166,7 +166,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="07_Moving_the_camera.html">7. Moving the camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_Lighting.html">8. Lighting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_Normal_mapping.html">9. Normal Mapping</a></li>
-<li class="toctree-l1"><a class="reference internal" href="10_Quaternions.html">10. Quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_Quaternions.html">10. Quaternion</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendices</span></p>
 <ul class="nav bd-sidenav">
@@ -396,7 +396,7 @@ document.write(`
 <span id="textures-section"></span><h1><span class="section-number">3. </span>Textures<a class="headerlink" href="#textures" title="Permalink to this heading">#</a></h1>
 <p>Texture mapping is a technique for applying a 2D image known as a <strong>texture</strong> onto a 3D surface. Applying a texture adds detail and complexity to the appearance of 3D objects without the need for modelling intricate geometry.</p>
 <figure class="align-default" id="id3">
-<a class="reference internal image-reference" href="../_images/texture_mapping.svg"><img alt="../_images/texture_mapping.svg" src="../_images/texture_mapping.svg" width="600" /></a>
+<a class="reference internal image-reference" href="../_images/03_texture_mapping.svg"><img alt="../_images/03_texture_mapping.svg" src="../_images/03_texture_mapping.svg" width="600" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 3.1 </span><span class="caption-text">Mapping a texture to a polygon.</span><a class="headerlink" href="#id3" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -428,7 +428,7 @@ document.write(`
 </div>
 <p>This creates an OpenGL texture which can be referenced by the integer <code class="docutils literal notranslate"><span class="pre">texture1</span></code>. The bitmap was are using here is <code class="docutils literal notranslate"><span class="pre">crate.bmp</span></code> which is stored in the <code class="docutils literal notranslate"><span class="pre">source/</span></code> folder and shows a side of a wooden crate.</p>
 <figure class="align-default" id="id4">
-<a class="reference internal image-reference" href="../_images/crate.bmp"><img alt="../_images/crate.bmp" src="../_images/crate.bmp" style="width: 300px;" /></a>
+<a class="reference internal image-reference" href="../_images/03_crate.bmp"><img alt="../_images/03_crate.bmp" src="../_images/03_crate.bmp" style="width: 300px;" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 3.2 </span><span class="caption-text">The crate texture.</span><a class="headerlink" href="#id4" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -548,7 +548,7 @@ document.write(`
 </div>
 <p>Note that since the texture has (u, v) co-ordinates instead of (x, y, z) the size attribute is <code class="docutils literal notranslate"><span class="pre">2</span></code> instead of <code class="docutils literal notranslate"><span class="pre">3</span></code>. Compile and run program and, after sending a prayer to the programming gods, you should be presented with a textured triangle.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="../_images/texture_triangle.png"><img alt="../_images/texture_triangle.png" src="../_images/texture_triangle.png" style="width: 500px;" /></a>
+<a class="reference internal image-reference" href="../_images/03_texture_triangle.png"><img alt="../_images/03_texture_triangle.png" src="../_images/03_texture_triangle.png" style="width: 500px;" /></a>
 </figure>
 <p>If you are having difficulty with this check out the source code and shaders: <a class="reference download internal" download="" href="../_downloads/ef6867808d47d783517f40484df57517/texture_triangle.cpp"><span class="xref download myst">main.cpp</span></a>, <a class="reference download internal" download="" href="../_downloads/70c655632b75eda631ff3e4724a6d4de/textureVertexShader.vert"><span class="xref download myst">textureVertexShader.vert</span></a>, <a class="reference download internal" download="" href="../_downloads/ea21b22946f89741629556af17372ed2/textureFragmentShader.frag"><span class="xref download myst">textureFragmentShader.frag</span></a>.</p>
 </section>
@@ -557,7 +557,7 @@ document.write(`
 <h2><span class="section-number">3.2. </span>Texture rectangle<a class="headerlink" href="#texture-rectangle" title="Permalink to this heading">#</a></h2>
 <p>Our texture triangle is great and all but doesn’t really look like a realistic object. Since the original texture is rectangular, lets create a rectangle out of two triangles with the appropriate texture mapping.</p>
 <figure class="align-default" id="id5">
-<a class="reference internal image-reference" href="../_images/rectangle.svg"><img alt="../_images/rectangle.svg" src="../_images/rectangle.svg" width="500" /></a>
+<a class="reference internal image-reference" href="../_images/03_rectangle.svg"><img alt="../_images/03_rectangle.svg" src="../_images/03_rectangle.svg" width="500" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 3.3 </span><span class="caption-text">A rectangle constructed using two triangles.</span><a class="headerlink" href="#id5" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -587,14 +587,14 @@ document.write(`
 </div>
 <p>Compile and run the program and you should be presented with the more realistic image below.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="../_images/texture_rectangle.png"><img alt="../_images/texture_rectangle.png" src="../_images/texture_rectangle.png" style="width: 500px;" /></a>
+<a class="reference internal image-reference" href="../_images/03_texture_rectangle.png"><img alt="../_images/03_texture_rectangle.png" src="../_images/03_texture_rectangle.png" style="width: 500px;" /></a>
 </figure>
 </section>
 <section id="texture-wrapping">
 <h2><span class="section-number">3.3. </span>Texture wrapping<a class="headerlink" href="#texture-wrapping" title="Permalink to this heading">#</a></h2>
 <p>In our examples above, all of the texture co-ordinates have been in the range from 0 to 1. If we specify co-ordinates outside of this range then OpenGL will repeat the texture across the fragment. This is known as <strong>texture wrapping</strong>.</p>
 <figure class="align-default" id="id6">
-<a class="reference internal image-reference" href="../_images/texture_repeat.png"><img alt="../_images/texture_repeat.png" src="../_images/texture_repeat.png" style="width: 300px;" /></a>
+<a class="reference internal image-reference" href="../_images/03_texture_repeat.png"><img alt="../_images/03_texture_repeat.png" src="../_images/03_texture_repeat.png" style="width: 300px;" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 3.4 </span><span class="caption-text">The default texture wrapping in OpenGL is to repeat the texture.</span><a class="headerlink" href="#id6" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -611,7 +611,7 @@ document.write(`
 <div class="sd-row docutils">
 <div class="sd-col sd-d-flex-column docutils">
 <figure class="align-default" id="id7">
-<a class="reference internal image-reference" href="../_images/texture_mirrored_repeat.png"><img alt="../_images/texture_mirrored_repeat.png" src="../_images/texture_mirrored_repeat.png" style="width: 300px;" /></a>
+<a class="reference internal image-reference" href="../_images/03_texture_mirrored_repeat.png"><img alt="../_images/03_texture_mirrored_repeat.png" src="../_images/03_texture_mirrored_repeat.png" style="width: 300px;" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 3.5 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">GL_MIRRORED_REPEAT</span></code></span><a class="headerlink" href="#id7" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -619,7 +619,7 @@ document.write(`
 </div>
 <div class="sd-col sd-d-flex-column docutils">
 <figure class="align-default" id="id8">
-<a class="reference internal image-reference" href="../_images/texture_clamp_to_edge.png"><img alt="../_images/texture_clamp_to_edge.png" src="../_images/texture_clamp_to_edge.png" style="width: 300px;" /></a>
+<a class="reference internal image-reference" href="../_images/03_texture_clamp_to_edge.png"><img alt="../_images/03_texture_clamp_to_edge.png" src="../_images/03_texture_clamp_to_edge.png" style="width: 300px;" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 3.6 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">GL_CLAMP_TO_EDGE</span></code></span><a class="headerlink" href="#id8" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -627,7 +627,7 @@ document.write(`
 </div>
 <div class="sd-col sd-d-flex-column docutils">
 <figure class="align-default" id="id9">
-<a class="reference internal image-reference" href="../_images/texture_clamp_to_border.png"><img alt="../_images/texture_clamp_to_border.png" src="../_images/texture_clamp_to_border.png" style="width: 300px;" /></a>
+<a class="reference internal image-reference" href="../_images/03_texture_clamp_to_border.png"><img alt="../_images/03_texture_clamp_to_border.png" src="../_images/03_texture_clamp_to_border.png" style="width: 300px;" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 3.7 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">GL_CLAMP_TO_BORDER</span></code></span><a class="headerlink" href="#id9" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -654,18 +654,18 @@ document.write(`
 <p><strong>Texture filtering</strong> is method of determining the colour of the fragment, known as the <strong>colour sample</strong>, from the texture. OpenGL maps the co-ordinates of the fragment to the texture co-ordinates and in most cases this will not align exactly to a textel centre, so what does OpenGL do? OpenGL provides two main options <code class="docutils literal notranslate"><span class="pre">GL_NEAREST</span></code> and <code class="docutils literal notranslate"><span class="pre">GL_LINEAR</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">GL_NEAREST</span></code> is the default in OpenGL uses the colour of the nearest textel to the texture co-ordinates as the colour sample. This is illustrated in the diagram below where the texture co-ordinates represented by the black circle is mapped in a region on the texture with four neighbouring textels with the textel centres represented by the crosses. The texture co-ordinates are closed to the centre of the textel in the top-left so the colour of that textel is used for the colour sample.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="../_images/nearest_filtering.svg"><img alt="../_images/nearest_filtering.svg" src="../_images/nearest_filtering.svg" width="400" /></a>
+<a class="reference internal image-reference" href="../_images/03_nearest_filtering.svg"><img alt="../_images/03_nearest_filtering.svg" src="../_images/03_nearest_filtering.svg" width="400" /></a>
 </figure>
 <p>However, the texture co-ordinate is quite close to three other neighbouring textels so shouldn’t the colours of these be taken into account? Another method is to calculate the sample colour using <a href="https://en.wikipedia.org/wiki/Bilinear_interpolation" target="_blank">(bi)linear</a> interpolation where the distance of a textels centre from the texture co-ordinate determines how much that textel contributes to the sample colour, i.e., the closer the textel the more of the textel colour is contained in the colour sample. This can be applied using the <code class="docutils literal notranslate"><span class="pre">GL_NEAREST</span></code> option.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="../_images/linear_filtering.svg"><img alt="../_images/linear_filtering.svg" src="../_images/linear_filtering.svg" width="400" /></a>
+<a class="reference internal image-reference" href="../_images/03_linear_filtering.svg"><img alt="../_images/03_linear_filtering.svg" src="../_images/03_linear_filtering.svg" width="400" /></a>
 </figure>
 <p>The effects of these two filtering methods are shown in <a class="reference internal" href="#nearest-filtering-figure"><span class="std std-numref">Fig. 3.8</span></a> and <a class="reference internal" href="#linear-filtering-figure"><span class="std std-numref">Fig. 3.9</span></a> where a low resolution texture has been used on a large object. Using the <code class="docutils literal notranslate"><span class="pre">GL_NEAREST</span></code> results in a blocky, or <strong>aliased</strong> image whereas using <code class="docutils literal notranslate"><span class="pre">GL_LINEAR</span></code> results in a smoother image albeit a bit blurred (nothing we can do about this).</p>
 <div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
 <div class="sd-row docutils">
 <div class="sd-col sd-d-flex-column docutils">
 <figure class="align-default" id="nearest-filtering-figure">
-<a class="reference internal image-reference" href="../_images/nearest_filtering.png"><img alt="../_images/nearest_filtering.png" src="../_images/nearest_filtering.png" style="width: 200px;" /></a>
+<a class="reference internal image-reference" href="../_images/03_nearest_filtering.png"><img alt="../_images/03_nearest_filtering.png" src="../_images/03_nearest_filtering.png" style="width: 200px;" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 3.8 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">GL_NEAREST</span></code></span><a class="headerlink" href="#nearest-filtering-figure" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -673,7 +673,7 @@ document.write(`
 </div>
 <div class="sd-col sd-d-flex-column docutils">
 <figure class="align-default" id="linear-filtering-figure">
-<a class="reference internal image-reference" href="../_images/linear_filtering.png"><img alt="../_images/linear_filtering.png" src="../_images/linear_filtering.png" style="width: 200px;" /></a>
+<a class="reference internal image-reference" href="../_images/03_linear_filtering.png"><img alt="../_images/03_linear_filtering.png" src="../_images/03_linear_filtering.png" style="width: 200px;" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 3.9 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">GL_LINEAR</span></code></span><a class="headerlink" href="#linear-filtering-figure" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -692,7 +692,7 @@ document.write(`
 <p>Another issue that may occur is when the fragment is a lot smaller than the texture which can happen when an object that is far away from the viewer. In these cases OpenGL will struggle to get the colour sample from a high resolution texture since a fragment covers a larger part of the texture.</p>
 <p>To solve this issue OpenGL uses <a href="https://www.khronos.org/opengl/wiki/Texture#Mip_maps" target="_blank"><strong>mipmaps</strong></a><a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> which are a series of textures, each one half the size of the previous one. OpenGL will use a mipmap texture most suitable based on the distance of the fragment from the viewer. This way the fragment does not span a large part of the texture and it also cuts down on memory.</p>
 <figure class="align-default" id="id10">
-<a class="reference internal image-reference" href="../_images/mipmaps.svg"><img alt="../_images/mipmaps.svg" src="../_images/mipmaps.svg" width="500" /></a>
+<a class="reference internal image-reference" href="../_images/03_mipmaps.svg"><img alt="../_images/03_mipmaps.svg" src="../_images/03_mipmaps.svg" width="500" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 3.10 </span><span class="caption-text">Mipmaps</span><a class="headerlink" href="#id10" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -759,7 +759,7 @@ document.write(`
 </div>
 <p>Here we have used the <code class="docutils literal notranslate"><span class="pre">mix()</span></code> GLSL function to combine the colour samples from the two textures. The last number <code class="docutils literal notranslate"><span class="pre">0.3</span></code> is used to interpolate between the two textures so 30% of the fragment colour comes from the second texture and 70% comes from the first texture.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="../_images/two_textures.png"><img alt="../_images/two_textures.png" src="../_images/two_textures.png" style="width: 500px;" /></a>
+<a class="reference internal image-reference" href="../_images/03_two_textures.png"><img alt="../_images/03_two_textures.png" src="../_images/03_two_textures.png" style="width: 500px;" /></a>
 </figure>
 </section>
 <hr class="docutils" />
@@ -769,19 +769,19 @@ document.write(`
 <li><p>Apply the smiley face texture to the rectangle so that it displays a 3 by 4 grid of smiley faces.</p></li>
 </ol>
 <figure class="align-default">
-<a class="reference internal image-reference" href="../_images/smiley_grid.png"><img alt="../_images/smiley_grid.png" src="../_images/smiley_grid.png" style="width: 500px;" /></a>
+<a class="reference internal image-reference" href="../_images/03_smiley_grid.png"><img alt="../_images/03_smiley_grid.png" src="../_images/03_smiley_grid.png" style="width: 500px;" /></a>
 </figure>
 <ol class="arabic simple" start="2">
 <li><p>Modify the fragment shader so that the smiley face looks in the other direction. Hint: the individual elements of a <code class="docutils literal notranslate"><span class="pre">vec3</span></code> vector can be accessed using <code class="docutils literal notranslate"><span class="pre">&lt;vector</span> <span class="pre">name&gt;.x</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;vector</span> <span class="pre">name&gt;.y</span></code> etc.</p></li>
 </ol>
 <figure class="align-default">
-<a class="reference internal image-reference" href="../_images/smiley_reversed.png"><img alt="../_images/smiley_reversed.png" src="../_images/smiley_reversed.png" style="width: 500px;" /></a>
+<a class="reference internal image-reference" href="../_images/03_smiley_reversed.png"><img alt="../_images/03_smiley_reversed.png" src="../_images/03_smiley_reversed.png" style="width: 500px;" /></a>
 </figure>
 <ol class="arabic simple" start="3">
 <li><p>Apply a texture of your choice to the rectangle (e.g., a selfie). You will need to ensure that the source image is a bitmap so an online converter such as <a href="https://online-converting.com/image/convert2bmp/" target="_blank">https://online-converting.com/image/convert2bmp/</a> are useful for converting from various image formats.</p></li>
 </ol>
 <figure class="align-default">
-<a class="reference internal image-reference" href="../_images/kratos_texture.png"><img alt="../_images/kratos_texture.png" src="../_images/kratos_texture.png" style="width: 500px;" /></a>
+<a class="reference internal image-reference" href="../_images/03_kratos_texture.png"><img alt="../_images/03_kratos_texture.png" src="../_images/03_kratos_texture.png" style="width: 500px;" /></a>
 </figure>
 </section>
 <section id="source-code">
