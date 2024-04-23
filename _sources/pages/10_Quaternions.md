@@ -108,7 +108,7 @@ Quaternions are more commonly represented in scalar-vector form
 
 $$q = [w, (x, y, z)].$$
 
-We are going to add a data structure to the Maths class and some member functions to perform quaternion calculations. In the `maths.hpp` file add the following code
+We are going to add a data structure to the Maths class and some member functions to perform quaternion calculations. In the `maths.hpp` file add the following code above where the Math class is declared.
 
 ```
 struct Quaternion
@@ -515,14 +515,14 @@ and define the method in the `maths.cpp` file
 Quaternion Maths::slerp(Quaternion q1, Quaternion q2, const float t)
 {
     // Check if we are going the "long" way around the sphere
-    float q1DotQ2 = q1.x * q2.x + q1.y * q2.y + q1.z * q2.z + q1.w * q2.w;
+    float q1DotQ2 = q1.w * q2.w + q1.x * q2.x + q1.y * q2.y + q1.z * q2.z;
     if (q1DotQ2 < 0)
     {
         // Change signs of q2 to ensure we go the short way round
+        q2.w *= -q2.w;
         q2.x *= -q2.x;
         q2.y *= -q2.y;
         q2.z *= -q2.z;
-        q2.w *= -q2.w;
         q1DotQ2 = -q1DotQ2;
     }
     
@@ -537,18 +537,18 @@ Quaternion Maths::slerp(Quaternion q1, Quaternion q2, const float t)
         // Use SLERP
         float fact1 = sin((1.0f - t) * theta);
         float fact2 = sin(t * theta);
+        qt.w = fact1 * q1.w + fact2 * q2.w;
         qt.x = fact1 * q1.x + fact2 * q2.x;
         qt.y = fact1 * q1.y + fact2 * q2.y;
         qt.z = fact1 * q1.z + fact2 * q2.z;
-        qt.w = fact1 * q1.w + fact2 * q2.w;
     }
     else
     {
         // Use LERP if sin(theta) is small
+        qt.w = (1.0f - t) * q1.w + t * q2.w;
         qt.x = (1.0f - t) * q1.x + t * q2.x;
         qt.y = (1.0f - t) * q1.y + t * q2.y;
         qt.z = (1.0f - t) * q1.z + t * q2.z;
-        qt.w = (1.0f - t) * q1.w + t * q2.w;
     }
     
     return qt;
