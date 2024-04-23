@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>10. Quaternion Rotations &#8212; Computer Graphics Labs</title>
+    <title>10. Quaternion &#8212; Computer Graphics Labs</title>
   
   
   
@@ -168,7 +168,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="07_Moving_the_camera.html">7. Moving the camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_Lighting.html">8. Lighting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_Normal_mapping.html">9. Normal Mapping</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">10. Quaternion Rotations</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">10. Quaternion</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendices</span></p>
 <ul class="nav bd-sidenav">
@@ -356,7 +356,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Quaternion Rotations</h1>
+    <h1>Quaternion</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -371,7 +371,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quaternions">10.2. Quaternions</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">10.2.1. Quaternion rotations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quaternion-rotations">10.2.1. Quaternion rotations</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#euler-angles-to-quaternion">10.2.2. Euler angles to quaternion</a></li>
 </ul>
 </li>
@@ -389,8 +389,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="quaternion-rotations">
-<span id="quaternions-section"></span><h1><span class="section-number">10. </span>Quaternion Rotations<a class="headerlink" href="#quaternion-rotations" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="quaternion">
+<span id="quaternions-section"></span><h1><span class="section-number">10. </span>Quaternion<a class="headerlink" href="#quaternion" title="Permalink to this heading">#</a></h1>
 <p>We saw in <a class="reference internal" href="05_transformations.html#axis-angle-rotation-section"><span class="std std-ref">Lab 5 in Transformations</span></a> that we can use calculate a transformation matrix to rotate about a vector. This matrix was derived by compositing three individual rotations about the three co-ordinate <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> axes.</p>
 <figure class="align-default" id="euler-angles-figure">
 <a class="reference internal image-reference" href="../_images/10_Euler_angles.svg"><img alt="../_images/10_Euler_angles.svg" src="../_images/10_Euler_angles.svg" width="300" /></a>
@@ -501,8 +501,8 @@ document.write(`
 <span class="p">}</span>
 </pre></div>
 </div>
-<section id="id1">
-<h3><span class="section-number">10.2.1. </span>Quaternion rotations<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<section id="quaternion-rotations">
+<h3><span class="section-number">10.2.1. </span>Quaternion rotations<a class="headerlink" href="#quaternion-rotations" title="Permalink to this heading">#</a></h3>
 <p>We saw above that we can rotate a number in the complex plane by multiplying by the complex number</p>
 <div class="math notranslate nohighlight">
 \[ z = \cos(\theta) + i\sin(\theta). \]</div>
@@ -833,7 +833,7 @@ document.write(`
 <span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Maths</span><span class="o">::</span><span class="n">slerp</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span><span class="w"> </span><span class="n">newDirection</span><span class="p">,</span><span class="w"> </span><span class="n">deltaTime</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Here we use a temporary quaternion <code class="docutils literal notranslate"><span class="pre">newDirection</span></code> which is calculated using the pitch, yaw and roll Euler angles of the camera and then used SLERP to calculate the camera <code class="docutils literal notranslate"><span class="pre">direction</span></code> quaternion. Compile and run your program and you should see that the third person camera is now much smoother.</p>
+<p>Here we use a temporary quaternion <code class="docutils literal notranslate"><span class="pre">newDirection</span></code> which is calculated using the pitch, yaw and roll Euler angles of the camera and then used SLERP to interpolate between <code class="docutils literal notranslate"><span class="pre">direction</span></code> and <code class="docutils literal notranslate"><span class="pre">newDirection</span></code>. Compile and run your program and you should see that the third person camera now rotates smoothly around the character.</p>
 </section>
 <hr class="docutils" />
 <section id="source-code">
@@ -921,7 +921,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quaternions">10.2. Quaternions</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">10.2.1. Quaternion rotations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quaternion-rotations">10.2.1. Quaternion rotations</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#euler-angles-to-quaternion">10.2.2. Euler angles to quaternion</a></li>
 </ul>
 </li>

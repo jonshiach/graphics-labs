@@ -1,6 +1,6 @@
 (quaternions-section)=
 
-# Quaternion Rotations
+# Quaternion
 
 We saw in [Lab 5 in Transformations](axis-angle-rotation-section) that we can use calculate a transformation matrix to rotate about a vector. This matrix was derived by compositing three individual rotations about the three co-ordinate $x$, $y$ and $z$ axes.
 
@@ -540,7 +540,7 @@ newDirection.eulerToQuat(pitch, yaw, roll);
 direction = Maths::slerp(direction, newDirection, deltaTime);
 ```
 
-Here we use a temporary quaternion `newDirection` which is calculated using the pitch, yaw and roll Euler angles of the camera and then used SLERP to calculate the camera `direction` quaternion. Compile and run your program and you should see that the third person camera is now much smoother.
+Here we use a temporary quaternion `newDirection` which is calculated using the pitch, yaw and roll Euler angles of the camera and then used SLERP to interpolate between `direction` and `newDirection`. Compile and run your program and you should see that the third person camera now rotates smoothly around the character.
 
 ---
 
