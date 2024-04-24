@@ -171,7 +171,7 @@
     A vector pointing along a surface.
 
 {term}`Bitangent vector`
-    A vector pointing along a surface that is orthogonal to the tangent vector`
+    A vector pointing along a surface that is orthogonal to the tangent vector.
 
 {term}`Normal vector`
     A vector pointing perpendicularly away from a surface.
