@@ -1,4 +1,4 @@
-# Computer Graphics Labs
+# Computer Graphics
 
 This site contains the materials used in the lab sessions for the Computer Graphics unit. They are designed for students to work through in the labs with the help of the tutors. The table below shows the teaching schedule that will be employed. If you happen to miss a week for whatever reason you must make sure you catch up with the material.
 
