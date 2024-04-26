@@ -47,7 +47,7 @@
 {term}`Textel`
     An individual pixel in a texture.
 
-{term}`Texture co-ordinates
+{term}`Texture co-ordinates`
     The co-ordinates of a pixel (textel) in the texture. 
 
 {term}`Texture wrapping`

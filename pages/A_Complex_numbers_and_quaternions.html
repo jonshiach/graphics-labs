@@ -66,7 +66,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/A_Complex_numbers_and_quaternions';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="10. Quaternion" href="10_Quaternions.html" />
+    <link rel="next" title="C Glossary" href="C_Glossary.html" />
+    <link rel="prev" title="10. Quaternions" href="10_Quaternions.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -153,7 +154,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="../intro.html">
-                    Computer Graphics Labs
+                    Computer Graphics
                 </a>
             </li>
         </ul>
@@ -167,11 +168,12 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="07_Moving_the_camera.html">7. Moving the camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_Lighting.html">8. Lighting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_Normal_mapping.html">9. Normal Mapping</a></li>
-<li class="toctree-l1"><a class="reference internal" href="10_Quaternions.html">10. Quaternion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_Quaternions.html">10. Quaternions</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendices</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">A. Complex Numbers and Quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="C_Glossary.html">C Glossary</a></li>
 </ul>
 
     </div>
@@ -717,7 +719,7 @@ document.write(`
 </section>
 <section id="a-3-quaternion-rotation">
 <span id="appendix-quaternion-rotation-section"></span><h2>A.3 Quaternion rotation<a class="headerlink" href="#a-3-quaternion-rotation" title="Permalink to this heading">#</a></h2>
-<p>In <a class="reference internal" href="05_transformations.html#axis-angle-rotation-section"><span class="std std-ref">Lab 4 on transformations</span></a> we saw that we can rotate about a vector <span class="math notranslate nohighlight">\(\vec{v}\)</span> by an angle <span class="math notranslate nohighlight">\(\theta\)</span> using a combination of rotations about the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> axis as well as a couple of transformations. The resulting matrix shown in equation <a class="reference internal" href="05_transformations.html#equation-eq-axis-angle-rotation-matrix">(5.3)</a> was quite complicated and requires lots of floating point calculations. Quaternions gives us a away of performing similar calculation in a much simpler way.</p>
+<p>In <a class="reference internal" href="05_transformations.html#axis-angle-rotation-section"><span class="std std-ref">Lab 4 on transformations</span></a> we saw that we can rotate about a vector <span class="math notranslate nohighlight">\(\vec{v}\)</span> by an angle <span class="math notranslate nohighlight">\(\theta\)</span> using a combination of rotations about the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> axis as well as a transformation. The resulting matrix shown in equation <a class="reference internal" href="05_transformations.html#equation-eq-axis-angle-rotation-matrix">(5.3)</a> was quite complicated and requires lots of floating point calculations. Quaternions gives us a away of performing similar calculation in a simpler way.</p>
 <figure class="align-default" id="axis-angle-rotation-figure-3">
 <a class="reference internal image-reference" href="../_images/10_Axis_angle_rotation.svg"><img alt="../_images/10_Axis_angle_rotation.svg" src="../_images/10_Axis_angle_rotation.svg" width="350" /></a>
 <figcaption>
@@ -736,7 +738,7 @@ document.write(`
 <p>To demonstrate rotation using quaternion rotation consider the rotation of the vector <span class="math notranslate nohighlight">\(\vec{p} = (2, 0, 0)\)</span> by 45<span class="math notranslate nohighlight">\(^\circ\)</span> about the <span class="math notranslate nohighlight">\(z\)</span>-axis. The rotation quaternion is</p>
 <div class="math notranslate nohighlight">
 \[ q = [\cos(45^\circ)] =  [(0, 0, \tfrac{\sqrt{2}}{2}), \tfrac{\sqrt2}{2}, \sin(45^\circ)(0, 0, 1)], \]</div>
-<p>and since the vector <span class="math notranslate nohighlight">\(\vec{p}\)</span> can be considered as the pure quaternion <span class="math notranslate nohighlight">\(p = [0, \vec{p}]\)</span> then</p>
+<p>and expressing <span class="math notranslate nohighlight">\(\vec{p}\)</span> as a quaternion we have <span class="math notranslate nohighlight">\(p = [0, (2, 0, 0)]\)</span> so</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
     qp &amp;= [\tfrac{\sqrt2}{2}, (0, 0, \tfrac{\sqrt{2}}{2})] [0, (2, 0, 0)] \\
@@ -753,13 +755,13 @@ document.write(`
 <figure class="align-default" id="quaternion-rotation-1-figure">
 <a class="reference internal image-reference" href="../_images/A_Quaternion_rotation_1.svg"><img alt="../_images/A_Quaternion_rotation_1.svg" src="../_images/A_Quaternion_rotation_1.svg" width="400" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 2 </span><span class="caption-text">The rotation of the vector <span class="math notranslate nohighlight">\(\vec{p}=(2, 0, 0)\)</span> by angle 45<span class="math notranslate nohighlight">\(^\circ\)</span> about the <span class="math notranslate nohighlight">\(z\)</span>-axis using the quaternion product <span class="math notranslate nohighlight">\(r\vec{p}\)</span></span><a class="headerlink" href="#quaternion-rotation-1-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">The rotation of the quaternion or <span class="math notranslate nohighlight">\(p=(2, 0, 0, 0)\)</span> by multiplying by the rotation quaternion <span class="math notranslate nohighlight">\(r = (\frac{\sqrt{2}}{2}, (0, 0, \frac{\sqrt{2}}{2}))\)</span>.</span><a class="headerlink" href="#quaternion-rotation-1-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>In the rotation example shown above used a quaternion that was perpendicular to the vector being rotated. What happens when we rotate by a quaternion that isn’t perpendicular to the vector? Consider the rotation of <span class="math notranslate nohighlight">\(\vec{p} = (2, 0, 0)\)</span> by angle 45<span class="math notranslate nohighlight">\(^\circ\)</span> about the vector <span class="math notranslate nohighlight">\(\hat{\vec{v}} =  (\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})\)</span>. The rotation quaternion is</p>
 <div class="math notranslate nohighlight">
 \[ q = [\tfrac{\sqrt{2}}{2} (\tfrac{\sqrt{2}}{2}, 0, \tfrac{\sqrt{2}}{2}), \tfrac{\sqrt{2}}{2}] =[(\tfrac{1}{2}, 0, \tfrac{1}{2}), \tfrac{\sqrt{2}}{2}], \]</div>
-<p>and multiplying by <span class="math notranslate nohighlight">\(p\)</span></p>
+<p>and multiplying by <span class="math notranslate nohighlight">\(p = [0, (2, 0, 0)]\)</span></p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
     qp &amp;= [\tfrac{\sqrt{2}}{2}, (\tfrac{1}{2}, 0, \tfrac{1}{2})] [0, (2, 0, 0)] \\
@@ -774,7 +776,7 @@ document.write(`
 <figure class="align-default" id="quaternion-rotation-2-figure">
 <a class="reference internal image-reference" href="../_images/A_Quaternion_rotation_2.svg"><img alt="../_images/A_Quaternion_rotation_2.svg" src="../_images/A_Quaternion_rotation_2.svg" width="400" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 3 </span><span class="caption-text">The rotation of the vector <span class="math notranslate nohighlight">\(\vec{p} = (2, 0, 0)\)</span> by angle 45<span class="math notranslate nohighlight">\(^\circ\)</span> about the vector <span class="math notranslate nohighlight">\(\vec{v} = (\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})\)</span> using the quaternion product <span class="math notranslate nohighlight">\(r\vec{p}\)</span>.</span><a class="headerlink" href="#quaternion-rotation-2-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">The rotation of the quaternion or <span class="math notranslate nohighlight">\(p=(2, 0, 0, 0)\)</span> by multiplying by the rotation quaternion <span class="math notranslate nohighlight">\(r = [\tfrac{\sqrt{2}}{2} (\tfrac{\sqrt{2}}{2}, 0, \tfrac{\sqrt{2}}{2}), \tfrac{\sqrt{2}}{2}] =[(\tfrac{1}{2}, 0, \tfrac{1}{2}), \tfrac{\sqrt{2}}{2}]\)</span>.</span><a class="headerlink" href="#quaternion-rotation-2-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>However, if we multiply <span class="math notranslate nohighlight">\(qp\)</span> by the multiplicative inverse <span class="math notranslate nohighlight">\(q^{}\)</span> then <span class="math notranslate nohighlight">\(qpq^{-1}\)</span> is a pure quaternion that has the same absolute value as <span class="math notranslate nohighlight">\(|\vec{p}|\)</span>. If <span class="math notranslate nohighlight">\(q\)</span> is a unit quaternion then <span class="math notranslate nohighlight">\(q^{-1} = q^*\)</span> and</p>
@@ -792,7 +794,7 @@ document.write(`
 <figure class="align-default" id="quaternion-rotation-3-figure">
 <a class="reference internal image-reference" href="../_images/A_Quaternion_rotation_3.svg"><img alt="../_images/A_Quaternion_rotation_3.svg" src="../_images/A_Quaternion_rotation_3.svg" width="400" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 4 </span><span class="caption-text">The rotation of the vector <span class="math notranslate nohighlight">\(\vec{p} = (2,0,0)\)</span> by angle 45<span class="math notranslate nohighlight">\(^\circ\)</span> about the vector <span class="math notranslate nohighlight">\(\vec{v} = (\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})\)</span> using the quaternion product <span class="math notranslate nohighlight">\(q\vec{p}q^*\)</span>.</span><a class="headerlink" href="#quaternion-rotation-3-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">The rotation of the quaternion or <span class="math notranslate nohighlight">\(p=(2, 0, 0, 0)\)</span> by multiplying by the rotation quaternion <span class="math notranslate nohighlight">\(r = (\frac{\sqrt{2}}{2}, (0, 0, \frac{\sqrt{2}}{2}))\)</span> and the quaternion conjugate <span class="math notranslate nohighlight">\(r^*\)</span> using the sequence <span class="math notranslate nohighlight">\(rpr^*\)</span>.</span><a class="headerlink" href="#quaternion-rotation-3-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>The other alteration we need to make it to halve the angle <span class="math notranslate nohighlight">\(\theta\)</span> when calculated the rotation quaternion</p>
@@ -967,8 +969,17 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">10. </span>Quaternion</p>
+        <p class="prev-next-title"><span class="section-number">10. </span>Quaternions</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="C_Glossary.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">C Glossary</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div></div>
   

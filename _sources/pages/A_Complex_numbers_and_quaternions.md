@@ -356,7 +356,7 @@ $$ q^{-1} = q^*. $$
 
 ## A.3 Quaternion rotation
 
-In [Lab 4 on transformations](axis-angle-rotation-section) we saw that we can rotate about a vector $\vec{v}$ by an angle $\theta$ using a combination of rotations about the $x$, $y$ and $z$ axis as well as a couple of transformations. The resulting matrix shown in equation {eq}`eq:axis-angle-rotation-matrix` was quite complicated and requires lots of floating point calculations. Quaternions gives us a away of performing similar calculation in a much simpler way.
+In [Lab 4 on transformations](axis-angle-rotation-section) we saw that we can rotate about a vector $\vec{v}$ by an angle $\theta$ using a combination of rotations about the $x$, $y$ and $z$ axis as well as a transformation. The resulting matrix shown in equation {eq}`eq:axis-angle-rotation-matrix` was quite complicated and requires lots of floating point calculations. Quaternions gives us a away of performing similar calculation in a simpler way.
 
 ```{figure} ../images/10_Axis_angle_rotation.svg
 :width: 350
@@ -381,7 +381,7 @@ To demonstrate rotation using quaternion rotation consider the rotation of the v
 
 $$ q = [\cos(45^\circ)] =  [(0, 0, \tfrac{\sqrt{2}}{2}), \tfrac{\sqrt2}{2}, \sin(45^\circ)(0, 0, 1)], $$
 
-and since the vector $\vec{p}$ can be considered as the pure quaternion $p = [0, \vec{p}]$ then
+and expressing $\vec{p}$ as a quaternion we have $p = [0, (2, 0, 0)]$ so
 
 $$ \begin{align*}
     qp &= [\tfrac{\sqrt2}{2}, (0, 0, \tfrac{\sqrt{2}}{2})] [0, (2, 0, 0)] \\
@@ -402,14 +402,14 @@ which is the same as the absolute value of $[0, 2\vec{i}]$. This rotation is sho
 :width: 400
 :name: quaternion-rotation-1-figure
 
-The rotation of the vector $\vec{p}=(2, 0, 0)$ by angle 45$^\circ$ about the $z$-axis using the quaternion product $r\vec{p}$
+The rotation of the quaternion or $p=(2, 0, 0, 0)$ by multiplying by the rotation quaternion $r = (\frac{\sqrt{2}}{2}, (0, 0, \frac{\sqrt{2}}{2}))$.
 ```
 
 In the rotation example shown above used a quaternion that was perpendicular to the vector being rotated. What happens when we rotate by a quaternion that isn't perpendicular to the vector? Consider the rotation of $\vec{p} = (2, 0, 0)$ by angle 45$^\circ$ about the vector $\hat{\vec{v}} =  (\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})$. The rotation quaternion is
 
 $$ q = [\tfrac{\sqrt{2}}{2} (\tfrac{\sqrt{2}}{2}, 0, \tfrac{\sqrt{2}}{2}), \tfrac{\sqrt{2}}{2}] =[(\tfrac{1}{2}, 0, \tfrac{1}{2}), \tfrac{\sqrt{2}}{2}], $$
 
-and multiplying by $p$
+and multiplying by $p = [0, (2, 0, 0)]$
 
 $$ \begin{align*}
     qp &= [\tfrac{\sqrt{2}}{2}, (\tfrac{1}{2}, 0, \tfrac{1}{2})] [0, (2, 0, 0)] \\
@@ -428,7 +428,7 @@ so the rotated quaternion has been scaled up as shown in {numref}`quaternion-rot
 :width: 400
 :name: quaternion-rotation-2-figure
 
-The rotation of the vector $\vec{p} = (2, 0, 0)$ by angle 45$^\circ$ about the vector $\vec{v} = (\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})$ using the quaternion product $r\vec{p}$.
+The rotation of the quaternion or $p=(2, 0, 0, 0)$ by multiplying by the rotation quaternion $r = [\tfrac{\sqrt{2}}{2} (\tfrac{\sqrt{2}}{2}, 0, \tfrac{\sqrt{2}}{2}), \tfrac{\sqrt{2}}{2}] =[(\tfrac{1}{2}, 0, \tfrac{1}{2}), \tfrac{\sqrt{2}}{2}]$.
 ```
 
 However, if we multiply $qp$ by the multiplicative inverse $q^{}$ then $qpq^{-1}$ is a pure quaternion that has the same absolute value as $|\vec{p}|$. If $q$ is a unit quaternion then $q^{-1} = q^*$ and
@@ -450,7 +450,7 @@ However, plotting the result of the quaternion rotation ({numref}`quaternion-rot
 :width: 400
 :name: quaternion-rotation-3-figure
 
-The rotation of the vector $\vec{p} = (2,0,0)$ by angle 45$^\circ$ about the vector $\vec{v} = (\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})$ using the quaternion product $q\vec{p}q^*$.
+The rotation of the quaternion or $p=(2, 0, 0, 0)$ by multiplying by the rotation quaternion $r = (\frac{\sqrt{2}}{2}, (0, 0, \frac{\sqrt{2}}{2}))$ and the quaternion conjugate $r^*$ using the sequence $rpr^*$.
 ```
 
 The other alteration we need to make it to halve the angle $\theta$ when calculated the rotation quaternion
