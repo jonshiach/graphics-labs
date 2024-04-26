@@ -173,6 +173,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendices</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="A_Complex_numbers_and_quaternions.html">A. Complex Numbers and Quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="B_Code.html">B. Code and Assets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="C_Glossary.html">C Glossary</a></li>
 </ul>
 
@@ -732,17 +733,14 @@ document.write(`
 <p>Here we using the 1 to select first person camera and the 2 key to select the third person camera. When switch from first person to third person camera the character yaw angle is set to the camera yaw angle so the character is facing in the correct direction. This is reversed when switching from the third to first person camera so the first person camera is facing the direction of the character.</p>
 <p>We now instruct the program to use the appropriate method for calculating the <code class="docutils literal notranslate"><span class="pre">view</span></code> and <code class="docutils literal notranslate"><span class="pre">projection</span></code> matrices.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Calculate view and projection matrices</span>
-<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">view</span><span class="p">;</span>
-<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">projection</span><span class="p">;</span>
-
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">camera</span><span class="p">.</span><span class="n">mode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;first&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="n">camera</span><span class="p">.</span><span class="n">calculateMatrices</span><span class="p">(</span><span class="n">window</span><span class="p">,</span><span class="w"> </span><span class="n">deltaTime</span><span class="p">);</span>
 
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">camera</span><span class="p">.</span><span class="n">mode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;third&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="n">camera</span><span class="p">.</span><span class="n">thirdPersonCamera</span><span class="p">(</span><span class="n">window</span><span class="p">,</span><span class="w"> </span><span class="n">deltaTime</span><span class="p">);</span>
 
-<span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">camera</span><span class="p">.</span><span class="n">getViewMatrix</span><span class="p">();</span>
-<span class="n">projection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">camera</span><span class="p">.</span><span class="n">getProjectionMatrix</span><span class="p">();</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">camera</span><span class="p">.</span><span class="n">getViewMatrix</span><span class="p">();</span>
+<span class="n">glm</span><span class="o">::</span><span class="n">mat4</span><span class="w"> </span><span class="n">projection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">camera</span><span class="p">.</span><span class="n">getProjectionMatrix</span><span class="p">();</span>
 </pre></div>
 </div>
 <p>Of course when using the third person camera we need to render the character model. Add the following code after you have drawn all of the cubes.</p>

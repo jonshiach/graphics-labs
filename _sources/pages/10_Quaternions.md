@@ -423,17 +423,14 @@ We now instruct the program to use the appropriate method for calculating the `v
 
 ```cpp
 // Calculate view and projection matrices
-glm::mat4 view;
-glm::mat4 projection;
-
 if (camera.mode == "first")
     camera.calculateMatrices(window, deltaTime);
 
 if (camera.mode == "third")
     camera.thirdPersonCamera(window, deltaTime);
 
-view = camera.getViewMatrix();
-projection = camera.getProjectionMatrix();
+glm::mat4 view = camera.getViewMatrix();
+glm::mat4 projection = camera.getProjectionMatrix();
 ```
 
 Of course when using the third person camera we need to render the character model. Add the following code after you have drawn all of the cubes. 
