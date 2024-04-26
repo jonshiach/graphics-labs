@@ -298,8 +298,8 @@ Here we calculate the translation matrix to move the camera to (0,0,0) and then 
 
 ```cpp
 // Update camera vectors
-right.x =  view[0][0], right.y =  view[1][0],  right.z =  view[2][0];
-up.x    =  view[0][1], up.y    =  view[1][1],  up.z    =  view[2][1];
+right.x =  view[0][0], right.y =  view[1][0], right.z  =  view[2][0];
+up.x    =  view[0][1], up.y    =  view[1][1], up.z     =  view[2][1];
 front.x = -view[0][2], front.y = -view[1][2], front.z  = -view[2][2];
 ```
 

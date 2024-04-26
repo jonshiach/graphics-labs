@@ -482,7 +482,7 @@ $$ \begin{align*}
 
 ### A.3.2 Rotation matrix
 
-Consider the multiplication of the axis vector quaternion $p = [w, (x, y, z)]$ on the left by the rotation unit quaternion $q = [w, (x, y, z)]$
+Consider the multiplication of the axis vector quaternion $p = [p_w, (p_x, p_y, p_z)]$ on the left by the rotation unit quaternion $q = [w, (x, y, z)]$
 
 $$ \begin{align*}
     qp &= [w, (x, y, z)][p_w, (p_x, p_y, p_w)] \\
@@ -490,7 +490,7 @@ $$ \begin{align*}
     & \qquad (p_wx - p_zy + p_yz + p_xw, p_zx + p_wy - p_yz + p_yw, -p_yx + p_xy + p_wz + q_zw)].
 \end{align*} $$
 
-This can be written as the matrix equation $qp = \vec{p}R_1$ where $\vec{p} = (p_x, p_y, p_z, p_w)$ (which is synonymous with [homogeneous co-ordinates](homogeneous-coordinates-section)) and $R_1$ is
+This can be written as the matrix equation $qp =pR_1$ where $p = (p_x, p_y, p_z, p_w)$ (which is synonymous with [homogeneous co-ordinates](homogeneous-coordinates-section)) and $R_1$ is
 
 $$ \begin{align*}
     R_1 =
@@ -510,7 +510,7 @@ $$ \begin{align*}
     & \qquad (p_wx - p_zy + p_yz - p_xw, p_zx + p_wy - p_xz - p_yw, -p_yx + p_xy + p_wz - p_zw)],
 \end{align*} $$
 
-which can be expressed by the matrix equation $pq^* = \vec{p}R_2$ where $R_2$ is
+which can be expressed by the matrix equation $pq^* = pR_2$ where $R_2$ is
 
 $$ \begin{align*}
     R_2 =
@@ -556,7 +556,7 @@ $$ \begin{align*}
         s(xy - zw) & 1 - s(x^2 + z^2) & s(yz + xw) & 0 \\
         s(xz + yw) & s(yz - xw) & 1 - s(x^2 + y^2) & 0 \\
         0 & 0 & 0 & 1
-    \end{pmatrix}
+    \end{pmatrix}.
 \end{align*} $$
 
 The matrix $R$ is the rotation matrix for rotating a vector $\vec{p}$ by angle $\theta$ about the unit vector $\hat{\vec{v}}$ where $x$, $y$, $z$ and $w$ are the values of the unit rotation quaternion.

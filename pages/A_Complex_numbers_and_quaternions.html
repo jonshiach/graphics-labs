@@ -820,14 +820,14 @@ document.write(`
 </section>
 <section id="a-3-2-rotation-matrix">
 <span id="quaternion-rotation-matrix-derivation-section"></span><h3>A.3.2 Rotation matrix<a class="headerlink" href="#a-3-2-rotation-matrix" title="Permalink to this heading">#</a></h3>
-<p>Consider the multiplication of the axis vector quaternion <span class="math notranslate nohighlight">\(p = [w, (x, y, z)]\)</span> on the left by the rotation unit quaternion <span class="math notranslate nohighlight">\(q = [w, (x, y, z)]\)</span></p>
+<p>Consider the multiplication of the axis vector quaternion <span class="math notranslate nohighlight">\(p = [p_w, (p_x, p_y, p_z)]\)</span> on the left by the rotation unit quaternion <span class="math notranslate nohighlight">\(q = [w, (x, y, z)]\)</span></p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
     qp &amp;= [w, (x, y, z)][p_w, (p_x, p_y, p_w)] \\
     &amp;= [- p_x x - p_y y - p_z z - p_w w, \\
     &amp; \qquad (p_wx - p_zy + p_yz + p_xw, p_zx + p_wy - p_yz + p_yw, -p_yx + p_xy + p_wz + q_zw)].
 \end{align*} \end{split}\]</div>
-<p>This can be written as the matrix equation <span class="math notranslate nohighlight">\(qp = \vec{p}R_1\)</span> where <span class="math notranslate nohighlight">\(\vec{p} = (p_x, p_y, p_z, p_w)\)</span> (which is synonymous with <a class="reference internal" href="05_transformations.html#homogeneous-coordinates-section"><span class="std std-ref">homogeneous co-ordinates</span></a>) and <span class="math notranslate nohighlight">\(R_1\)</span> is</p>
+<p>This can be written as the matrix equation <span class="math notranslate nohighlight">\(qp =pR_1\)</span> where <span class="math notranslate nohighlight">\(p = (p_x, p_y, p_z, p_w)\)</span> (which is synonymous with <a class="reference internal" href="05_transformations.html#homogeneous-coordinates-section"><span class="std std-ref">homogeneous co-ordinates</span></a>) and <span class="math notranslate nohighlight">\(R_1\)</span> is</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
     R_1 =
@@ -845,7 +845,7 @@ document.write(`
     &amp;= [p_xx + p_yy + p_zz + p_ww, \\
     &amp; \qquad (p_wx - p_zy + p_yz - p_xw, p_zx + p_wy - p_xz - p_yw, -p_yx + p_xy + p_wz - p_zw)],
 \end{align*} \end{split}\]</div>
-<p>which can be expressed by the matrix equation <span class="math notranslate nohighlight">\(pq^* = \vec{p}R_2\)</span> where <span class="math notranslate nohighlight">\(R_2\)</span> is</p>
+<p>which can be expressed by the matrix equation <span class="math notranslate nohighlight">\(pq^* = pR_2\)</span> where <span class="math notranslate nohighlight">\(R_2\)</span> is</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
     R_2 =
@@ -889,7 +889,7 @@ document.write(`
         s(xy - zw) &amp; 1 - s(x^2 + z^2) &amp; s(yz + xw) &amp; 0 \\
         s(xz + yw) &amp; s(yz - xw) &amp; 1 - s(x^2 + y^2) &amp; 0 \\
         0 &amp; 0 &amp; 0 &amp; 1
-    \end{pmatrix}
+    \end{pmatrix}.
 \end{align*} \end{split}\]</div>
 <p>The matrix <span class="math notranslate nohighlight">\(R\)</span> is the rotation matrix for rotating a vector <span class="math notranslate nohighlight">\(\vec{p}\)</span> by angle <span class="math notranslate nohighlight">\(\theta\)</span> about the unit vector <span class="math notranslate nohighlight">\(\hat{\vec{v}}\)</span> where <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, <span class="math notranslate nohighlight">\(z\)</span> and <span class="math notranslate nohighlight">\(w\)</span> are the values of the unit rotation quaternion.</p>
 <p>Lets return to our example of rotating the vector <span class="math notranslate nohighlight">\(\vec{p} = (2, 0, 0)\)</span> by 45<span class="math notranslate nohighlight">\(^\circ\)</span> about the vector <span class="math notranslate nohighlight">\((\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})\)</span>. We first calculate the rotation quaternion <span class="math notranslate nohighlight">\(q\)</span></p>
