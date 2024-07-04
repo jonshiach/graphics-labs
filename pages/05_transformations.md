@@ -24,13 +24,13 @@ The OpenGL co-ordinate system.
 
 ## Translation
 
-The **translation** transformation when applied to a set of points moves each point by the same amount. For example, consider the triangle in {numref}`translation-figure`, each of the vertices has been translated by the same **translation vector** $\underline{t}$ which has that effect of moving the triangle.
+The **translation** transformation when applied to a set of points moves each point by the same amount. For example, consider the triangle in {numref}`translation-figure`, each of the vertices has been translated by the same **translation vector** $\vec{t}$ which has that effect of moving the triangle.
 
 ```{figure} ../images/05_translation.svg
 :height: 280
 :name: translation-figure
 
-Translation of a triangle by the translation vector $\underline{t}= (t_x, t_y)$.
+Translation of a triangle by the translation vector $\vec{t}= (t_x, t_y)$.
 ```
 
 A problem we have is that no transformation matrix exists for applying translation to the co-ordinates $(x, y, z)$, e.g., we can't find a matrix $T$ such that
@@ -55,7 +55,7 @@ $$ \begin{align*}
    (x + t_x, y + t_y, z + t_z, 1),
 \end{align*}$$
 
-which is our desired translation. So the **translation matrix** for translating a set of points by the vector $\underline{t} = (t_x, t_y, t_z)$ is
+which is our desired translation. So the **translation matrix** for translating a set of points by the vector $\vec{t} = (t_x, t_y, t_z)$ is
 
 $$ T = \begin{pmatrix}
     1 & 0 & 0 & 0 \\
@@ -274,11 +274,29 @@ Rotation is assumed to be in the anti-clockwise direction when looking down the 
 
 The **rotation matrices** for achieving these rotations are
 
-| Axis | Rotation matrix |
-|:--:|:--:|
-| $x$ | $\begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & \cos(\theta) & \sin(\theta) & 0 \\ 0 & -\sin(\theta) & \cos(\theta) & 0 \\ 0 & 0 & 0 & 1 \end{pmatrix}$ |
-| $y$ | $\begin{pmatrix} \cos(\theta) & 0 & -\sin(\theta) & 0\\ 0 & 1 & 0 & 0 \\ \sin(\theta) & 0 & \cos(\theta) & 0 \\ 0 & 0 & 0 & 1 \end{pmatrix}$ |
-| $z$ | $\begin{pmatrix} \cos(\theta) & \sin(\theta) & 0 & 0 \\ -\sin(\theta) & \cos(\theta) & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{pmatrix}$|
+$$ \begin{align*}
+    R_x &= 
+    \begin{pmatrix} 
+        1 & 0 & 0 & 0 \\ 
+        0 & \cos(\theta) & \sin(\theta) & 0 \\
+        0 & -\sin(\theta) & \cos(\theta) & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix}, \\
+    R_y &= 
+    \begin{pmatrix} 
+        \cos(\theta) & 0 & -\sin(\theta) & 0 \\
+        0 & 1 & 0 & 0 \\
+        \sin(\theta) & 0 & \cos(\theta) & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix}, \\
+    R_z &= 
+    \begin{pmatrix} 
+        \cos(\theta) & \sin(\theta) & 0 & 0 \\
+        -\sin(\theta) & \cos(\theta) & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix}.
+\end{align*} $$
 
 You don't really need to know how these are derived but if you are curious you can click on the dropdown link below.
 
@@ -290,10 +308,10 @@ We will consider rotation about the $z$-axis and will restrict our co-ordinates 
 :height: 300
 :name: rotation-figure
 
-Rotating the vector $\underline{u}$ anti-clockwise by angle $\theta$ to the vector $\underline{v}$.
+Rotating the vector $\vec{u}$ anti-clockwise by angle $\theta$ to the vector $\vec{v}$.
 ```
 
-Consider {numref}`rotation-figure` where the vector $\underline{u}$ is rotated by angle $\theta$ to the vector $\underline{v}$. To get this rotation we first consider the rotation of the vector $\underline{t}$, which has the same length as $\underline{u}$ and points along the $x$-axis, by angle $\phi$ to get to $\underline{u}$. If we form a right-angled triangle (the blue one) then we know the length of the hypotenuse, $|\underline{u}|$, and the angle so we can calculate the lengths of the adjacent and opposite sides using trigonometry. Remember our trig ratios (SOH-CAH-TOA)
+Consider {numref}`rotation-figure` where the vector $\vec{u}$ is rotated by angle $\theta$ to the vector $\vec{v}$. To get this rotation we first consider the rotation of the vector $\vec{t}$, which has the same length as $\vec{u}$ and points along the $x$-axis, by angle $\phi$ to get to $\vec{u}$. If we form a right-angled triangle (the blue one) then we know the length of the hypotenuse, $|\vec{u}|$, and the angle so we can calculate the lengths of the adjacent and opposite sides using trigonometry. Remember our trig ratios (SOH-CAH-TOA)
 
 $$ \begin{align*}
     \sin(\phi) &= \frac{\textsf{opposite}}{\textsf{hypotenuse}}, &
@@ -308,18 +326,18 @@ $$ \begin{align*}
     \textsf{opposite} &= \textsf{hypotenuse} \cdot \sin(\phi).
 \end{align*} $$
 
-Now $u_x$ and $u_y$ are the lengths of the adjacent and opposite sides respectively and $|\underline{u}|$ is the length of the hypotenuse so we have
+Now $u_x$ and $u_y$ are the lengths of the adjacent and opposite sides respectively and $|\vec{u}|$ is the length of the hypotenuse so we have
 
 $$ \begin{align*}
-    u_x &= |\underline{u}| \cos(\phi), \\
-    u_y &= |\underline{u}| \sin(\phi).
+    u_x &= |\vec{u}| \cos(\phi), \\
+    u_y &= |\vec{u}| \sin(\phi).
 \end{align*} $$
 
-Now consider the rotation from $\underline{t}$ by the angle $\phi + \theta$ to get to $\underline{v}$. Using the same method as before we have
+Now consider the rotation from $\vec{t}$ by the angle $\phi + \theta$ to get to $\vec{v}$. Using the same method as before we have
 
 $$ \begin{align*}
-    v_x &= |\underline{u}| \cos(\phi + \theta), \\
-    v_y &= |\underline{u}| \sin(\phi + \theta).
+    v_x &= |\vec{u}| \cos(\phi + \theta), \\
+    v_y &= |\vec{u}| \sin(\phi + \theta).
 \end{align*} $$
 
 We can rewrite $\cos(\phi+\theta)$ and $\sin(\phi+\theta)$ using <a href="https://en.wikipedia.org/wiki/List_of_trigonometric_identities#" target="_blank">trigonometric identities</a>
@@ -332,11 +350,11 @@ $$ \begin{align*}
 so 
 
 $$ \begin{align*}
-    v_x &= |\underline{u}| \cos(\phi) \cos(\theta) - |\underline{u}| \sin(\phi) \sin(\theta), \\
-    v_y &= |\underline{u}| \sin(\phi) \cos(\theta) + |\underline{u}| \cos(\phi) \sin(\theta).
+    v_x &= |\vec{u}| \cos(\phi) \cos(\theta) - |\vec{u}| \sin(\phi) \sin(\theta), \\
+    v_y &= |\vec{u}| \sin(\phi) \cos(\theta) + |\vec{u}| \cos(\phi) \sin(\theta).
 \end{align*} $$
 
-Since $ u_x = |\underline{u}| \cos(\phi)$ and $u_y = |\underline{u}| \sin(\phi)$ then
+Since $ u_x = |\vec{u}| \cos(\phi)$ and $u_y = |\vec{u}| \sin(\phi)$ then
 
 $$ \begin{align*}
     v_x &= u_x \cos(\theta) - u_y \sin(\theta), \\
@@ -424,7 +442,7 @@ rotate =
 
 ### Axis-angle rotation
 
-The three rotation transformations are only useful if we want to only rotate around one of the three co-ordinate axes. A more useful transformation is the rotation around the axis that points in the direction of a vector, $\underline{v}$ say, which has its tail at (0,0,0) ({numref}`axis-angle-rotation-figure`).
+The three rotation transformations are only useful if we want to only rotate around one of the three co-ordinate axes. A more useful transformation is the rotation around the axis that points in the direction of a vector, $\vec{v}$ say, which has its tail at (0,0,0) ({numref}`axis-angle-rotation-figure`).
 
 ```{figure} ../images/05_axis_angle_rotation_1.svg
 :height: 250
@@ -433,7 +451,7 @@ The three rotation transformations are only useful if we want to only rotate aro
 Axis-angle rotation.
 ```
 
-The transformation matrix for rotation around a **unit vector** $\hat{\underline{v}} = (v_x, v_y, v_z)$, anti-clockwise by angle $\theta$ when looking down the vector is.
+The transformation matrix for rotation around a **unit vector** $\hat{\vec{v}} = (v_x, v_y, v_z)$, anti-clockwise by angle $\theta$ when looking down the vector is.
 
 $$ \begin{align*}
     R =
@@ -458,9 +476,9 @@ Again, you don't really need to know how this is derived but if you are curious 
 
 ````{dropdown} Derivation of the axis-angle rotation matrix (click to show)
 
-The rotation about the vector $\underline{v} = (v_x, v_y, v_z)$ by angle $\theta$ is the [composition](composite-transformations-section) of 5 separate rotations:
+The rotation about the vector $\vec{v} = (v_x, v_y, v_z)$ by angle $\theta$ is the [composition](composite-transformations-section) of 5 separate rotations:
 
-1. Rotate $\underline{v}$ around the $x$-axis so that it is in the $xz$-plane (the $y$ component of the vector is 0);
+1. Rotate $\vec{v}$ around the $x$-axis so that it is in the $xz$-plane (the $y$ component of the vector is 0);
 1. Rotate the vector around the $y$-axis so that it points along the $z$-axis (the $x$ and $y$ components are 0 and the $z$ component is a positive number);
 1. Perform the rotation around the $z$-axis;
 1. Reverse the rotation around the $y$-axis;
@@ -472,7 +490,7 @@ The rotation around the $x$-axis is achieved by forming a right-angled triangle 
 :height: 220
 :name: axis-angle-rotation1-figure
 
-Rotate $\underline{v}$ around the $x$-axis
+Rotate $\vec{v}$ around the $x$-axis
 ```
 
 Therefore $\cos(\theta) = \dfrac{v_z}{\sqrt{v_y^2 + v_z^2}}$ and $\sin(\theta) = \dfrac{v_y}{\sqrt{v_y^2 + v_z^2}}$ so the rotation matrix is
@@ -484,7 +502,7 @@ $$ R_1 = \begin{pmatrix}
     0 & 0 & 0 & 1
 \end{pmatrix}.$$
 
-The rotation around the $y$-axis is achieved by forming another right-angled triangle in the $xz$-plane where $\theta$ has an adjacent side of length $\sqrt{v_y^2 + v_z^2}$, an opposite side of length $v_x$ and a hypotenuse of length $|\underline{v}|$ ({numref}`axis-angle-rotation2-figure`).
+The rotation around the $y$-axis is achieved by forming another right-angled triangle in the $xz$-plane where $\theta$ has an adjacent side of length $\sqrt{v_y^2 + v_z^2}$, an opposite side of length $v_x$ and a hypotenuse of length $|\vec{v}|$ ({numref}`axis-angle-rotation2-figure`).
 
 ```{figure} ../images/05_axis_angle_rotation_3.svg
 :height: 250
@@ -493,12 +511,12 @@ The rotation around the $y$-axis is achieved by forming another right-angled tri
 Rotate around the $y$-axis
 ```
 
-Therefore $\cos(\theta) = \dfrac{\sqrt{v_y^2 + v_z^2}}{|\underline{v}|}$ and $\sin(\theta) = \dfrac{v_x}{|\underline{v}|}$. Note that here we are rotating in the clockwise direction so the rotation matrix is
+Therefore $\cos(\theta) = \dfrac{\sqrt{v_y^2 + v_z^2}}{|\vec{v}|}$ and $\sin(\theta) = \dfrac{v_x}{|\vec{v}|}$. Note that here we are rotating in the clockwise direction so the rotation matrix is
 
 $$ R_2 = \begin{pmatrix} 
-    \dfrac{\sqrt{v_y^2 + v_z^2}}{|\underline{v}|} & 0 & \dfrac{v_x}{|\underline{v}|} & 0 \\
+    \dfrac{\sqrt{v_y^2 + v_z^2}}{|\vec{v}|} & 0 & \dfrac{v_x}{|\vec{v}|} & 0 \\
     0 & 1 & 0 & 0 \\
-    -\dfrac{v_x}{|\underline{v}|} & 0 & \dfrac{\sqrt{v_y^2 + v_z^2}}{|\underline{v}|} & 0 \\
+    -\dfrac{v_x}{|\vec{v}|} & 0 & \dfrac{\sqrt{v_y^2 + v_z^2}}{|\vec{v}|} & 0 \\
     0 & 0 & 0 & 1
 \end{pmatrix}.$$
 
@@ -515,9 +533,9 @@ The reverse rotation around the $y$ and $x$ axes is simply the rotation matrices
 
 $$ \begin{align*}
     R_4 &= \begin{pmatrix} 
-       \dfrac{\sqrt{v_y^2 + v_z^2}}{|\underline{v}|} & 0 & -\dfrac{v_x}{|\underline{v}|} & 0 \\
+       \dfrac{\sqrt{v_y^2 + v_z^2}}{|\vec{v}|} & 0 & -\dfrac{v_x}{|\vec{v}|} & 0 \\
        0 & 1 & 0 & 0 \\
-       \dfrac{v_x}{|\underline{v}|} & 0 & \dfrac{\sqrt{v_y^2 + v_z^2}}{|\underline{v}|} & 0 \\
+       \dfrac{v_x}{|\vec{v}|} & 0 & \dfrac{\sqrt{v_y^2 + v_z^2}}{|\vec{v}|} & 0 \\
        0 & 0 & 0 & 1
    \end{pmatrix}, \\
    R_5 &= \begin{pmatrix} 
@@ -534,23 +552,23 @@ $$ \begin{align*}
     R &= R_1 \cdot R_2 \cdot R_3 \cdot R_4 \cdot R_5 \\
     &=
     \begin{pmatrix}
-        \dfrac{v_x^2 + (v_y^2 + v_z^2) \cos(\theta)}{|\underline{v}|^2} &
-        \dfrac{v_xv_y(1 - \cos(\theta))}{|\underline{v}|^2} + \dfrac{v_z\sin(\theta)}{|\underline{v}|} &
-        \dfrac{v_xv_z(1 - \cos(\theta))}{|\underline{v}|^2} - \dfrac{v_y\sin(\theta)}{|\underline{v}|} & 
+        \dfrac{v_x^2 + (v_y^2 + v_z^2) \cos(\theta)}{|\vec{v}|^2} &
+        \dfrac{v_xv_y(1 - \cos(\theta))}{|\vec{v}|^2} + \dfrac{v_z\sin(\theta)}{|\vec{v}|} &
+        \dfrac{v_xv_z(1 - \cos(\theta))}{|\vec{v}|^2} - \dfrac{v_y\sin(\theta)}{|\vec{v}|} & 
         0 \\
-        \dfrac{v_xv_y(1 - \cos(\theta))}{|\underline{v}|^2} - \dfrac{v_z\sin(\theta)}{|\underline{v}|} &
-        \dfrac{v_y^2 + (v_x^2 + v_y^2)\cos(\theta)}{|\underline{v}|^2} &
-        \dfrac{v_yv_z(1 - \cos(\theta))}{|\underline{v}|^2} - \dfrac{v_x\sin(\theta)}{|\underline{v}|} &
+        \dfrac{v_xv_y(1 - \cos(\theta))}{|\vec{v}|^2} - \dfrac{v_z\sin(\theta)}{|\vec{v}|} &
+        \dfrac{v_y^2 + (v_x^2 + v_y^2)\cos(\theta)}{|\vec{v}|^2} &
+        \dfrac{v_yv_z(1 - \cos(\theta))}{|\vec{v}|^2} - \dfrac{v_x\sin(\theta)}{|\vec{v}|} &
         0 \\
-        \dfrac{v_xv_z(1 - \cos(\theta))}{|\underline{v}|^2} + \dfrac{v_y\sin(\theta)}{|\underline{v}|} &
-        \dfrac{v_yv_z(1 - \cos(\theta))}{|\underline{v}|^2} - \dfrac{v_x\sin(\theta)}{|\underline{v}|} &
-        \dfrac{v_z^2 + (v_x^2 + v_y^2)\cos(\theta)}{|\underline{v}|^2} & 
+        \dfrac{v_xv_z(1 - \cos(\theta))}{|\vec{v}|^2} + \dfrac{v_y\sin(\theta)}{|\vec{v}|} &
+        \dfrac{v_yv_z(1 - \cos(\theta))}{|\vec{v}|^2} - \dfrac{v_x\sin(\theta)}{|\vec{v}|} &
+        \dfrac{v_z^2 + (v_x^2 + v_y^2)\cos(\theta)}{|\vec{v}|^2} & 
         0 \\
         0 & 0 & 0 & 1
     \end{pmatrix}
 \end{align*} $$
 
-If we make $\underline{v}$ a unit vector so that $|\underline{v}| = 1$ and $v_y^2 + v_z^2 = 1 - v_x^2$ then this simplifies to 
+If we make $\vec{v}$ a unit vector so that $|\vec{v}| = 1$ and $v_y^2 + v_z^2 = 1 - v_x^2$ then this simplifies to 
 
 $$ \begin{align*}
     R =

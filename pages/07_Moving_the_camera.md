@@ -359,18 +359,18 @@ Back face culling removes surfaces with vectors pointing away from the camera.
 
 But how do we know if a surface is back facing? Consider {numref}`back-facing-figure` which shows a back facing surface.
 
-```{figure} /images/07_back_facing.svg
+```{figure} /images/07_Back_facing.svg
 :width: 400
 :name: back-facing-figure
 
 A back facing surface.
 ```
 
-The $\tt angle$ between the $\tt normal$ vector and the $\tt\text{viewVector}$, which is a vector from the camera to the surface, is less than 90$^\circ$. Recall that the [dot product](dot-product-section) is related to the angle between two vectors, i.e.,
+Recall that the [dot product](dot-product-section) is related to the angle between two vectors, i.e.,
 
-$$ \tt normal \cdot \text{viewVector} = | normal | | \text{viewVector} | \cos(angle). $$
+$$ \tt normal \cdot \text{viewVector} = | normal | | \text{viewVector} | \cos(\theta). $$
 
-If we have a back facing surface then $\tt angle$ is less than 90$^\circ$ and $\cos(\tt angle)$ is a positive number so
+If we have a back facing surface then $\theta$ is less than 90$^\circ$ and $\cos(\theta)$ is a positive number so
 
 $$\begin{align*}
   \tt normal \cdot \text{viewVector} > 0.

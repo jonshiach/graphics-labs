@@ -348,7 +348,7 @@ $$ \begin{align*}
     q^{-1} &= \frac{q^*}{|q|^2}.
 \end{align*} $$
 
-If $q$ is a unit quaternion then
+If $q$ is a unit quaternion then $|q|=1$ and
 
 $$ q^{-1} = q^*. $$
 
@@ -356,13 +356,13 @@ $$ q^{-1} = q^*. $$
 
 ## A.3 Quaternion rotation
 
-In [Lab 4 on transformations](axis-angle-rotation-section) we saw that we can rotate about a vector $\vec{v}$ by an angle $\theta$ using a combination of rotations about the $x$, $y$ and $z$ axis as well as a couple of transformations. The resulting matrix shown in equation {eq}`eq:axis-angle-rotation-matrix` was quite complicated and requires lots of floating point calculations. Quaternions gives us a away of performing similar calculation in a much simpler way.
+In [Lab 4 on transformations](axis-angle-rotation-section) we saw that we can rotate about a vector $\vec{v}$ by an angle $\theta$ using a combination of a translation and rotations about the $x$, $y$ and $z$ axes. The resulting matrix shown in equation {eq}`eq:axis-angle-rotation-matrix` is quite complicated and requires lots of floating point computations. Quaternions gives us a away of performing similar calculation in a way that uses fewer computations and also does not suffer from gimbal lock.
 
 ```{figure} ../images/10_Axis_angle_rotation.svg
 :width: 350
 :name: axis-angle-rotation-figure-3
 
-Axis-angle rotation about the vector $\vec{v}$.
+Axis-angle rotation about the vector $\hat{\vec{v}}$.
 ```
 
 We have seen that we can rotate a complex number by multiplying by
@@ -377,11 +377,11 @@ or in vector-scalar form
 
 $$ q = [\cos(\theta), \sin(\theta) \hat{\vec{v}}]. $$
 
-To demonstrate rotation using quaternion rotation consider the rotation of the vector $\vec{p} = (2, 0, 0)$ by 45$^\circ$ about the $z$-axis. The rotation quaternion is
+To demonstrate rotation using quaternion rotation consider the rotation of the vector $\vec{p} = (2, 0, 0)$ by 45$^\circ$ about the $z$-axis. The rotation quaternion for this is
 
-$$ q = [\cos(45^\circ)] =  [(0, 0, \tfrac{\sqrt{2}}{2}), \tfrac{\sqrt2}{2}, \sin(45^\circ)(0, 0, 1)], $$
+$$ q = [\cos(45^\circ), \sin(45^\circ)(0, 0, 1)] =  [\tfrac{\sqrt2}{2}, (0, 0, \tfrac{\sqrt{2}}{2})], $$
 
-and since the vector $\vec{p}$ can be considered as the pure quaternion $p = [0, \vec{p}]$ then
+and expressing $\vec{p}$ as a quaternion we have $p = [0, (2, 0, 0)]$ and multiplying by $q$ gives
 
 $$ \begin{align*}
     qp &= [\tfrac{\sqrt2}{2}, (0, 0, \tfrac{\sqrt{2}}{2})] [0, (2, 0, 0)] \\
@@ -396,45 +396,45 @@ $$ \begin{align*}
     |qp| &= \sqrt{(\sqrt{2})^2 + (\sqrt{2})^2} = \sqrt{4} = 2,
 \end{align*} $$
 
-which is the same as the absolute value of $[0, 2\vec{i}]$. This rotation is shown in shown in {numref}`quaternion-rotation-1-figure`.
+which is the same as the absolute value of $[0, (2, 0, 0)]$. This rotation is shown in shown in {numref}`quaternion-rotation-1-figure`.
 
 ```{figure} ../images/A_Quaternion_rotation_1.svg
 :width: 400
 :name: quaternion-rotation-1-figure
 
-The rotation of the vector $\vec{p}=(2, 0, 0)$ by angle 45$^\circ$ about the $z$-axis using the quaternion product $r\vec{p}$
+The rotation of the quaternion or $p=(2, 0, 0, 0)$ by multiplying by the rotation quaternion $q = (\frac{\sqrt{2}}{2}, (0, 0, \frac{\sqrt{2}}{2}))$.
 ```
 
-In the rotation example shown above used a quaternion that was perpendicular to the vector being rotated. What happens when we rotate by a quaternion that isn't perpendicular to the vector? Consider the rotation of $\vec{p} = (2, 0, 0)$ by angle 45$^\circ$ about the vector $\hat{\vec{v}} =  (\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})$. The rotation quaternion is
+In the rotation example shown above used a quaternion that was perpendicular to the vector being rotated. What happens when we rotate by a quaternion that isn't perpendicular to the vector? Consider the rotation of the same vector $\vec{p} = (2, 0, 0)$ by angle 45$^\circ$ about the vector $\hat{\vec{v}} =  (\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})$ which is not perpendicular to $\vec{p}$. The rotation quaternion is
 
-$$ q = [\tfrac{\sqrt{2}}{2} (\tfrac{\sqrt{2}}{2}, 0, \tfrac{\sqrt{2}}{2}), \tfrac{\sqrt{2}}{2}] =[(\tfrac{1}{2}, 0, \tfrac{1}{2}), \tfrac{\sqrt{2}}{2}], $$
+$$ q = [\tfrac{\sqrt{2}}{2}, \tfrac{\sqrt{2}}{2} (\tfrac{\sqrt{2}}{2}, 0, \tfrac{\sqrt{2}}{2})] =[\tfrac{\sqrt{2}}{2}, (\tfrac{1}{2}, 0, \tfrac{1}{2})], $$
 
-and multiplying by $p$
+and multiplying by $p = [0, (2, 0, 0)]$
 
 $$ \begin{align*}
     qp &= [\tfrac{\sqrt{2}}{2}, (\tfrac{1}{2}, 0, \tfrac{1}{2})] [0, (2, 0, 0)] \\
-    &= [0-(\tfrac{1}{2}, 0, \tfrac{1}{2}) \cdot (2, 0, 0), \tfrac{\sqrt{2}}{2}(2, 0, 0) + (\tfrac{1}{2}, 0, \tfrac{1}{2}) \times (2, 0, 0)] \\
+    &= [-(\tfrac{1}{2}, 0, \tfrac{1}{2}) \cdot (2, 0, 0), \tfrac{\sqrt{2}}{2}(2, 0, 0) + (\tfrac{1}{2}, 0, \tfrac{1}{2}) \times (2, 0, 0)] \\
     &= [-1, (\sqrt{2}, 0, 0) + (0, 1, 0)] \\
     &= [-1, (\sqrt{2}, 1, 0)].
 \end{align*} $$
 
 Now we no longer have a pure quaternion since the scalar part is $-1$ which is non-zero and the absolute value of $qp$ is
 
-$$ |qp| = \sqrt{(\sqrt{2})^2 + 1^2 + (-1)^2 } = \sqrt{6} \approx 2.45,$$
+$$ |qp| = \sqrt{(\sqrt{2})^2 + 1^2 + (-1)^2 } = \sqrt{6} \approx 2.45.$$
 
-so the rotated quaternion has been scaled up as shown in {numref}`quaternion-rotation-2-figure`.
+Since $|qp| > |p|$ in rotating the quaternion $p$ we scaled it up as shown in {numref}`quaternion-rotation-2-figure`.
 
 ```{figure} ../images/A_Quaternion_rotation_2.svg
 :width: 400
 :name: quaternion-rotation-2-figure
 
-The rotation of the vector $\vec{p} = (2, 0, 0)$ by angle 45$^\circ$ about the vector $\vec{v} = (\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})$ using the quaternion product $r\vec{p}$.
+The rotation of the quaternion or $p=[0, (2, 0, 0)]$ by multiplying by the rotation quaternion $q = [\tfrac{\sqrt{2}}{2}, (\tfrac{1}{2}, 0, \tfrac{1}{2})]$.
 ```
 
-However, if we multiply $qp$ by the multiplicative inverse $q^{}$ then $qpq^{-1}$ is a pure quaternion that has the same absolute value as $|\vec{p}|$. If $q$ is a unit quaternion then $q^{-1} = q^*$ and
+However, if we multiply $qp$ by the inverse quaternion $q^{-1}$ then $qpq^{-1}$ is a pure quaternion that has the same absolute value as $|p|$. If we make $q$ into a unit quaternion then $q^{-1} = q^*$ and
 
 $$ \begin{align*}
-    qpq^* &= [\tfrac{\sqrt{2}}{2}, (\sqrt{2}, 1, 0), -1] [(-\tfrac{1}{2}, 0, -\tfrac{1}{2})] \\
+    qpq^* &= [-1, (\sqrt{2}, 1, 0)] [(-\tfrac{1}{2}, 0, -\tfrac{1}{2})] \\
     &= [-\tfrac{\sqrt{2}}{2} - (\sqrt{2}, 1, 0) \cdot (-\tfrac{1}{2}, 0, -\tfrac{1}{2}), (\tfrac{1}{2}, 0, \tfrac{1}{2}) + (1, \tfrac{\sqrt{2}}{2}, 0) + (\sqrt{2}, 1, 0) \times (-\tfrac{1}{2}, 0, -\tfrac{1}{2})] \\
     &= [-\tfrac{\sqrt{2}}{2}+ \tfrac{\sqrt{2}}{2}, (\tfrac{1}{2}, 0, \tfrac{1}{2}) + (\tfrac{1}{2}, \tfrac{\sqrt{2}}{2}, 0) + (-\tfrac{1}{2}, \tfrac{\sqrt{2}}{2}, \tfrac{1}{2})] \\
     &= [0, (1, \sqrt{2}, 1)].
@@ -450,39 +450,18 @@ However, plotting the result of the quaternion rotation ({numref}`quaternion-rot
 :width: 400
 :name: quaternion-rotation-3-figure
 
-The rotation of the vector $\vec{p} = (2,0,0)$ by angle 45$^\circ$ about the vector $\vec{v} = (\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})$ using the quaternion product $q\vec{p}q^*$.
+The rotation of the quaternion or $p=(2, 0, 0, 0)$ by multiplying by the rotation quaternion $r = (\frac{\sqrt{2}}{2}, (0, 0, \frac{\sqrt{2}}{2}))$ and the quaternion conjugate $r^*$ using the sequence $rpr^*$.
 ```
 
 The other alteration we need to make it to halve the angle $\theta$ when calculated the rotation quaternion
 
 $$ q = [\cos(\tfrac{1}{2}\theta), \sin(\tfrac{1}{2}\theta) \hat{\vec{v}}].$$(appendix-rotation-quaternion-equation)
 
-(euler-to-quaternion-derivation-section)=
-
-### A.3.1 Euler angles to quaternion
-
-Euler angles are the rotations around the three co-ordinates axes $x$, $y$ and $z$ so equation {eq}`appendix-rotation-quaternion-equation` can be used to give three quaternions for pitch, yaw and roll rotations. Let $c_p = \cos(\frac{1}{2}\theta)$, $s_p =\sin(\frac{1}{2}\theta)$ and $q_p$ be the cosine, sine and rotation quaternion for rotating about the $x$-axis by the pitch angle, and similar for yaw and roll then
-
-$$ \begin{align*}
-    q_p &= [c_p, s_p \vec{i}], \\
-    q_y &= [c_y, s_y \vec{j}], \\
-    q_r &= [c_r, s_r \vec{k}].
-\end{align*} $$
-
-The combined rotation $q_pq_yq_r$ is
-
-$$ \begin{align*}
-    q_pq_yq_r &= [c_p, s_p\vec{i}] [c_y, s_y\vec{j}] [c_r, s_r\vec{k}] \\
-    &= [c_pc_y, c_ps_y\vec{j} + s_pc_y\vec{i} + s_ps_y\vec{k}] [c_r, s_r\vec{k}] \\
-    &= [c_pc_yc_r - s_ps_ys_r, c_pc_ys_r\vec{k} + c_ps_yc_r\vec{j} + s_pc_yc_r\vec{i} + s_ps_yc_r\vec{k} + c_ps_ys_r\vec{i} - s_pc_ys_r\vec{j}] \\
-    &= [c_pc_yc_r - s_ps_ys_r, (s_pc_yc_r + c_ps_ys_r, c_ps_yc_r - s_pc_ys_r, c_pc_ys_r - s_ps_yc_r)].
-\end{align*} $$
-
 (quaternion-rotation-matrix-derivation-section)= 
 
 ### A.3.2 Rotation matrix
 
-Consider the multiplication of the axis vector quaternion $p = [w, (x, y, z)]$ on the left by the rotation unit quaternion $q = [w, (x, y, z)]$
+Consider the multiplication of the axis vector quaternion $p = [p_w, (p_x, p_y, p_z)]$ on the left by the rotation unit quaternion $q = [w, (x, y, z)]$
 
 $$ \begin{align*}
     qp &= [w, (x, y, z)][p_w, (p_x, p_y, p_w)] \\
@@ -490,7 +469,7 @@ $$ \begin{align*}
     & \qquad (p_wx - p_zy + p_yz + p_xw, p_zx + p_wy - p_yz + p_yw, -p_yx + p_xy + p_wz + q_zw)].
 \end{align*} $$
 
-This can be written as the matrix equation $qp = \vec{p}R_1$ where $\vec{p} = (p_x, p_y, p_z, p_w)$ (which is synonymous with [homogeneous co-ordinates](homogeneous-coordinates-section)) and $R_1$ is
+This can be written as the matrix equation $qp =\vec{p}R_1$ where $\vec{p} = (p_x, p_y, p_z, p_w)$ (which is synonymous with [homogeneous co-ordinates](homogeneous-coordinates-section)) and $R_1$ is
 
 $$ \begin{align*}
     R_1 =
@@ -522,10 +501,10 @@ $$ \begin{align*}
     \end{pmatrix}.
 \end{align*} $$
 
-The composite quaternion multiplication $qpq^*$ can be written as the matrix equation $\vec{p}R$ where $R = R_1R_2$
+The composite quaternion multiplication $qpq^*$ can be written as the matrix equation $qpq^* = \vec{p}R_1R_2$ where
 
 $$ \begin{align*}
-    R &=
+    R_1R_2 &=
     \begin{pmatrix}
         w & z & -y & - x \\
         -z & w & x & -y \\
@@ -550,16 +529,16 @@ $$ \begin{align*}
 Let $s = \dfrac{2}{w^2 + x^2 + y^2 + z^2}$ then this simplifies to
 
 $$ \begin{align*}
-    R &= 
+    R_1R_2 &= 
     \begin{pmatrix}
         1 - s(y^2 + z^2) & s(xy + zw) & s(xz - yw) & 0 \\
         s(xy - zw) & 1 - s(x^2 + z^2) & s(yz + xw) & 0 \\
         s(xz + yw) & s(yz - xw) & 1 - s(x^2 + y^2) & 0 \\
         0 & 0 & 0 & 1
-    \end{pmatrix}
-\end{align*} $$
+    \end{pmatrix}.
+\end{align*} $$(quaternion-rotation-matrix-2-equation)
 
-The matrix $R$ is the rotation matrix for rotating a vector $\vec{p}$ by angle $\theta$ about the unit vector $\hat{\vec{v}}$ where $x$, $y$, $z$ and $w$ are the values of the unit rotation quaternion.
+The matrix $R = R_1R_2$ is the rotation matrix for rotating a vector $\vec{p}$ by angle $\theta$ about the unit vector $\hat{\vec{v}}$ where $x$, $y$, $z$ and $w$ are the values of the unit rotation quaternion.
 
 Lets return to our example of rotating the vector $\vec{p} = (2, 0, 0)$ by 45$^\circ$ about the vector $(\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})$. We first calculate the rotation quaternion $q$
 
@@ -568,7 +547,7 @@ $$ \begin{align*}
     &\approx [0.9239, (0.2706, 0, 0.2706)].
 \end{align*} $$
 
-From $q$ we have $w = 0.9239$, $x = 0.2706$, $y = 0$ and $z = 0.2706$. Substituting these into equation {eq}`quaternion-rotation-matrix-equation` gives
+From $q$ we have $w = 0.9239$, $x = 0.2706$, $y = 0$ and $z = 0.2706$. Substituting these into equation {eq}`quaternion-rotation-matrix-2-equation` gives
 
 $$ \begin{align*}
     R = 
@@ -601,3 +580,24 @@ The result of this calculation is plotted in {numref}`quaternion-rotation-4-figu
 
 The rotation of the vector $\vec{p} = (2, 0, 0)$ by angle 45$^\circ$ about the vector $\vec{v} = (\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})$ using the quaternion rotation matrix $R$.
 ```
+
+(euler-to-quaternion-derivation-section)=
+
+### A.3.1 Euler angles to quaternion
+
+Euler angles are the rotations around the three co-ordinates axes $x$, $y$ and $z$ so equation {eq}`appendix-rotation-quaternion-equation` can be used to give three quaternions for pitch, yaw and roll rotations. Let $c_p = \cos(\frac{1}{2}\theta)$, $s_p =\sin(\frac{1}{2}\theta)$ and $q_p$ be the cosine, sine and rotation quaternion for rotating about the $x$-axis by the pitch angle, and similar for yaw and roll then
+
+$$ \begin{align*}
+    q_p &= [c_p, s_p  \vec{i}], \\
+    q_y &= [c_y, s_y  \vec{j}], \\
+    q_r &= [c_r, s_r  \vec{k}].
+\end{align*} $$
+
+The combined rotation $q_pq_yq_r$ is
+
+$$ \begin{align*}
+    q_pq_yq_r &= [c_p, s_p\vec{i}] [c_y, s_y\vec{j}] [c_r, s_r\vec{k}] \\
+    &= [c_pc_y, c_ps_y\vec{j} + s_pc_y\vec{i} + s_ps_y\vec{k}] [c_r, s_r\vec{k}] \\
+    &= [c_pc_yc_r - s_ps_ys_r, c_pc_ys_r\vec{k} + c_ps_yc_r\vec{j} + s_pc_yc_r\vec{i} + s_ps_yc_r\vec{k} + c_ps_ys_r\vec{i} - s_pc_ys_r\vec{j}] \\
+    &= [c_pc_yc_r - s_ps_ys_r, (s_pc_yc_r + c_ps_ys_r, c_ps_yc_r - s_pc_ys_r, c_pc_ys_r - s_ps_yc_r)].
+\end{align*} $$

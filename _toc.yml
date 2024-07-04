@@ -17,3 +17,5 @@ parts:
   # numbered: true
   chapters:
   - glob: pages/A*
+  - glob: pages/B*
+  - glob: pages/C*
