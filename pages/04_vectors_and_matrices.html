@@ -404,16 +404,22 @@ document.write(`
 <p>Computer graphics relies heavily on mathematics of vectors and matrices. In this lab we will be revising these and show how we can perform calculations in C++.</p>
 <section id="vectors">
 <h2><span class="section-number">4.1. </span>Vectors<a class="headerlink" href="#vectors" title="Permalink to this heading">#</a></h2>
-<p>A vector in is an object with magnitude (length) and direction. A vector is denoted by an underlined lower case letter, e.g., <span class="math notranslate nohighlight">\(\underline{a}\)</span> (alternate notation includes representing vectors using a boldface character, e.g., <span class="math notranslate nohighlight">\(\mathbf{a}\)</span>) and represented mathematically by the 3-tuple</p>
+<p>A vector in is an object with magnitude (length) and direction. A vector is denoted by a lower case letter in boldface, e.g., <span class="math notranslate nohighlight">\(\vec{a}\)</span> and represented mathematically by the 3-tuple</p>
 <div class="math notranslate nohighlight">
-\[ \underline{a} = (a_x, a_y, a_z), \]</div>
-<p>where <span class="math notranslate nohighlight">\(a_x\)</span>, <span class="math notranslate nohighlight">\(a_y\)</span> and <span class="math notranslate nohighlight">\(a_z\)</span> are the lengths of the vector in the x, y, and z directions.</p>
-<figure class="align-default">
-<a class="reference internal image-reference" href="../_images/04_vector.svg"><img alt="../_images/04_vector.svg" height="250" src="../_images/04_vector.svg" /></a>
+\[ \vec{a} = (a_x, a_y, a_z), \]</div>
+<p>where <span class="math notranslate nohighlight">\(a_x\)</span>, <span class="math notranslate nohighlight">\(a_y\)</span> and <span class="math notranslate nohighlight">\(a_z\)</span> are the lengths of the vector in the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, and <span class="math notranslate nohighlight">\(z\)</span> directions.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/04_Vector.svg"><img alt="../_images/04_Vector.svg" height="350" src="../_images/04_Vector.svg" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.1 </span><span class="caption-text">The vector <span class="math notranslate nohighlight">\(\vec{a} = (a_x, a_y, a_z)\)</span>.</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+</figcaption>
 </figure>
-<p>We can use vectors to represent the displacement of one point to another. For example, given two points <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> the displacement from <span class="math notranslate nohighlight">\(A\)</span> to <span class="math notranslate nohighlight">\(B\)</span> can be thought of as the vector <span class="math notranslate nohighlight">\(\underline{a} = B - A\)</span>.</p>
-<figure class="align-default">
-<a class="reference internal image-reference" href="../_images/04_vector_2.svg"><img alt="../_images/04_vector_2.svg" src="../_images/04_vector_2.svg" width="200" /></a>
+<p>We can use vectors to represent the displacement of one point to another. For example, given two points <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> the displacement from <span class="math notranslate nohighlight">\(A\)</span> to <span class="math notranslate nohighlight">\(B\)</span> can be thought of as the vector <span class="math notranslate nohighlight">\(\vec{a} = B - A\)</span>.</p>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="../_images/04_A_to_B_vector.svg"><img alt="../_images/04_A_to_B_vector.svg" src="../_images/04_A_to_B_vector.svg" width="250" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.2 </span><span class="caption-text">The vector <span class="math notranslate nohighlight">\(\vec{a} = B - A\)</span>.</span><a class="headerlink" href="#id2" title="Permalink to this image">#</a></p>
+</figcaption>
 </figure>
 <section id="the-glm-library">
 <h3><span class="section-number">4.1.1. </span>The glm library<a class="headerlink" href="#the-glm-library" title="Permalink to this heading">#</a></h3>
@@ -462,15 +468,19 @@ u = [    2.000,    2.000,    1.000]
 </section>
 <section id="vector-magnitude">
 <span id="vector-magnitude-section"></span><h3><span class="section-number">4.1.2. </span>Vector magnitude<a class="headerlink" href="#vector-magnitude" title="Permalink to this heading">#</a></h3>
-<p>The <strong>magnitude</strong> of a vector <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> is denoted by <span class="math notranslate nohighlight">\(|\underline{a}|\)</span> is the length from the tail of the vector to the head and calculated using</p>
-<div class="math notranslate nohighlight" id="equation-eq-vector-magnitude">
-<span class="eqno">(4.1)<a class="headerlink" href="#equation-eq-vector-magnitude" title="Permalink to this equation">#</a></span>\[ |\underline{a}| = \sqrt{a_x^2 + a_y^2 + a_z^2}. \]</div>
-<figure class="align-default">
-<a class="reference internal image-reference" href="../_images/04_vector_magnitude.svg"><img alt="../_images/04_vector_magnitude.svg" height="100" src="../_images/04_vector_magnitude.svg" /></a>
+<p>The <strong>magnitude</strong> of a vector <span class="math notranslate nohighlight">\(\vec{a} = (a_x, a_y, a_z)\)</span> is denoted by <span class="math notranslate nohighlight">\(|\vec{a}|\)</span> is the length from the tail of the vector to the head.</p>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="../_images/04_Vector_magnitude.svg"><img alt="../_images/04_Vector_magnitude.svg" height="100" src="../_images/04_Vector_magnitude.svg" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.3 </span><span class="caption-text">The magnitude of the vector <span class="math notranslate nohighlight">\(\vec{a}\)</span>.</span><a class="headerlink" href="#id3" title="Permalink to this image">#</a></p>
+</figcaption>
 </figure>
-<p>For example, the magnitude of the vector <span class="math notranslate nohighlight">\(\underline{u} = (2, 2, 1)\)</span> is</p>
+<p>The magnitude is calculated using an extension of Pythagoras’ theorem</p>
+<div class="math notranslate nohighlight" id="equation-eq-vector-magnitude">
+<span class="eqno">(4.1)<a class="headerlink" href="#equation-eq-vector-magnitude" title="Permalink to this equation">#</a></span>\[ |\vec{a}| = \sqrt{a_x^2 + a_y^2 + a_z^2}. \]</div>
+<p>For example, the magnitude of the vector <span class="math notranslate nohighlight">\(\vec{u} = (2, 2, 1)\)</span> is</p>
 <div class="math notranslate nohighlight">
-\[ | \underline{u} | = \sqrt{2^2 + 2^2 + 1^2} = \sqrt{4 + 4 + 1} = \sqrt{9} = 3. \]</div>
+\[ | \vec{u} | = \sqrt{2^2 + 2^2 + 1^2} = \sqrt{4 + 4 + 1} = \sqrt{9} = 3. \]</div>
 <p>Let’s do this calculating in our program, add the following code.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Vector magnitude</span>
 <span class="kt">float</span><span class="w"> </span><span class="n">lengthU</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqrt</span><span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
@@ -495,19 +505,19 @@ u = [    2.000,    2.000,    1.000]
 </section>
 <section id="vector-multiplication-by-a-scalar">
 <h3><span class="section-number">4.1.3. </span>Vector multiplication by a scalar<a class="headerlink" href="#vector-multiplication-by-a-scalar" title="Permalink to this heading">#</a></h3>
-<p>The multiplication of a vector <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> by a scalar (another way of saying a number) <span class="math notranslate nohighlight">\(k\)</span> is calculated using</p>
+<p>The multiplication of a vector <span class="math notranslate nohighlight">\(\vec{a} = (a_x, a_y, a_z)\)</span> by a scalar (another way of saying a number) <span class="math notranslate nohighlight">\(k\)</span> is calculated using</p>
 <div class="math notranslate nohighlight" id="equation-eq-vector-multiplication">
-<span class="eqno">(4.2)<a class="headerlink" href="#equation-eq-vector-multiplication" title="Permalink to this equation">#</a></span>\[ k \underline{a} = (ka_x, ka_y, ka_z) \]</div>
+<span class="eqno">(4.2)<a class="headerlink" href="#equation-eq-vector-multiplication" title="Permalink to this equation">#</a></span>\[ k \vec{a} = (ka_x, ka_y, ka_z) \]</div>
 <p>Multiplying a vector by a positive scalar has the effect of scaling the length of the vector. Multiplying by a negative scalar reverses the direction of the vector.</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/04_vector_multiplication.svg"><img alt="../_images/04_vector_multiplication.svg" height="180" src="../_images/04_vector_multiplication.svg" /></a>
 </figure>
-<p>For example, multiplying the vector <span class="math notranslate nohighlight">\(\underline{u} = (2, 2, 1)\)</span> by the scalar 2 gives</p>
+<p>For example, multiplying the vector <span class="math notranslate nohighlight">\(\vec{u} = (2, 2, 1)\)</span> by the scalar 2 gives</p>
 <div class="math notranslate nohighlight">
-\[ 2\underline{u} = 2(2,2,1) = (4, 4, 2), \]</div>
+\[ 2\vec{u} = 2(2,2,1) = (4, 4, 2), \]</div>
 <p>which has the magnitude</p>
 <div class="math notranslate nohighlight">
-\[ |2 \underline{u} | = \sqrt{4^2 + 4^2 + 2^2} = \sqrt{36} = 6 = 2 |\underline{u}|. \]</div>
+\[ |2 \vec{u} | = \sqrt{4^2 + 4^2 + 2^2} = \sqrt{36} = 6 = 2 |\vec{u}|. \]</div>
 <p>To multiply a glm vector by a scalar we simply using the standard <code class="docutils literal notranslate"><span class="pre">*</span></code> operator. Add the following to your code to check it returns the correct vector.</p>
 <p>Add the following code to your program.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="c1">// Multiplication by a scalar</span>
@@ -529,17 +539,17 @@ u = [    2.000,    2.000,    1.000]
 </section>
 <section id="unit-vectors">
 <span id="unit-vectors-section"></span><h3><span class="section-number">4.1.4. </span>Unit vectors<a class="headerlink" href="#unit-vectors" title="Permalink to this heading">#</a></h3>
-<p>A unit vector is a vector that has a magnitude of 1. We can find a unit vector that points in the same direction as a non-zero vector <span class="math notranslate nohighlight">\(\underline{a}\)</span>, which is denoted by <span class="math notranslate nohighlight">\(\hat{\underline{a}}\)</span> (pronounced “a-hat”), by dividing by its magnitude, i.e.,</p>
+<p>A unit vector is a vector that has a magnitude of 1. We can find a unit vector that points in the same direction as a non-zero vector <span class="math notranslate nohighlight">\(\vec{a}\)</span>, which is denoted by <span class="math notranslate nohighlight">\(\hat{\vec{a}}\)</span> (pronounced “a-hat”), by dividing by its magnitude, i.e.,</p>
 <div class="math notranslate nohighlight" id="equation-eq-unit-vector">
-<span class="eqno">(4.3)<a class="headerlink" href="#equation-eq-unit-vector" title="Permalink to this equation">#</a></span>\[ \hat{\underline{a}} = \frac{\underline{a}}{|\underline{a}|}. \]</div>
-<p>This process is callde <strong>normalising a vector</strong>. For example, to determine a unit vector pointing in the same direction as <span class="math notranslate nohighlight">\(\underline{u} = (2, 2, 1)\)</span> we normalise it by dividing by its magnitude which is 3</p>
+<span class="eqno">(4.3)<a class="headerlink" href="#equation-eq-unit-vector" title="Permalink to this equation">#</a></span>\[ \hat{\vec{a}} = \frac{\vec{a}}{|\vec{a}|}. \]</div>
+<p>This process is callde <strong>normalising a vector</strong>. For example, to determine a unit vector pointing in the same direction as <span class="math notranslate nohighlight">\(\vec{u} = (2, 2, 1)\)</span> we normalise it by dividing by its magnitude which is 3</p>
 <div class="math notranslate nohighlight">
 \[ \begin{align*}
-    \hat{\underline{u}} &amp;= \frac{(2, 2, 1)}{3} = \left( \frac{2}{3}, \frac{2}{3}, \frac{1}{3} \right) \approx (0.67, 0.67, 0.33).
+    \hat{\vec{u}} &amp;= \frac{(2, 2, 1)}{3} = \left( \frac{2}{3}, \frac{2}{3}, \frac{1}{3} \right) \approx (0.67, 0.67, 0.33).
 \end{align*} \]</div>
-<p>Checking that <span class="math notranslate nohighlight">\(\hat{\underline{u}}\)</span> has a magnitude of 1</p>
+<p>Checking that <span class="math notranslate nohighlight">\(\hat{\vec{u}}\)</span> has a magnitude of 1</p>
 <div class="math notranslate nohighlight">
-\[ |\hat{\underline{u}}| = \sqrt{\left(\frac{2}{3}\right)^2 + \left(\frac{2}{3}\right)^2 + \left(\frac{1}{3}\right)^2} = \sqrt{\frac{4}{9} + \frac{4}{9} + \frac{1}{9}} = \sqrt{1} = 1. \]</div>
+\[ |\hat{\vec{u}}| = \sqrt{\left(\frac{2}{3}\right)^2 + \left(\frac{2}{3}\right)^2 + \left(\frac{1}{3}\right)^2} = \sqrt{\frac{4}{9} + \frac{4}{9} + \frac{1}{9}} = \sqrt{1} = 1. \]</div>
 <p>Add the following to your program</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Unit vectors</span>
 <span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="w"> </span><span class="n">uHat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">lengthU</span><span class="p">;</span>
@@ -563,14 +573,14 @@ uHat = [    0.667,    0.667,    0.333]
 </section>
 <section id="vector-addition-and-subtraction">
 <h3><span class="section-number">4.1.5. </span>Vector addition and subtraction<a class="headerlink" href="#vector-addition-and-subtraction" title="Permalink to this heading">#</a></h3>
-<p>The addition and subtraction of two vectors <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> and <span class="math notranslate nohighlight">\(\underline{b} = (b_x, b_y, b_z)\)</span> is defined by</p>
+<p>The addition and subtraction of two vectors <span class="math notranslate nohighlight">\(\vec{a} = (a_x, a_y, a_z)\)</span> and <span class="math notranslate nohighlight">\(\vec{b} = (b_x, b_y, b_z)\)</span> is defined by</p>
 <div class="math notranslate nohighlight" id="equation-eq-vector-addition">
-<span class="eqno">(4.4)<a class="headerlink" href="#equation-eq-vector-addition" title="Permalink to this equation">#</a></span>\[ \underline{a} \pm \underline{b} = (a_x \pm b_x, a_y \pm b_y, a_z \pm b_z). \]</div>
-<p>For example, given the vectors <span class="math notranslate nohighlight">\(\underline{u} = (2,2,1)\)</span> and <span class="math notranslate nohighlight">\(\underline{v} = (3, 4, 5)\)</span></p>
+<span class="eqno">(4.4)<a class="headerlink" href="#equation-eq-vector-addition" title="Permalink to this equation">#</a></span>\[ \vec{a} \pm \vec{b} = (a_x \pm b_x, a_y \pm b_y, a_z \pm b_z). \]</div>
+<p>For example, given the vectors <span class="math notranslate nohighlight">\(\vec{u} = (2,2,1)\)</span> and <span class="math notranslate nohighlight">\(\vec{v} = (3, 4, 5)\)</span></p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
-    \underline{u} + \underline{v} &amp;= (2, 2, 1) + (3, 4, 5) = (2 + 3, 2 + 4, 1 + 5) = (5, 6, 6), \\
-    \underline{u} - \underline{v} &amp;= (2, 2, 1) - (3, 4, 5) = (2 - 3, 2 - 4, 1 - 5) = (-1, -2, -4).
+    \vec{u} + \vec{v} &amp;= (2, 2, 1) + (3, 4, 5) = (2 + 3, 2 + 4, 1 + 5) = (5, 6, 6), \\
+    \vec{u} - \vec{v} &amp;= (2, 2, 1) - (3, 4, 5) = (2 - 3, 2 - 4, 1 - 5) = (-1, -2, -4).
 \end{align*} \end{split}\]</div>
 <p>The standard <code class="docutils literal notranslate"><span class="pre">+</span></code> and <code class="docutils literal notranslate"><span class="pre">-</span></code> operators are used to add and subtract glm vectors. Add the following code to your program.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Vector addition and subtraction</span>
@@ -592,35 +602,35 @@ u + v = [    5.000,    6.000,    6.000]
 u - v = [   -1.000,   -2.000,   -4.000]
 </pre></div>
 </div>
-<p>Its important to understand what is happening in a geometrical sense when we add and subtract vectors. Take a look at <a class="reference internal" href="#vector-addition-figure"><span class="std std-numref">Fig. 4.1</span></a>, here the vector <span class="math notranslate nohighlight">\(\underline{b}\)</span> has been added to the vector <span class="math notranslate nohighlight">\(\underline{a}\)</span> where the tail of <span class="math notranslate nohighlight">\(\underline{b}\)</span> is placed at the head of <span class="math notranslate nohighlight">\(\underline{a}\)</span>. The resulting vector <span class="math notranslate nohighlight">\(\underline{a} + \underline{b}\)</span> points from the tail of <span class="math notranslate nohighlight">\(\underline{a}\)</span> to the head of <span class="math notranslate nohighlight">\(\underline{b}\)</span>.</p>
-<p>With the subtraction of the vector <span class="math notranslate nohighlight">\(\underline{b}\)</span> we do similar but instead multiply <span class="math notranslate nohighlight">\(\underline{b}\)</span> by -1 thereby reversing its direction.</p>
+<p>Its important to understand what is happening in a geometrical sense when we add and subtract vectors. Take a look at <a class="reference internal" href="#vector-addition-figure"><span class="std std-numref">Fig. 4.4</span></a>, here the vector <span class="math notranslate nohighlight">\(\vec{b}\)</span> has been added to the vector <span class="math notranslate nohighlight">\(\vec{a}\)</span> where the tail of <span class="math notranslate nohighlight">\(\vec{b}\)</span> is placed at the head of <span class="math notranslate nohighlight">\(\vec{a}\)</span>. The resulting vector <span class="math notranslate nohighlight">\(\vec{a} + \vec{b}\)</span> points from the tail of <span class="math notranslate nohighlight">\(\vec{a}\)</span> to the head of <span class="math notranslate nohighlight">\(\vec{b}\)</span>.</p>
+<p>With the subtraction of the vector <span class="math notranslate nohighlight">\(\vec{b}\)</span> we do similar but instead multiply <span class="math notranslate nohighlight">\(\vec{b}\)</span> by -1 thereby reversing its direction.</p>
 <figure class="align-default" id="vector-addition-figure">
-<a class="reference internal image-reference" href="../_images/04_vector_addition.svg"><img alt="../_images/04_vector_addition.svg" height="180" src="../_images/04_vector_addition.svg" /></a>
+<a class="reference internal image-reference" href="../_images/04_Vector_addition.svg"><img alt="../_images/04_Vector_addition.svg" height="180" src="../_images/04_Vector_addition.svg" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 4.1 </span><span class="caption-text">Vector addition and subtraction.</span><a class="headerlink" href="#vector-addition-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 4.4 </span><span class="caption-text">Vector addition and subtraction.</span><a class="headerlink" href="#vector-addition-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
 <section id="dot-product">
 <span id="dot-product-section"></span><h3><span class="section-number">4.1.6. </span>Dot product<a class="headerlink" href="#dot-product" title="Permalink to this heading">#</a></h3>
-<p>The <strong>dot product</strong> between two vectors <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> and <span class="math notranslate nohighlight">\(\underline{b} = (b_x, b_y, b_z)\)</span> is denoted by <span class="math notranslate nohighlight">\(\underline{a} \cdot \underline{b}\)</span> and returns a scalar quantity (a number). The dot product is calculated using</p>
+<p>The <strong>dot product</strong> between two vectors <span class="math notranslate nohighlight">\(\vec{a} = (a_x, a_y, a_z)\)</span> and <span class="math notranslate nohighlight">\(\vec{b} = (b_x, b_y, b_z)\)</span> is denoted by <span class="math notranslate nohighlight">\(\vec{a} \cdot \vec{b}\)</span> and returns a scalar quantity (a number). The dot product is calculated using</p>
 <div class="math notranslate nohighlight" id="equation-eq-dot-product">
-<span class="eqno">(4.5)<a class="headerlink" href="#equation-eq-dot-product" title="Permalink to this equation">#</a></span>\[ \underline{a} \cdot \underline{b} = a_xb_x + a_yb_y + a_zb_z. \]</div>
+<span class="eqno">(4.5)<a class="headerlink" href="#equation-eq-dot-product" title="Permalink to this equation">#</a></span>\[ \vec{a} \cdot \vec{b} = a_xb_x + a_yb_y + a_zb_z. \]</div>
 <p>The dot product is related to the angle between the two vectors by</p>
 <div class="math notranslate nohighlight" id="equation-eq-dot-product-geometric">
-<span class="eqno">(4.6)<a class="headerlink" href="#equation-eq-dot-product-geometric" title="Permalink to this equation">#</a></span>\[ \underline{a} \cdot \underline{b} = |\underline{a}| |\underline{b}| \cos(\theta), \]</div>
-<p>where <span class="math notranslate nohighlight">\(\theta\)</span> is the angle between the vectors <span class="math notranslate nohighlight">\(\underline{a}\)</span> and <span class="math notranslate nohighlight">\(\underline{b}\)</span>.</p>
+<span class="eqno">(4.6)<a class="headerlink" href="#equation-eq-dot-product-geometric" title="Permalink to this equation">#</a></span>\[ \vec{a} \cdot \vec{b} = |\vec{a}| |\vec{b}| \cos(\theta), \]</div>
+<p>where <span class="math notranslate nohighlight">\(\theta\)</span> is the angle between the vectors <span class="math notranslate nohighlight">\(\vec{a}\)</span> and <span class="math notranslate nohighlight">\(\vec{b}\)</span>.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="../_images/04_dot_product.svg"><img alt="../_images/04_dot_product.svg" height="150" src="../_images/04_dot_product.svg" /></a>
+<a class="reference internal image-reference" href="../_images/04_Dot_product.svg"><img alt="../_images/04_Dot_product.svg" height="125" src="../_images/04_Dot_product.svg" /></a>
 </figure>
 <p>A useful result for computer graphics is that if <span class="math notranslate nohighlight">\(\theta=90^\circ\)</span> then <span class="math notranslate nohighlight">\(\cos(90^\circ)= 0\)</span> and equation <a class="reference internal" href="#equation-eq-dot-product-geometric">(4.6)</a> becomes</p>
 <div class="math notranslate nohighlight">
-\[ \underline{a} \cdot \underline{b} = 0. \]</div>
+\[ \vec{a} \cdot \vec{b} = 0. \]</div>
 <p>In order words, if the dot product of two vectors is zero then the two vectors are perpendicular.</p>
-<p>For example, given the vectors <span class="math notranslate nohighlight">\(\underline{u} = (2,2,1)\)</span> and <span class="math notranslate nohighlight">\(\underline{v} = (3, 4, 5)\)</span> the dot product <span class="math notranslate nohighlight">\(\underline{u} \cdot \underline{v}\)</span> is</p>
+<p>For example, given the vectors <span class="math notranslate nohighlight">\(\vec{u} = (2,2,1)\)</span> and <span class="math notranslate nohighlight">\(\vec{v} = (3, 4, 5)\)</span> the dot product <span class="math notranslate nohighlight">\(\vec{u} \cdot \vec{v}\)</span> is</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
-    \underline{u} \cdot \underline{v} &amp;= (2, 2, 1) \cdot (3, 4, 5) \\
+    \vec{u} \cdot \vec{v} &amp;= (2, 2, 1) \cdot (3, 4, 5) \\
     &amp;= 2 \times 3 + 2 \times 4 + 1 \times 5 \\
     &amp;= 6 + 8 + 5 \\
     &amp;= 19.
@@ -639,32 +649,32 @@ u - v = [   -1.000,   -2.000,   -4.000]
 u . v = 19
 </pre></div>
 </div>
-<p>The glm function <code class="docutils literal notranslate"><span class="pre">glm::dot(u,</span> <span class="pre">v)</span></code> calculates the dot product of the two vectors <code class="docutils literal notranslate"><span class="pre">u</span></code> and <code class="docutils literal notranslate"><span class="pre">v</span></code>. Use this to calculate <span class="math notranslate nohighlight">\(\underline{u} \cdot \underline{v}\)</span> in your program to see that it gives the same result.</p>
+<p>The glm function <code class="docutils literal notranslate"><span class="pre">glm::dot(u,</span> <span class="pre">v)</span></code> calculates the dot product of the two vectors <code class="docutils literal notranslate"><span class="pre">u</span></code> and <code class="docutils literal notranslate"><span class="pre">v</span></code>. Use this to calculate <span class="math notranslate nohighlight">\(\vec{u} \cdot \vec{v}\)</span> in your program to see that it gives the same result.</p>
 </section>
 <section id="cross-product">
 <span id="cross-product-section"></span><h3><span class="section-number">4.1.7. </span>Cross product<a class="headerlink" href="#cross-product" title="Permalink to this heading">#</a></h3>
-<p>The <strong>cross product</strong> between two vectors <span class="math notranslate nohighlight">\(\underline{a} = (a_x, a_y, a_z)\)</span> and <span class="math notranslate nohighlight">\(\underline{b} = (b_x, b_y, b_z)\)</span> is denoted by <span class="math notranslate nohighlight">\(\underline{a} \times \underline{b}\)</span> and returns a vector. The cross product is calculated using</p>
+<p>The <strong>cross product</strong> between two vectors <span class="math notranslate nohighlight">\(\vec{a} = (a_x, a_y, a_z)\)</span> and <span class="math notranslate nohighlight">\(\vec{b} = (b_x, b_y, b_z)\)</span> is denoted by <span class="math notranslate nohighlight">\(\vec{a} \times \vec{b}\)</span> and returns a vector. The cross product is calculated using</p>
 <div class="math notranslate nohighlight" id="equation-eq-cross-product">
-<span class="eqno">(4.7)<a class="headerlink" href="#equation-eq-cross-product" title="Permalink to this equation">#</a></span>\[ \underline{a} \times \underline{b} = (a_yb_z - a_zb_y, a_zb_x - a_xb_z, a_xb_y - a_yb_x). \]</div>
+<span class="eqno">(4.7)<a class="headerlink" href="#equation-eq-cross-product" title="Permalink to this equation">#</a></span>\[ \vec{a} \times \vec{b} = (a_yb_z - a_zb_y, a_zb_x - a_xb_z, a_xb_y - a_yb_x). \]</div>
 <p>The cross product between two vectors produces another vector that is perpendicular to both vectors. This is another incredibly useful result as it allows use to calculate <a class="reference internal" href="07_Moving_the_camera.html#normal-vector-section"><span class="std std-ref"><strong>normal vectors</strong></span></a> for polygons which are used in calculating how light is reflected off surfaces.</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/04_cross_product.svg"><img alt="../_images/04_cross_product.svg" height="200" src="../_images/04_cross_product.svg" /></a>
 </figure>
-<p>For example, given the vectors <span class="math notranslate nohighlight">\(\underline{u} = (2,2,1)\)</span> and <span class="math notranslate nohighlight">\(\underline{v} = (3, 4, 5)\)</span> the cross product <span class="math notranslate nohighlight">\(\underline{u} \times \underline{v}\)</span> is</p>
+<p>For example, given the vectors <span class="math notranslate nohighlight">\(\vec{u} = (2,2,1)\)</span> and <span class="math notranslate nohighlight">\(\vec{v} = (3, 4, 5)\)</span> the cross product <span class="math notranslate nohighlight">\(\vec{u} \times \vec{v}\)</span> is</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
-    \underline{u} \times \underline{v} &amp;= (2, 2, 1) \times (3, 4, 5) \\
+    \vec{u} \times \vec{v} &amp;= (2, 2, 1) \times (3, 4, 5) \\
     &amp;= (2 \times 5 - 1 \times 4, 1 \times 3 - 2 \times 5, 2 \times 4 - 2 \times 3) \\
     &amp;= (6, -7, 2).
 \end{align*} \end{split}\]</div>
-<p>Show that <span class="math notranslate nohighlight">\(\underline{u} \times \underline{v}\)</span> is perpendicular to both <span class="math notranslate nohighlight">\(\underline{u}\)</span> and <span class="math notranslate nohighlight">\(\underline{v}\)</span></p>
+<p>Show that <span class="math notranslate nohighlight">\(\vec{u} \times \vec{v}\)</span> is perpendicular to both <span class="math notranslate nohighlight">\(\vec{u}\)</span> and <span class="math notranslate nohighlight">\(\vec{v}\)</span></p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
-    \underline{u} \cdot (\underline{u} \times \underline{v}) &amp;= (2, 2, 1) \cdot (6, -7, 2) \\
+    \vec{u} \cdot (\vec{u} \times \vec{v}) &amp;= (2, 2, 1) \cdot (6, -7, 2) \\
     &amp;= 2 \times 6 + 2 \times (-7) + 1 \times 2 \\
     &amp;= 12 - 14 + 2 \\
     &amp;= 0, \\
-    \underline{v} \cdot (\underline{u} \times \underline{v}) &amp;= (3, 4, 5) \cdot (6, -7, 2) \\
+    \vec{v} \cdot (\vec{u} \times \vec{v}) &amp;= (3, 4, 5) \cdot (6, -7, 2) \\
     &amp;= 3 \times 6 + 4 \times (-7) + 5 \times 2 \\
     &amp;= 18 - 28 + 10 \\
     &amp;= 0.
@@ -751,8 +761,8 @@ A =
 <span id="matrix-multiplication-section"></span><h3><span class="section-number">4.2.3. </span>Matrix multiplication<a class="headerlink" href="#matrix-multiplication" title="Permalink to this heading">#</a></h3>
 <p>The addition, subtraction and multiplication by a scalar for matrices is the same as it is for vectors so I’m not going to repeat it here. However, the multiplication of two matrices <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> is defined in a very specific way. If <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are two matrices then the element in row <span class="math notranslate nohighlight">\(i\)</span> and column <span class="math notranslate nohighlight">\(j\)</span> of the matrix <span class="math notranslate nohighlight">\(AB\)</span> is calculated using</p>
 <div class="math notranslate nohighlight" id="equation-eq-matrix-multiplication">
-<span class="eqno">(4.8)<a class="headerlink" href="#equation-eq-matrix-multiplication" title="Permalink to this equation">#</a></span>\[ [AB]_{ij} = \underline{a}_i \cdot \underline{b}_j, \]</div>
-<p>where <span class="math notranslate nohighlight">\(\underline{a}_i\)</span> is the vector formed from row <span class="math notranslate nohighlight">\(i\)</span> of <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(\underline{b}_j\)</span> is the vector formed from column <span class="math notranslate nohighlight">\(j\)</span> of <span class="math notranslate nohighlight">\(B\)</span>.</p>
+<span class="eqno">(4.8)<a class="headerlink" href="#equation-eq-matrix-multiplication" title="Permalink to this equation">#</a></span>\[ [AB]_{ij} = \vec{a}_i \cdot \vec{b}_j, \]</div>
+<p>where <span class="math notranslate nohighlight">\(\vec{a}_i\)</span> is the vector formed from row <span class="math notranslate nohighlight">\(i\)</span> of <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(\vec{b}_j\)</span> is the vector formed from column <span class="math notranslate nohighlight">\(j\)</span> of <span class="math notranslate nohighlight">\(B\)</span>.</p>
 <p>For example, given the matrices <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span></p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
@@ -947,13 +957,13 @@ invA * A =
 <span id="vectors-exercises"></span><h2><span class="section-number">4.3. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
 <ol class="arabic">
 <li><p>Three points have the co-ordinates P = (5, 1, 3), Q = (10, 7, 4) and R = (0, 5, -3). Use C++ code to output the following:</p>
-<p>(a) The vector <span class="math notranslate nohighlight">\(\underline{p}\)</span> that points from P to Q;<br>
-(b) The vector <span class="math notranslate nohighlight">\(\underline{q}\)</span> that points from Q to R;<br>
-(c) The vector <span class="math notranslate nohighlight">\(\underline{r}\)</span> that points from R to P;<br>
-(d) The length of the vector <span class="math notranslate nohighlight">\(\underline{p}\)</span>;<br>
-(e) A unit vector that points in the direction of the vector <span class="math notranslate nohighlight">\(\underline{q}\)</span>;<br>
-(f) The dot product <span class="math notranslate nohighlight">\(\underline{p} \cdot \underline{q}\)</span>;<br>
-(g) The cross product <span class="math notranslate nohighlight">\(\underline{q} \times \underline{r}\)</span>.</p>
+<p>(a) The vector <span class="math notranslate nohighlight">\(\vec{p}\)</span> that points from P to Q;<br>
+(b) The vector <span class="math notranslate nohighlight">\(\vec{q}\)</span> that points from Q to R;<br>
+(c) The vector <span class="math notranslate nohighlight">\(\vec{r}\)</span> that points from R to P;<br>
+(d) The length of the vector <span class="math notranslate nohighlight">\(\vec{p}\)</span>;<br>
+(e) A unit vector that points in the direction of the vector <span class="math notranslate nohighlight">\(\vec{q}\)</span>;<br>
+(f) The dot product <span class="math notranslate nohighlight">\(\vec{p} \cdot \vec{q}\)</span>;<br>
+(g) The cross product <span class="math notranslate nohighlight">\(\vec{q} \times \vec{r}\)</span>.</p>
 </li>
 <li><p>The three matrices <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span> and <span class="math notranslate nohighlight">\(C\)</span> are defined as</p></li>
 </ol>

@@ -688,15 +688,15 @@ Calculating the front vector from the yaw and pitch angles<div class="sd-summary
 </figure>
 <p>But how do we know if a surface is back facing? Consider <a class="reference internal" href="#back-facing-figure"><span class="std std-numref">Fig. 7.6</span></a> which shows a back facing surface.</p>
 <figure class="align-default" id="back-facing-figure">
-<a class="reference internal image-reference" href="../_images/07_back_facing.svg"><img alt="../_images/07_back_facing.svg" src="../_images/07_back_facing.svg" width="400" /></a>
+<a class="reference internal image-reference" href="../_images/07_Back_facing.svg"><img alt="../_images/07_Back_facing.svg" src="../_images/07_Back_facing.svg" width="400" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 7.6 </span><span class="caption-text">A back facing surface.</span><a class="headerlink" href="#back-facing-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>The <span class="math notranslate nohighlight">\(\tt angle\)</span> between the <span class="math notranslate nohighlight">\(\tt normal\)</span> vector and the <span class="math notranslate nohighlight">\(\tt\text{viewVector}\)</span>, which is a vector from the camera to the surface, is less than 90<span class="math notranslate nohighlight">\(^\circ\)</span>. Recall that the <a class="reference internal" href="04_vectors_and_matrices.html#dot-product-section"><span class="std std-ref">dot product</span></a> is related to the angle between two vectors, i.e.,</p>
+<p>Recall that the <a class="reference internal" href="04_vectors_and_matrices.html#dot-product-section"><span class="std std-ref">dot product</span></a> is related to the angle between two vectors, i.e.,</p>
 <div class="math notranslate nohighlight">
-\[ \tt normal \cdot \text{viewVector} = | normal | | \text{viewVector} | \cos(angle). \]</div>
-<p>If we have a back facing surface then <span class="math notranslate nohighlight">\(\tt angle\)</span> is less than 90<span class="math notranslate nohighlight">\(^\circ\)</span> and <span class="math notranslate nohighlight">\(\cos(\tt angle)\)</span> is a positive number so</p>
+\[ \tt normal \cdot \text{viewVector} = | normal | | \text{viewVector} | \cos(\theta). \]</div>
+<p>If we have a back facing surface then <span class="math notranslate nohighlight">\(\theta\)</span> is less than 90<span class="math notranslate nohighlight">\(^\circ\)</span> and <span class="math notranslate nohighlight">\(\cos(\theta)\)</span> is a positive number so</p>
 <div class="math notranslate nohighlight">
 \[\begin{align*}
   \tt normal \cdot \text{viewVector} &gt; 0.

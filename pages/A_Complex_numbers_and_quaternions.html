@@ -392,8 +392,8 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-3-quaternion-rotation">A.3 Quaternion rotation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-3-1-euler-angles-to-quaternion">A.3.1 Euler angles to quaternion</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-3-2-rotation-matrix">A.3.2 Rotation matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-3-1-euler-angles-to-quaternion">A.3.1 Euler angles to quaternion</a></li>
 </ul>
 </li>
 </ul>
@@ -713,18 +713,18 @@ document.write(`
     |q|^2q^{-1} &amp;= q^* \\
     q^{-1} &amp;= \frac{q^*}{|q|^2}.
 \end{align*} \end{split}\]</div>
-<p>If <span class="math notranslate nohighlight">\(q\)</span> is a unit quaternion then</p>
+<p>If <span class="math notranslate nohighlight">\(q\)</span> is a unit quaternion then <span class="math notranslate nohighlight">\(|q|=1\)</span> and</p>
 <div class="math notranslate nohighlight">
 \[ q^{-1} = q^*. \]</div>
 </section>
 </section>
 <section id="a-3-quaternion-rotation">
 <span id="appendix-quaternion-rotation-section"></span><h2>A.3 Quaternion rotation<a class="headerlink" href="#a-3-quaternion-rotation" title="Permalink to this heading">#</a></h2>
-<p>In <a class="reference internal" href="05_transformations.html#axis-angle-rotation-section"><span class="std std-ref">Lab 4 on transformations</span></a> we saw that we can rotate about a vector <span class="math notranslate nohighlight">\(\vec{v}\)</span> by an angle <span class="math notranslate nohighlight">\(\theta\)</span> using a combination of rotations about the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> axis as well as a transformation. The resulting matrix shown in equation <a class="reference internal" href="05_transformations.html#equation-eq-axis-angle-rotation-matrix">(5.3)</a> was quite complicated and requires lots of floating point calculations. Quaternions gives us a away of performing similar calculation in a simpler way.</p>
+<p>In <a class="reference internal" href="05_transformations.html#axis-angle-rotation-section"><span class="std std-ref">Lab 4 on transformations</span></a> we saw that we can rotate about a vector <span class="math notranslate nohighlight">\(\vec{v}\)</span> by an angle <span class="math notranslate nohighlight">\(\theta\)</span> using a combination of a translation and rotations about the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> axes. The resulting matrix shown in equation <a class="reference internal" href="05_transformations.html#equation-eq-axis-angle-rotation-matrix">(5.3)</a> is quite complicated and requires lots of floating point computations. Quaternions gives us a away of performing similar calculation in a way that uses fewer computations and also does not suffer from gimbal lock.</p>
 <figure class="align-default" id="axis-angle-rotation-figure-3">
 <a class="reference internal image-reference" href="../_images/10_Axis_angle_rotation.svg"><img alt="../_images/10_Axis_angle_rotation.svg" src="../_images/10_Axis_angle_rotation.svg" width="350" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Axis-angle rotation about the vector <span class="math notranslate nohighlight">\(\vec{v}\)</span>.</span><a class="headerlink" href="#axis-angle-rotation-figure-3" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Axis-angle rotation about the vector <span class="math notranslate nohighlight">\(\hat{\vec{v}}\)</span>.</span><a class="headerlink" href="#axis-angle-rotation-figure-3" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>We have seen that we can rotate a complex number by multiplying by</p>
@@ -736,10 +736,10 @@ document.write(`
 <p>or in vector-scalar form</p>
 <div class="math notranslate nohighlight">
 \[ q = [\cos(\theta), \sin(\theta) \hat{\vec{v}}]. \]</div>
-<p>To demonstrate rotation using quaternion rotation consider the rotation of the vector <span class="math notranslate nohighlight">\(\vec{p} = (2, 0, 0)\)</span> by 45<span class="math notranslate nohighlight">\(^\circ\)</span> about the <span class="math notranslate nohighlight">\(z\)</span>-axis. The rotation quaternion is</p>
+<p>To demonstrate rotation using quaternion rotation consider the rotation of the vector <span class="math notranslate nohighlight">\(\vec{p} = (2, 0, 0)\)</span> by 45<span class="math notranslate nohighlight">\(^\circ\)</span> about the <span class="math notranslate nohighlight">\(z\)</span>-axis. The rotation quaternion for this is</p>
 <div class="math notranslate nohighlight">
-\[ q = [\cos(45^\circ)] =  [(0, 0, \tfrac{\sqrt{2}}{2}), \tfrac{\sqrt2}{2}, \sin(45^\circ)(0, 0, 1)], \]</div>
-<p>and expressing <span class="math notranslate nohighlight">\(\vec{p}\)</span> as a quaternion we have <span class="math notranslate nohighlight">\(p = [0, (2, 0, 0)]\)</span> so</p>
+\[ q = [\cos(45^\circ), \sin(45^\circ)(0, 0, 1)] =  [\tfrac{\sqrt2}{2}, (0, 0, \tfrac{\sqrt{2}}{2})], \]</div>
+<p>and expressing <span class="math notranslate nohighlight">\(\vec{p}\)</span> as a quaternion we have <span class="math notranslate nohighlight">\(p = [0, (2, 0, 0)]\)</span> and multiplying by <span class="math notranslate nohighlight">\(q\)</span> gives</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
     qp &amp;= [\tfrac{\sqrt2}{2}, (0, 0, \tfrac{\sqrt{2}}{2})] [0, (2, 0, 0)] \\
@@ -752,38 +752,38 @@ document.write(`
 \[ \begin{align*}
     |qp| &amp;= \sqrt{(\sqrt{2})^2 + (\sqrt{2})^2} = \sqrt{4} = 2,
 \end{align*} \]</div>
-<p>which is the same as the absolute value of <span class="math notranslate nohighlight">\([0, 2\vec{i}]\)</span>. This rotation is shown in shown in <a class="reference internal" href="#quaternion-rotation-1-figure"><span class="std std-numref">Fig. 2</span></a>.</p>
+<p>which is the same as the absolute value of <span class="math notranslate nohighlight">\([0, (2, 0, 0)]\)</span>. This rotation is shown in shown in <a class="reference internal" href="#quaternion-rotation-1-figure"><span class="std std-numref">Fig. 2</span></a>.</p>
 <figure class="align-default" id="quaternion-rotation-1-figure">
 <a class="reference internal image-reference" href="../_images/A_Quaternion_rotation_1.svg"><img alt="../_images/A_Quaternion_rotation_1.svg" src="../_images/A_Quaternion_rotation_1.svg" width="400" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 2 </span><span class="caption-text">The rotation of the quaternion or <span class="math notranslate nohighlight">\(p=(2, 0, 0, 0)\)</span> by multiplying by the rotation quaternion <span class="math notranslate nohighlight">\(r = (\frac{\sqrt{2}}{2}, (0, 0, \frac{\sqrt{2}}{2}))\)</span>.</span><a class="headerlink" href="#quaternion-rotation-1-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">The rotation of the quaternion or <span class="math notranslate nohighlight">\(p=(2, 0, 0, 0)\)</span> by multiplying by the rotation quaternion <span class="math notranslate nohighlight">\(q = (\frac{\sqrt{2}}{2}, (0, 0, \frac{\sqrt{2}}{2}))\)</span>.</span><a class="headerlink" href="#quaternion-rotation-1-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>In the rotation example shown above used a quaternion that was perpendicular to the vector being rotated. What happens when we rotate by a quaternion that isn’t perpendicular to the vector? Consider the rotation of <span class="math notranslate nohighlight">\(\vec{p} = (2, 0, 0)\)</span> by angle 45<span class="math notranslate nohighlight">\(^\circ\)</span> about the vector <span class="math notranslate nohighlight">\(\hat{\vec{v}} =  (\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})\)</span>. The rotation quaternion is</p>
+<p>In the rotation example shown above used a quaternion that was perpendicular to the vector being rotated. What happens when we rotate by a quaternion that isn’t perpendicular to the vector? Consider the rotation of the same vector <span class="math notranslate nohighlight">\(\vec{p} = (2, 0, 0)\)</span> by angle 45<span class="math notranslate nohighlight">\(^\circ\)</span> about the vector <span class="math notranslate nohighlight">\(\hat{\vec{v}} =  (\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})\)</span> which is not perpendicular to <span class="math notranslate nohighlight">\(\vec{p}\)</span>. The rotation quaternion is</p>
 <div class="math notranslate nohighlight">
-\[ q = [\tfrac{\sqrt{2}}{2} (\tfrac{\sqrt{2}}{2}, 0, \tfrac{\sqrt{2}}{2}), \tfrac{\sqrt{2}}{2}] =[(\tfrac{1}{2}, 0, \tfrac{1}{2}), \tfrac{\sqrt{2}}{2}], \]</div>
+\[ q = [\tfrac{\sqrt{2}}{2}, \tfrac{\sqrt{2}}{2} (\tfrac{\sqrt{2}}{2}, 0, \tfrac{\sqrt{2}}{2})] =[\tfrac{\sqrt{2}}{2}, (\tfrac{1}{2}, 0, \tfrac{1}{2})], \]</div>
 <p>and multiplying by <span class="math notranslate nohighlight">\(p = [0, (2, 0, 0)]\)</span></p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
     qp &amp;= [\tfrac{\sqrt{2}}{2}, (\tfrac{1}{2}, 0, \tfrac{1}{2})] [0, (2, 0, 0)] \\
-    &amp;= [0-(\tfrac{1}{2}, 0, \tfrac{1}{2}) \cdot (2, 0, 0), \tfrac{\sqrt{2}}{2}(2, 0, 0) + (\tfrac{1}{2}, 0, \tfrac{1}{2}) \times (2, 0, 0)] \\
+    &amp;= [-(\tfrac{1}{2}, 0, \tfrac{1}{2}) \cdot (2, 0, 0), \tfrac{\sqrt{2}}{2}(2, 0, 0) + (\tfrac{1}{2}, 0, \tfrac{1}{2}) \times (2, 0, 0)] \\
     &amp;= [-1, (\sqrt{2}, 0, 0) + (0, 1, 0)] \\
     &amp;= [-1, (\sqrt{2}, 1, 0)].
 \end{align*} \end{split}\]</div>
 <p>Now we no longer have a pure quaternion since the scalar part is <span class="math notranslate nohighlight">\(-1\)</span> which is non-zero and the absolute value of <span class="math notranslate nohighlight">\(qp\)</span> is</p>
 <div class="math notranslate nohighlight">
-\[ |qp| = \sqrt{(\sqrt{2})^2 + 1^2 + (-1)^2 } = \sqrt{6} \approx 2.45,\]</div>
-<p>so the rotated quaternion has been scaled up as shown in <a class="reference internal" href="#quaternion-rotation-2-figure"><span class="std std-numref">Fig. 3</span></a>.</p>
+\[ |qp| = \sqrt{(\sqrt{2})^2 + 1^2 + (-1)^2 } = \sqrt{6} \approx 2.45.\]</div>
+<p>Since <span class="math notranslate nohighlight">\(|qp| &gt; |p|\)</span> in rotating the quaternion <span class="math notranslate nohighlight">\(p\)</span> we scaled it up as shown in <a class="reference internal" href="#quaternion-rotation-2-figure"><span class="std std-numref">Fig. 3</span></a>.</p>
 <figure class="align-default" id="quaternion-rotation-2-figure">
 <a class="reference internal image-reference" href="../_images/A_Quaternion_rotation_2.svg"><img alt="../_images/A_Quaternion_rotation_2.svg" src="../_images/A_Quaternion_rotation_2.svg" width="400" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 3 </span><span class="caption-text">The rotation of the quaternion or <span class="math notranslate nohighlight">\(p=(2, 0, 0, 0)\)</span> by multiplying by the rotation quaternion <span class="math notranslate nohighlight">\(r = [\tfrac{\sqrt{2}}{2} (\tfrac{\sqrt{2}}{2}, 0, \tfrac{\sqrt{2}}{2}), \tfrac{\sqrt{2}}{2}] =[(\tfrac{1}{2}, 0, \tfrac{1}{2}), \tfrac{\sqrt{2}}{2}]\)</span>.</span><a class="headerlink" href="#quaternion-rotation-2-figure" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">The rotation of the quaternion or <span class="math notranslate nohighlight">\(p=[0, (2, 0, 0)]\)</span> by multiplying by the rotation quaternion <span class="math notranslate nohighlight">\(q = [\tfrac{\sqrt{2}}{2}, (\tfrac{1}{2}, 0, \tfrac{1}{2})]\)</span>.</span><a class="headerlink" href="#quaternion-rotation-2-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>However, if we multiply <span class="math notranslate nohighlight">\(qp\)</span> by the multiplicative inverse <span class="math notranslate nohighlight">\(q^{}\)</span> then <span class="math notranslate nohighlight">\(qpq^{-1}\)</span> is a pure quaternion that has the same absolute value as <span class="math notranslate nohighlight">\(|\vec{p}|\)</span>. If <span class="math notranslate nohighlight">\(q\)</span> is a unit quaternion then <span class="math notranslate nohighlight">\(q^{-1} = q^*\)</span> and</p>
+<p>However, if we multiply <span class="math notranslate nohighlight">\(qp\)</span> by the inverse quaternion <span class="math notranslate nohighlight">\(q^{-1}\)</span> then <span class="math notranslate nohighlight">\(qpq^{-1}\)</span> is a pure quaternion that has the same absolute value as <span class="math notranslate nohighlight">\(|p|\)</span>. If we make <span class="math notranslate nohighlight">\(q\)</span> into a unit quaternion then <span class="math notranslate nohighlight">\(q^{-1} = q^*\)</span> and</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
-    qpq^* &amp;= [\tfrac{\sqrt{2}}{2}, (\sqrt{2}, 1, 0), -1] [(-\tfrac{1}{2}, 0, -\tfrac{1}{2})] \\
+    qpq^* &amp;= [-1, (\sqrt{2}, 1, 0)] [(-\tfrac{1}{2}, 0, -\tfrac{1}{2})] \\
     &amp;= [-\tfrac{\sqrt{2}}{2} - (\sqrt{2}, 1, 0) \cdot (-\tfrac{1}{2}, 0, -\tfrac{1}{2}), (\tfrac{1}{2}, 0, \tfrac{1}{2}) + (1, \tfrac{\sqrt{2}}{2}, 0) + (\sqrt{2}, 1, 0) \times (-\tfrac{1}{2}, 0, -\tfrac{1}{2})] \\
     &amp;= [-\tfrac{\sqrt{2}}{2}+ \tfrac{\sqrt{2}}{2}, (\tfrac{1}{2}, 0, \tfrac{1}{2}) + (\tfrac{1}{2}, \tfrac{\sqrt{2}}{2}, 0) + (-\tfrac{1}{2}, \tfrac{\sqrt{2}}{2}, \tfrac{1}{2})] \\
     &amp;= [0, (1, \sqrt{2}, 1)].
@@ -801,24 +801,6 @@ document.write(`
 <p>The other alteration we need to make it to halve the angle <span class="math notranslate nohighlight">\(\theta\)</span> when calculated the rotation quaternion</p>
 <div class="math notranslate nohighlight" id="equation-appendix-rotation-quaternion-equation">
 <span class="eqno">(4)<a class="headerlink" href="#equation-appendix-rotation-quaternion-equation" title="Permalink to this equation">#</a></span>\[ q = [\cos(\tfrac{1}{2}\theta), \sin(\tfrac{1}{2}\theta) \hat{\vec{v}}].\]</div>
-<section id="a-3-1-euler-angles-to-quaternion">
-<span id="euler-to-quaternion-derivation-section"></span><h3>A.3.1 Euler angles to quaternion<a class="headerlink" href="#a-3-1-euler-angles-to-quaternion" title="Permalink to this heading">#</a></h3>
-<p>Euler angles are the rotations around the three co-ordinates axes <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> so equation <a class="reference internal" href="#equation-appendix-rotation-quaternion-equation">(4)</a> can be used to give three quaternions for pitch, yaw and roll rotations. Let <span class="math notranslate nohighlight">\(c_p = \cos(\frac{1}{2}\theta)\)</span>, <span class="math notranslate nohighlight">\(s_p =\sin(\frac{1}{2}\theta)\)</span> and <span class="math notranslate nohighlight">\(q_p\)</span> be the cosine, sine and rotation quaternion for rotating about the <span class="math notranslate nohighlight">\(x\)</span>-axis by the pitch angle, and similar for yaw and roll then</p>
-<div class="math notranslate nohighlight">
-\[\begin{split} \begin{align*}
-    q_p &amp;= [c_p, s_p \vec{i}], \\
-    q_y &amp;= [c_y, s_y \vec{j}], \\
-    q_r &amp;= [c_r, s_r \vec{k}].
-\end{align*} \end{split}\]</div>
-<p>The combined rotation <span class="math notranslate nohighlight">\(q_pq_yq_r\)</span> is</p>
-<div class="math notranslate nohighlight">
-\[\begin{split} \begin{align*}
-    q_pq_yq_r &amp;= [c_p, s_p\vec{i}] [c_y, s_y\vec{j}] [c_r, s_r\vec{k}] \\
-    &amp;= [c_pc_y, c_ps_y\vec{j} + s_pc_y\vec{i} + s_ps_y\vec{k}] [c_r, s_r\vec{k}] \\
-    &amp;= [c_pc_yc_r - s_ps_ys_r, c_pc_ys_r\vec{k} + c_ps_yc_r\vec{j} + s_pc_yc_r\vec{i} + s_ps_yc_r\vec{k} + c_ps_ys_r\vec{i} - s_pc_ys_r\vec{j}] \\
-    &amp;= [c_pc_yc_r - s_ps_ys_r, (s_pc_yc_r + c_ps_ys_r, c_ps_yc_r - s_pc_ys_r, c_pc_ys_r - s_ps_yc_r)].
-\end{align*} \end{split}\]</div>
-</section>
 <section id="a-3-2-rotation-matrix">
 <span id="quaternion-rotation-matrix-derivation-section"></span><h3>A.3.2 Rotation matrix<a class="headerlink" href="#a-3-2-rotation-matrix" title="Permalink to this heading">#</a></h3>
 <p>Consider the multiplication of the axis vector quaternion <span class="math notranslate nohighlight">\(p = [p_w, (p_x, p_y, p_z)]\)</span> on the left by the rotation unit quaternion <span class="math notranslate nohighlight">\(q = [w, (x, y, z)]\)</span></p>
@@ -828,7 +810,7 @@ document.write(`
     &amp;= [- p_x x - p_y y - p_z z - p_w w, \\
     &amp; \qquad (p_wx - p_zy + p_yz + p_xw, p_zx + p_wy - p_yz + p_yw, -p_yx + p_xy + p_wz + q_zw)].
 \end{align*} \end{split}\]</div>
-<p>This can be written as the matrix equation <span class="math notranslate nohighlight">\(qp =pR_1\)</span> where <span class="math notranslate nohighlight">\(p = (p_x, p_y, p_z, p_w)\)</span> (which is synonymous with <a class="reference internal" href="05_transformations.html#homogeneous-coordinates-section"><span class="std std-ref">homogeneous co-ordinates</span></a>) and <span class="math notranslate nohighlight">\(R_1\)</span> is</p>
+<p>This can be written as the matrix equation <span class="math notranslate nohighlight">\(qp =\vec{p}R_1\)</span> where <span class="math notranslate nohighlight">\(\vec{p} = (p_x, p_y, p_z, p_w)\)</span> (which is synonymous with <a class="reference internal" href="05_transformations.html#homogeneous-coordinates-section"><span class="std std-ref">homogeneous co-ordinates</span></a>) and <span class="math notranslate nohighlight">\(R_1\)</span> is</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
     R_1 =
@@ -846,7 +828,7 @@ document.write(`
     &amp;= [p_xx + p_yy + p_zz + p_ww, \\
     &amp; \qquad (p_wx - p_zy + p_yz - p_xw, p_zx + p_wy - p_xz - p_yw, -p_yx + p_xy + p_wz - p_zw)],
 \end{align*} \end{split}\]</div>
-<p>which can be expressed by the matrix equation <span class="math notranslate nohighlight">\(pq^* = pR_2\)</span> where <span class="math notranslate nohighlight">\(R_2\)</span> is</p>
+<p>which can be expressed by the matrix equation <span class="math notranslate nohighlight">\(pq^* = \vec{p}R_2\)</span> where <span class="math notranslate nohighlight">\(R_2\)</span> is</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
     R_2 =
@@ -857,10 +839,10 @@ document.write(`
          -x &amp; -y &amp; -z &amp; w
     \end{pmatrix}.
 \end{align*} \end{split}\]</div>
-<p>The composite quaternion multiplication <span class="math notranslate nohighlight">\(qpq^*\)</span> can be written as the matrix equation <span class="math notranslate nohighlight">\(\vec{p}R\)</span> where <span class="math notranslate nohighlight">\(R = R_1R_2\)</span></p>
+<p>The composite quaternion multiplication <span class="math notranslate nohighlight">\(qpq^*\)</span> can be written as the matrix equation <span class="math notranslate nohighlight">\(qpq^* = \vec{p}R_1R_2\)</span> where</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
-    R &amp;=
+    R_1R_2 &amp;=
     \begin{pmatrix}
         w &amp; z &amp; -y &amp; - x \\
         -z &amp; w &amp; x &amp; -y \\
@@ -882,9 +864,9 @@ document.write(`
     \end{pmatrix}.
 \end{align*} \end{split}\]</div>
 <p>Let <span class="math notranslate nohighlight">\(s = \dfrac{2}{w^2 + x^2 + y^2 + z^2}\)</span> then this simplifies to</p>
-<div class="math notranslate nohighlight">
-\[\begin{split} \begin{align*}
-    R &amp;= 
+<div class="math notranslate nohighlight" id="equation-quaternion-rotation-matrix-2-equation">
+<span class="eqno">(5)<a class="headerlink" href="#equation-quaternion-rotation-matrix-2-equation" title="Permalink to this equation">#</a></span>\[\begin{split} \begin{align*}
+    R_1R_2 &amp;= 
     \begin{pmatrix}
         1 - s(y^2 + z^2) &amp; s(xy + zw) &amp; s(xz - yw) &amp; 0 \\
         s(xy - zw) &amp; 1 - s(x^2 + z^2) &amp; s(yz + xw) &amp; 0 \\
@@ -892,14 +874,14 @@ document.write(`
         0 &amp; 0 &amp; 0 &amp; 1
     \end{pmatrix}.
 \end{align*} \end{split}\]</div>
-<p>The matrix <span class="math notranslate nohighlight">\(R\)</span> is the rotation matrix for rotating a vector <span class="math notranslate nohighlight">\(\vec{p}\)</span> by angle <span class="math notranslate nohighlight">\(\theta\)</span> about the unit vector <span class="math notranslate nohighlight">\(\hat{\vec{v}}\)</span> where <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, <span class="math notranslate nohighlight">\(z\)</span> and <span class="math notranslate nohighlight">\(w\)</span> are the values of the unit rotation quaternion.</p>
+<p>The matrix <span class="math notranslate nohighlight">\(R = R_1R_2\)</span> is the rotation matrix for rotating a vector <span class="math notranslate nohighlight">\(\vec{p}\)</span> by angle <span class="math notranslate nohighlight">\(\theta\)</span> about the unit vector <span class="math notranslate nohighlight">\(\hat{\vec{v}}\)</span> where <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, <span class="math notranslate nohighlight">\(z\)</span> and <span class="math notranslate nohighlight">\(w\)</span> are the values of the unit rotation quaternion.</p>
 <p>Lets return to our example of rotating the vector <span class="math notranslate nohighlight">\(\vec{p} = (2, 0, 0)\)</span> by 45<span class="math notranslate nohighlight">\(^\circ\)</span> about the vector <span class="math notranslate nohighlight">\((\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})\)</span>. We first calculate the rotation quaternion <span class="math notranslate nohighlight">\(q\)</span></p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
     q &amp;= [\cos(\tfrac{45^\circ}{2}), \sin(\tfrac{45^\circ}{2}) (\tfrac{\sqrt{2}}{2}, 0, \tfrac{\sqrt{2}}{2})] \\
     &amp;\approx [0.9239, (0.2706, 0, 0.2706)].
 \end{align*} \end{split}\]</div>
-<p>From <span class="math notranslate nohighlight">\(q\)</span> we have <span class="math notranslate nohighlight">\(w = 0.9239\)</span>, <span class="math notranslate nohighlight">\(x = 0.2706\)</span>, <span class="math notranslate nohighlight">\(y = 0\)</span> and <span class="math notranslate nohighlight">\(z = 0.2706\)</span>. Substituting these into equation <a class="reference internal" href="10_Quaternions.html#equation-quaternion-rotation-matrix-equation">(10.2)</a> gives</p>
+<p>From <span class="math notranslate nohighlight">\(q\)</span> we have <span class="math notranslate nohighlight">\(w = 0.9239\)</span>, <span class="math notranslate nohighlight">\(x = 0.2706\)</span>, <span class="math notranslate nohighlight">\(y = 0\)</span> and <span class="math notranslate nohighlight">\(z = 0.2706\)</span>. Substituting these into equation <a class="reference internal" href="#equation-quaternion-rotation-matrix-2-equation">(5)</a> gives</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align*}
     R = 
@@ -929,6 +911,24 @@ document.write(`
 <p><span class="caption-number">Fig. 5 </span><span class="caption-text">The rotation of the vector <span class="math notranslate nohighlight">\(\vec{p} = (2, 0, 0)\)</span> by angle 45<span class="math notranslate nohighlight">\(^\circ\)</span> about the vector <span class="math notranslate nohighlight">\(\vec{v} = (\frac{\sqrt{2}}{2}, 0, \frac{\sqrt{2}}{2})\)</span> using the quaternion rotation matrix <span class="math notranslate nohighlight">\(R\)</span>.</span><a class="headerlink" href="#quaternion-rotation-4-figure" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
+</section>
+<section id="a-3-1-euler-angles-to-quaternion">
+<span id="euler-to-quaternion-derivation-section"></span><h3>A.3.1 Euler angles to quaternion<a class="headerlink" href="#a-3-1-euler-angles-to-quaternion" title="Permalink to this heading">#</a></h3>
+<p>Euler angles are the rotations around the three co-ordinates axes <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> so equation <a class="reference internal" href="#equation-appendix-rotation-quaternion-equation">(4)</a> can be used to give three quaternions for pitch, yaw and roll rotations. Let <span class="math notranslate nohighlight">\(c_p = \cos(\frac{1}{2}\theta)\)</span>, <span class="math notranslate nohighlight">\(s_p =\sin(\frac{1}{2}\theta)\)</span> and <span class="math notranslate nohighlight">\(q_p\)</span> be the cosine, sine and rotation quaternion for rotating about the <span class="math notranslate nohighlight">\(x\)</span>-axis by the pitch angle, and similar for yaw and roll then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+    q_p &amp;= [c_p, s_p  \vec{i}], \\
+    q_y &amp;= [c_y, s_y  \vec{j}], \\
+    q_r &amp;= [c_r, s_r  \vec{k}].
+\end{align*} \end{split}\]</div>
+<p>The combined rotation <span class="math notranslate nohighlight">\(q_pq_yq_r\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+    q_pq_yq_r &amp;= [c_p, s_p\vec{i}] [c_y, s_y\vec{j}] [c_r, s_r\vec{k}] \\
+    &amp;= [c_pc_y, c_ps_y\vec{j} + s_pc_y\vec{i} + s_ps_y\vec{k}] [c_r, s_r\vec{k}] \\
+    &amp;= [c_pc_yc_r - s_ps_ys_r, c_pc_ys_r\vec{k} + c_ps_yc_r\vec{j} + s_pc_yc_r\vec{i} + s_ps_yc_r\vec{k} + c_ps_ys_r\vec{i} - s_pc_ys_r\vec{j}] \\
+    &amp;= [c_pc_yc_r - s_ps_ys_r, (s_pc_yc_r + c_ps_ys_r, c_ps_yc_r - s_pc_ys_r, c_pc_ys_r - s_ps_yc_r)].
+\end{align*} \end{split}\]</div>
 </section>
 </section>
 </section>
@@ -1024,8 +1024,8 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-3-quaternion-rotation">A.3 Quaternion rotation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-3-1-euler-angles-to-quaternion">A.3.1 Euler angles to quaternion</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-3-2-rotation-matrix">A.3.2 Rotation matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-3-1-euler-angles-to-quaternion">A.3.1 Euler angles to quaternion</a></li>
 </ul>
 </li>
 </ul>

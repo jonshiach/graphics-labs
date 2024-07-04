@@ -6,20 +6,24 @@ Computer graphics relies heavily on mathematics of vectors and matrices. In this
 
 ## Vectors
 
-A vector in is an object with magnitude (length) and direction. A vector is denoted by an underlined lower case letter, e.g., $\underline{a}$ (alternate notation includes representing vectors using a boldface character, e.g., $\mathbf{a}$) and represented mathematically by the 3-tuple
+A vector in is an object with magnitude (length) and direction. A vector is denoted by a lower case letter in boldface, e.g., $\vec{a}$ and represented mathematically by the 3-tuple
 
-$$ \underline{a} = (a_x, a_y, a_z), $$
+$$ \vec{a} = (a_x, a_y, a_z), $$
 
-where $a_x$, $a_y$ and $a_z$ are the lengths of the vector in the x, y, and z directions.
+where $a_x$, $a_y$ and $a_z$ are the lengths of the vector in the $x$, $y$, and $z$ directions.
 
-```{figure} ../images/04_vector.svg
-:height: 250
+```{figure} ../images/04_Vector.svg
+:height: 350
+
+The vector $\vec{a} = (a_x, a_y, a_z)$.
 ```
 
-We can use vectors to represent the displacement of one point to another. For example, given two points $A$ and $B$ the displacement from $A$ to $B$ can be thought of as the vector $\underline{a} = B - A$.
+We can use vectors to represent the displacement of one point to another. For example, given two points $A$ and $B$ the displacement from $A$ to $B$ can be thought of as the vector $\vec{a} = B - A$.
 
-```{figure} ../images/04_vector_2.svg
-:width: 200
+```{figure} ../images/04_A_to_B_vector.svg
+:width: 250
+
+The vector $\vec{a} = B - A$.
 ```
 
 ### The glm library
@@ -74,17 +78,22 @@ Taking a look at the code we see that the `glm::vec3 u = glm::vec3(2.0f, 2.0f, 1
 
 ### Vector magnitude
 
-The **magnitude** of a vector $\underline{a} = (a_x, a_y, a_z)$ is denoted by $|\underline{a}|$ is the length from the tail of the vector to the head and calculated using 
 
-$$ |\underline{a}| = \sqrt{a_x^2 + a_y^2 + a_z^2}. $$(eq:vector-magnitude)
+The **magnitude** of a vector $\vec{a} = (a_x, a_y, a_z)$ is denoted by $|\vec{a}|$ is the length from the tail of the vector to the head.
 
-```{figure} ../images/04_vector_magnitude.svg
+```{figure} ../images/04_Vector_magnitude.svg
 :height: 100
-```
 
-For example, the magnitude of the vector $\underline{u} = (2, 2, 1)$ is 
+The magnitude of the vector $\vec{a}$.
+``` 
 
-$$ | \underline{u} | = \sqrt{2^2 + 2^2 + 1^2} = \sqrt{4 + 4 + 1} = \sqrt{9} = 3. $$
+The magnitude is calculated using an extension of Pythagoras' theorem
+
+$$ |\vec{a}| = \sqrt{a_x^2 + a_y^2 + a_z^2}. $$(eq:vector-magnitude)
+
+For example, the magnitude of the vector $\vec{u} = (2, 2, 1)$ is 
+
+$$ | \vec{u} | = \sqrt{2^2 + 2^2 + 1^2} = \sqrt{4 + 4 + 1} = \sqrt{9} = 3. $$
 
 Let's do this calculating in our program, add the following code.
 
@@ -117,9 +126,9 @@ That makes things much easier.
 
 ### Vector multiplication by a scalar
 
-The multiplication of a vector $\underline{a} = (a_x, a_y, a_z)$ by a scalar (another way of saying a number) $k$ is calculated using
+The multiplication of a vector $\vec{a} = (a_x, a_y, a_z)$ by a scalar (another way of saying a number) $k$ is calculated using
 
-$$ k \underline{a} = (ka_x, ka_y, ka_z) $$(eq:vector-multiplication)
+$$ k \vec{a} = (ka_x, ka_y, ka_z) $$(eq:vector-multiplication)
 
 Multiplying a vector by a positive scalar has the effect of scaling the length of the vector. Multiplying by a negative scalar reverses the direction of the vector.
 
@@ -127,13 +136,13 @@ Multiplying a vector by a positive scalar has the effect of scaling the length o
 :height: 180
 ```
 
-For example, multiplying the vector $\underline{u} = (2, 2, 1)$ by the scalar 2 gives
+For example, multiplying the vector $\vec{u} = (2, 2, 1)$ by the scalar 2 gives
 
-$$ 2\underline{u} = 2(2,2,1) = (4, 4, 2), $$
+$$ 2\vec{u} = 2(2,2,1) = (4, 4, 2), $$
 
 which has the magnitude
 
-$$ |2 \underline{u} | = \sqrt{4^2 + 4^2 + 2^2} = \sqrt{36} = 6 = 2 |\underline{u}|. $$
+$$ |2 \vec{u} | = \sqrt{4^2 + 4^2 + 2^2} = \sqrt{36} = 6 = 2 |\vec{u}|. $$
 
 To multiply a glm vector by a scalar we simply using the standard `*` operator. Add the following to your code to check it returns the correct vector.
 
@@ -162,19 +171,19 @@ Multiplication by a scalar
 
 ### Unit vectors
 
-A unit vector is a vector that has a magnitude of 1. We can find a unit vector that points in the same direction as a non-zero vector $\underline{a}$, which is denoted by $\hat{\underline{a}}$ (pronounced "a-hat"), by dividing by its magnitude, i.e.,
+A unit vector is a vector that has a magnitude of 1. We can find a unit vector that points in the same direction as a non-zero vector $\vec{a}$, which is denoted by $\hat{\vec{a}}$ (pronounced "a-hat"), by dividing by its magnitude, i.e.,
 
-$$ \hat{\underline{a}} = \frac{\underline{a}}{|\underline{a}|}. $$(eq:unit-vector)
+$$ \hat{\vec{a}} = \frac{\vec{a}}{|\vec{a}|}. $$(eq:unit-vector)
 
-This process is callde **normalising a vector**. For example, to determine a unit vector pointing in the same direction as $\underline{u} = (2, 2, 1)$ we normalise it by dividing by its magnitude which is 3
+This process is callde **normalising a vector**. For example, to determine a unit vector pointing in the same direction as $\vec{u} = (2, 2, 1)$ we normalise it by dividing by its magnitude which is 3
 
 $$ \begin{align*}
-    \hat{\underline{u}} &= \frac{(2, 2, 1)}{3} = \left( \frac{2}{3}, \frac{2}{3}, \frac{1}{3} \right) \approx (0.67, 0.67, 0.33).
+    \hat{\vec{u}} &= \frac{(2, 2, 1)}{3} = \left( \frac{2}{3}, \frac{2}{3}, \frac{1}{3} \right) \approx (0.67, 0.67, 0.33).
 \end{align*} $$
 
-Checking that $\hat{\underline{u}}$ has a magnitude of 1
+Checking that $\hat{\vec{u}}$ has a magnitude of 1
 
-$$ |\hat{\underline{u}}| = \sqrt{\left(\frac{2}{3}\right)^2 + \left(\frac{2}{3}\right)^2 + \left(\frac{1}{3}\right)^2} = \sqrt{\frac{4}{9} + \frac{4}{9} + \frac{1}{9}} = \sqrt{1} = 1. $$
+$$ |\hat{\vec{u}}| = \sqrt{\left(\frac{2}{3}\right)^2 + \left(\frac{2}{3}\right)^2 + \left(\frac{1}{3}\right)^2} = \sqrt{\frac{4}{9} + \frac{4}{9} + \frac{1}{9}} = \sqrt{1} = 1. $$
 
 Add the following to your program
 
@@ -204,15 +213,15 @@ glm::vec3 uHat = glm::normalize(u);
 
 ### Vector addition and subtraction
 
-The addition and subtraction of two vectors $\underline{a} = (a_x, a_y, a_z)$ and $\underline{b} = (b_x, b_y, b_z)$ is defined by
+The addition and subtraction of two vectors $\vec{a} = (a_x, a_y, a_z)$ and $\vec{b} = (b_x, b_y, b_z)$ is defined by
 
-$$ \underline{a} \pm \underline{b} = (a_x \pm b_x, a_y \pm b_y, a_z \pm b_z). $$(eq:vector-addition)
+$$ \vec{a} \pm \vec{b} = (a_x \pm b_x, a_y \pm b_y, a_z \pm b_z). $$(eq:vector-addition)
 
-For example, given the vectors $\underline{u} = (2,2,1)$ and $\underline{v} = (3, 4, 5)$
+For example, given the vectors $\vec{u} = (2,2,1)$ and $\vec{v} = (3, 4, 5)$
 
 $$ \begin{align*}
-    \underline{u} + \underline{v} &= (2, 2, 1) + (3, 4, 5) = (2 + 3, 2 + 4, 1 + 5) = (5, 6, 6), \\
-    \underline{u} - \underline{v} &= (2, 2, 1) - (3, 4, 5) = (2 - 3, 2 - 4, 1 - 5) = (-1, -2, -4).
+    \vec{u} + \vec{v} &= (2, 2, 1) + (3, 4, 5) = (2 + 3, 2 + 4, 1 + 5) = (5, 6, 6), \\
+    \vec{u} - \vec{v} &= (2, 2, 1) - (3, 4, 5) = (2 - 3, 2 - 4, 1 - 5) = (-1, -2, -4).
 \end{align*} $$
 
 The standard `+` and `-` operators are used to add and subtract glm vectors. Add the following code to your program.
@@ -239,11 +248,11 @@ u + v = [    5.000,    6.000,    6.000]
 u - v = [   -1.000,   -2.000,   -4.000]
 ```
 
-Its important to understand what is happening in a geometrical sense when we add and subtract vectors. Take a look at {numref}`vector-addition-figure`, here the vector $\underline{b}$ has been added to the vector $\underline{a}$ where the tail of $\underline{b}$ is placed at the head of $\underline{a}$. The resulting vector $\underline{a} + \underline{b}$ points from the tail of $\underline{a}$ to the head of $\underline{b}$. 
+Its important to understand what is happening in a geometrical sense when we add and subtract vectors. Take a look at {numref}`vector-addition-figure`, here the vector $\vec{b}$ has been added to the vector $\vec{a}$ where the tail of $\vec{b}$ is placed at the head of $\vec{a}$. The resulting vector $\vec{a} + \vec{b}$ points from the tail of $\vec{a}$ to the head of $\vec{b}$. 
 
-With the subtraction of the vector $\underline{b}$ we do similar but instead multiply $\underline{b}$ by -1 thereby reversing its direction.
+With the subtraction of the vector $\vec{b}$ we do similar but instead multiply $\vec{b}$ by -1 thereby reversing its direction.
 
-```{figure} ../images/04_vector_addition.svg
+```{figure} ../images/04_Vector_addition.svg
 :height: 180
 :name: vector-addition-figure
 
@@ -254,30 +263,30 @@ Vector addition and subtraction.
 
 ### Dot product
 
-The **dot product** between two vectors $\underline{a} = (a_x, a_y, a_z)$ and $\underline{b} = (b_x, b_y, b_z)$ is denoted by $\underline{a} \cdot \underline{b}$ and returns a scalar quantity (a number). The dot product is calculated using
+The **dot product** between two vectors $\vec{a} = (a_x, a_y, a_z)$ and $\vec{b} = (b_x, b_y, b_z)$ is denoted by $\vec{a} \cdot \vec{b}$ and returns a scalar quantity (a number). The dot product is calculated using
 
-$$ \underline{a} \cdot \underline{b} = a_xb_x + a_yb_y + a_zb_z. $$(eq:dot-product)
+$$ \vec{a} \cdot \vec{b} = a_xb_x + a_yb_y + a_zb_z. $$(eq:dot-product)
 
 The dot product is related to the angle between the two vectors by
 
-$$ \underline{a} \cdot \underline{b} = |\underline{a}| |\underline{b}| \cos(\theta), $$(eq:dot-product-geometric)
+$$ \vec{a} \cdot \vec{b} = |\vec{a}| |\vec{b}| \cos(\theta), $$(eq:dot-product-geometric)
 
-where $\theta$ is the angle between the vectors $\underline{a}$ and $\underline{b}$.
+where $\theta$ is the angle between the vectors $\vec{a}$ and $\vec{b}$.
 
-```{figure} ../images/04_dot_product.svg
-:height: 150
+```{figure} ../images/04_Dot_product.svg
+:height: 125
 ```
 
 A useful result for computer graphics is that if $\theta=90^\circ$ then $\cos(90^\circ)= 0$ and equation {eq}`eq:dot-product-geometric` becomes
 
-$$ \underline{a} \cdot \underline{b} = 0. $$
+$$ \vec{a} \cdot \vec{b} = 0. $$
 
 In order words, if the dot product of two vectors is zero then the two vectors are perpendicular.
 
-For example, given the vectors $\underline{u} = (2,2,1)$ and $\underline{v} = (3, 4, 5)$ the dot product $\underline{u} \cdot \underline{v}$ is
+For example, given the vectors $\vec{u} = (2,2,1)$ and $\vec{v} = (3, 4, 5)$ the dot product $\vec{u} \cdot \vec{v}$ is
 
 $$ \begin{align*}
-    \underline{u} \cdot \underline{v} &= (2, 2, 1) \cdot (3, 4, 5) \\
+    \vec{u} \cdot \vec{v} &= (2, 2, 1) \cdot (3, 4, 5) \\
     &= 2 \times 3 + 2 \times 4 + 1 \times 5 \\
     &= 6 + 8 + 5 \\
     &= 19.
@@ -301,15 +310,15 @@ The dot product
 u . v = 19
 ```
 
-The glm function `glm::dot(u, v)` calculates the dot product of the two vectors `u` and `v`. Use this to calculate $\underline{u} \cdot \underline{v}$ in your program to see that it gives the same result. 
+The glm function `glm::dot(u, v)` calculates the dot product of the two vectors `u` and `v`. Use this to calculate $\vec{u} \cdot \vec{v}$ in your program to see that it gives the same result. 
 
 (cross-product-section)=
 
 ### Cross product
 
-The **cross product** between two vectors $\underline{a} = (a_x, a_y, a_z)$ and $\underline{b} = (b_x, b_y, b_z)$ is denoted by $\underline{a} \times \underline{b}$ and returns a vector. The cross product is calculated using
+The **cross product** between two vectors $\vec{a} = (a_x, a_y, a_z)$ and $\vec{b} = (b_x, b_y, b_z)$ is denoted by $\vec{a} \times \vec{b}$ and returns a vector. The cross product is calculated using
 
-$$ \underline{a} \times \underline{b} = (a_yb_z - a_zb_y, a_zb_x - a_xb_z, a_xb_y - a_yb_x). $$(eq:cross-product)
+$$ \vec{a} \times \vec{b} = (a_yb_z - a_zb_y, a_zb_x - a_xb_z, a_xb_y - a_yb_x). $$(eq:cross-product)
 
 The cross product between two vectors produces another vector that is perpendicular to both vectors. This is another incredibly useful result as it allows use to calculate [**normal vectors**](normal-vector-section) for polygons which are used in calculating how light is reflected off surfaces.
 
@@ -317,22 +326,22 @@ The cross product between two vectors produces another vector that is perpendicu
 :height: 200
 ```
 
-For example, given the vectors $\underline{u} = (2,2,1)$ and $\underline{v} = (3, 4, 5)$ the cross product $\underline{u} \times \underline{v}$ is
+For example, given the vectors $\vec{u} = (2,2,1)$ and $\vec{v} = (3, 4, 5)$ the cross product $\vec{u} \times \vec{v}$ is
 
 $$ \begin{align*}
-    \underline{u} \times \underline{v} &= (2, 2, 1) \times (3, 4, 5) \\
+    \vec{u} \times \vec{v} &= (2, 2, 1) \times (3, 4, 5) \\
     &= (2 \times 5 - 1 \times 4, 1 \times 3 - 2 \times 5, 2 \times 4 - 2 \times 3) \\
     &= (6, -7, 2).
 \end{align*} $$
 
-Show that $\underline{u} \times \underline{v}$ is perpendicular to both $\underline{u}$ and $\underline{v}$
+Show that $\vec{u} \times \vec{v}$ is perpendicular to both $\vec{u}$ and $\vec{v}$
 
 $$ \begin{align*}
-    \underline{u} \cdot (\underline{u} \times \underline{v}) &= (2, 2, 1) \cdot (6, -7, 2) \\
+    \vec{u} \cdot (\vec{u} \times \vec{v}) &= (2, 2, 1) \cdot (6, -7, 2) \\
     &= 2 \times 6 + 2 \times (-7) + 1 \times 2 \\
     &= 12 - 14 + 2 \\
     &= 0, \\
-    \underline{v} \cdot (\underline{u} \times \underline{v}) &= (3, 4, 5) \cdot (6, -7, 2) \\
+    \vec{v} \cdot (\vec{u} \times \vec{v}) &= (3, 4, 5) \cdot (6, -7, 2) \\
     &= 3 \times 6 + 4 \times (-7) + 5 \times 2 \\
     &= 18 - 28 + 10 \\
     &= 0.
@@ -440,9 +449,9 @@ A =
 
 The addition, subtraction and multiplication by a scalar for matrices is the same as it is for vectors so I'm not going to repeat it here. However, the multiplication of two matrices $A$ and $B$ is defined in a very specific way. If $A$ and $B$ are two matrices then the element in row $i$ and column $j$ of the matrix $AB$ is calculated using
 
-$$ [AB]_{ij} = \underline{a}_i \cdot \underline{b}_j, $$(eq:matrix-multiplication)
+$$ [AB]_{ij} = \vec{a}_i \cdot \vec{b}_j, $$(eq:matrix-multiplication)
 
-where $\underline{a}_i$ is the vector formed from row $i$ of $A$ and $\underline{b}_j$ is the vector formed from column $j$ of $B$.
+where $\vec{a}_i$ is the vector formed from row $i$ of $A$ and $\vec{b}_j$ is the vector formed from column $j$ of $B$.
 
 For example, given the matrices $A$ and $B$
 
@@ -672,13 +681,13 @@ det(C) = 0
 
 1. Three points have the co-ordinates P = (5, 1, 3), Q = (10, 7, 4) and R = (0, 5, -3). Use C++ code to output the following:
 
-    (a) The vector $\underline{p}$ that points from P to Q;<br>
-    (b) The vector $\underline{q}$ that points from Q to R;<br>
-    (c) The vector $\underline{r}$ that points from R to P;<br>
-    (d) The length of the vector $\underline{p}$;<br>
-    (e) A unit vector that points in the direction of the vector $\underline{q}$;<br>
-    (f) The dot product $\underline{p} \cdot \underline{q}$;<br>
-    (g) The cross product $\underline{q} \times \underline{r}$.
+    (a) The vector $\vec{p}$ that points from P to Q;<br>
+    (b) The vector $\vec{q}$ that points from Q to R;<br>
+    (c) The vector $\vec{r}$ that points from R to P;<br>
+    (d) The length of the vector $\vec{p}$;<br>
+    (e) A unit vector that points in the direction of the vector $\vec{q}$;<br>
+    (f) The dot product $\vec{p} \cdot \vec{q}$;<br>
+    (g) The cross product $\vec{q} \times \vec{r}$.
 
 2. The three matrices $A$, $B$ and $C$ are defined as
 

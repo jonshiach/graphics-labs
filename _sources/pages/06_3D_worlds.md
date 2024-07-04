@@ -17,7 +17,7 @@ First download and build the project files for this lab.
 
 To demonstrate building a simple 3D world we are going to need a 3D object. One of the simplest 3D objects is a **unit cube** which is a cube centred at (0,0,0) and has side lengths of 2 parallel to the co-ordinate axes ({numref}`unit-cube-figure`) so the co-ordinates of the 8 corners of the cube are combinations of -1 and 1.
 
-```{figure} ../images/06_unit_cube.svg
+```{figure} ../images/06_Unit_cube.svg
 :width: 700
 :name: unit-cube-figure
 
@@ -65,7 +65,7 @@ If you compile and run this program you will see that the `crate.bmp` texture fi
 OpenGL uses a co-ordinate system with the $x$ axis pointing horizontally to the right, the $y$ axis pointing vertically upwards and the $z$ axis pointing horizontally towards the viewer. To simplify things when it comes to displaying the 3D world, the axes are limited to a range from -1 to 1 so any object outside of this range will not be shown on the display. These are known as **Normalised Device Co-ordinates (NDC)**.
 
 ```{figure} ../images/06_NDC.svg
-:width: 400
+:width: 500
 :name: NDC-figure
 
 Normalise Device Co-ordinates (NDC)
@@ -73,7 +73,7 @@ Normalise Device Co-ordinates (NDC)
 
 The steps used in the creation of a 3D world and eventually displaying it on screen requires that we transform through several intermediate co-ordinate systems:
 
-- **Object space** - each individual 3D object that will appear in the 3D world is defined in its own space usually with the centre of the object at (0,0,0) to make the transformations easier.
+- **Model space** - each individual 3D object that will appear in the 3D world is defined in its own space usually with the centre of the object at (0,0,0) to make the transformations easier.
 - **World space** - the 3D world is constructed by transforming the individual 3D objects using translation, rotation and scaling transformations. The co-ordinates of the objects is arbitrary and left to the choice of the designer of the 3D world.
 - **View space** - the world space is transformed so that the position of the viewer, in other words the camera, is at (0,0,0) and the direction the camera is pointing is down the $z$ axis, i.e., parallel to (0,0,-1).
 - **Screen space** - the view space is transformed so that the co-ordinates are in NDC. The volume of the view space that is contained in the screen space is chosen by the user.
@@ -126,18 +126,18 @@ The view space.
 
 To calculate the world space to view space transformation we require three vectors
 
-- $\tt cameraPos$ - the co-ordinates of the camera position
+- $\tt position$ - the co-ordinates of the camera position
 - $\tt target$ - the co-ordinates of the target point that the camera is looking towards
 - $\tt worldUp$ - a vector pointing straight up in the world space which allows us to orientate the camera, this is usually always (0,1,0)
 
 ```{figure} ../images/06_view_space_alignment.svg
-:width: 500
+:width: 400
 :name: view-space-alignment-figure
 
 The vectors used in the transformation to the view space.
 ```
 
-The $\tt cameraPos$ and $\tt target$ vectors are either determined by the user through keyboard, mouse or controller inputs or through some predetermined routine. To determine the view space transformation we first translate the camera position to (0,0,0) using the following translation matrix
+The $\tt position$ and $\tt target$ vectors are either determined by the user through keyboard, mouse or controller inputs or through some predetermined routine. To determine the view space transformation we first translate the camera position to (0,0,0) using the following translation matrix
 
 $$ \begin{align*}
     \textsf{translation matrix} =
@@ -145,30 +145,30 @@ $$ \begin{align*}
         1 & 0 & 0 & 0 \\
         0 & 1 & 0 & 0 \\
         0 & 0 & 1 & 0 \\
-        -\tt cameraPos.x & -\tt cameraPos.y & -\tt cameraPos.z & 1
+        -\tt position.x & -\tt position.y & -\tt position.z & 1
     \end{pmatrix}
 \end{align*}. $$
 
-The next step is to align the world space so that the direction vector is pointing down the $z$ axis. To do this we use vectors $\tt cameraRight$, $\tt cameraUp$ and $\tt cameraFront$ which are unit vectors at right-angles to each other the point in directions relative to the camera ({numref}`view-space-alignment-figure`).
+The next step is to align the world space so that the direction vector is pointing down the $z$ axis. To do this we use vectors $\tt right$, $\tt up$ and $\tt front$ which are unit vectors at right-angles to each other the point in directions relative to the camera ({numref}`view-space-alignment-figure`).
 
-The $\tt cameraFront$ vector points directly forward of the camera and is calculated using
+The $\tt front$ vector points directly forward of the camera and is calculated using
 
-$$ \texttt{cameraFront} = \textsf{normalise}(\tt target - cameraPos).$$
+$$ \texttt{front} = \textsf{normalise}(\tt target - position).$$
 
-The $\tt cameraRight$ vector points to the right of the camera so is at right-angles to both the $\tt cameraFront$ and $\tt worldUp$ vectors. We can use the [cross product](cross-product-section) between the two vectors to calculate this (note that the order of the vectors is important).
+The $\tt right$ vector points to the right of the camera so is at right-angles to both the $\tt front$ and $\tt worldUp$ vectors. We can use the [cross product](cross-product-section) between the two vectors to calculate this (note that the order of the vectors is important).
 
-$$ \tt cameraRight = \textsf{normalise}(cameraFront \times worldUp) .$$
+$$ \tt right = \textsf{normalise}(front \times worldUp) .$$
 
-The $\tt cameraUp$ vector points in the up direction of the camera and is at right-angles to the $\tt cameraFront$ and $\tt cameraRight$ vectors we have already calculated. So this can be calculated using another cross product.
+The $\tt up$ vector points in the up direction of the camera and is at right-angles to the $\tt front$ and $\tt right$ vectors we have already calculated. So this can be calculated using another cross product.
 
-$$ \tt cameraUp = \textsf{normalise}(cameraRight \times cameraFront).$$
+$$ \tt up = \textsf{normalise}(right \times front).$$
 
-Once these vectors have been calculated the transformation matrix to align the $\tt cameraFront$ vector so that it points down the $z$-axis is
+Once these vectors have been calculated the transformation matrix to align the $\tt front$ vector so that it points down the $z$-axis is
 
 $$\textsf{alignment matrix} = \begin{pmatrix}
-    \tt cameraRight.x & \tt cameraUp.x & \tt -cameraFront.x & 0 \\
-    \tt cameraRight.y & \tt cameraUp.y & \tt -cameraFront.y & 0 \\
-    \tt cameraRight.z & \tt cameraUp.z & \tt -cameraFront.z & 0 \\
+    \tt right.x & \tt up.x & \tt -front.x & 0 \\
+    \tt right.y & \tt up.y & \tt -front.y & 0 \\
+    \tt right.z & \tt up.z & \tt -front.z & 0 \\
     0 & 0 & 0 & 1
 \end{pmatrix}.$$
 
@@ -182,22 +182,22 @@ Lets move the camera to look at our cube from the position (1,1,0) looking towar
 
 ```cpp
 // Calculate view matrix
-glm::vec3 cameraPos = glm::vec3(1.0f, 1.0f, 0.0f);
+glm::vec3 position = glm::vec3(1.0f, 1.0f, 0.0f);
 glm::vec3 target = glm::vec3(0.0f, 0.0f, -4.0f);
 glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
-glm::vec3 cameraFront = glm::normalize(target - cameraPos);
-glm::vec3 cameraRight = glm::normalize(glm::cross(cameraFront, worldUp));
-glm::vec3 cameraUp = glm::normalize(glm::cross(cameraRight, cameraFront));
+glm::vec3 front = glm::normalize(target - position);
+glm::vec3 right = glm::normalize(glm::cross(front, worldUp));
+glm::vec3 up = glm::normalize(glm::cross(right, front));
 
 glm::mat4 align = glm::mat4(1.0f);
 
 for (unsigned int i = 0; i < 3; i++)
 {
-    translate[3][i] = -cameraPos[i];
-    align[i][0] = cameraRight[i];
-    align[i][1] = cameraUp[i];
-    align[i][2] = -cameraFront[i];
+    translate[3][i] = -position[i];
+    align[i][0] = right[i];
+    align[i][1] = up[i];
+    align[i][2] = -front[i];
 }
 
 glm::mat4 view = align * translate;
@@ -581,7 +581,7 @@ $\textsf{fov} = 90^\circ$
 
 Here we have defined the view matrix and projection matrices ourselves but it shouldn't surprise you that there are glm functions that do this for us. These are:
 
-- `glm::lookAt(cameraPos, target, worldUp)` - calculates the view matrix
+- `glm::lookAt(position, target, worldUp)` - calculates the view matrix
 - `glm::ortho(left, right, bottom, top, near, far)` - calculates the orthographic projection matrix
 - `glm::perspective(fov, aspect, near, far)` - calculates the perspective projection matrix
 
@@ -589,10 +589,10 @@ Comment out all the code you've used to calculate the `view` and `projection` ma
 
 ```cpp
 // Calculate the view matrix
-glm::vec3 cameraPos = glm::vec3(1.0f, 1.0f, 0.0f);
+glm::vec3 position = glm::vec3(1.0f, 1.0f, 0.0f);
 glm::vec3 target = glm::vec3(0.0f, 0.0f, -4.0f);
 glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
-glm::mat4 view = glm::lookAt(cameraPos, target, worldUp);
+glm::mat4 view = glm::lookAt(position, target, worldUp);
 
 // Calculate the projection matrix
 float fov = glm::radians(45.0f);
