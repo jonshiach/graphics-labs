@@ -1,0 +1,8 @@
+Target dependency graph (4 targets)
+Target 'Lab07_Moving_the_camera' in project 'Computer_Graphics_Labs'
+➜ Explicit dependency on target 'ZERO_CHECK' in project 'Computer_Graphics_Labs'
+➜ Explicit dependency on target 'GLEW_1130' in project 'Computer_Graphics_Labs'
+➜ Explicit dependency on target 'glfw' in project 'Computer_Graphics_Labs'
+Target 'glfw' in project 'Computer_Graphics_Labs' (no dependencies)
+Target 'GLEW_1130' in project 'Computer_Graphics_Labs' (no dependencies)
+Target 'ZERO_CHECK' in project 'Computer_Graphics_Labs' (no dependencies)
