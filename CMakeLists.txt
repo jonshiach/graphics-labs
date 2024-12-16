@@ -161,6 +161,9 @@ add_executable(Lab08_Lighting
 	Lab08_Lighting/Lab08_Lighting.cpp
 	Lab08_Lighting/vertexShader.glsl
 	Lab08_Lighting/fragmentShader.glsl
+	Lab08_Lighting/lightVertexShader.glsl
+	Lab08_Lighting/lightFragmentShader.glsl
+	Lab08_Lighting/multipleLightsFragmentShader.glsl
 
 	common/shader.hpp
 	common/texture.hpp
@@ -178,6 +181,34 @@ target_link_libraries(Lab08_Lighting
 
 # Xcode and Visual working directories
 set_target_properties(Lab08_Lighting PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Lab08_Lighting/")
+
+# ==============================================================================
+# Lab09
+add_executable(Lab09_Normal_maps
+	Lab09_Normal_maps/Lab09_Normal_maps.cpp
+	Lab09_Normal_maps/vertexShader.glsl
+	Lab09_Normal_maps/fragmentShader.glsl
+	Lab09_Normal_maps/lightVertexShader.glsl
+	Lab09_Normal_maps/lightFragmentShader.glsl
+
+	common/shader.hpp
+	common/texture.hpp
+	common/stb_image.hpp
+	common/maths.hpp
+	common/maths.cpp
+	common/camera.hpp
+	common/camera.cpp
+	common/model.hpp
+	common/model.cpp
+	common/light.hpp
+	common/light.cpp
+)
+target_link_libraries(Lab09_Normal_maps
+	${ALL_LIBS}
+)
+
+# Xcode and Visual working directories
+set_target_properties(Lab09_Normal_maps PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Lab09_Normal_maps/")
 
 # ==============================================================================
 if (NOT ${CMAKE_GENERATOR} MATCHES "Xcode" )
@@ -221,6 +252,11 @@ add_custom_command(
 add_custom_command(
 	TARGET Lab08_Lighting POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/Lab08_Lighting${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_SOURCE_DIR}/Lab08_Lighting/"
+)
+
+add_custom_command(
+	TARGET Lab09_Normal_maps POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/Lab09_Normal_maps${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_SOURCE_DIR}/Lab09_Normal_maps/"
 )
 
 elseif (${CMAKE_GENERATOR} MATCHES "Xcode" )

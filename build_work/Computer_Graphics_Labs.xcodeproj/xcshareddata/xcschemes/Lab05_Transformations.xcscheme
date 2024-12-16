@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2A93F0DF8C6B47E2B7AFC964"
+               BlueprintIdentifier = "B9E8FBB6A3A846E6AF843EBD"
                BuildableName = "Lab05_Transformations"
                BlueprintName = "Lab05_Transformations"
                ReferencedContainer = "container:build_work/Computer_Graphics_Labs.xcodeproj">
@@ -44,7 +44,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2A93F0DF8C6B47E2B7AFC964"
+            BlueprintIdentifier = "B9E8FBB6A3A846E6AF843EBD"
             BuildableName = "Lab05_Transformations"
             BlueprintName = "Lab05_Transformations"
             ReferencedContainer = "container:build_work/Computer_Graphics_Labs.xcodeproj">
@@ -61,7 +61,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2A93F0DF8C6B47E2B7AFC964"
+            BlueprintIdentifier = "B9E8FBB6A3A846E6AF843EBD"
             BuildableName = "Lab05_Transformations"
             BlueprintName = "Lab05_Transformations"
             ReferencedContainer = "container:build_work/Computer_Graphics_Labs.xcodeproj">

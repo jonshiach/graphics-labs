@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -19,6 +20,19 @@ float deltaTime    = 0.0f;  // time elapsed since the previous frame
 
 // Create camera object
 Camera camera(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+
+// Light struct
+struct Light
+{
+    glm::vec3 position;
+    glm::vec3 colour;
+    glm::vec3 direction;
+    float constant;
+    float linear;
+    float quadratic;
+    float cosPhi;
+    unsigned int type;
+};
 
 int main( void )
 {
@@ -79,14 +93,17 @@ int main( void )
     glfwSetCursorPos(window, 1024 / 2, 768 / 2);
     
     // Compile shader program
-    unsigned int shaderID;
-    shaderID = LoadShaders("vertexShader.glsl", "fragmentShader.glsl");
+    unsigned int shaderID, lightShaderID;
+//    shaderID      = LoadShaders("vertexShader.glsl", "fragmentShader.glsl");
+    shaderID      = LoadShaders("vertexShader.glsl", "multipleLightsFragmentShader.glsl");
+    lightShaderID = LoadShaders("lightVertexShader.glsl", "lightFragmentShader.glsl");
     
     // Activate shader
     glUseProgram(shaderID);
     
     // Load models
     Model teapot("../assets/teapot.obj");
+    Model sphere("../assets/sphere.obj");
     
     // Load the textures
     teapot.addTexture("../assets/blue.bmp", "diffuse");
@@ -94,17 +111,76 @@ int main( void )
 //    // Use wireframe rendering (comment out to turn off)
 //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     
-    // Define object properties
-    float ka = 0.2f;
-    float kd = 0.7f;
+    // Define teapot object lighting properties
+    teapot.ka = 0.2f;
+    teapot.kd = 0.7f;
+    teapot.ks = 1.0f;
+    teapot.Ns = 20.0f;
     
-    // Define colours
-    glm::vec3 white = glm::vec3(1.0f, 1.0f, 1.0f);
-    
-    // Define light colours
-    glm::vec3 ambientLight  = ka * glm::vec3(1.0f, 1.0f, 1.0f);
-    glm::vec3 diffuseLight  = kd * white;
+    // Define light source properties
     glm::vec3 lightPosition = glm::vec3(2.0f, 2.0f, 2.0f);
+    glm::vec3 lightColour   = glm::vec3(1.0f, 1.0f, 1.0f);
+    float constant  = 1.0f;
+    float linear    = 0.1f;
+    float quadratic = 0.02f;
+    
+    // Create vector of light sources
+    std::vector<Light> lightSources;
+    
+    // Add first point light source
+    Light light;
+    light.position  = glm::vec3(2.0f, 2.0f, 2.0f);
+    light.colour    = glm::vec3(1.0f, 1.0f, 1.0f);
+    light.constant  = 1.0f;
+    light.linear    = 0.1f;
+    light.quadratic = 0.02f;
+    light.type      = 1;
+    lightSources.push_back(light);
+    
+    // Add second point light source
+    light.position  = glm::vec3(1.0f, 1.0f, -8.0f);
+    light.colour    = glm::vec3(1.0f, 1.0f, 1.0f);
+    light.constant  = 1.0f;
+    light.linear    = 0.1f;
+    light.quadratic = 0.02f;
+    light.type      = 1;
+    lightSources.push_back(light);
+    
+    // Add spotlight
+    light.position  = glm::vec3(0.0f, 3.0f, 0.0f);
+    light.direction = glm::vec3(0.0f, -1.0f, 0.0f);
+    light.colour    = glm::vec3(1.0f, 1.0f, 0.0f);
+    light.constant  = 1.0f;
+    light.linear    = 0.1f;
+    light.quadratic = 0.02f;
+    light.cosPhi    = std::cos(Maths::radians(45.0f));
+    light.type      = 2;
+    lightSources.push_back(light);
+    
+    // Add directional light
+    light.direction = glm::vec3(1.0f, -1.0f, 0.0f);
+    light.colour    = glm::vec3(1.0f, 0.0f, 0.0f);
+    light.type      = 3;
+    lightSources.push_back(light);
+    
+    // Teapot positions
+    glm::vec3 teapotPositions[] = {
+        glm::vec3( 0.0f,  0.0f,  0.0f),
+        glm::vec3( 2.0f,  5.0f, -10.0f),
+        glm::vec3(-3.0f, -2.0f, -3.0f),
+        glm::vec3(-4.0f, -2.0f, -8.0f),
+        glm::vec3( 2.0f,  2.0f, -6.0f),
+        glm::vec3(-4.0f,  3.0f, -8.0f),
+        glm::vec3( 0.0f, -2.0f, -5.0f),
+        glm::vec3( 4.0f,  2.0f, -4.0f),
+        glm::vec3( 2.0f,  0.0f, -2.0f),
+        glm::vec3(-1.0f,  1.0f, -2.0f)
+    };
+
+    // Teapot rotation angles
+    float teapotAngles[10];
+    for (unsigned int i = 0 ; i < 10 ; i++)
+        teapotAngles[i] = Maths::radians(20.0f * i);
     
     // Render loop
     while (!glfwWindowShouldClose(window))
@@ -121,11 +197,14 @@ int main( void )
         // Clear the window
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+        
+        // Activate shader
+        glUseProgram(shaderID);
+        
         // Calculate view and projection matrices
         camera.target = camera.eye + camera.front;
         camera.calculateMatrices();
-        
+
         // Calculate the model matrix
         glm::mat4 translate;
         glm::mat4 scale;
@@ -133,28 +212,109 @@ int main( void )
         glm::mat4 model = translate * rotate * scale;
 
         // Calculate the MVP matrix
-        glm::mat4 mvp = camera.projection * camera.view * model;
+        glm::mat4 MVP = camera.projection * camera.view * model;
         
         // Send MVP matrix to the vertex shader
-        unsigned int mvpID = glGetUniformLocation(shaderID, "mvp");
-        glUniformMatrix4fv(mvpID, 1, GL_FALSE, &mvp[0][0]);
+        glUniformMatrix4fv(glGetUniformLocation(shaderID, "MVP"), 1, GL_FALSE, &MVP[0][0]);
         
         // Send MV matrix to the vertex shader
-        glm::mat4 mv = camera.view * model;
-        unsigned int mvID = glGetUniformLocation(shaderID, "mv");
-        glUniformMatrix4fv(mvID, 1, GL_FALSE, &mv[0][0]);
+        glm::mat4 MV = camera.view * model;
+        glUniformMatrix4fv(glGetUniformLocation(shaderID, "MV"), 1, GL_FALSE, &MV[0][0]);
         
-        // Send light source properties to the shader
-        glUniform3fv(glGetUniformLocation(shaderID, "ambientLight"), 1,
-                     &ambientLight[0]);
-        glm::vec3 viewLightPos = glm::mat3(camera.view) * lightPosition;
-        glUniform3fv(glGetUniformLocation(shaderID, "diffuseLight"), 1,
-                     &diffuseLight[0]);
-        glUniform3fv(glGetUniformLocation(shaderID, "lightPosition"), 1,
-                     &viewLightPos[0]);
+//        // Send light source properties to the shader
+//        glUniform1f (glGetUniformLocation(shaderID, "ka"), teapot.ka);
+//        glUniform1f (glGetUniformLocation(shaderID, "kd"), teapot.kd);
+//        glUniform3fv(glGetUniformLocation(shaderID, "lightColour"), 1, &lightColour[0]);
+//        glm::vec3 viewSpaceLightPosition = glm::vec3(camera.view * glm::vec4(lightPosition, 1.0f));
+//        glUniform3fv(glGetUniformLocation(shaderID, "lightPosition"), 1, &viewSpaceLightPosition[0]);
+//        glUniform1f (glGetUniformLocation(shaderID, "ks"), teapot.ks);
+//        glUniform1f (glGetUniformLocation(shaderID, "Ns"), teapot.Ns);
+//        glUniform1f (glGetUniformLocation(shaderID, "constant"), constant);
+//        glUniform1f (glGetUniformLocation(shaderID, "linear"), linear);
+//        glUniform1f (glGetUniformLocation(shaderID, "quadratic"), quadratic);
+        
+        // Send multiple light source properties to the shader
+        for (unsigned int i = 0; i < static_cast<unsigned int>(lightSources.size()); i++)
+        {
+            glm::vec3 viewSpaceLightPosition = glm::vec3(camera.view * glm::vec4(lightSources[i].position, 1.0f));
+            glm::vec3 viewSpaceLightDirection = glm::vec3(camera.view * glm::vec4(lightSources[i].direction, 0.0f));
+            std::string idx = std::to_string(i);
+            glUniform3fv(glGetUniformLocation(shaderID, ("lightSources[" + idx + "].colour").c_str()), 1, &lightSources[i].colour[0]);
+            glUniform3fv(glGetUniformLocation(shaderID, ("lightSources[" + idx + "].position").c_str()), 1, &viewSpaceLightPosition[0]);
+            glUniform1f(glGetUniformLocation (shaderID, ("lightSources[" + idx + "].constant").c_str()), lightSources[i].constant);
+            glUniform1f(glGetUniformLocation (shaderID, ("lightSources[" + idx + "].linear").c_str()), lightSources[i].linear);
+            glUniform1f(glGetUniformLocation (shaderID, ("lightSources[" + idx + "].quadratic").c_str()), lightSources[i].quadratic);
+            glUniform1i(glGetUniformLocation (shaderID, ("lightSources[" + idx + "].type").c_str()), lightSources[i].type);
+            glUniform3fv(glGetUniformLocation(shaderID, ("lightSources[" + idx + "].direction").c_str()), 1, &viewSpaceLightDirection[0]);
+            glUniform1f(glGetUniformLocation (shaderID, ("lightSources[" + idx + "].cosPhi").c_str()), lightSources[i].cosPhi);
+        }
+
+        // Send object lighting properties to the fragment shader
+        glUniform1f(glGetUniformLocation(shaderID, "ka"), teapot.ka);
+        glUniform1f(glGetUniformLocation(shaderID, "kd"), teapot.kd);
+        glUniform1f(glGetUniformLocation(shaderID, "ks"), teapot.ks);
+        glUniform1f(glGetUniformLocation(shaderID, "Ns"), teapot.Ns);
         
         // Draw teapot
-        teapot.draw(shaderID);
+//        teapot.draw(shaderID);
+        
+        // Loop through objects
+        for (unsigned int i = 0; i < 10; i++)
+        {
+            // Calculate model matrix
+            glm::mat4 translate = Maths::translate(teapotPositions[i]);
+            glm::mat4 scale     = Maths::scale(glm::vec3(0.75f));
+            glm::mat4 rotate    = Maths::rotate(teapotAngles[i], glm::vec3(1.0f));
+            glm::mat4 model     = translate * rotate * scale;
+            
+            // Send the MVP and MV matrices to the vertex shader
+            glm::mat4 MV  = camera.view * model;
+            glm::mat4 MVP = camera.projection * MV;
+            glUniformMatrix4fv(glGetUniformLocation(shaderID, "MVP"), 1, GL_FALSE, &MVP[0][0]);
+            glUniformMatrix4fv(glGetUniformLocation(shaderID, "MV"), 1, GL_FALSE, &MV[0][0]);
+            
+            // Draw the model
+            teapot.draw(shaderID);
+        }
+        
+        // ---------------------------------------------------------------------
+        // Draw light sources
+        // Activate light source shader
+        glUseProgram(lightShaderID);
+//        
+//        // Calculate model matrix
+//        glm::mat4 translate = Maths::translate(lightPosition);
+//        glm::mat4 scale     = Maths::scale(glm::vec3(0.1f));
+//        glm::mat4 model     = translate * scale;
+//
+//        // Send the MVP and MV matrices to the vertex shader
+//        glm::mat4 MVP = camera.projection * camera.view * model;
+//        glUniformMatrix4fv(glGetUniformLocation(lightShaderID, "MVP"), 1, GL_FALSE, &MVP[0][0]);
+//
+//        // Send model, view, projection matrices and light colour to light shader
+//        glUniform3fv(glGetUniformLocation(lightShaderID, "lightColour"), 1, &lightColour[0]);
+//
+//        // Draw light source
+//        sphere.draw(lightShaderID);
+        
+        for (unsigned int i = 0; i < static_cast<unsigned int>(lightSources.size()); i++)
+        {
+            // Calculate model matrix
+            glm::mat4 translate = Maths::translate(lightSources[i].position);
+            glm::mat4 scale     = Maths::scale(glm::vec3(0.1f));
+            glm::mat4 model     = translate * scale;
+
+            // Send the MVP and MV matrices to the vertex shader
+            glm::mat4 MVP = camera.projection * camera.view * model;
+            glUniformMatrix4fv(glGetUniformLocation(lightShaderID, "MVP"), 1, GL_FALSE, &MVP[0][0]);
+
+            // Send model, view, projection matrices and light colour to light shader
+            glUniform3fv(glGetUniformLocation(lightShaderID, "lightColour"), 1, &lightSources[i].colour[0]);
+
+            // Draw light source
+            sphere.draw(lightShaderID);
+        }
+        // ---------------------------------------------------------------------
         
         // Swap buffers
         glfwSwapBuffers(window);

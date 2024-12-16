@@ -1,12 +1,15 @@
 #version 330 core
 
-in vec2 uv;
+// Inputs
+in vec2 UV;
 
+// Outputs
 out vec3 colour;
 
+// Uniforms
 uniform sampler2D textureMap;
 
 void main()
 {
-    colour = texture(textureMap, uv).rgb;
+    colour = vec3(texture(textureMap, UV));
 }

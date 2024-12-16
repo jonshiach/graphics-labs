@@ -80,9 +80,9 @@ int main( void )
     static const float uv[] = {
         // u    v      index
         0.0f,  0.0f,  // 0
-        2.0f,  0.0f,  // 1
-        2.0f,  2.0f,  // 2
-        0.0f,  2.0f,  // 3
+        1.0f,  0.0f,  // 1
+        1.0f,  1.0f,  // 2
+        0.0f,  1.0f,  // 3
     };
     
 //    // Exercise 1 -- 6x4 grid of Marios
@@ -177,7 +177,7 @@ int main( void )
     unsigned int texture1ID, texture2ID, texture3ID;
     texture1ID = glGetUniformLocation(shaderID, "texture1");
     texture2ID = glGetUniformLocation(shaderID, "texture2");
-    texture2ID = glGetUniformLocation(shaderID, "texture3");
+    texture3ID = glGetUniformLocation(shaderID, "texture3");
     glUniform1i(texture1ID, 0);
     glUniform1i(texture2ID, 1);
     glUniform1i(texture3ID, 2);

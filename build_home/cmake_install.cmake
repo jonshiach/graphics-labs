@@ -1,4 +1,4 @@
-# Install script for directory: /Users/jon/Library/CloudStorage/Dropbox/Work/2024_2025/Graphics/Graphics_labs
+# Install script for directory: /Users/jon/Library/CloudStorage/Dropbox/Work/2024_2025/Graphics/graphics-labs
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -37,11 +37,11 @@ if(NOT DEFINED CMAKE_OBJDUMP)
   set(CMAKE_OBJDUMP "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/objdump")
 endif()
 
-set(CMAKE_BINARY_DIR "/Users/jon/Library/CloudStorage/Dropbox/Work/2024_2025/Graphics/Graphics_labs/build_home")
+set(CMAKE_BINARY_DIR "/Users/jon/Library/CloudStorage/Dropbox/Work/2024_2025/Graphics/graphics-labs/build_home")
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/Users/jon/Library/CloudStorage/Dropbox/Work/2024_2025/Graphics/Graphics_labs/build_home/external/cmake_install.cmake")
+  include("/Users/jon/Library/CloudStorage/Dropbox/Work/2024_2025/Graphics/graphics-labs/build_home/external/cmake_install.cmake")
 
 endif()
 
@@ -53,5 +53,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/jon/Library/CloudStorage/Dropbox/Work/2024_2025/Graphics/Graphics_labs/build_home/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/jon/Library/CloudStorage/Dropbox/Work/2024_2025/Graphics/graphics-labs/build_home/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
