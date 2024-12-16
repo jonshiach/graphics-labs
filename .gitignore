@@ -35,4 +35,9 @@
 .DS_Store
 
 # Folders
-build*/
+build/
+build_home/
+build_work
+
+# Files
+CMakeLists.bak.txt
